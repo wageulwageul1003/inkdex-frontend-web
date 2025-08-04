@@ -22,9 +22,7 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        pretendard: ['var(--font-pretendard)', 'pretendard'],
-        ohsquare: ['var(--font-ohsquare)', 'ohsquare'],
-        nanumMyeongjo: ['var(--font-nanumMyeongjo)', 'nanumMyeongjo'],
+        wantedSans: ['var(--font-wantedSans)', 'wantedSans'],
       },
       colors: {
         black: 'rgba(var(--black), <alpha-value>)',

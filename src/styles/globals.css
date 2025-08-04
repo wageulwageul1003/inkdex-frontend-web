@@ -20,7 +20,7 @@
 
 @layer base {
   :root {
-    --font-pretendard: 'pretendard', sans-serif;
+    --font-wantedSans: 'wantedSans', sans-serif;
 
     --white: 255, 255, 255;
     --black: 18, 18, 18;
@@ -42,7 +42,7 @@
   }
 
   .default-layout-content {
-    @apply mx-auto w-full max-w-[1520px] px-4 md:px-6 lg:px-10;
+    @apply mx-auto w-full max-w-[360px] px-4 md:px-6 lg:px-10;
   }
 
   body {
