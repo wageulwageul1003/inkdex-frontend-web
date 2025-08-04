@@ -1,5 +1,6 @@
 'use client';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import { Icons } from '@/components/shared/icons';
@@ -21,7 +22,12 @@ const LoginMethod = [
 ];
 
 export default function Login() {
+  const router = useRouter();
   const onClickConfirm = () => {};
+
+  const onClickRegister = () => {
+    router.push('/register/step1');
+  };
   return (
     <div className="flex flex-1 flex-col py-4">
       <div className="flex justify-end">
@@ -63,7 +69,7 @@ export default function Login() {
         </div>
       </div>
       <div className="flex justify-center">
-        <Button variant="outline" size="outline">
+        <Button variant="outline" size="outline" onClick={onClickRegister}>
           이메일 회원가입
         </Button>
       </div>
