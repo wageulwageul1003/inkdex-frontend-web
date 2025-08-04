@@ -27,6 +27,15 @@ const config: Config = {
       colors: {
         black: 'rgba(var(--black), <alpha-value>)',
         white: 'rgba(var(--white), <alpha-value>)',
+        gray: {
+          100: 'rgba(var(--gray-100), <alpha-value>)',
+          200: 'rgba(var(--gray-200), <alpha-value>)',
+          300: 'rgba(var(--gray-300), <alpha-value>)',
+          400: 'rgba(var(--gray-400), <alpha-value>)',
+          500: 'rgba(var(--gray-500), <alpha-value>)',
+          600: 'rgba(var(--gray-600), <alpha-value>)',
+          700: 'rgba(var(--gray-700), <alpha-value>)',
+        },
       },
       keyframes: {
         scale: {
