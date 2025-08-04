@@ -1,3 +1,5 @@
-export default function Terms() {
-  return <div>Terms</div>;
+import Terms from '@/components/views/(public)/terms';
+
+export default function TermsPage() {
+  return <Terms />;
 }

@@ -8,10 +8,12 @@ interface HeaderProps {
 
 export const Header = ({ title, left, right }: HeaderProps) => {
   return (
-    <header className="flex items-center justify-between">
-      {left}
-      <h1>{title}</h1>
-      {right}
+    <header className="relative flex h-14 items-center justify-between px-4">
+      <div className="absolute left-4 z-10">{left}</div>
+      <h1 className="absolute left-0 right-0 mx-auto w-fit text-center font-medium">
+        {title}
+      </h1>
+      <div className="absolute right-4 z-10">{right}</div>
     </header>
   );
 };

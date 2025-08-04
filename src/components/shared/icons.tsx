@@ -3,6 +3,7 @@ import bell from '@/public/icons/bell.svg';
 import camera from '@/public/icons/camera.svg';
 import checkOff from '@/public/icons/check-off.svg';
 import checkOn from '@/public/icons/check-on.svg';
+import close from '@/public/icons/close.svg';
 import google from '@/public/icons/google.svg';
 import kakao from '@/public/icons/kakao.svg';
 import keyboardArrowDown from '@/public/icons/keyboard_arrow_down.svg';
@@ -24,4 +25,5 @@ export const Icons = {
   keyboardArrowLeft,
   keyboardArrowRight,
   keyboardArrowUp,
+  close,
 };
