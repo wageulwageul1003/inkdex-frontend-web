@@ -22,16 +22,16 @@
   :root {
     --font-wantedSans: 'wantedSans', sans-serif;
 
-    --white: #fff;
-    --black: #222222;
+    --white: 255, 255, 255;
+    --black: 34, 34, 34;
 
-    --gray-100: #f8f8f8;
-    --gray-200: #f2f2f2;
-    --gray-300: #eee;
-    --gray-400: #ddd;
-    --gray-500: #999;
-    --gray-600: #666;
-    --gray-700: #444;
+    --gray-100: 248, 248, 248;
+    --gray-200: 242, 242, 242;
+    --gray-300: 238, 238, 238;
+    --gray-400: 221, 221, 221;
+    --gray-500: 153, 153, 153;
+    --gray-600: 102, 102, 102;
+    --gray-700: 68, 68, 68;
   }
 
   ::-webkit-scrollbar {
