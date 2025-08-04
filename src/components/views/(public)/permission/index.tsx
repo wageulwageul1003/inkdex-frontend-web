@@ -89,7 +89,7 @@ export default function Permission() {
           <p>접근권한 변경 방법</p>
           <p className="mt-2">{`휴대폰 설정 > 인덱스 에서 접근 권한 변경 가능`}</p>
         </div>
-        <Button variant="cta" onClick={onClickConfirm}>
+        <Button variant="cta" onClick={onClickConfirm} size="cta">
           확인
         </Button>
       </DialogContent>

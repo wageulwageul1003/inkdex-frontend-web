@@ -9,12 +9,15 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        cta: 'bg-black text-white rounded-[16px]',
+        cta: 'bg-black text-white rounded-[16px] w-full',
         default: 'bg-white text-gray-500 w-fit',
+        outline:
+          'bg-white border-gray-400 text-black w-fit rounded-[12px] border',
       },
       size: {
         cta: 'py-5',
         default: '',
+        outline: 'py-2 px-3',
         icon: 'h-9 w-9',
       },
     },
