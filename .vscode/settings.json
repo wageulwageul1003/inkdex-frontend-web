@@ -1,0 +1,20 @@
+{
+  "i18n-ally.localesPaths": ["locales", "src/i18n"],
+  "cSpell.words": [
+    "bookseed",
+    "Buutton",
+    "Curations",
+    "daum",
+    "momenti",
+    "ohsquare",
+    "Pageable",
+    "pretendard",
+    "readingkit",
+    "sonner",
+    "TESTDATA",
+    "TOSP",
+    "tosspayments",
+    "Transpiles",
+    "zonecode"
+  ]
+}
