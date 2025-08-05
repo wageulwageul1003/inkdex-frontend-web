@@ -17,8 +17,48 @@ const Sheet = ({ disableOverlayClick, ...props }: SheetRootProps) => {
     if (disableOverlayClick && !open) {
       return;
     }
+
+    // Sheet가 닫힐 때 body에 적용된 스타일을 제거
+    if (!open && typeof window !== 'undefined') {
+      // pointer-events 스타일 제거
+      document.body.style.removeProperty('pointer-events');
+
+      // data-scroll-locked 속성 제거
+      document.body.removeAttribute('data-scroll-locked');
+    }
+
     props.onOpenChange?.(open);
   };
+
+  // Sheet가 열릴 때 data-scroll-locked 속성이 추가되는 것을 방지
+  React.useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    // MutationObserver를 사용하여 body 속성 변경 감지
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === 'attributes' &&
+          mutation.attributeName === 'data-scroll-locked'
+        ) {
+          // data-scroll-locked 속성이 추가되면 즉시 제거
+          document.body.removeAttribute('data-scroll-locked');
+        }
+      });
+    });
+
+    // body 요소의 속성 변경 감시 시작
+    observer.observe(document.body, { attributes: true });
+
+    // 컴포넌트 언마운트 시 정리
+    return () => {
+      observer.disconnect();
+      if (typeof window !== 'undefined') {
+        document.body.style.removeProperty('pointer-events');
+        document.body.removeAttribute('data-scroll-locked');
+      }
+    };
+  }, []);
 
   return <SheetPrimitive.Root {...props} onOpenChange={handleOpenChange} />;
 };
