@@ -36,6 +36,21 @@ const config: Config = {
           600: 'rgba(var(--gray-600), <alpha-value>)',
           700: 'rgba(var(--gray-700), <alpha-value>)',
         },
+        red: {
+          '100': 'rgba(var(--red-100), <alpha-value>)',
+          '200': 'rgba(var(--red-200), <alpha-value>)',
+          '300': 'rgba(var(--red-300), <alpha-value>)',
+          '400': 'rgba(var(--red-400), <alpha-value>)',
+          '500': 'rgba(var(--red-500), <alpha-value>)',
+          '600': 'rgba(var(--red-600), <alpha-value>)',
+          '700': 'rgba(var(--red-700), <alpha-value>)',
+          '800': 'rgba(var(--red-800), <alpha-value>)',
+          '900': 'rgba(var(--red-900), <alpha-value>)',
+          DEFAULT: 'rgba(var(--red-600), <alpha-value>)',
+        },
+        green: {
+          '500': 'rgba(var(--green-500), <alpha-value>)',
+        },
       },
       keyframes: {
         scale: {

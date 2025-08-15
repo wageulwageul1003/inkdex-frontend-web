@@ -6,3 +6,26 @@ export const registerStep1Schema = z.object({
 });
 
 export type TRegisterStep1Schema = z.infer<typeof registerStep1Schema>;
+
+export const registerStep2Schema = z.object({
+  name: z.string().nonempty({ message: '이름을 입력해 주세요.' }),
+  email: z.string().min(1, { message: '이메일을 입력해 주세요.' }),
+  certificationNumber: z
+    .string()
+    .nonempty({ message: '인증번호를 입력해 주세요.' }),
+});
+
+export type TRegisterStep2Schema = z.infer<typeof registerStep2Schema>;
+
+export const verifyEmailSchema = z.object({
+  email: z.string().min(1, { message: '이메일을 입력해 주세요.' }),
+});
+
+export type TVerifyEmailSchema = z.infer<typeof verifyEmailSchema>;
+
+export const confirmEmailSchema = z.object({
+  email: z.string().min(1, { message: '이메일을 입력해 주세요.' }),
+  code: z.string().min(1, { message: '인증번호를 입력해 주세요.' }),
+});
+
+export type TConfirmEmailSchema = z.infer<typeof confirmEmailSchema>;

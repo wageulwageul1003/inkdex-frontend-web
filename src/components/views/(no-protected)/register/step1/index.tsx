@@ -107,6 +107,7 @@ export default function Step1() {
               variant="cta"
               size="cta"
               className="mb-5 mt-8"
+              onClick={() => router.push('/register/step2')}
             >
               다음으로
             </Button>

@@ -102,6 +102,7 @@ interface CustomProps<T extends FieldValues> {
   disabled?: boolean;
   required?: boolean;
   isVerified?: boolean;
+  expire?: string | number;
   isSearchIcon?: boolean;
   multiple?: boolean;
 
@@ -196,6 +197,22 @@ export const InputField = <T extends FieldValues>({
             </span>
           )}
         </fieldset>
+      );
+
+    // TIMER INPUT
+    case FormFieldType.TIMER_INPUT:
+      return (
+        <Input
+          placeholder={props.placeholder}
+          error={error}
+          disabled={props.disabled}
+          className={props.fieldClassName}
+          expire={props.expire}
+          isVerified={props.isVerified}
+          isSearchIcon={props.isSearchIcon}
+          id={formItemId}
+          {...field}
+        />
       );
 
     // TEXTAREA
