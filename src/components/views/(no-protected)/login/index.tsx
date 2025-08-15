@@ -31,7 +31,7 @@ export default function Login() {
   return (
     <div className="flex flex-1 flex-col py-4">
       <div className="flex justify-end">
-        <Button>둘러보기</Button>
+        <Button onClick={() => router.push('/home')}>둘러보기</Button>
       </div>
       <div className="flex flex-1 flex-col items-center justify-center">
         <div className="flex flex-1 items-center">
