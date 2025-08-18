@@ -1,8 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
+import Cookies from 'js-cookie';
 
 import { TVerifyEmailSchema } from '@/components/views/(no-protected)/register/schema';
 import { verifyEmailKey } from '@/constants/queryKeys';
+import { CERTIFICATION_TOKEN } from '@/constants/tokens';
 import { ErrorData, agent } from '@/utils/fetch';
 
 export const postVerifyEmail = async (params: TVerifyEmailSchema) => {
@@ -21,23 +23,14 @@ export const usePostVerifyEmail = () => {
     mutationFn: postVerifyEmail,
 
     onSuccess: async (response) => {
-      // Store otpToken in cookies if it exists in the response
-      if (response?.data?.otpToken) {
-        // Set cookie with 30 minutes expiration
-        // Cookies.set(CERTIFICATION_TOKEN, response.data.otpToken, {
-        //   expires: getThirtyMinutesFromNow(),
-        // });
+      if (response?.data?.content) {
+        Cookies.set(CERTIFICATION_TOKEN, response.data.content);
       }
 
       await queryClient.invalidateQueries({
         queryKey: [verifyEmailKey],
       });
     },
-    onError: (error: ErrorData) => {
-      // alert({
-      //   title: '인증번호 전송에 실패했습니다.',
-      //   cancelButton: null,
-      // });
-    },
+    onError: (error: ErrorData) => {},
   });
 };

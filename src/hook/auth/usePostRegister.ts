@@ -2,12 +2,12 @@ import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 
-import { TConfirmEmailSchema } from '@/components/views/(no-protected)/register/schema';
-import { confirmEmailKey } from '@/constants/queryKeys';
+import { TRegisterStep2Schema } from '@/components/views/(no-protected)/register/schema';
+import { registerKey } from '@/constants/queryKeys';
 import { CERTIFICATION_TOKEN } from '@/constants/tokens';
 import { ErrorData, agent } from '@/utils/fetch';
 
-export const postConfirmEmail = async (params: TConfirmEmailSchema) => {
+export const postRegister = async (params: TRegisterStep2Schema) => {
   // Get the certification token from cookies
   const certificationToken = Cookies.get(CERTIFICATION_TOKEN);
 
@@ -29,22 +29,18 @@ export const postConfirmEmail = async (params: TConfirmEmailSchema) => {
       `Bearer ${certificationToken}`;
   }
 
-  const response = await agent(`/api/v1/auth/confirm-email`, options);
+  const response = await agent(`/api/v1/auth/signup`, options);
   return response;
 };
 
-export const usePostConfirmEmail = () => {
+export const usePostRegister = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: postConfirmEmail,
+    mutationFn: postRegister,
 
     onSuccess: async (response) => {
-      if (response?.data?.content) {
-        Cookies.set(CERTIFICATION_TOKEN, response.data.content);
-      }
-
       await queryClient.invalidateQueries({
-        queryKey: [confirmEmailKey],
+        queryKey: [registerKey],
       });
     },
     onError: (error: ErrorData) => {},

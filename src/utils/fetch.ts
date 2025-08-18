@@ -8,6 +8,7 @@ export interface ErrorData {
   message: string;
   description?: string;
   data?: object;
+  error?: string;
 }
 
 export const agent = async (url: string, options?: RequestInit) => {

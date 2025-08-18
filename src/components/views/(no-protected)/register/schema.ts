@@ -7,11 +7,11 @@ export const registerStep1Schema = z.object({
 export type TRegisterStep1Schema = z.infer<typeof registerStep1Schema>;
 
 export const registerStep2Schema = z.object({
-  name: z.string().nonempty({ message: '이름을 입력해 주세요.' }),
   email: z.string().min(1, { message: '이메일을 입력해 주세요.' }),
-  certificationNumber: z
-    .string()
-    .nonempty({ message: '인증번호를 입력해 주세요.' }),
+  code: z.string().nonempty({ message: '인증번호를 입력해 주세요.' }),
+  nickname: z.string().min(1, { message: '닉네임을 입력해 주세요.' }),
+  password: z.string().min(1, { message: '비밀번호를 입력해 주세요.' }),
+  agreedTermIds: z.array(z.string()).optional(),
 });
 
 export type TRegisterStep2Schema = z.infer<typeof registerStep2Schema>;

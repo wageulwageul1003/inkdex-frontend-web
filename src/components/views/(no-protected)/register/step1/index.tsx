@@ -131,7 +131,17 @@ export default function Step1() {
               variant="cta"
               size="cta"
               className="mb-5 mt-8"
-              onClick={() => router.push('/register/step2')}
+              onClick={() => {
+                // 체크된 약관 ID들을 수집
+                const checkedTerms = termsList?.data?.content
+                  .filter((item) => Boolean(watch(item.id)))
+                  .map((item) => item.id);
+
+                // URL 파라미터로 전달
+                router.push(
+                  `/register/step2?agreedTermIds=${checkedTerms?.join(',')}`,
+                );
+              }}
             >
               다음으로
             </Button>
