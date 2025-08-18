@@ -4,38 +4,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { registerStep1Schema } from '../schema';
 
-import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
+import Checkbox from '@/components/ui/checkbox';
 import { Form } from '@/components/ui/form';
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
-
-const agreeData = [
-  {
-    label: '[필수] 만 14세 이상입니다.',
-    value: 'agree1',
-    required: true,
-  },
-  {
-    label: '[필수] 서비스 이용약관 동의',
-    value: 'agree2',
-    required: true,
-  },
-  {
-    label: '[필수] 개인정보 수집 및 이용 동의',
-    value: 'agree3',
-    required: true,
-  },
-  {
-    label: '[선택] 선택정보 수집 및 이용 동의',
-    value: 'agree4',
-    required: false,
-  },
-];
+import { useGetTermsList } from '@/hook/terms/useGetTermsList';
 
 export default function Step1() {
   const router = useRouter();
@@ -45,11 +22,47 @@ export default function Step1() {
     setOpen(true);
   }, []);
 
-  const form = useForm<z.infer<typeof registerStep1Schema>>({
+  const { data: termsList } = useGetTermsList();
+
+  // Create dynamic form with default values
+  const form = useForm<any>({
     resolver: zodResolver(registerStep1Schema),
+    defaultValues: {
+      agreeAll: false,
+    },
   });
 
-  const onSubmit = (data: z.infer<typeof registerStep1Schema>) => {
+  const { control, setValue, watch } = form;
+
+  // Initialize form fields based on terms data
+  useEffect(() => {
+    if (termsList?.data?.content) {
+      const defaultValues: Record<string, boolean> = {
+        agreeAll: false,
+      };
+
+      // Add each term to default values
+      termsList.data.content.forEach((item) => {
+        defaultValues[item.id] = false;
+      });
+
+      form.reset(defaultValues);
+    }
+  }, [termsList, form]);
+
+  // Handle the agreeAll checkbox changes
+  const handleAgreeAll = (checked: boolean) => {
+    setValue('agreeAll', checked);
+
+    // Set all terms checkboxes to the same value
+    if (termsList?.data?.content) {
+      termsList.data.content.forEach((item) => {
+        setValue(item.id, checked);
+      });
+    }
+  };
+
+  const onSubmit = (data: any) => {
     console.log(data);
   };
 
@@ -67,28 +80,39 @@ export default function Step1() {
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="mt-6">
-              <FormFields
-                fieldType={FormFieldType.CHECKBOX}
-                checkboxLabel="모두 동의"
-                control={form.control}
-                name=""
-              />
+              <div className="mb-4">
+                <Checkbox
+                  label="모두 동의"
+                  checked={Boolean(watch('agreeAll'))}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleAgreeAll(e.target.checked)
+                  }
+                />
+              </div>
               <div className="mt-4 flex flex-col gap-4 pb-5">
-                {agreeData.map((item) => (
+                {termsList?.data?.content.map((item) => (
                   <div
                     className="flex items-center justify-between"
-                    key={item.value}
+                    key={item.id}
                   >
-                    <FormFields
-                      fieldType={FormFieldType.CHECKBOX}
-                      control={form.control}
-                      name=""
-                      checkboxLabel={item.label}
-                      required={item.required}
+                    <Checkbox
+                      label={item.title}
+                      checked={Boolean(watch(item.id))}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        setValue(item.id, e.target.checked);
+
+                        if (termsList?.data?.content) {
+                          const allChecked = termsList.data.content.every(
+                            (term) => Boolean(watch(term.id)),
+                          );
+                          setValue('agreeAll', allChecked);
+                        }
+                      }}
+                      required={item.isRequired}
                     />
                     <div
                       className="flex items-center"
-                      onClick={() => onClickAgreeTerm(item.value)}
+                      onClick={() => onClickAgreeTerm(item.id)}
                     >
                       <p className="text-black">보기</p>
                       <Icons.keyboardArrowRight className="size-5 fill-black" />
