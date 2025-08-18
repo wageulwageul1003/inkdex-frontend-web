@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { FieldState } from '../_components/field-state';
 import { registerStep2Schema } from '../schema';
 
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
@@ -15,6 +16,7 @@ import { Form } from '@/components/ui/form';
 import { usePostConfirmEmail } from '@/hook/auth/usePostConfirmEmail';
 import { usePostRegister } from '@/hook/auth/usePostRegister';
 import { usePostVerifyEmail } from '@/hook/auth/usePostVerifyEmail';
+import { hasKorean, hasLetter, hasNumber, hasSpecial } from '@/lib/utils';
 import { ErrorData } from '@/utils/fetch';
 
 const Step2 = () => {
@@ -28,6 +30,18 @@ const Step2 = () => {
   const { mutateAsync: postRegister } = usePostRegister(); // 회원가입
   const searchParams = useSearchParams();
 
+  // 비밀번호 유효성 검사 상태
+  const [passwordValidation, setPasswordValidation] = useState({
+    length: false, // 8자 이상 20자 이하
+    combination: false, // 영문, 숫자, 특수문자 조합
+  });
+
+  // 닉네임 유효성 검사 상태
+  const [nicknameValidation, setNicknameValidation] = useState({
+    isSpecial: false, // 특수문자 제외
+    combination: false, // 2자 이상 8자 이하, 영문, 숫자
+  });
+
   const form = useForm({
     resolver: zodResolver(registerStep2Schema),
     mode: 'onChange',
@@ -40,7 +54,81 @@ const Step2 = () => {
     },
   });
 
-  const { control, formState, handleSubmit, setError, clearErrors } = form;
+  const {
+    control,
+    formState,
+    handleSubmit,
+    setError,
+    clearErrors,
+    getValues,
+    watch,
+  } = form;
+
+  // 비밀번호 유효성 검사 함수
+  const validatePassword = (value: string) => {
+    // 비밀번호가 비어있으면 모든 검증을 false로 처리
+    if (!value) {
+      setPasswordValidation({
+        length: false,
+        combination: false,
+      });
+      return;
+    }
+
+    // 길이 검사 (8자 이상 20자 이하)
+    const isLengthValid = value.length >= 8 && value.length <= 20;
+
+    // 영문, 숫자, 특수문자 조합 검사
+    const isCombinationValid =
+      hasLetter(value) && hasNumber(value) && hasSpecial(value);
+
+    setPasswordValidation({
+      length: isLengthValid,
+      combination: isCombinationValid,
+    });
+  };
+
+  // 닉네임 유효성 검사 함수
+  const validateNickname = (value: string) => {
+    // 닉네임이 비어있으면 모든 검증을 false로 처리
+    if (!value) {
+      setNicknameValidation({
+        isSpecial: false,
+        combination: false,
+      });
+      return;
+    }
+
+    // 길이 검사 (2자 이상 8자 이하)
+    const isLengthValid = value.length >= 2 && value.length <= 8;
+    // 영문
+    const isCombinationValid =
+      (hasLetter(value) || hasKorean(value)) && isLengthValid;
+
+    // 특수문자 포함 검사
+    const isSpecialValid = !hasSpecial(value);
+
+    setNicknameValidation({
+      isSpecial: isSpecialValid,
+      combination: isCombinationValid,
+    });
+  };
+
+  // 초기 비밀번호 값 검증
+  useEffect(() => {
+    validatePassword(form.getValues('password'));
+    validateNickname(form.getValues('nickname'));
+  }, []);
+
+  // 비밀번호 필드에 대한 onChange 핸들러 등록
+  form.register('password', {
+    onChange: (e) => validatePassword(e.target.value),
+  });
+
+  // 닉네임 필드에 대한 onChange 핸들러 등록
+  form.register('nickname', {
+    onChange: (e) => validateNickname(e.target.value),
+  });
 
   useEffect(() => {
     if (!expireTimestamp || !isCertNumVisible || buttonText === '인증 완료')
@@ -189,10 +277,7 @@ const Step2 = () => {
             </div>
 
             {buttonText === '인증 완료' && (
-              <div className="flex items-center gap-2">
-                <Icons.check className="size-4 fill-green-500" />
-                <span>인증 완료되었습니다.</span>
-              </div>
+              <FieldState text="인증 완료되었습니다." isError={false} />
             )}
 
             {isCertNumVisible && (
@@ -216,6 +301,17 @@ const Step2 = () => {
               placeholder="영문, 숫자, 특수문자 조합 8자 이상"
             />
 
+            <div className="mt-2 space-y-1">
+              <FieldState
+                text="8자 이상 20자 이하 입력"
+                isError={!passwordValidation.length}
+              />
+              <FieldState
+                text="영문, 숫자, 특수문자 조합"
+                isError={!passwordValidation.combination}
+              />
+            </div>
+
             <FormFields
               fieldType={FormFieldType.INPUT}
               control={form.control}
@@ -224,6 +320,17 @@ const Step2 = () => {
               placeholder="닉네임 입력"
               required
             />
+
+            <div className="mt-2 space-y-1">
+              <FieldState
+                text="특수문자 제외"
+                isError={!nicknameValidation.isSpecial}
+              />
+              <FieldState
+                text="국문, 영문 2자 이상 8자 이하 입력"
+                isError={!nicknameValidation.combination}
+              />
+            </div>
           </div>
         </form>
       </Form>
