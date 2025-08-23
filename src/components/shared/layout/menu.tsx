@@ -33,7 +33,7 @@ export const Menu = () => {
   const pathname = usePathname();
 
   return (
-    <div className="flex items-center justify-between p-5">
+    <div className="sticky bottom-0 flex items-center justify-between bg-white p-5">
       {menuItems.map((item) => {
         const isActive = pathname === item.href;
         return (

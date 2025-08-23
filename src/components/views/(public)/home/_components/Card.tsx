@@ -2,6 +2,8 @@
 
 import Image from 'next/image';
 
+import { UserProfile } from '@/components/shared/user-profile';
+
 interface CardProps {
   nickname: string;
   viewCounting: number;
@@ -26,12 +28,7 @@ export const Card = ({
       />
 
       <div className="flex items-center justify-between">
-        <div className="flex gap-[6px]">
-          <div className="flex h-6 w-6 items-center justify-center rounded-full border border-gray-400">
-            <Image src={'/default-profile.png'} alt="" width={16} height={16} />
-          </div>
-          <p className="text-gray-700">{nickname}</p>
-        </div>
+        <UserProfile nickname={nickname} nicknameSrc={nicknameSrc} />
         <p className="text-gray-500">조회 {viewCounting}</p>
       </div>
     </div>

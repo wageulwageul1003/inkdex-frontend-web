@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 
 import { Card } from './_components/Card';
 import { CategoryFilter } from './_components/CategoryFilter';
+import { WriteType } from './_components/WriteType';
 
 import { Loading } from '@/components/shared/Loading';
 import Chips from '@/components/shared/chips';
@@ -21,6 +22,7 @@ import { IResponsePaged } from '@/types/global';
 export const Home = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [writeOpen, setWriteOpen] = useState(false);
 
   const { data: categories } = useGetCategoryList();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
@@ -38,7 +40,7 @@ export const Home = () => {
   return (
     <div className="flex w-full flex-col">
       <div className="flex w-full">
-        <div className="w-full py-4">
+        <div className="relative w-full py-4">
           <div className="flex items-center gap-2">
             <div
               className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200"
@@ -57,6 +59,7 @@ export const Home = () => {
               variant="single"
             />
           </div>
+
           <div className="mt-4">
             {data?.pages?.map(
               (page: IResponsePaged<IPostListResponse>, i: number) => (
@@ -80,6 +83,17 @@ export const Home = () => {
             )}
             <div ref={observerRef}>{isFetchingNextPage && <Loading />}</div>
           </div>
+
+          <div
+            className="fixed bottom-20 left-1/2 z-20 w-full max-w-[360px] -translate-x-1/2 px-4"
+            onClick={() => setWriteOpen(true)}
+          >
+            <div className="flex justify-end">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black shadow-lg">
+                <Icons.pencil className="size-6 stroke-white" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <Sheet open={open} onOpenChange={setOpen}>
@@ -90,6 +104,16 @@ export const Home = () => {
             </SheetTitle>
           </div>
           <CategoryFilter />
+        </SheetContent>
+      </Sheet>
+      <Sheet open={writeOpen} onOpenChange={setWriteOpen}>
+        <SheetContent side="bottom">
+          <div className="w-full">
+            <SheetTitle className="pt-7 text-center">
+              <span>글쓰기</span>
+            </SheetTitle>
+          </div>
+          <WriteType />
         </SheetContent>
       </Sheet>
     </div>

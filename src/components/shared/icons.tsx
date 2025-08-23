@@ -18,6 +18,7 @@ import bookmark from '@/public/icons/menu/bookmark.svg';
 import home from '@/public/icons/menu/home.svg';
 import user from '@/public/icons/menu/user.svg';
 import message from '@/public/icons/message.svg';
+import pencil from '@/public/icons/pencil.svg';
 import photo from '@/public/icons/photo.svg';
 import plus from '@/public/icons/plus.svg';
 import report from '@/public/icons/report.svg';
@@ -54,4 +55,5 @@ export const Icons = {
   like,
   message,
   report,
+  pencil,
 };
