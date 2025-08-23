@@ -62,13 +62,18 @@ export const Home = () => {
               (page: IResponsePaged<IPostListResponse>, i: number) => (
                 <React.Fragment key={i}>
                   {page.data.content.map((item: IPostListResponse) => (
-                    <Card
+                    <div
                       key={item.publicId}
-                      nickname={item.userNickname}
-                      viewCounting={item.viewCount}
-                      nicknameSrc={item.profileImageUrl || ''}
-                      src={item.thumbnailUrl}
-                    />
+                      onClick={() => router.push(`/posts/${item.publicId}`)}
+                    >
+                      <Card
+                        key={item.publicId}
+                        nickname={item.userNickname}
+                        viewCounting={item.viewCount}
+                        nicknameSrc={item.profileImageUrl || ''}
+                        src={item.thumbnailUrl}
+                      />
+                    </div>
                   ))}
                 </React.Fragment>
               ),

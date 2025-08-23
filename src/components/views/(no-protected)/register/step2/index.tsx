@@ -234,7 +234,7 @@ const Step2 = () => {
   return (
     <>
       <Header
-        title="이메일 회원가입"
+        title={<span>이메일 회원가입</span>}
         left={
           <Icons.keyboardArrowLeft
             onClick={() => router.back()}

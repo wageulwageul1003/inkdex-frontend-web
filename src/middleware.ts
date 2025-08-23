@@ -39,7 +39,7 @@ export async function middleware(request: NextRequest) {
     // Rule 4.2: If logged in, redirect to main page
     if (isLoggedIn) {
       // Extract locale from URL or use default
-      return NextResponse.redirect(new URL(`/`, request.url));
+      return NextResponse.redirect(new URL(`/home`, request.url));
     }
     // Rule 4.1: If not logged in, allow access (handled by intlMiddleware)
   }

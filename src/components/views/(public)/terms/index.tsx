@@ -11,7 +11,7 @@ export default function Terms() {
   return (
     <div>
       <Header
-        title="약관 동의"
+        title={<span>약관 동의</span>}
         right={<Icons.close className="size-6 fill-black" />}
       />
       <h1>{uuid}</h1>

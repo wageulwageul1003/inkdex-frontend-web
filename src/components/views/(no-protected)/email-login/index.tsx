@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -34,6 +35,7 @@ const EmailLogin = () => {
 
       if (response.code === 200) {
         router.push('/home');
+        Cookies.set('userId', response.data.content.id);
       } else {
         setAlertMessage(
           '로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.',
