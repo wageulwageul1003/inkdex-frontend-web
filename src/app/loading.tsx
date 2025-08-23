@@ -1,7 +1,9 @@
 import React from 'react';
 
+import { Loading } from '@/components/shared/Loading';
+
 const LoadingView: React.FC = (): JSX.Element => {
-  return <div>로딩 중</div>;
+  return <Loading />;
 };
 
 export default LoadingView;

@@ -1,7 +1,7 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { postsListKey } from '@/constants/queryKeys';
-import { IResponse, IResponsePaged } from '@/types/global';
+import { IResponsePaged } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface IPostListResponse {
@@ -23,7 +23,7 @@ type TGetPostsListParams = {
 
 export const GetPostsList = async (
   params: TGetPostsListParams,
-): Promise<IResponse<IPostListResponse>> => {
+): Promise<IResponsePaged<IPostListResponse>> => {
   const queryParams = new URLSearchParams();
 
   if (params.category) queryParams.set('category', params.category);
@@ -40,10 +40,16 @@ export const GetPostsList = async (
   return data;
 };
 
-export const useGetPostsList = (
-  params: TGetPostsListParams,
-): UseQueryResult<IResponsePaged<IPostListResponse>> =>
-  useQuery({
-    queryKey: [postsListKey],
-    queryFn: () => GetPostsList(params),
+export const useGetPostsList = (params: TGetPostsListParams) => {
+  return useInfiniteQuery<IResponsePaged<IPostListResponse>>({
+    queryKey: [postsListKey, params],
+    queryFn: ({ pageParam = 1 }) =>
+      GetPostsList({ ...params, page: String(pageParam) }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      return lastPage.data.paging.hasNext
+        ? lastPage.data.paging.currentPage + 1
+        : undefined;
+    },
   });
+};

@@ -1,28 +1,39 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { Card } from './_components/Card';
 import { CategoryFilter } from './_components/CategoryFilter';
 
+import { Loading } from '@/components/shared/Loading';
 import Chips from '@/components/shared/chips';
 import { Icons } from '@/components/shared/icons';
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import { useGetCategoryList } from '@/hook/common/useGetCategoryList';
-import { useGetPostsList } from '@/hook/home/useGetPostsList';
+import { useInfiniteScroll } from '@/hook/common/useInfiniteScroll';
+import {
+  useGetPostsList,
+  IPostListResponse,
+} from '@/hook/home/useGetPostsList';
+import { IResponsePaged } from '@/types/global';
 
 export const Home = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
   const { data: categories } = useGetCategoryList();
-  const { data: posts } = useGetPostsList({
-    category: '',
-    page: '1',
-    size: '10',
-    sort: 'createdAt,desc',
-  });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useGetPostsList({
+      category: '',
+      size: '10',
+      sort: 'createdAt,desc',
+    });
+
+  const observerRef = useInfiniteScroll(
+    { fetchNextPage, hasNextPage, isFetchingNextPage },
+    { threshold: 0.1 },
+  );
 
   return (
     <div className="flex w-full flex-col">
@@ -47,14 +58,22 @@ export const Home = () => {
             />
           </div>
           <div className="mt-4">
-            {posts?.data?.content.map((item) => (
-              <Card
-                nickname={item.userNickname}
-                viewCounting={item.viewCount}
-                nicknameSrc={item.profileImageUrl || ''}
-                src={item.thumbnailUrl}
-              />
-            ))}
+            {data?.pages?.map(
+              (page: IResponsePaged<IPostListResponse>, i: number) => (
+                <React.Fragment key={i}>
+                  {page.data.content.map((item: IPostListResponse) => (
+                    <Card
+                      key={item.publicId}
+                      nickname={item.userNickname}
+                      viewCounting={item.viewCount}
+                      nicknameSrc={item.profileImageUrl || ''}
+                      src={item.thumbnailUrl}
+                    />
+                  ))}
+                </React.Fragment>
+              ),
+            )}
+            <div ref={observerRef}>{isFetchingNextPage && <Loading />}</div>
           </div>
         </div>
       </div>
