@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { Card } from './_components/Card';
@@ -25,7 +26,9 @@ export const categoryItems = [
 ];
 
 export const Home = () => {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
+
   return (
     <div className="flex w-full flex-col">
       <div className="flex w-full">

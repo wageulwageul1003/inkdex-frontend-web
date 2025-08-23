@@ -30,7 +30,7 @@ export const agent = async (url: string, options?: RequestInit) => {
     }
 
     if (accessToken) {
-      headers['Authorization'] = `Bearer ${accessToken}`;
+      headers['Authorization'] = `${accessToken}`;
     }
 
     const response = await fetch(fullURL, {
@@ -66,6 +66,15 @@ export const agent = async (url: string, options?: RequestInit) => {
       }
 
       throw error;
+    }
+
+    // accessToken 발급
+    if (response.headers.get('authorization')) {
+      console.log(response.headers.get('authorization'));
+      Cookies.set(
+        ACCESS_TOKEN,
+        response.headers.get('authorization') as string,
+      );
     }
 
     return await response.json();

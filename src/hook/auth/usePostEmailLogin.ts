@@ -12,6 +12,7 @@ export const postEmailLogin = async (params: TEmailLoginSchema) => {
       ...params,
     }),
   });
+
   return response;
 };
 
