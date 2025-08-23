@@ -250,31 +250,13 @@ const Step2 = () => {
           className="w-full"
         >
           <div className="mt-8 flex flex-col gap-5">
-            <div className="flex gap-2">
-              <FormFields
-                fieldType={FormFieldType.INPUT}
-                control={form.control}
-                name="email"
-                label="이메일"
-                placeholder="이메일 입력"
-              />
-
-              <Button
-                type="button"
-                variant="cta"
-                size="cta"
-                onClick={
-                  buttonText === '인증번호 요청' ||
-                  buttonText === '인증번호 재전송'
-                    ? startTimer
-                    : handleVerifyCertNum
-                }
-                disabled={buttonText === '인증 완료'}
-                className="mt-3 w-full"
-              >
-                {buttonText}
-              </Button>
-            </div>
+            <FormFields
+              fieldType={FormFieldType.INPUT}
+              control={form.control}
+              name="email"
+              label="이메일"
+              placeholder="이메일 입력"
+            />
 
             {buttonText === '인증 완료' && (
               <FieldState text="인증 완료되었습니다." isError={false} />
@@ -292,6 +274,22 @@ const Step2 = () => {
                 disabled={buttonText === '인증 완료'}
               />
             )}
+
+            <Button
+              type="button"
+              variant="cta"
+              size="cta"
+              onClick={
+                buttonText === '인증번호 요청' ||
+                buttonText === '인증번호 재전송'
+                  ? startTimer
+                  : handleVerifyCertNum
+              }
+              disabled={buttonText === '인증 완료'}
+              className="mt-3 w-full"
+            >
+              {buttonText}
+            </Button>
 
             <FormFields
               fieldType={FormFieldType.PASSWORD}
@@ -342,6 +340,8 @@ const Step2 = () => {
             ? 'bg-gray-700 text-white'
             : 'bg-gray-200 text-gray-400'
         }`}
+        size="cta"
+        variant="cta"
         disabled={!formState.isValid}
       >
         가입하기

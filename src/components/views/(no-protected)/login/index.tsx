@@ -23,7 +23,9 @@ const LoginMethod = [
 
 export default function Login() {
   const router = useRouter();
-  const onClickConfirm = () => {};
+  const onClickConfirm = () => {
+    router.push('/email-login');
+  };
 
   const onClickRegister = () => {
     router.push('/register/step1');
