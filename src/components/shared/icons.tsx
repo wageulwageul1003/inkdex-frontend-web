@@ -13,6 +13,9 @@ import keyboardArrowDown from '@/public/icons/keyboard_arrow_down.svg';
 import keyboardArrowLeft from '@/public/icons/keyboard_arrow_left.svg';
 import keyboardArrowRight from '@/public/icons/keyboard_arrow_right.svg';
 import keyboardArrowUp from '@/public/icons/keyboard_arrow_up.svg';
+import bookmark from '@/public/icons/menu/bookmark.svg';
+import home from '@/public/icons/menu/home.svg';
+import user from '@/public/icons/menu/user.svg';
 import photo from '@/public/icons/photo.svg';
 import plus from '@/public/icons/plus.svg';
 import search from '@/public/icons/search.svg';
@@ -42,4 +45,7 @@ export const Icons = {
   time,
   visibility,
   visibility_off,
+  home,
+  user,
+  bookmark,
 };
