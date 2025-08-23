@@ -23,7 +23,7 @@ const EmailLogin = () => {
     resolver: zodResolver(emailLoginSchema),
     mode: 'onChange',
     defaultValues: {
-      email: '',
+      username: '',
       password: '',
     },
   });
@@ -63,7 +63,7 @@ const EmailLogin = () => {
               <FormFields
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
-                name="email"
+                name="username"
                 label="이메일"
                 placeholder="이메일 입력"
               />
