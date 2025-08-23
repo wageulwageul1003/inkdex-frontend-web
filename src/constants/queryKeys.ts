@@ -7,6 +7,9 @@ const registerKey = 'registerKey';
 const termsListKey = 'termsListKey';
 const termsDetailKey = 'termsDetailKey';
 
+const categoryListKey = 'categoryListKey';
+const postsListKey = 'postsListKey';
+
 export {
   emailLoginKey,
   verifyEmailKey,
@@ -14,4 +17,6 @@ export {
   registerKey,
   termsListKey,
   termsDetailKey,
+  categoryListKey,
+  postsListKey,
 };

@@ -9,25 +9,20 @@ import { CategoryFilter } from './_components/CategoryFilter';
 import Chips from '@/components/shared/chips';
 import { Icons } from '@/components/shared/icons';
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
-
-export const categoryItems = [
-  {
-    value: 'all',
-    label: '전체',
-  },
-  {
-    value: 'photo',
-    label: '사진',
-  },
-  {
-    value: 'video',
-    label: '동영상',
-  },
-];
+import { useGetCategoryList } from '@/hook/common/useGetCategoryList';
+import { useGetPostsList } from '@/hook/home/useGetPostsList';
 
 export const Home = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+
+  const { data: categories } = useGetCategoryList();
+  const { data: posts } = useGetPostsList({
+    category: '',
+    page: '1',
+    size: '10',
+    sort: 'createdAt,desc',
+  });
 
   return (
     <div className="flex w-full flex-col">
@@ -40,10 +35,26 @@ export const Home = () => {
             >
               <Icons.plus className="size-3 fill-black" />
             </div>
-            <Chips items={categoryItems} variant="multiple" />
+            <Chips
+              items={[
+                { value: '', label: '전체' },
+                ...(categories?.data?.content.map((item) => ({
+                  value: item.slug,
+                  label: item.name,
+                })) || []),
+              ]}
+              variant="single"
+            />
           </div>
           <div className="mt-4">
-            <Card nickname="nickname" viewCounting={1} nicknameSrc="" src="" />
+            {posts?.data?.content.map((item) => (
+              <Card
+                nickname={item.userNickname}
+                viewCounting={item.viewCount}
+                nicknameSrc={item.profileImageUrl || ''}
+                src={item.thumbnailUrl}
+              />
+            ))}
           </div>
         </div>
       </div>

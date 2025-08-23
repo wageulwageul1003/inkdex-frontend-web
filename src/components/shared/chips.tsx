@@ -67,12 +67,11 @@ const Chips: React.FC<ChipsProps> = ({
   };
 
   return (
-    <div className={'no-scrollbar flex w-full gap-1 overflow-x-auto'}>
+    <div className={'no-scrollbar flex w-full gap-1 overflow-x-scroll'}>
       {items.map((item, index) => {
         const isSelected = isItemSelected(String(item.value));
         const isDisabled = disabledItems.includes(String(item.value));
 
-        // Button background and text styles based on state
         let buttonStyles = '';
         let textStyles = '';
 
