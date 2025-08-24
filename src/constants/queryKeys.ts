@@ -10,6 +10,7 @@ const termsDetailKey = 'termsDetailKey';
 const categoryListKey = 'categoryListKey';
 const postsListKey = 'postsListKey';
 const postsDetailKey = 'postsDetailKey';
+const postsKey = 'postsKey';
 
 export {
   emailLoginKey,
@@ -21,4 +22,5 @@ export {
   categoryListKey,
   postsListKey,
   postsDetailKey,
+  postsKey,
 };
