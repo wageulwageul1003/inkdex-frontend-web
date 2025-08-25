@@ -1,4 +1,5 @@
 const emailLoginKey = 'emailLoginKey';
+const nicknameDuplicateCheckKey = 'nicknameDuplicateCheckKey';
 
 const verifyEmailKey = 'verifyEmailKey';
 const confirmEmailKey = 'confirmEmailKey';
@@ -14,6 +15,7 @@ const postsKey = 'postsKey';
 
 export {
   emailLoginKey,
+  nicknameDuplicateCheckKey,
   verifyEmailKey,
   confirmEmailKey,
   registerKey,

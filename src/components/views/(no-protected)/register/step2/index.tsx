@@ -13,6 +13,7 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import { useGetNicknameDuplicateCheck } from '@/hook/auth/useGetNicknameDuplicateCheck';
 import { usePostConfirmEmail } from '@/hook/auth/usePostConfirmEmail';
 import { usePostRegister } from '@/hook/auth/usePostRegister';
 import { usePostVerifyEmail } from '@/hook/auth/usePostVerifyEmail';
@@ -28,6 +29,7 @@ const Step2 = () => {
   const { mutateAsync: postVerifyEmail } = usePostVerifyEmail(); // 인증번호 요청
   const { mutateAsync: postConfirmEmail } = usePostConfirmEmail(); // 인증번호 확인
   const { mutateAsync: postRegister } = usePostRegister(); // 회원가입
+
   const searchParams = useSearchParams();
 
   // 비밀번호 유효성 검사 상태
@@ -40,6 +42,7 @@ const Step2 = () => {
   const [nicknameValidation, setNicknameValidation] = useState({
     isSpecial: false, // 특수문자 제외
     combination: false, // 2자 이상 8자 이하, 영문, 숫자
+    duplicate: false, // 중복
   });
 
   const form = useForm({
@@ -53,6 +56,10 @@ const Step2 = () => {
       agreedTermIds: searchParams.get('agreedTermIds')?.split(',') || [],
     },
   });
+
+  const { data: nicknameDuplicateCheck } = useGetNicknameDuplicateCheck(
+    form.watch('nickname'),
+  );
 
   const {
     control,
@@ -95,22 +102,29 @@ const Step2 = () => {
       setNicknameValidation({
         isSpecial: false,
         combination: false,
+        duplicate: false,
       });
       return;
     }
 
     // 길이 검사 (2자 이상 8자 이하)
     const isLengthValid = value.length >= 2 && value.length <= 8;
-    // 영문
+    // 영문 또는 한글
     const isCombinationValid =
       (hasLetter(value) || hasKorean(value)) && isLengthValid;
 
     // 특수문자 포함 검사
     const isSpecialValid = !hasSpecial(value);
 
+    // 중복 검사 (코드 200은 중복이 없다는 의미이므로 true로 설정해야 함)
+    // 닉네임이 2자 미만이면 중복 체크를 하지 않음
+    const isDuplicateValid =
+      value.length < 2 ? false : nicknameDuplicateCheck?.code === 200;
+
     setNicknameValidation({
       isSpecial: isSpecialValid,
       combination: isCombinationValid,
+      duplicate: isDuplicateValid,
     });
   };
 
@@ -119,6 +133,11 @@ const Step2 = () => {
     validatePassword(form.getValues('password'));
     validateNickname(form.getValues('nickname'));
   }, []);
+
+  // nicknameDuplicateCheck 데이터가 변경될 때 닉네임 유효성 검사 다시 실행
+  useEffect(() => {
+    validateNickname(form.getValues('nickname'));
+  }, [nicknameDuplicateCheck]);
 
   // 비밀번호 필드에 대한 onChange 핸들러 등록
   form.register('password', {
@@ -327,6 +346,10 @@ const Step2 = () => {
               <FieldState
                 text="국문, 영문 2자 이상 8자 이하 입력"
                 isError={!nicknameValidation.combination}
+              />
+              <FieldState
+                text="사용 가능한 닉네임"
+                isError={!nicknameValidation.duplicate}
               />
             </div>
           </div>
