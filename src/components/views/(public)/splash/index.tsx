@@ -14,13 +14,13 @@ export default function Splash() {
       } else {
         router.push('/permission');
       }
-    }, 5000); // 5 seconds
+    }, 3000); // 3 seconds
 
     return () => clearTimeout(timer);
   }, [router]);
 
   return (
-    <div className="flex flex-1 items-center justify-center">
+    <div className="default-layout-content flex flex-1 items-center justify-center">
       <Image
         src={'/logos/logo.png'}
         alt="Logo"

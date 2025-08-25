@@ -19,7 +19,7 @@ export const PostsDetail: FC<TProps> = (props) => {
   const { data } = useGetPostsDetail(uuid);
 
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex w-full flex-col">
       <Header
         left={<Icons.keyboardArrowLeft className="size-6 fill-black" />}
         title={
@@ -36,6 +36,7 @@ export const PostsDetail: FC<TProps> = (props) => {
           </div>
         }
       />
+
       <div className="flex w-full flex-1 flex-col">
         <div className="flex h-full flex-1 flex-col">
           <Image

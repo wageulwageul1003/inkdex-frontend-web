@@ -8,6 +8,8 @@ import {
   Path,
 } from 'react-hook-form';
 
+import Keywords from './keywords';
+
 import Checkbox from '@/components/ui/checkbox';
 import {
   FormControl,
@@ -32,6 +34,9 @@ export enum FormFieldType {
   NUMBER_INPUT = 'number-input',
   EDITOR = 'editor',
   TIMER_INPUT = 'timer-input',
+
+  // KEYWORDS
+  KEYWORDS = 'keywords',
 
   // RADIO VARIANTS
   RADIO = 'radio',
@@ -144,6 +149,7 @@ interface CustomProps<T extends FieldValues> {
 
   // editor props
   setHasFile?: React.Dispatch<React.SetStateAction<boolean>>;
+  maxCount?: number;
 }
 
 export const InputField = <T extends FieldValues>({
@@ -233,6 +239,18 @@ export const InputField = <T extends FieldValues>({
             </span>
           )}
         </fieldset>
+      );
+
+    // KEYWORD INPUT
+    case FormFieldType.KEYWORDS:
+      return (
+        <Keywords
+          field={field}
+          message={props.message!}
+          placeholder={props.placeholder!}
+          maxCount={props.maxCount}
+          {...props}
+        />
       );
 
     // PASSWORD

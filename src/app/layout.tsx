@@ -40,7 +40,7 @@ export default async function IndexLayout({
 }>): Promise<JSX.Element> {
   return (
     <html lang="ko" translate="no">
-      <body className={cn('default-layout-content flex min-h-screen flex-col')}>
+      <body className={cn('flex min-h-screen flex-col')}>
         <QueryProvider>
           <AuthProvider>
             <Suspense fallback={<Loading />}>{children}</Suspense>

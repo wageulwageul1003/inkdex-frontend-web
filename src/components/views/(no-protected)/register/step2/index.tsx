@@ -251,7 +251,7 @@ const Step2 = () => {
   };
 
   return (
-    <>
+    <div className="flex w-full flex-col">
       <Header
         title={<span>이메일 회원가입</span>}
         left={
@@ -369,7 +369,7 @@ const Step2 = () => {
       >
         가입하기
       </Button>
-    </>
+    </div>
   );
 };
 

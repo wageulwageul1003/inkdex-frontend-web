@@ -6,7 +6,7 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="default-layout-content flex flex-1 flex-col">
       <div className="flex-1">{children}</div>
       <Menu />
     </div>

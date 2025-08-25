@@ -51,9 +51,9 @@ const EmailLogin = () => {
   const { formState } = form;
 
   return (
-    <div className="flex flex-col py-4">
+    <div className="flex flex-1 flex-col py-4">
       <p>환영합니다! inkdex입니다.</p>
-      <div className="flex h-full flex-col">
+      <div className="flex flex-1 flex-col">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit, (errors) => {

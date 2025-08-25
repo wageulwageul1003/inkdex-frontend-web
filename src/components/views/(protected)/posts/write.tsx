@@ -9,10 +9,12 @@ import { toast } from 'sonner';
 
 import { TWriteSchema, writeSchema } from './schema';
 
+import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Form } from '@/components/ui/form';
 import { SELECTED_IMAGE } from '@/constants/tokens';
+import { useGetCategoryList } from '@/hook/common/useGetCategoryList';
 import { usePostPosts } from '@/hook/posts/usePostPosts';
 
 interface TProps {
@@ -26,6 +28,7 @@ export const PostsWrite: FC<TProps> = (props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const { mutateAsync: postPosts } = usePostPosts();
+  const { data: categories } = useGetCategoryList();
 
   // 컴포넌트 마운트 시 localStorage에서 이미지 데이터 가져오기
   useEffect(() => {
@@ -44,9 +47,9 @@ export const PostsWrite: FC<TProps> = (props) => {
     mode: 'onChange',
     defaultValues: {
       image: image || '',
-      categorySlug: 'novel',
-      content: '123123',
-      tags: ['123', '123'],
+      categorySlug: '',
+      content: '',
+      tags: [] as string[],
     },
   });
 
@@ -66,7 +69,7 @@ export const PostsWrite: FC<TProps> = (props) => {
   };
 
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex w-full flex-col">
       <Header
         left={
           <Icons.close
@@ -76,14 +79,10 @@ export const PostsWrite: FC<TProps> = (props) => {
         }
         title={<span>글쓰기</span>}
         right={
-          isSubmitting ? (
-            <div className="size-6 animate-spin rounded-full border-2 border-gray-300 border-t-black" />
-          ) : (
-            <Icons.pencil
-              className="size-6 fill-black"
-              onClick={form.handleSubmit(onSubmit)}
-            />
-          )
+          <Icons.pencil
+            className="size-6 fill-black"
+            onClick={form.handleSubmit(onSubmit)}
+          />
         }
       />
       <Form {...form}>
@@ -93,13 +92,56 @@ export const PostsWrite: FC<TProps> = (props) => {
           })}
           className="mt-6"
         >
-          <Image
-            src={image || '/default-image.png'}
-            alt="post-image"
-            width={100}
-            height={100}
-            className="w-full rounded-[24px]"
-          />
+          <div className="relative aspect-square rounded-[24px]">
+            <Image
+              src={image || '/default-image.png'}
+              alt="post-image"
+              width={100}
+              height={100}
+              className="w-full rounded-[24px]"
+            />
+
+            <div className="absolute right-2 top-2 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-gray-600">
+              <Icons.close
+                className="size-4 fill-white"
+                onClick={() => setImage(null)}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-8">
+            <FormFields
+              fieldType={FormFieldType.SELECT}
+              control={form.control}
+              name="categorySlug"
+              label="카테고리"
+              placeholder="카테고리를 선택해주세요."
+              options={
+                categories?.data?.content.map((item) => ({
+                  value: item.slug,
+                  label: item.name,
+                })) || []
+              }
+            />
+
+            <FormFields
+              fieldType={FormFieldType.TEXTAREA}
+              control={form.control}
+              name="content"
+              label="내용"
+              placeholder="내용을 입력해주세요."
+              maxCharacters={1000}
+            />
+
+            <FormFields
+              fieldType={FormFieldType.KEYWORDS}
+              control={form.control}
+              name="tags"
+              label="태그"
+              placeholder="태그를 입력해주세요."
+              maxCount={10}
+            />
+          </div>
         </form>
       </Form>
     </div>
