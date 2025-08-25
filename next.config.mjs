@@ -4,7 +4,13 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const nextConfig = {
   images: {
-    remotePatterns: [],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: '3.37.86.232',
+        pathname: '/**',
+      },
+    ],
   },
   webpack(config, { isServer }) {
     if (!isServer) {
