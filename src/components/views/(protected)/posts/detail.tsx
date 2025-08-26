@@ -3,6 +3,7 @@
 import dayjs from 'dayjs';
 import Cookies from 'js-cookie';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 
 import { Icons } from '@/components/shared/icons';
@@ -17,11 +18,17 @@ interface TProps {
 export const PostsDetail: FC<TProps> = (props) => {
   const { uuid } = props;
   const { data } = useGetPostsDetail(uuid);
+  const router = useRouter();
 
   return (
     <div className="flex w-full flex-col">
       <Header
-        left={<Icons.keyboardArrowLeft className="size-6 fill-black" />}
+        left={
+          <Icons.keyboardArrowLeft
+            className="size-6 fill-black"
+            onClick={() => router.back()}
+          />
+        }
         title={
           <div className="flex items-center gap-[6px]">
             <div className="flex h-5 w-5 items-center justify-center rounded-full border border-gray-300">

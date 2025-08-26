@@ -60,7 +60,7 @@ export const Home = () => {
             />
           </div>
 
-          <div className="mt-4">
+          <div className="mt-4 flex flex-col gap-4">
             {data?.pages?.map(
               (page: IResponsePaged<IPostListResponse>, i: number) => (
                 <React.Fragment key={i}>
@@ -70,6 +70,7 @@ export const Home = () => {
                       onClick={() => router.push(`/posts/${item.publicId}`)}
                     >
                       <Card
+                        ratio={3}
                         key={item.publicId}
                         nickname={item.userNickname}
                         viewCounting={item.viewCount}

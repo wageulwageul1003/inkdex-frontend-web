@@ -11,6 +11,12 @@ export interface IPostListResponse {
   profileImageUrl: string | null;
   thumbnailUrl: string;
   viewCount: number;
+  imageMetadata: {
+    width: number;
+    height: number;
+    aspectRatio: number;
+    fileSize: number;
+  };
 }
 
 // PARAMS TYPE
