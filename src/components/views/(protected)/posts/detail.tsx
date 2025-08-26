@@ -8,6 +8,7 @@ import { FC } from 'react';
 
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
+import { USER_ID } from '@/constants/tokens';
 import { useGetCategoryLabel } from '@/hook/common/useGetCategoryLabel';
 import { useGetPostsDetail } from '@/hook/home/useGetPostsDetail';
 
@@ -19,7 +20,6 @@ export const PostsDetail: FC<TProps> = (props) => {
   const { uuid } = props;
   const { data } = useGetPostsDetail(uuid);
   const router = useRouter();
-
   return (
     <div className="flex w-full flex-col">
       <Header
@@ -41,6 +41,13 @@ export const PostsDetail: FC<TProps> = (props) => {
             </div>
             <span className="font-medium">{data?.userNickname}</span>
           </div>
+        }
+        right={
+          data?.userPublicId === Cookies.get(USER_ID) ? (
+            <p>편집</p>
+          ) : (
+            <p>팔로우</p>
+          )
         }
       />
 
