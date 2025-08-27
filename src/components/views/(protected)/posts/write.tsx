@@ -12,6 +12,7 @@ import { TWriteSchema, writeSchema } from './schema';
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
+import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { SELECTED_IMAGE } from '@/constants/tokens';
 import { useGetCategoryList } from '@/hook/common/useGetCategoryList';
@@ -79,10 +80,15 @@ export const PostsWrite: FC<TProps> = (props) => {
         }
         title={<span>글쓰기</span>}
         right={
-          <Icons.pencil
-            className="size-6 fill-black"
+          <Button
             onClick={form.handleSubmit(onSubmit)}
-          />
+            disabled={isSubmitting}
+            size="cta"
+            variant="cta"
+            className="px-3 py-2"
+          >
+            업로드
+          </Button>
         }
       />
       <Form {...form}>

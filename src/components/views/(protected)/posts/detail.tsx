@@ -8,6 +8,7 @@ import { FC } from 'react';
 
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
+import { Button } from '@/components/ui/button';
 import { USER_ID } from '@/constants/tokens';
 import { useGetCategoryLabel } from '@/hook/common/useGetCategoryLabel';
 import { useGetPostsDetail } from '@/hook/home/useGetPostsDetail';
@@ -44,9 +45,26 @@ export const PostsDetail: FC<TProps> = (props) => {
         }
         right={
           data?.userPublicId === Cookies.get(USER_ID) ? (
-            <p>편집</p>
+            <Button
+              onClick={() => router.push(`/posts/${uuid}/edit`)}
+              size="default"
+              variant="default"
+              className="px-3 py-2"
+            >
+              편집
+            </Button>
           ) : (
-            <p>팔로우</p>
+            <Button
+              onClick={() => {
+                console.log('팔로우');
+              }}
+              size="default"
+              variant="default"
+              className="px-3 py-2"
+            >
+              <Icons.plus className="size-6" />
+              팔로우
+            </Button>
           )
         }
       />

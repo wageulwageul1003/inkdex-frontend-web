@@ -10,7 +10,8 @@ const buttonVariants = cva(
     variants: {
       variant: {
         cta: 'bg-black text-white rounded-[16px] w-full',
-        default: 'bg-white text-gray-500 w-fit',
+        default:
+          'bg-white text-gray-500 w-fit border border-gray-400 rounded-[12px]',
         outline:
           'bg-white border-gray-400 text-black w-fit rounded-[12px] border',
       },
