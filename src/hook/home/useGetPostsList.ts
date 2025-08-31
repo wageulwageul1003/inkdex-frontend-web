@@ -5,6 +5,7 @@ import { IResponsePaged } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface IPostListResponse {
+  aspectRatio: number;
   publicId: string;
   userPublicId: string;
   userNickname: string;

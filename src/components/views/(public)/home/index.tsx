@@ -70,7 +70,7 @@ export const Home = () => {
                       onClick={() => router.push(`/posts/${item.publicId}`)}
                     >
                       <Card
-                        ratio={3}
+                        ratio={item.aspectRatio}
                         key={item.publicId}
                         nickname={item.userNickname}
                         viewCounting={item.viewCount}
