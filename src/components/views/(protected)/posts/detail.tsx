@@ -12,6 +12,8 @@ import { Button } from '@/components/ui/button';
 import { USER_ID } from '@/constants/tokens';
 import { useGetCategoryLabel } from '@/hook/common/useGetCategoryLabel';
 import { useGetPostsDetail } from '@/hook/home/useGetPostsDetail';
+import { useDeletetBookmark } from '@/hook/posts/useDeletetBookmark';
+import { usePostBookmark } from '@/hook/posts/usePostBookmark';
 
 interface TProps {
   uuid: string;
@@ -20,7 +22,18 @@ interface TProps {
 export const PostsDetail: FC<TProps> = (props) => {
   const { uuid } = props;
   const { data } = useGetPostsDetail(uuid);
+  const { mutateAsync: postBookmark } = usePostBookmark();
+  const { mutateAsync: deleteBookmark } = useDeletetBookmark();
   const router = useRouter();
+
+  const handleBookmark = () => {
+    if (!data?.bookmarked) {
+      postBookmark({ postId: uuid });
+    } else {
+      deleteBookmark({ postId: uuid });
+    }
+  };
+
   return (
     <div className="flex w-full flex-col">
       <Header
@@ -34,7 +47,7 @@ export const PostsDetail: FC<TProps> = (props) => {
           <div className="flex items-center gap-[6px]">
             <div className="flex h-5 w-5 items-center justify-center rounded-full border border-gray-300">
               <Image
-                src={data?.profileImageUrl || '/default-profile.png'}
+                src={'/default-profile.png'}
                 alt="profile-image"
                 width={16}
                 height={16}
@@ -112,7 +125,12 @@ export const PostsDetail: FC<TProps> = (props) => {
               ? '9999+'
               : data?.commentCount || 0}
           </p>
-          <Icons.bookmark className="size-6" />
+          <Icons.bookmark
+            onClick={() => {
+              handleBookmark();
+            }}
+            className={`size-6 ${data?.bookmarked ? 'fill-black stroke-black' : 'fill-white stroke-black'}`}
+          />
           {data?.userPublicId !== Cookies.get('userPublicId') && (
             <Icons.report className="size-6 fill-black stroke-black" />
           )}

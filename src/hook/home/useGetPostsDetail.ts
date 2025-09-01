@@ -16,6 +16,7 @@ export interface IPostsDetailResponse {
   likeCount: number;
   commentCount: number;
   viewCount: number;
+  bookmarked: number;
   createdAt: string;
   updatedAt: string;
 }

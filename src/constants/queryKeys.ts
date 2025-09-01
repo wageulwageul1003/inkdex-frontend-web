@@ -13,6 +13,10 @@ const postsListKey = 'postsListKey';
 const postsDetailKey = 'postsDetailKey';
 const postsKey = 'postsKey';
 
+const bookmarkKey = 'bookmarkKey';
+const deleteBookmarkKey = 'deleteBookmarkKey';
+const bookmarkListKey = 'bookmarkListKey';
+
 const myProfileKey = 'myProfileKey';
 
 export {
@@ -27,5 +31,8 @@ export {
   postsListKey,
   postsDetailKey,
   postsKey,
+  bookmarkKey,
+  deleteBookmarkKey,
+  bookmarkListKey,
   myProfileKey,
 };
