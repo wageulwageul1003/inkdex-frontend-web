@@ -13,6 +13,8 @@ const postsListKey = 'postsListKey';
 const postsDetailKey = 'postsDetailKey';
 const postsKey = 'postsKey';
 
+const myProfileKey = 'myProfileKey';
+
 export {
   emailLoginKey,
   nicknameDuplicateCheckKey,
@@ -25,4 +27,5 @@ export {
   postsListKey,
   postsDetailKey,
   postsKey,
+  myProfileKey,
 };

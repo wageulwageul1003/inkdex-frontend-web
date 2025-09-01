@@ -23,6 +23,7 @@ import photo from '@/public/icons/photo.svg';
 import plus from '@/public/icons/plus.svg';
 import report from '@/public/icons/report.svg';
 import search from '@/public/icons/search.svg';
+import setting from '@/public/icons/setting.svg';
 import time from '@/public/icons/time.svg';
 import visibility from '@/public/icons/visibility.svg';
 import visibility_off from '@/public/icons/visibility_off.svg';
@@ -56,4 +57,5 @@ export const Icons = {
   message,
   report,
   pencil,
+  setting,
 };
