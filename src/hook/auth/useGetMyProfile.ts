@@ -1,22 +1,23 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { myProfileKey } from '@/constants/queryKeys';
-import { IResponse } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface IMyProfileResponse {
   id: string;
+  username: string;
   nickname: string;
+  profileImageUrl: string;
+  followerCount: number;
+  followingCount: number;
 }
 
-export const GetMyProfile = async (): Promise<
-  IResponse<IMyProfileResponse>
-> => {
+export const GetMyProfile = async (): Promise<IMyProfileResponse> => {
   const data = await agent(`/api/v1/users/profile`, {
     method: 'GET',
   });
 
-  return data;
+  return data.data.content;
 };
 
 export const useGetMyProfile = () =>
