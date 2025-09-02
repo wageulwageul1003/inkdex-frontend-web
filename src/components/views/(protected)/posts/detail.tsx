@@ -4,11 +4,14 @@ import dayjs from 'dayjs';
 import Cookies from 'js-cookie';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { FC } from 'react';
+import { FC, useState } from 'react';
+
+import { TypeItemComponent } from '../../(public)/home/_components/WriteType';
 
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import { USER_ID } from '@/constants/tokens';
 import { useGetCategoryLabel } from '@/hook/common/useGetCategoryLabel';
 import { useGetPostsDetail } from '@/hook/home/useGetPostsDetail';
@@ -19,8 +22,22 @@ interface TProps {
   uuid: string;
 }
 
+const editTypeItems = [
+  {
+    value: 'edit',
+    label: '수정',
+    onClick: () => {},
+  },
+  {
+    value: 'delete',
+    label: '삭제',
+    onClick: () => {},
+  },
+];
+
 export const PostsDetail: FC<TProps> = (props) => {
   const { uuid } = props;
+  const [open, setOpen] = useState(false);
   const { data } = useGetPostsDetail(uuid);
   const { mutateAsync: postBookmark } = usePostBookmark();
   const { mutateAsync: deleteBookmark } = useDeletetBookmark();
@@ -59,7 +76,9 @@ export const PostsDetail: FC<TProps> = (props) => {
         right={
           data?.userPublicId === Cookies.get(USER_ID) ? (
             <Button
-              onClick={() => router.push(`/posts/${uuid}/edit`)}
+              onClick={() => {
+                setOpen(true);
+              }}
               size="default"
               variant="default"
               className="px-3 py-2"
@@ -136,6 +155,24 @@ export const PostsDetail: FC<TProps> = (props) => {
           )}
         </div>
       </div>
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetContent side="bottom">
+          <div className="w-full">
+            <SheetTitle className="pt-7 text-center">
+              <span>게시글 편집</span>
+            </SheetTitle>
+          </div>
+          <div className="mt-6 grid grid-cols-2 gap-2">
+            {editTypeItems.map((item) => (
+              <TypeItemComponent
+                key={item.value}
+                {...item}
+                onClick={() => item.onClick()}
+              />
+            ))}
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 };

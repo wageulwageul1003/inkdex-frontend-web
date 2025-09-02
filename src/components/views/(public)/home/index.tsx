@@ -74,12 +74,8 @@ export const Home = () => {
                         key={item.publicId}
                         nickname={item.userNickname}
                         viewCounting={item.viewCount}
-                        nicknameSrc={
-                          'http://3.37.86.232/uploads/posts/thumb/921038b8be8e4bf791116f4b88cdeb43-thumb.jpg'
-                        }
-                        src={
-                          'http://3.37.86.232/uploads/posts/thumb/921038b8be8e4bf791116f4b88cdeb43-thumb.jpg'
-                        }
+                        nicknameSrc={item.profileImageUrl || ''}
+                        src={item.thumbnailUrl}
                       />
                     </div>
                   ))}

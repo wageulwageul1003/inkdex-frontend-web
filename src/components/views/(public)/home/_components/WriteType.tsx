@@ -15,7 +15,7 @@ const wirteTypeItems = [
   },
 ];
 
-const WriteTypeItemComponent = ({
+export const TypeItemComponent = ({
   value,
   label,
   onClick,
@@ -121,7 +121,7 @@ export const WriteType = () => {
     <div className="mb-5 mt-6">
       <div className="mb-4 grid grid-cols-2 gap-2">
         {wirteTypeItems.map((item) => (
-          <WriteTypeItemComponent
+          <TypeItemComponent
             key={item.value}
             {...item}
             onClick={() => handleItemClick(item.value)}
