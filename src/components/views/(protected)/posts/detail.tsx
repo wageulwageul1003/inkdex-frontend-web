@@ -11,9 +11,16 @@ import { TypeItemComponent } from '../../(public)/home/_components/WriteType';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
+import {
+  ResizablePanelGroup,
+  ResizablePanel,
+  ResizableHandle,
+} from '@/components/ui/resizable';
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import { USER_ID } from '@/constants/tokens';
 import { useGetCategoryLabel } from '@/hook/common/useGetCategoryLabel';
+import { useDeleteFollow } from '@/hook/follow/useDeleteFollow';
+import { usePostFollow } from '@/hook/follow/usePostFollow';
 import { useGetPostsDetail } from '@/hook/home/useGetPostsDetail';
 import { useDeletetBookmark } from '@/hook/posts/useDeletetBookmark';
 import { usePostBookmark } from '@/hook/posts/usePostBookmark';
@@ -38,9 +45,16 @@ const editTypeItems = [
 export const PostsDetail: FC<TProps> = (props) => {
   const { uuid } = props;
   const [open, setOpen] = useState(false);
+  const [commentOpen, setCommentOpen] = useState(false);
   const { data } = useGetPostsDetail(uuid);
+
+  // 북마크
   const { mutateAsync: postBookmark } = usePostBookmark();
   const { mutateAsync: deleteBookmark } = useDeletetBookmark();
+
+  // 팔로우
+  const { mutateAsync: postFollow } = usePostFollow();
+  const { mutateAsync: deleteFollow } = useDeleteFollow();
   const router = useRouter();
 
   const handleBookmark = () => {
@@ -48,6 +62,14 @@ export const PostsDetail: FC<TProps> = (props) => {
       postBookmark({ postId: uuid });
     } else {
       deleteBookmark({ postId: uuid });
+    }
+  };
+
+  const handleFollow = () => {
+    if (!data?.bookmarked) {
+      postFollow({ publicId: data?.userPublicId ?? '' });
+    } else {
+      deleteFollow({ publicId: data?.userPublicId ?? '' });
     }
   };
 
@@ -87,9 +109,7 @@ export const PostsDetail: FC<TProps> = (props) => {
             </Button>
           ) : (
             <Button
-              onClick={() => {
-                console.log('팔로우');
-              }}
+              onClick={() => handleFollow()}
               size="default"
               variant="default"
               className="px-3 py-2"
@@ -138,7 +158,10 @@ export const PostsDetail: FC<TProps> = (props) => {
               ? '9999+'
               : data?.likeCount || 0}
           </p>
-          <p className="flex items-center gap-1 text-gray-500">
+          <p
+            className="flex items-center gap-1 text-gray-500"
+            onClick={() => setCommentOpen(true)}
+          >
             <Icons.message className="size-6" />
             {data?.commentCount && data?.commentCount > 9999
               ? '9999+'
@@ -171,6 +194,23 @@ export const PostsDetail: FC<TProps> = (props) => {
               />
             ))}
           </div>
+        </SheetContent>
+      </Sheet>
+
+      <Sheet open={commentOpen} onOpenChange={setCommentOpen}>
+        <SheetContent side="bottom">
+          <p>111</p>
+          <ResizablePanelGroup
+            direction="horizontal"
+            className="min-h-[200px] max-w-md rounded-lg border md:min-w-[450px]"
+          >
+            <ResizablePanel defaultSize={25}>
+              <div className="flex h-full items-center justify-center p-6">
+                <span className="font-semibold">Sidebar</span>
+              </div>
+            </ResizablePanel>
+            <ResizableHandle withHandle />
+          </ResizablePanelGroup>
         </SheetContent>
       </Sheet>
     </div>
