@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { termsDetailKey } from '@/constants/queryKeys';
-import { IResponse } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface ITermsDetailResponse {
@@ -11,12 +10,12 @@ export interface ITermsDetailResponse {
 
 export const GetTermsDetail = async (
   uuid: string,
-): Promise<IResponse<ITermsDetailResponse>> => {
-  const data = await agent(`/api/v1/terms/active/${uuid}`, {
+): Promise<ITermsDetailResponse> => {
+  const data = await agent(`/api/v1/terms/${uuid}`, {
     method: 'GET',
   });
 
-  return data;
+  return data.data.content;
 };
 
 export const useGetTermsDetail = (uuid: string) =>

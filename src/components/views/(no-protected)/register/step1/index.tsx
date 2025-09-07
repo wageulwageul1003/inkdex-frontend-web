@@ -67,7 +67,7 @@ export default function Step1() {
   };
 
   const onClickAgreeTerm = (uuid: string) => {
-    router.push('/terms?uuid=' + uuid);
+    router.push('/terms/' + uuid);
   };
 
   return (
