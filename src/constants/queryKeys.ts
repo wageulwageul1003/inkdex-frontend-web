@@ -21,6 +21,10 @@ const followKey = 'followKey';
 const deleteFollowKey = 'deleteFollowKey';
 const followListKey = 'followListKey';
 
+const blockKey = 'blockKey';
+const deleteBlockKey = 'deleteBlockKey';
+const blockListKey = 'blockListKey';
+
 const myProfileKey = 'myProfileKey';
 
 export {
@@ -41,5 +45,8 @@ export {
   followKey,
   deleteFollowKey,
   followListKey,
+  blockKey,
+  deleteBlockKey,
+  blockListKey,
   myProfileKey,
 };

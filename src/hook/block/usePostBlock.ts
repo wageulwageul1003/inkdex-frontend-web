@@ -1,28 +1,28 @@
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { followKey, followListKey } from '@/constants/queryKeys';
+import { blockKey, blockListKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 
-export const postFollow = async (params: { publicId: string }) => {
-  const response = await agent(`/api/v1/users/follows/${params.publicId}`, {
+export const postBlock = async (params: { publicId: string }) => {
+  const response = await agent(`/api/v1/users/blocks/${params.publicId}`, {
     method: 'POST',
   });
 
   return response;
 };
 
-export const usePostFollow = () => {
+export const usePostBlock = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: postFollow,
+    mutationFn: postBlock,
 
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: [followKey],
+        queryKey: [blockKey],
       });
       await queryClient.invalidateQueries({
-        queryKey: [followListKey],
+        queryKey: [blockListKey],
       });
     },
     onError: (error: ErrorData) => {},

@@ -5,6 +5,7 @@ import { useGetMyProfile } from '@/hook/auth/useGetMyProfile';
 
 export const MyIndexComponent = () => {
   const { data: myProfile } = useGetMyProfile();
+  console.log(myProfile);
   return (
     <div className="flex flex-col">
       <div className="flex flex-col border-b-4 border-gray-200 pb-4 pt-5">

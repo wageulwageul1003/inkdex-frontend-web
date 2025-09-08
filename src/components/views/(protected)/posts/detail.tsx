@@ -83,7 +83,14 @@ export const PostsDetail: FC<TProps> = (props) => {
           />
         }
         title={
-          <div className="flex items-center gap-[6px]">
+          <div
+            className="flex items-center gap-[6px]"
+            onClick={() =>
+              data?.userPublicId === Cookies.get(USER_ID)
+                ? router.push(`/mypage`)
+                : router.push(`/other-profile/${data?.userPublicId}`)
+            }
+          >
             <div className="flex h-5 w-5 items-center justify-center rounded-full border border-gray-300">
               <Image
                 src={'/default-profile.png'}

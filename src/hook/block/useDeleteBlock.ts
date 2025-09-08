@@ -1,28 +1,28 @@
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { followKey, followListKey } from '@/constants/queryKeys';
+import { deleteBlockKey, blockListKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 
-export const postFollow = async (params: { publicId: string }) => {
-  const response = await agent(`/api/v1/users/follows/${params.publicId}`, {
-    method: 'POST',
+export const deleteBlock = async (params: { publicId: string }) => {
+  const response = await agent(`/api/v1/users/blocks/${params.publicId}`, {
+    method: 'DELETE',
   });
 
   return response;
 };
 
-export const usePostFollow = () => {
+export const useDeleteBlock = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: postFollow,
+    mutationFn: deleteBlock,
 
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: [followKey],
+        queryKey: [deleteBlockKey],
       });
       await queryClient.invalidateQueries({
-        queryKey: [followListKey],
+        queryKey: [blockListKey],
       });
     },
     onError: (error: ErrorData) => {},
