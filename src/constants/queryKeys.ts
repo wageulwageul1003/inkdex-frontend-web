@@ -26,6 +26,7 @@ const deleteBlockKey = 'deleteBlockKey';
 const blockListKey = 'blockListKey';
 
 const myProfileKey = 'myProfileKey';
+const myPostsKey = 'myPostsKey';
 
 export {
   emailLoginKey,
@@ -49,4 +50,5 @@ export {
   deleteBlockKey,
   blockListKey,
   myProfileKey,
+  myPostsKey,
 };
