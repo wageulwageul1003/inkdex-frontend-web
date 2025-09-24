@@ -28,6 +28,10 @@ const blockListKey = 'blockListKey';
 const myProfileKey = 'myProfileKey';
 const myPostsKey = 'myPostsKey';
 
+const recentSearchKeywordsKey = 'recentSearchKeywordsKey';
+const recommendSearchKeywordsKey = 'recommendSearchKeywordsKey';
+const hotSearchKeywordsKey = 'hotSearchKeywordsKey';
+
 export {
   emailLoginKey,
   nicknameDuplicateCheckKey,
@@ -51,4 +55,7 @@ export {
   blockListKey,
   myProfileKey,
   myPostsKey,
+  recentSearchKeywordsKey,
+  recommendSearchKeywordsKey,
+  hotSearchKeywordsKey,
 };
