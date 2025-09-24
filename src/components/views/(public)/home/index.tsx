@@ -74,7 +74,7 @@ export const Home = () => {
                         key={item.publicId}
                         nickname={item.userNickname}
                         viewCounting={item.viewCount}
-                        nicknameSrc={item.profileImageUrl || ''}
+                        nicknameSrc={item.thumbnailUrl || ''}
                         src={item.thumbnailUrl}
                       />
                     </div>
