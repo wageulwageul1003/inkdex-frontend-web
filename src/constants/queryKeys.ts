@@ -32,6 +32,10 @@ const recentSearchKeywordsKey = 'recentSearchKeywordsKey';
 const recommendSearchKeywordsKey = 'recommendSearchKeywordsKey';
 const hotSearchKeywordsKey = 'hotSearchKeywordsKey';
 
+const faqListKey = 'faqListKey';
+const faqDetailKey = 'faqDetailKey';
+const faqCategoryKey = 'faqCategoryKey';
+
 export {
   emailLoginKey,
   nicknameDuplicateCheckKey,
@@ -58,4 +62,7 @@ export {
   recentSearchKeywordsKey,
   recommendSearchKeywordsKey,
   hotSearchKeywordsKey,
+  faqListKey,
+  faqDetailKey,
+  faqCategoryKey,
 };
