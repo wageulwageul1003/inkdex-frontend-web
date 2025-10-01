@@ -1,5 +1,7 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import { ActivityComponent } from './_components/Activity';
 import { MyIndexComponent } from './_components/MyIndex';
 import { StatisticsComponent } from './_components/Statistics';
@@ -14,13 +16,17 @@ const MyPageMenu = [
 ];
 
 const MyPageComponent = () => {
+  const router = useRouter();
   return (
     <div className="flex w-full flex-col">
       <div className="flex items-center justify-between py-2">
         <p>마이페이지</p>
         <div className="flex gap-5">
           <Icons.bell className="size-6" />
-          <Icons.setting className="size-6" />
+          <Icons.setting
+            className="size-6"
+            onClick={() => router.push('/preferences')}
+          />
         </div>
       </div>
 

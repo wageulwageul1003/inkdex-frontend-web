@@ -6,11 +6,9 @@ import React from 'react';
 
 import { Loading } from '@/components/shared/Loading';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/views/(public)/home/_components/Card';
-import { IMyPostsResponse, useGetMyPosts } from '@/hook/auth/useGetMyPosts';
+import { useGetMyPosts } from '@/hook/auth/useGetMyPosts';
 import { useGetMyProfile } from '@/hook/auth/useGetMyProfile';
 import { useInfiniteScroll } from '@/hook/common/useInfiniteScroll';
-import { IResponsePaged } from '@/types/global';
 
 export const MyIndexComponent = () => {
   const { data: myProfile } = useGetMyProfile();
@@ -60,12 +58,12 @@ export const MyIndexComponent = () => {
       </div>
 
       <div className="mt-4 flex flex-col gap-4">
-        {data?.pages?.map(
+        {/* {data?.pages?.map(
           (page: IResponsePaged<IMyPostsResponse>, i: number) => (
             <React.Fragment key={i}>
-              {page.data.content.map((item: IMyPostsResponse) => (
+              {page.data.content.map((item: IMyPostsResponse, index) => (
                 <div
-                  key={item.publicId}
+                  key={index}
                   onClick={() => router.push(`/posts/${item.publicId}`)}
                 >
                   <Card
@@ -80,7 +78,7 @@ export const MyIndexComponent = () => {
               ))}
             </React.Fragment>
           ),
-        )}
+        )} */}
         <div ref={observerRef}>{isFetchingNextPage && <Loading />}</div>
       </div>
     </div>
