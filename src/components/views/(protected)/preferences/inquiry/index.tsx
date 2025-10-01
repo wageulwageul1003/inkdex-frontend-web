@@ -7,7 +7,7 @@ import { Header } from '@/components/shared/layout/header';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const inquiryTabs = [
-  { value: 'write', label: '문의하기' },
+  { value: 'list', label: '문의하기' },
   { value: 'history', label: '문의내역' },
 ];
 
@@ -27,7 +27,7 @@ export const InquiryComponent = () => {
       />
       <div className="mt-5 flex flex-1 flex-col gap-6">
         <Tabs
-          value="write"
+          value="list"
           //   onValueChange={(value) => console.log(value)}
           className="w-full"
         >
@@ -38,7 +38,7 @@ export const InquiryComponent = () => {
               </TabsTrigger>
             ))}
           </TabsList>
-          <TabsContent value="write">Tab 1</TabsContent>
+          <TabsContent value="list">Tab 1</TabsContent>
           <TabsContent value="history">Tab 2</TabsContent>
         </Tabs>
       </div>
