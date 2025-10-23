@@ -32,7 +32,7 @@ export const Card = ({
 
       <div className="flex items-center justify-between">
         <UserProfile nickname={nickname} nicknameSrc={nicknameSrc} />
-        <p className="text-gray-500">조회 {viewCounting}</p>
+        <p className="text-blue-09">조회 {viewCounting}</p>
       </div>
     </div>
   );
