@@ -20,7 +20,7 @@
 
 @layer base {
   :root {
-    --font-wantedSans: 'wantedSans', sans-serif;
+    --font-SpoqaHanSansNeo: 'SpoqaHanSansNeo', sans-serif;
 
     --white: 255, 255, 255;
     --black: 34, 34, 34;

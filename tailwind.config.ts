@@ -22,7 +22,7 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        wantedSans: ['var(--font-wantedSans)', 'wantedSans'],
+        SpoqaHanSansNeo: ['var(--font-SpoqaHanSansNeo)', 'SpoqaHanSansNeo'],
       },
       colors: {
         black: 'rgba(var(--black), <alpha-value>)',
