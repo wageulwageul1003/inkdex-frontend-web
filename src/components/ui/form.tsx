@@ -12,6 +12,8 @@ import {
   type FieldValues,
 } from 'react-hook-form';
 
+import { Icons } from '../shared/icons';
+
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 
@@ -86,23 +88,30 @@ const FormItem = React.forwardRef<
 });
 FormItem.displayName = 'FormItem';
 
-interface FormLabelProps {
+interface FormLabelProps
+  extends React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> {
   required?: boolean;
 }
 
 const FormLabel = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> & FormLabelProps
->(({ className, required, ...props }, ref) => {
+  FormLabelProps
+>(({ className, children, required = false, ...props }, ref) => {
   const { error, formItemId } = useFormField();
 
   return (
-    <Label
-      ref={ref}
-      className={cn(error && 'text-destructive', className)}
-      htmlFor={formItemId}
-      {...props}
-    />
+    <div className="flex items-center gap-0.5">
+      <Label
+        id={formItemId}
+        ref={ref}
+        className={cn(error && 'text-destructive', className)}
+        htmlFor={formItemId}
+        {...props}
+      >
+        {children}
+      </Label>
+      {required && <Icons.asterisk className="size-2 fill-red-600" />}
+    </div>
   );
 });
 FormLabel.displayName = 'FormLabel';

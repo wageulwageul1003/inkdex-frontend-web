@@ -364,10 +364,7 @@ const FormFields = <T extends FieldValues>(props: CustomProps<T>) => {
         <FormItem className={cn(className)}>
           {/* LABEL */}
           {label && (
-            <FormLabel
-              required={required}
-              className={cn(labelClassName, labelSlot === undefined && 'mb-1')}
-            >
+            <FormLabel required={required} className={cn(labelClassName)}>
               {label}
             </FormLabel>
           )}
