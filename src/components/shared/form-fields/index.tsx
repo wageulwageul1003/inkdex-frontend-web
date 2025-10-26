@@ -234,8 +234,8 @@ export const InputField = <T extends FieldValues>({
             error={error}
           />
           {props.maxCharacters && (
-            <span className="font-caption absolute bottom-2 right-3 truncate text-gray-500">
-              ({field.value?.length.toString() || '0'}/{props.maxCharacters})
+            <span className="font-xs-2 absolute bottom-3 right-4 truncate text-gray-04">
+              {field.value?.length.toString() || '0'}/{props.maxCharacters}
             </span>
           )}
         </fieldset>
