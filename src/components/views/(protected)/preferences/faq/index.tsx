@@ -1,19 +1,21 @@
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+'use client';
 
-import { FaqItem } from './_components/FaqItem';
+// import { useRouter, useSearchParams } from 'next/navigation';
+// import { useState } from 'react';
 
-import { useGetFaqList } from '@/hook/faq/useGetFaqList';
+// import { FaqItem } from './_components/FaqItem';
+
+// import { useGetFaqList } from '@/hook/faq/useGetFaqList';
 
 export const FaqComponent = () => {
-  const searchParams = useSearchParams();
-  const faqCategoryName = searchParams.get('faqCategoryName') || undefined;
-  const { data: faqListData } = useGetFaqList({
-    constFaqType: 'support',
-    faqCategoryName,
-  });
-  const router = useRouter();
-  const [openItemId, setOpenItemId] = useState<string | null>(null);
+  // const searchParams = useSearchParams();
+  // const faqCategoryName = searchParams.get('faqCategoryName') || undefined;
+  // const { data: faqListData } = useGetFaqList({
+  //   constFaqType: 'support',
+  //   faqCategoryName,
+  // });
+  // const router = useRouter();
+  // const [openItemId, setOpenItemId] = useState<string | null>(null);
 
   // FAQ 카테고리
   //   const { constants: faqSupport } = useSpecificConstant('const_faq_support');
@@ -31,37 +33,37 @@ export const FaqComponent = () => {
   //     ];
   //   }, [faqSupport]);
 
-  const initialCategory = searchParams.get('faqCategoryName') || '전체';
-  const [selectedCategory, setSelectedCategory] =
-    useState<string>(initialCategory);
+  // const initialCategory = searchParams.get('faqCategoryName') || '전체';
+  // const [selectedCategory, setSelectedCategory] =
+  //   useState<string>(initialCategory);
 
-  const handleCategory = (item: string | string[]) => {
-    if (typeof item === 'string') {
-      setSelectedCategory(item);
-      updateUrlParams(item);
-    }
-  };
+  // const handleCategory = (item: string | string[]) => {
+  //   if (typeof item === 'string') {
+  //     setSelectedCategory(item);
+  //     updateUrlParams(item);
+  //   }
+  // };
 
-  const updateUrlParams = (item: string) => {
-    const params = new URLSearchParams(searchParams.toString());
+  // const updateUrlParams = (item: string) => {
+  //   const params = new URLSearchParams(searchParams.toString());
 
-    // Process category parameter
-    if (item === '전체') {
-      params.delete('faqCategoryName');
-    } else {
-      params.set('faqCategoryName', item);
-    }
+  //   // Process category parameter
+  //   if (item === '전체') {
+  //     params.delete('faqCategoryName');
+  //   } else {
+  //     params.set('faqCategoryName', item);
+  //   }
 
-    router.push(`?${params.toString()}`);
-  };
+  //   router.push(`?${params.toString()}`);
+  // };
 
-  const handleToggle = (id: string) => {
-    if (openItemId === id) {
-      setOpenItemId(null);
-    } else {
-      setOpenItemId(id);
-    }
-  };
+  // const handleToggle = (id: string) => {
+  //   if (openItemId === id) {
+  //     setOpenItemId(null);
+  //   } else {
+  //     setOpenItemId(id);
+  //   }
+  // };
 
   return (
     <div>
@@ -78,7 +80,7 @@ export const FaqComponent = () => {
 
       <div className="mt-1"></div>
 
-      {faqListData?.data.content.map((item, index) => (
+      {/* {faqListData?.data.content.map((item, index) => (
         <div
           key={item.uuid}
           className={
@@ -96,7 +98,7 @@ export const FaqComponent = () => {
             onToggle={() => handleToggle(item.uuid)}
           />
         </div>
-      ))}
+      ))} */}
     </div>
   );
 };
