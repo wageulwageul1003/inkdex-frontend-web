@@ -10,7 +10,7 @@ const menuItems = [
   {
     title: '메인',
     href: '/home',
-    icon: <Icons.home className="size-6" />,
+    icon: <Icons.search className="size-6" />,
   },
   {
     title: '검색',
@@ -20,12 +20,12 @@ const menuItems = [
   {
     title: '북마크',
     href: '/bookmark',
-    icon: <Icons.bookmark className="size-6" />,
+    icon: <Icons.search className="size-6" />,
   },
   {
     title: '마이페이지',
     href: '/mypage',
-    icon: <Icons.user className="size-6" />,
+    icon: <Icons.search className="size-6" />,
   },
 ];
 

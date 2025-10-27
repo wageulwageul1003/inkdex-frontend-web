@@ -46,7 +46,7 @@ export const Home = () => {
               className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200"
               onClick={() => setOpen(true)}
             >
-              <Icons.plus className="size-3 fill-black" />
+              <Icons.search className="size-3 fill-black" />
             </div>
             <Chips
               items={[
@@ -91,7 +91,7 @@ export const Home = () => {
           >
             <div className="flex justify-end">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black shadow-lg">
-                <Icons.pencil className="size-6 stroke-white" />
+                <Icons.search className="size-6 stroke-white" />
               </div>
             </div>
           </div>
