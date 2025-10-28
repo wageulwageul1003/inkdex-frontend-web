@@ -1,7 +1,5 @@
 import { Terms } from '@/components/views/(public)/terms';
 
-export const dynamic = 'force-dynamic';
-
 export default async function Page({
   params,
 }: {

@@ -1,7 +1,5 @@
 import { PostsWrite } from '@/components/views/(protected)/posts/write';
 
-export const dynamic = 'force-dynamic';
-
 export default async function Page({
   params,
 }: {
