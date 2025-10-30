@@ -1,8 +1,8 @@
 import { useRouter } from 'next/navigation';
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 import { Icons } from '@/components/shared/icons';
-import { SELECTED_IMAGE } from '@/constants/tokens';
+import { nativeBridge } from '@/lib/native-bridge';
 
 const wirteTypeItems = [
   {
@@ -37,83 +37,44 @@ export const TypeItemComponent = ({
 
 export const WriteType = () => {
   const router = useRouter();
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [isCameraOn, setIsCameraOn] = useState(false);
-  const [selectedType, setSelectedType] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  useEffect(() => {
-    const initCamera = async () => {
-      try {
-        if (isCameraOn) {
-          const stream = await navigator.mediaDevices.getUserMedia({
-            video: true,
-          });
-          if (videoRef.current) {
-            videoRef.current.srcObject = stream;
-          }
-        } else if (videoRef.current && videoRef.current.srcObject) {
-          // Stop all tracks when camera is turned off
-          const tracks = (
-            videoRef.current.srcObject as MediaStream
-          ).getTracks();
-          tracks.forEach((track) => track.stop());
-          videoRef.current.srcObject = null;
-        }
-      } catch (error) {
-        console.error('Error accessing camera:', error);
-      }
-    };
-
-    initCamera();
-
-    return () => {
-      // Clean up when component unmounts
-      if (videoRef.current && videoRef.current.srcObject) {
-        const tracks = (videoRef.current.srcObject as MediaStream).getTracks();
-        tracks.forEach((track) => track.stop());
-      }
-    };
-  }, [isCameraOn]);
-
-  const handleItemClick = (value: string) => {
-    if (value === 'photo') {
-      setIsCameraOn((prev) => !prev);
-      setSelectedType(isCameraOn ? null : 'photo');
-      // 카메라를 켤 때 선택된 이미지 초기화
-      if (!isCameraOn) {
-        setSelectedImage(null);
-      }
-    } else if (value === 'album') {
-      // 앨범 선택 시 파일 선택 다이얼로그 열기
-      fileInputRef.current?.click();
-      setSelectedType('album');
-      // 앨범 선택 시 카메라 끄기
-      if (isCameraOn) {
-        setIsCameraOn(false);
-      }
-    }
+  const handleImageResult = (imageData: string) => {
+    setSelectedImage(imageData);
+    // try {
+    //   sessionStorage.setItem(SELECTED_IMAGE, imageData);
+    //   setTimeout(() => {
+    //     router.push('/posts/write');
+    //   }, 300);
+    // } catch (error) {
+    //   console.error('이미지 저장 실패:', error);
+    //   alert('이미지가 너무 큽니다. 다른 이미지를 선택해주세요.');
+    // }
   };
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const imageData = reader.result as string;
-        setSelectedImage(imageData);
-        try {
-          sessionStorage.setItem(SELECTED_IMAGE, imageData);
-          setTimeout(() => {
-            router.push('/posts/write');
-          }, 300);
-        } catch (error) {
-          console.error('이미지 저장 실패:', error);
-          alert('이미지가 너무 큽니다. 다른 이미지를 선택해주세요.');
-        }
-      };
-      reader.readAsDataURL(file);
+  const handleItemClick = async (value: string) => {
+    try {
+      let result;
+
+      if (value === 'photo') {
+        // 네이티브 카메라 열기
+        result = await nativeBridge.openCamera();
+      } else if (value === 'album') {
+        // 네이티브 갤러리 열기
+        result = await nativeBridge.openGallery();
+      }
+
+      if (result) {
+        // Base64 이미지를 사용 (file:// URI는 웹에서 사용 불가)
+        const imageData = result.base64 || result.uri;
+        handleImageResult(imageData);
+      }
+    } catch (error) {
+      console.error('Image selection error:', error);
+      // 네이티브 앱이 아닌 경우 에러 무시 (웹 브라우저에서는 작동하지 않음)
+      if (error instanceof Error && error.message !== 'Not in native app') {
+        alert('이미지 선택 중 오류가 발생했습니다.');
+      }
     }
   };
 
@@ -129,34 +90,7 @@ export const WriteType = () => {
         ))}
       </div>
 
-      {/* 숨겨진 파일 입력 */}
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleFileChange}
-        accept="image/*"
-        className="hidden"
-      />
-
-      {/* 카메라 뷰 */}
-      {selectedType === 'photo' && isCameraOn && (
-        <div className="mt-4 overflow-hidden rounded-lg border border-gray-300">
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            className="h-auto w-full"
-          />
-          <div className="flex justify-center bg-gray-100 p-2">
-            <button
-              className="rounded-md bg-blue-500 px-4 py-2 text-white"
-              onClick={() => setIsCameraOn(false)}
-            >
-              카메라 끄기
-            </button>
-          </div>
-        </div>
-      )}
+      {selectedImage}
     </div>
   );
 };
