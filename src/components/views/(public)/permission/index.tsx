@@ -13,6 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { PERMISSION_SHOWN } from '@/constants/tokens';
 
 const permissions = [
   {
@@ -51,7 +52,7 @@ export default function Permission() {
 
   const onClickConfirm = () => {
     // 쿠키에 권한 안내를 본 적이 있다고 저장
-    Cookies.set('permission-shown', 'true');
+    Cookies.set(PERMISSION_SHOWN, 'true');
     setOpen(false);
     router.push('/login');
   };
@@ -89,9 +90,7 @@ export default function Permission() {
           <p>접근권한 변경 방법</p>
           <p className="mt-2">{`휴대폰 설정 > 인덱스 에서 접근 권한 변경 가능`}</p>
         </div>
-        <Button variant="cta" onClick={onClickConfirm} size="cta">
-          확인
-        </Button>
+        <Button onClick={onClickConfirm}>확인</Button>
       </DialogContent>
     </Dialog>
   );
