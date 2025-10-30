@@ -66,9 +66,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         )}
 
         {/* Code success and timer */}
-        <p className="absolute right-3 top-1/2 -translate-y-1/2">
+        <p className="absolute right-4 top-1/2 -translate-y-1/2">
           {isVerified ? (
-            <Icons.check className="h-m w-m fill-green-700" />
+            <Icons.schedule className="size-5 fill-gray-05" />
           ) : (
             expire && <Timer expire={expire} />
           )}
