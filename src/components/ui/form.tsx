@@ -110,7 +110,7 @@ const FormLabel = React.forwardRef<
       >
         {children}
       </Label>
-      {required && <Icons.asterisk className="size-2 fill-red-600" />}
+      {required && <Icons.asterisk className="size-2 fill-red-06" />}
     </div>
   );
 });
