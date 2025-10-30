@@ -36,8 +36,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type === 'password' && showPassword ? 'text' : type}
           className={cn(
-            'font-m-2 placeholder:font-m-2 flex h-12 w-full items-center justify-between rounded-lg border border-gray-03 bg-white px-4 placeholder-gray-05 hover:border-sand-05 focus:border-sand-05 focus-visible:outline-none',
-            'file:border-0 file:bg-transparent autofill:shadow-[inset_0_0_0_1000px_var(--white)] disabled:cursor-not-allowed disabled:border-sand-03 disabled:bg-gray-02 disabled:text-gray-08',
+            'font-m-2 placeholder:font-m-2 flex h-12 w-full items-center justify-between rounded-lg border border-gray-03 bg-white px-4 text-black placeholder-gray-05 hover:border-sand-05 focus:border-gray-06 focus-visible:outline-none',
+            'file:border-0 file:bg-transparent autofill:shadow-[inset_0_0_0_1000px_var(--white)] disabled:cursor-not-allowed disabled:border-gray-03 disabled:bg-gray-02 disabled:text-gray-08',
             '[&::-ms-clear]:hidden [&::-ms-reveal]:hidden [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden',
             error && 'border-red-05',
             className,

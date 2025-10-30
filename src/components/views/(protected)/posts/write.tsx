@@ -131,7 +131,7 @@ export const PostsWrite: FC<TProps> = (props) => {
             />
 
             <FormFields
-              fieldType={FormFieldType.TEXTAREA}
+              fieldType={FormFieldType.INPUT}
               control={form.control}
               name="content"
               label="내용"
