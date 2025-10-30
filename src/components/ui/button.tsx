@@ -9,17 +9,22 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        cta: 'bg-black text-white rounded-[16px] w-full',
         default:
           'bg-white text-gray-500 w-fit border border-gray-400 rounded-[12px]',
+        contained:
+          'bg-black text-white pressed:bg-gray-10 disabled:bg-gray-04 disabled:text-white',
         outline:
-          'bg-white border-gray-400 text-black w-fit rounded-[12px] border',
+          'border border-gray-03 text-gray-08 disabled:bg-gray-01 disabled:text-gray-04',
+        textOnly: 'text-gray-08 disabled:text-gray-04',
+        buttonText:
+          'border-b border-gray-08 disabled:border-gray-04 text-gray-08 disabled:text-gray-04',
       },
       size: {
-        cta: 'py-5',
         default: '',
-        outline: 'py-2 px-3',
-        icon: 'h-9 w-9',
+        lg: 'h-12 px-4 text-m-2 rounded-lg',
+        md: 'h-9 px-4 text-m-2 rounded-lg',
+        sm: 'h-7 px-2 text-s-2 rounded-md',
+        buttonText: 'w-fit h-fit',
       },
     },
     defaultVariants: {

@@ -131,12 +131,12 @@ export const PostsWrite: FC<TProps> = (props) => {
             />
 
             <FormFields
-              fieldType={FormFieldType.TEXTAREA}
+              fieldType={FormFieldType.TIMER_INPUT}
               control={form.control}
               name="content"
               label="내용"
-              placeholder="내용을 입력해주세요."
-              maxCharacters={1000}
+              isVerified={false}
+              expire={100}
             />
 
             <FormFields

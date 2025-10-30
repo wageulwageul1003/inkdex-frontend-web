@@ -90,7 +90,7 @@ const Chips: React.FC<ChipsProps> = ({
         return (
           <button
             key={index}
-            className={`flex flex-shrink-0 items-center whitespace-nowrap rounded-full px-3 py-2 transition-all ${buttonStyles}`}
+            className={`rounded-xs flex h-9 flex-shrink-0 items-center whitespace-nowrap px-3 transition-all ${buttonStyles}`}
             onClick={() => {
               if (!isDisabled) handleItemClick(String(item.value));
             }}
