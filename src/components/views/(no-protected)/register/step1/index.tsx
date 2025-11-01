@@ -128,8 +128,6 @@ export default function Step1() {
             </p>
             <Button
               type="submit"
-              variant="cta"
-              size="cta"
               className="mb-5 mt-8"
               onClick={() => {
                 // 체크된 약관 ID들을 수집
