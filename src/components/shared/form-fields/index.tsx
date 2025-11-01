@@ -23,6 +23,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import SelectComponent from '@/components/ui/select-container';
+import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
@@ -41,7 +42,7 @@ export enum FormFieldType {
   // RADIO VARIANTS
   RADIO = 'radio',
   CHECKBOX = 'checkbox',
-  SWITCH = 'switch',
+  TOGGLE = 'toggle',
 
   // DATE VARIANTS
   DATE_PICKER = 'datePicker',
@@ -332,6 +333,17 @@ export const InputField = <T extends FieldValues>({
             ))}
           </div>
         </RadioGroup>
+      );
+
+    // TOGGLE
+    case FormFieldType.TOGGLE:
+      return (
+        <Switch
+          className={props.className}
+          disabled={props.disabled}
+          checked={field.value}
+          onCheckedChange={field.onChange}
+        />
       );
 
     // SKELETON
