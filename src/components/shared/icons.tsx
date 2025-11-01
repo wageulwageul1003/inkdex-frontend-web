@@ -1,5 +1,3 @@
-import Apple from '@/public/icons/Apple.svg';
-import Google from '@/public/icons/Google.svg';
 import ArrowBackIos from '@/public/icons/arrow_back_ios.svg';
 import arrowLeftAlt from '@/public/icons/arrow_left_alt.svg';
 import arrowRightAlt from '@/public/icons/arrow_right_alt.svg';
@@ -10,9 +8,10 @@ import checkBox from '@/public/icons/check_box.svg';
 import checkBoxIndeterminate from '@/public/icons/check_box_indeterminate.svg';
 import checkBoxOutlineBlank from '@/public/icons/check_box_outline_blank.svg';
 import checkCircleFill from '@/public/icons/check_circle_fill.svg';
-import kakao from '@/public/icons/kakao.svg';
+import close from '@/public/icons/close_large.svg';
 import closeSmall from '@/public/icons/close_small.svg';
 import dehaze from '@/public/icons/dehaze.svg';
+import email from '@/public/icons/email.svg';
 import emergencyHome from '@/public/icons/emergency_home.svg';
 import emergencyHomeFill from '@/public/icons/emergency_home_fill.svg';
 import error from '@/public/icons/error.svg';
@@ -30,13 +29,8 @@ import schedule from '@/public/icons/schedule.svg';
 import search from '@/public/icons/search.svg';
 import visibility from '@/public/icons/visibility.svg';
 import visibilityOff from '@/public/icons/visibility_off.svg';
-import close from '@/public/icons/close_large.svg';
-import email from '@/public/icons/email.svg';
 
 export const Icons = {
-  Apple,
-  Google,
-  kakao,
   ArrowBackIos,
   arrowLeftAlt,
   arrowRightAlt,

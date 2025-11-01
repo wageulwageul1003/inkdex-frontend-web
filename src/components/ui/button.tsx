@@ -18,12 +18,13 @@ const buttonVariants = cva(
         textOnly: 'text-gray-08 disabled:text-gray-04',
         buttonText:
           'border-b border-gray-08 disabled:border-gray-04 text-gray-08 disabled:text-gray-04',
+        icon: 'flex items-center gap-1',
       },
       size: {
         default: '',
-        lg: 'h-12 px-4 text-m-2 rounded-lg',
-        md: 'h-9 px-4 text-m-2 rounded-lg',
-        sm: 'h-7 px-2 text-s-2 rounded-md',
+        lg: 'h-12 px-4 font-m-2 rounded-lg',
+        md: 'h-9 px-4 font-m-2 rounded-lg',
+        sm: 'h-7 px-2 font-s-2 rounded-md',
         buttonText: 'w-fit h-fit',
       },
     },
