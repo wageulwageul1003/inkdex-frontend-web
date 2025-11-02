@@ -40,6 +40,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             'file:border-0 file:bg-transparent autofill:shadow-[inset_0_0_0_1000px_var(--white)] disabled:cursor-not-allowed disabled:border-gray-03 disabled:bg-gray-02 disabled:text-gray-08',
             '[&::-ms-clear]:hidden [&::-ms-reveal]:hidden [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden',
             error && 'border-red-05',
+            type === 'password' && 'pr-11',
             className,
           )}
           ref={ref}
@@ -55,13 +56,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             title={showPassword ? 'Show password' : 'Hide password'}
             tabIndex={-1}
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-2/3 -translate-y-3/4"
+            className="absolute right-4 top-2/3 -translate-y-3/4"
           >
-            {/* {showPassword ? (
-              <Icons.visibility className="h-m w-m shrink-0 fill-gray-500" />
+            {showPassword ? (
+              <Icons.visibility className="size-6 shrink-0 fill-gray-05" />
             ) : (
-              <Icons.visibility_off className="h-m w-m shrink-0 fill-gray-500" />
-            )} */}
+              <Icons.visibilityOff className="size-6 shrink-0 fill-gray-05" />
+            )}
           </button>
         )}
 

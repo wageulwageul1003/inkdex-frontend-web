@@ -14,7 +14,7 @@ const buttonVariants = cva(
         contained:
           'bg-black text-white pressed:bg-gray-10 disabled:bg-gray-04 disabled:text-white',
         outline:
-          'border border-gray-03 text-gray-08 disabled:bg-gray-01 disabled:text-gray-04',
+          'border border-gray-03 text-gray-08 disabled:bg-gray-01 disabled:text-gray-04 bg-white',
         textOnly: 'text-gray-08 disabled:text-gray-04',
         buttonText:
           'border-b border-gray-08 disabled:border-gray-04 text-gray-08 disabled:text-gray-04',

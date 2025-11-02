@@ -37,7 +37,7 @@ export default function Login() {
       color: 'text-white',
       bgColor: 'bg-gray-08',
       onClick: () => {
-        router.push('/register/step1');
+        router.push('/email-login');
       },
     },
   ];

@@ -10,6 +10,7 @@ import { emailLoginSchema } from './schema';
 
 import { CustomAlertDialog } from '@/components/shared/custom-alert-dialog';
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
+import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { USER_ID } from '@/constants/tokens';
@@ -23,7 +24,7 @@ const EmailLogin = () => {
 
   const form = useForm({
     resolver: zodResolver(emailLoginSchema),
-    mode: 'onChange',
+    mode: 'onSubmit',
     defaultValues: {
       username: '',
       password: '',
@@ -52,31 +53,40 @@ const EmailLogin = () => {
   const { formState } = form;
 
   return (
-    <div className="flex flex-1 flex-col py-4">
-      <p>환영합니다! inkdex입니다.</p>
+    <div className="default-layout-content flex flex-1 flex-col bg-gray-01">
+      <div className="flex py-3">
+        <span onClick={() => router.push('/login')}>
+          <Icons.ArrowBackIos className="size-6 fill-gray-06" />
+        </span>
+      </div>
+
+      <div className="mt-12 flex flex-col items-center justify-center gap-1 pb-8">
+        <p className="font-l-1 text-black">이메일로 시작하기</p>
+        <p className="font-xs-2 text-gray-06">
+          로그인하고 서비스를 계속 이용해보세요.
+        </p>
+      </div>
+
       <div className="flex flex-1 flex-col">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit, (errors) => {
               console.log('Validation Errors:', errors);
             })}
-            className="w-full"
           >
-            <div className="mt-8 flex flex-col gap-5">
+            <div className="flex flex-col gap-5">
               <FormFields
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
                 name="username"
-                label="이메일"
-                placeholder="이메일 입력"
+                placeholder="아이디 입력"
               />
 
               <FormFields
                 fieldType={FormFieldType.PASSWORD}
                 control={form.control}
                 name="password"
-                label="비밀번호"
-                placeholder="영문, 숫자, 특수문자 조합 8자 이상"
+                placeholder="비밀번호 입력"
               />
             </div>
           </form>
@@ -84,15 +94,32 @@ const EmailLogin = () => {
 
         <Button
           onClick={form.handleSubmit(onSubmit)}
-          className={`mt-[80px] w-full rounded px-4 py-2 ${
-            formState.isValid
-              ? 'bg-black text-white'
-              : 'bg-gray-200 text-gray-400'
-          }`}
-          size="cta"
-          variant="cta"
+          className={`mt-4`}
+          size="lg"
+          variant="contained"
         >
           로그인
+        </Button>
+
+        <div className="mt-4 flex items-center justify-center gap-2">
+          <p className="font-xs-2 text-gray-06">비밀번호를 잊으셨나요?</p>
+          <Button
+            variant="buttonText"
+            size="buttonText"
+            className="font-xs-2 border-b border-gray-08 text-gray-08"
+          >
+            비밀번호 찾기
+          </Button>
+        </div>
+      </div>
+
+      <div className="pb-[52px]">
+        <Button
+          variant="outline"
+          size="lg"
+          onClick={() => router.push('/register/step1')}
+        >
+          회원가입 하기
         </Button>
       </div>
 
@@ -101,7 +128,9 @@ const EmailLogin = () => {
         onOpenChange={setAlertOpen}
         title="로그인 실패"
         description={alertMessage}
+        cancelText="확인"
         confirmText="확인"
+        onConfirm={() => setAlertOpen(false)}
       />
     </div>
   );
