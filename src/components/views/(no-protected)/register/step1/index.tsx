@@ -1,151 +1,235 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { registerStep1Schema } from '../schema';
+import { FieldState } from '../_components/field-state';
+import { registerStep2Schema } from '../schema';
 
+import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
-import Checkbox from '@/components/ui/checkbox';
 import { Form } from '@/components/ui/form';
-import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
-import { useGetTermsList } from '@/hook/terms/useGetTermsList';
+import { usePostConfirmEmail } from '@/hook/auth/usePostConfirmEmail';
+import { usePostVerifyEmail } from '@/hook/auth/usePostVerifyEmail';
+import { ErrorData } from '@/utils/fetch';
 
-export default function Step1() {
+const Step1 = () => {
   const router = useRouter();
-  const [open, setOpen] = useState(false);
+  const [isValid, setIsValid] = useState(false); // 인증번호의 유효성
+  const [buttonText, setButtonText] = useState('인증 요청');
+  const [isCertNumVisible, setIsCertNumVisible] = useState(false); // 인증번호 입력 필드 표시 여부
+  const [expireTimestamp, setExpireTimestamp] = useState<number | null>(null); // 타이머 만료 타임스탬프
+  const { mutateAsync: postVerifyEmail } = usePostVerifyEmail(); // 인증번호 요청
+  const { mutateAsync: postConfirmEmail } = usePostConfirmEmail(); // 인증번호 확인
 
-  useEffect(() => {
-    setOpen(true);
-  }, []);
+  const searchParams = useSearchParams();
 
-  const { data: termsList } = useGetTermsList();
-
-  // Create dynamic form with default values
-  const form = useForm<any>({
-    resolver: zodResolver(registerStep1Schema),
+  const form = useForm({
+    resolver: zodResolver(registerStep2Schema),
+    mode: 'onChange',
     defaultValues: {
-      agreeAll: false,
+      email: '',
+      code: '',
     },
   });
 
-  const { control, setValue, watch } = form;
+  const {
+    control,
+    formState,
+    handleSubmit,
+    setError,
+    clearErrors,
+    getValues,
+    watch,
+  } = form;
 
-  // Initialize form fields based on terms data
   useEffect(() => {
-    if (termsList?.data?.content) {
-      const defaultValues: Record<string, boolean> = {
-        agreeAll: false,
-      };
+    if (!expireTimestamp || !isCertNumVisible || buttonText === '인증 완료')
+      return;
 
-      // Add each term to default values
-      termsList.data.content.forEach((item) => {
-        defaultValues[item.id] = false;
-      });
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      if (now >= expireTimestamp) {
+        clearInterval(interval);
+        // 타이머가 만료되면 오류 메시지 표시
+        setError('code', {
+          type: 'manual',
+          message: '입력 유효 시간이 초과되었습니다. 다시 요청해주세요.',
+        });
+        setButtonText('인증번호 재전송');
+        setIsValid(false);
+      }
+    }, 1000);
 
-      form.reset(defaultValues);
+    return () => clearInterval(interval);
+  }, [expireTimestamp, isCertNumVisible, buttonText, setError]);
+
+  // 인증번호 요청 함수
+  const startTimer = async () => {
+    const emailValue = form.getValues('email').trim();
+
+    if (!emailValue) {
+      await form.trigger('email');
+      setTimeout(() => {
+        form.setError('email', {
+          type: 'manual',
+          message: '이메일을 입력해 주세요.',
+        });
+      }, 0);
+      return;
     }
-  }, [termsList, form]);
 
-  // Handle the agreeAll checkbox changes
-  const handleAgreeAll = (checked: boolean) => {
-    setValue('agreeAll', checked);
+    clearErrors('code');
 
-    // Set all terms checkboxes to the same value
-    if (termsList?.data?.content) {
-      termsList.data.content.forEach((item) => {
-        setValue(item.id, checked);
+    try {
+      const result = await postVerifyEmail({
+        email: form.getValues('email'),
       });
+
+      if (result) {
+        // 5분
+        const newExpireTimestamp = new Date().getTime() + 5 * 60 * 1000;
+        setExpireTimestamp(newExpireTimestamp);
+
+        setButtonText('인증번호 확인');
+        setIsCertNumVisible(true);
+      }
+    } catch (error) {
+      const errorData = error as ErrorData;
     }
   };
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const handleVerifyCertNum = async () => {
+    const now = Date.now();
+
+    if (expireTimestamp && now > expireTimestamp) {
+      setError('code', {
+        type: 'manual',
+        message: '입력 유효 시간이 초과되었습니다. 다시 요청해주세요.',
+      });
+      return;
+    }
+
+    try {
+      // 인증번호 확인 요청
+      const result = await postConfirmEmail({
+        email: form.getValues('email'),
+        code: form.getValues('code'),
+      });
+
+      if (result?.data?.content) {
+        setIsValid(true);
+        clearErrors('code');
+        setButtonText('인증 완료');
+      }
+    } catch (error) {
+      const errorData = error as ErrorData;
+      if (errorData?.code === 4001) {
+        setError('code', {
+          type: 'manual',
+          message: '입력 유효 시간이 초과되었습니다. 다시 요청해주세요.',
+        });
+      } else if (errorData?.code === 400) {
+        setError('code', {
+          type: 'manual',
+          message: '인증번호가 일치하지 않습니다.',
+        });
+      }
+    }
   };
 
-  const onClickAgreeTerm = (uuid: string) => {
-    router.push('/terms/' + uuid);
+  const onSubmit = () => {
+    console.log(form.getValues());
   };
 
   return (
-    <Sheet open={open} onOpenChange={setOpen} disableOverlayClick>
-      <SheetContent side="bottom" className="w-full">
-        <div className="w-full">
-          <SheetTitle className="pt-7 text-center">
-            <span>약관 동의</span>
-          </SheetTitle>
+    <div className="default-layout-content flex flex-1 flex-col bg-gray-01">
+      <div className="flex py-3">
+        <span onClick={() => router.back()}>
+          <Icons.ArrowBackIos className="size-6 fill-gray-06" />
+        </span>
+      </div>
 
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="mt-6">
-              <div className="mb-4">
-                <Checkbox
-                  label="모두 동의"
-                  checked={Boolean(watch('agreeAll'))}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleAgreeAll(e.target.checked)
-                  }
+      <div className="mt-10 flex flex-col gap-3">
+        <p className="font-l-1 text-black">사용할 이메일을 입력해주세요.</p>
+        <p className="font-xs-2 text-gray-06">
+          실제 사용 중인 이메일 주소를 입력해주세요 <br />
+          입력하신 이메일은 로그인 및 비밀번호 찾기에 사용됩니다.
+        </p>
+      </div>
+
+      <div className="mt-[34px] flex flex-1 flex-col">
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit, (errors) => {
+              console.log('Validation Errors:', errors);
+            })}
+            className=""
+          >
+            <div className="flex items-center gap-1">
+              <FormFields
+                fieldType={FormFieldType.INPUT}
+                control={form.control}
+                name="email"
+                placeholder="이메일을 입력해주세요"
+              />
+
+              <Button
+                type="button"
+                onClick={
+                  buttonText === '인증 요청' || buttonText === '인증 재요청'
+                    ? startTimer
+                    : handleVerifyCertNum
+                }
+                disabled={buttonText === '인증 완료'}
+                size="lg"
+                variant="contained"
+                className="w-fit"
+              >
+                {buttonText}
+              </Button>
+
+              {buttonText === '인증 완료' && (
+                <FieldState text="인증 완료되었습니다." isError={false} />
+              )}
+
+              {isCertNumVisible && (
+                <FormFields
+                  fieldType={FormFieldType.TIMER_INPUT}
+                  control={form.control}
+                  name="code"
+                  label="인증번호"
+                  placeholder="인증번호 입력"
+                  isVerified={buttonText === '인증 완료'}
+                  expire={expireTimestamp ?? 0}
+                  disabled={buttonText === '인증 완료'}
                 />
-              </div>
-              <div className="mt-4 flex flex-col gap-4 pb-5">
-                {termsList?.data?.content.map((item) => (
-                  <div
-                    className="flex items-center justify-between"
-                    key={item.id}
-                  >
-                    <Checkbox
-                      label={item.title}
-                      checked={Boolean(watch(item.id))}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        setValue(item.id, e.target.checked);
+              )}
+            </div>
+          </form>
+        </Form>
+      </div>
 
-                        if (termsList?.data?.content) {
-                          const allChecked = termsList.data.content.every(
-                            (term) => Boolean(watch(term.id)),
-                          );
-                          setValue('agreeAll', allChecked);
-                        }
-                      }}
-                      required={item.isRequired}
-                    />
-                    <div
-                      className="flex items-center"
-                      onClick={() => onClickAgreeTerm(item.id)}
-                    >
-                      <p className="text-black">보기</p>
-                      <Icons.keyboardArrowRight className="size-5 fill-black" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </form>
-            <p className="border-t border-gray-300 pt-5 text-gray-600">
-              선택 항목에 동의하지 않아도 서비스 이용이 가능합니다. <br />
-              개인정보 수집 및 이용에 대한 동의를 거부할 권리가 있으며 <br />
-              동의 거부 시 서비스 이용이 제한됩니다.
-            </p>
-            <Button
-              type="submit"
-              className="mb-5 mt-8"
-              onClick={() => {
-                // 체크된 약관 ID들을 수집
-                const checkedTerms = termsList?.data?.content
-                  .filter((item) => Boolean(watch(item.id)))
-                  .map((item) => item.id);
-
-                // URL 파라미터로 전달
-                router.push(
-                  `/register/step2?agreedTermIds=${checkedTerms?.join(',')}`,
-                );
-              }}
-            >
-              다음으로
-            </Button>
-          </Form>
-        </div>
-      </SheetContent>
-    </Sheet>
+      <div className="pb-[52px]">
+        <Button
+          onClick={form.handleSubmit(onSubmit)}
+          size="lg"
+          variant="contained"
+          className={`${
+            formState.isValid && isValid
+              ? 'bg-gray-700 text-white'
+              : 'bg-gray-200 text-gray-400'
+          }`}
+          disabled={!formState.isValid}
+        >
+          다음
+        </Button>
+      </div>
+    </div>
   );
-}
+};
+
+export default Step1;
