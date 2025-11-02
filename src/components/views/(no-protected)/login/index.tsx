@@ -43,14 +43,14 @@ export default function Login() {
   ];
 
   return (
-    <div className="flex flex-1 flex-col bg-gray-01">
-      <div className="flex">
+    <div className="default-layout-content flex flex-1 flex-col bg-gray-01">
+      <div className="flex py-3">
         <span onClick={() => router.push('/home')}>
           <Icons.close className="size-6 fill-gray-06" />
         </span>
       </div>
 
-      <div className="mb-15 mt-14 flex items-center justify-center">
+      <div className="mb-[60px] mt-14 flex items-center justify-center">
         <Image
           src="/logos/inkdex-logo-basic.png"
           alt="Logo"
@@ -103,7 +103,7 @@ export default function Login() {
           </div>
         </div>
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center pb-3.5">
         <Button onClick={() => router.push('/home')} variant="icon" size="sm">
           로그인 없이 둘러보기
           <Icons.keyboardArrowRight className="size-4 fill-gray-06" />
