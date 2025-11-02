@@ -133,7 +133,7 @@ interface CustomProps<T extends FieldValues> {
    */
   options?: TOptionList;
   checkboxValue?: string | boolean | number;
-  checkboxLabel?: string;
+  checkboxLabel?: string | React.ReactNode;
 
   // Dynamic content and skeleton rendering
   renderSkeleton?: (
@@ -151,6 +151,9 @@ interface CustomProps<T extends FieldValues> {
   // editor props
   setHasFile?: React.Dispatch<React.SetStateAction<boolean>>;
   maxCount?: number;
+
+  // event handlers
+  onChange?: (e: any) => void;
 }
 
 export const InputField = <T extends FieldValues>({
@@ -298,7 +301,10 @@ export const InputField = <T extends FieldValues>({
           className={props.className}
           disabled={props.disabled}
           checked={field.value}
-          onChange={field.onChange}
+          onChange={(e) => {
+            field.onChange(e);
+            props.onChange?.(e);
+          }}
         />
       );
     case FormFieldType.RADIO:
