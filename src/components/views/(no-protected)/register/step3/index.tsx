@@ -11,15 +11,14 @@ import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 
-const Step2 = () => {
+const Step3 = () => {
   const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(registerStep2Schema),
-    mode: 'onChange',
+    mode: 'onSubmit',
     defaultValues: {
-      password: '',
-      passwordConfirm: '',
+      name: '',
     },
   });
 
@@ -38,14 +37,13 @@ const Step2 = () => {
       </div>
 
       <div className="mt-10 flex flex-col gap-3">
-        <p className="font-l-1 text-black">비밀번호를 입력해주세요.</p>
+        <p className="font-l-1 text-black">이름을 입력해주세요.</p>
         <p className="font-xs-2 text-gray-06">
-          비밀번호는 8~20자 이내로, <br />
-          영문·숫자·특수문자를 모두 포함해야 합니다.
+          계정 식별 및 서비스 이용에 사용됩니다.
         </p>
       </div>
 
-      <div className="mt-[34px] flex flex-1 flex-col">
+      <div className="mt-[50px] flex flex-1 flex-col">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit, (errors) => {
@@ -54,17 +52,10 @@ const Step2 = () => {
             className="flex flex-col gap-2"
           >
             <FormFields
-              fieldType={FormFieldType.PASSWORD}
+              fieldType={FormFieldType.INPUT}
               control={form.control}
-              name="password"
-              placeholder="비밀번호를 입력해주세요"
-            />
-
-            <FormFields
-              fieldType={FormFieldType.PASSWORD}
-              control={form.control}
-              name="passwordConfirm"
-              placeholder="비밀번호를 한번 더 입력해주세요"
+              name="name"
+              placeholder="이름을 입력해주세요"
             />
           </form>
         </Form>
@@ -84,4 +75,4 @@ const Step2 = () => {
   );
 };
 
-export default Step2;
+export default Step3;

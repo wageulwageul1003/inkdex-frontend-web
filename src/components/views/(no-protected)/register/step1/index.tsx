@@ -218,12 +218,7 @@ const Step1 = () => {
           onClick={form.handleSubmit(onSubmit)}
           size="lg"
           variant="contained"
-          className={`${
-            formState.isValid && isValid
-              ? 'bg-gray-700 text-white'
-              : 'bg-gray-200 text-gray-400'
-          }`}
-          disabled={!formState.isValid}
+          disabled={!formState.isValid && !isValid}
         >
           다음
         </Button>
