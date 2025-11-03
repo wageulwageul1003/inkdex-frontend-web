@@ -43,7 +43,11 @@ export default async function IndexLayout({
       <body className={cn('flex min-h-screen flex-col')}>
         <QueryProvider>
           <AuthProvider>
-            <Suspense fallback={<Loading />}>{children}</Suspense>
+            <Suspense fallback={<Loading />}>
+              <div className="default-layout-content flex flex-1">
+                {children}
+              </div>
+            </Suspense>
           </AuthProvider>
         </QueryProvider>
       </body>

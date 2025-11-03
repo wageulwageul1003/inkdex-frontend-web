@@ -22,7 +22,7 @@ export default function Splash() {
   }, [router]);
 
   return (
-    <div className="default-layout-content flex flex-1 flex-col items-center justify-center gap-2 bg-gray-01">
+    <div className="flex flex-1 flex-col items-center justify-center gap-2 bg-gray-01">
       <Image
         src={'/logos/inkdex-logo.png'}
         alt="Logo"

@@ -30,7 +30,7 @@ const Step2 = () => {
   };
 
   return (
-    <div className="default-layout-content flex flex-1 flex-col bg-gray-01">
+    <div className="flex flex-1 flex-col bg-gray-01 px-4">
       <div className="flex py-3">
         <span onClick={() => router.back()}>
           <Icons.ArrowBackIos className="size-6 fill-gray-06" />
