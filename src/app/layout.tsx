@@ -3,6 +3,7 @@ import React, { Suspense } from 'react';
 
 import Loading from './loading';
 
+import { Toaster } from '@/components/ui/sonner';
 import { cn } from '@/lib/utils';
 import { AuthProvider } from '@/providers/auth';
 import QueryProvider from '@/providers/query-provider';
@@ -50,6 +51,7 @@ export default async function IndexLayout({
             </Suspense>
           </AuthProvider>
         </QueryProvider>
+        <Toaster />
       </body>
     </html>
   );

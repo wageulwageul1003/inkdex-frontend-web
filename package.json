@@ -106,7 +106,7 @@
     "react-to-print": "^3.0.6",
     "sass": "^1.83.0",
     "sharp": "^0.33.5",
-    "sonner": "^2.0.1",
+    "sonner": "^2.0.7",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "tiptap": "^1.32.2",
