@@ -175,6 +175,7 @@ const Step1 = () => {
                 control={form.control}
                 name="email"
                 placeholder="이메일을 입력해주세요"
+                className="flex-1"
               />
 
               <Button
