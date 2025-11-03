@@ -39,12 +39,12 @@ const Timer = ({ expire }: TProps) => {
 
   return (
     <span
-      className={cn(
-        'font-xs-2 flex items-center justify-center gap-0.5 text-gray-05',
-      )}
+      className={cn('flex items-center justify-center gap-0.5 text-gray-05')}
     >
-      <Icons.schedule className="size-5 fill-gray-05" />
-      {timer !== null ? timer : '00:00'}
+      <Icons.schedule className="size-5 fill-gray-04" />
+      <span className="font-xs-2 text-gray-04">
+        {timer !== null ? timer : '00:00'}
+      </span>
     </span>
   );
 };

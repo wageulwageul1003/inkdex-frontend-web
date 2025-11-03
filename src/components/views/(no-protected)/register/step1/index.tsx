@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { FieldState } from '../_components/field-state';
 import { registerStep2Schema } from '../schema';
 
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
@@ -171,41 +170,38 @@ const Step1 = () => {
             })}
             className=""
           >
-            <div className="flex items-center gap-1">
-              <FormFields
-                fieldType={FormFieldType.INPUT}
-                control={form.control}
-                name="email"
-                placeholder="이메일을 입력해주세요"
-                className="flex-1"
-              />
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-1">
+                <FormFields
+                  fieldType={FormFieldType.INPUT}
+                  control={form.control}
+                  name="email"
+                  placeholder="이메일을 입력해주세요"
+                  className="flex-1"
+                />
 
-              <Button
-                type="button"
-                onClick={
-                  buttonText === '인증 요청' || buttonText === '인증 재요청'
-                    ? startTimer
-                    : handleVerifyCertNum
-                }
-                disabled={buttonText === '인증 완료'}
-                size="lg"
-                variant="contained"
-                className="w-fit"
-              >
-                {buttonText}
-              </Button>
-
-              {buttonText === '인증 완료' && (
-                <FieldState text="인증 완료되었습니다." isError={false} />
-              )}
+                <Button
+                  type="button"
+                  onClick={
+                    buttonText === '인증 요청' || buttonText === '인증 재요청'
+                      ? startTimer
+                      : handleVerifyCertNum
+                  }
+                  disabled={buttonText === '인증 완료'}
+                  size="lg"
+                  variant="contained"
+                  className="w-fit"
+                >
+                  {buttonText}
+                </Button>
+              </div>
 
               {isCertNumVisible && (
                 <FormFields
                   fieldType={FormFieldType.TIMER_INPUT}
                   control={form.control}
                   name="code"
-                  label="인증번호"
-                  placeholder="인증번호 입력"
+                  placeholder="인증번호를 입력해주세요"
                   isVerified={buttonText === '인증 완료'}
                   expire={expireTimestamp ?? 0}
                   disabled={buttonText === '인증 완료'}
