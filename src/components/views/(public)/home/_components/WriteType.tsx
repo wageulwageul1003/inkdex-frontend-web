@@ -2,6 +2,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { Icons } from '@/components/shared/icons';
+import { SELECTED_IMAGE } from '@/constants/tokens';
 import { nativeBridge } from '@/lib/native-bridge';
 
 const wirteTypeItems = [
@@ -41,15 +42,15 @@ export const WriteType = () => {
 
   const handleImageResult = (imageData: string) => {
     setSelectedImage(imageData);
-    // try {
-    //   sessionStorage.setItem(SELECTED_IMAGE, imageData);
-    //   setTimeout(() => {
-    //     router.push('/posts/write');
-    //   }, 300);
-    // } catch (error) {
-    //   console.error('이미지 저장 실패:', error);
-    //   alert('이미지가 너무 큽니다. 다른 이미지를 선택해주세요.');
-    // }
+    try {
+      sessionStorage.setItem(SELECTED_IMAGE, imageData);
+      setTimeout(() => {
+        router.push('/posts/write');
+      }, 300);
+    } catch (error) {
+      console.error('이미지 저장 실패:', error);
+      alert('이미지가 너무 큽니다. 다른 이미지를 선택해주세요.');
+    }
   };
 
   const handleItemClick = async (value: string) => {
