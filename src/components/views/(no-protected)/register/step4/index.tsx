@@ -2,26 +2,34 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { registerStep1Schema } from '../schema';
+import { registerStep4Schema } from '../schema';
 
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import { usePostRegister } from '@/hook/auth/usePostRegister';
 import { useGetTermsList } from '@/hook/terms/useGetTermsList';
 
 const Step4 = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { data: termsList } = useGetTermsList();
+
+  const { mutateAsync: postRegister } = usePostRegister();
 
   // Create dynamic form with default values
   const form = useForm<any>({
-    resolver: zodResolver(registerStep1Schema),
+    resolver: zodResolver(registerStep4Schema),
     defaultValues: {
-      agreeAll: false,
+      email: searchParams.get('email'),
+      nickname: '',
+      password: searchParams.get('password'),
+      agreedTermIds: [],
     },
   });
 
@@ -43,6 +51,17 @@ const Step4 = () => {
     }
   }, [termsList, form]);
 
+  // Check if all required terms are checked
+  const areRequiredTermsChecked = () => {
+    if (!termsList?.data?.content) return false;
+
+    const requiredTerms = termsList.data.content.filter(
+      (item) => item.isRequired,
+    );
+
+    return requiredTerms.every((term) => Boolean(watch(term.id)));
+  };
+
   // Handle the agreeAll checkbox changes
   const handleAgreeAll = (checked: boolean) => {
     setValue('agreeAll', checked);
@@ -58,7 +77,10 @@ const Step4 = () => {
   const { formState } = form;
 
   const onSubmit = () => {
-    console.log(form.getValues());
+    const payload = form.getValues();
+    console.log(payload);
+
+    // postRegister(payload);
   };
 
   return (
@@ -69,87 +91,60 @@ const Step4 = () => {
         </span>
       </div>
 
-      <div className="mt-10 flex flex-col gap-3">
-        <p className="font-l-1 text-black">이름을 입력해주세요.</p>
-        <p className="font-xs-2 text-gray-06">
-          계정 식별 및 서비스 이용에 사용됩니다.
-        </p>
+      <div className="mt-10">
+        <p className="font-l-1 text-black">서비스 이용약관에 동의해주세요.</p>
       </div>
 
-      <div className="mt-[50px] flex flex-1 flex-col">
+      <div className="mt-[48px] flex flex-1 flex-col">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="mt-6">
-            <div className="mb-4">
-              <FormFields
-                fieldType={FormFieldType.CHECKBOX}
-                control={control}
-                name="agreeAll"
-                checkboxLabel={
-                  <span className="font-m-1 text-gray-08">약관 전체 동의</span>
-                }
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  handleAgreeAll(e.target.checked)
-                }
-              />
-            </div>
-            <div className="mt-4 flex flex-col gap-4 pb-5">
-              {termsList?.data?.content.map((item) => (
-                <div
-                  className="flex items-center justify-between"
-                  key={item.id}
-                >
-                  <FormFields
-                    fieldType={FormFieldType.CHECKBOX}
-                    control={control}
-                    name={item.id}
-                    checkboxLabel={
-                      <span className="font-s-1 text-gray-08">
-                        <span className="text-gray-07">
-                          {item.isRequired ? '[필수]' : '[선택]'}
-                        </span>
-                        {item.title}
-                      </span>
-                    }
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      setValue(item.id, e.target.checked);
-
-                      if (termsList?.data?.content) {
-                        const allChecked = termsList.data.content.every(
-                          (term) => Boolean(watch(term.id)),
-                        );
-                        setValue('agreeAll', allChecked);
-                      }
-                    }}
-                    required={item.isRequired}
-                  />
-                  <Button
-                    variant="textOnly"
-                    size="sm"
-                    className="h-fit w-fit p-0"
-                  >
-                    <Icons.keyboardArrowRight className="size-6 fill-gray-08" />
-                  </Button>
-                </div>
-              ))}
-            </div>
-          </form>
-          {/* <Button
-            type="submit"
-            className="mb-5 mt-8"
-            onClick={() => {
-              // 체크된 약관 ID들을 수집
-              const checkedTerms = termsList?.data?.content
-                .filter((item) => Boolean(watch(item.id)))
-                .map((item) => item.id);
-
-              // URL 파라미터로 전달
-              router.push(
-                `/register/step2?agreedTermIds=${checkedTerms?.join(',')}`,
-              );
-            }}
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col gap-2 px-4"
           >
-            다음으로
-          </Button> */}
+            <FormFields
+              fieldType={FormFieldType.CHECKBOX}
+              control={control}
+              name="agreeAll"
+              checkboxLabel={
+                <span className="font-m-1 text-gray-08">약관 전체 동의</span>
+              }
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleAgreeAll(e.target.checked)
+              }
+            />
+
+            {termsList?.data?.content.map((item) => (
+              <div className="flex items-center justify-between" key={item.id}>
+                <FormFields
+                  fieldType={FormFieldType.CHECKBOX}
+                  control={control}
+                  name={item.id}
+                  checkboxLabel={
+                    <span className="font-s-1 text-gray-08">
+                      <span className="text-sand-07">
+                        {item.isRequired ? '[필수]' : '[선택]'}
+                      </span>
+                      {item.title}
+                    </span>
+                  }
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setValue(item.id, e.target.checked);
+
+                    if (termsList?.data?.content) {
+                      const allChecked = termsList.data.content.every((term) =>
+                        Boolean(watch(term.id)),
+                      );
+                      setValue('agreeAll', allChecked);
+                    }
+                  }}
+                  required={item.isRequired}
+                />
+                <Button variant="buttonIconTextOnly" size="buttonIconMedium">
+                  <Icons.keyboardArrowRight className="size-6 fill-gray-08" />
+                </Button>
+              </div>
+            ))}
+          </form>
         </Form>
       </div>
 
@@ -158,7 +153,8 @@ const Step4 = () => {
           onClick={form.handleSubmit(onSubmit)}
           size="lg"
           variant="contained"
-          disabled={!formState.isValid}
+          disabled={!areRequiredTermsChecked()}
+          className="w-full"
         >
           다음
         </Button>

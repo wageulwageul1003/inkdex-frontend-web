@@ -17,7 +17,9 @@ const buttonVariants = cva('', {
       buttonText:
         'border-b border-gray-08 disabled:border-gray-04 text-gray-08 disabled:text-gray-04',
       icon: 'flex items-center gap-1',
-      iconContained: 'bg-gray-09',
+      // button-icon
+      buttonIconContained: 'bg-gray-09',
+      buttonIconTextOnly: 'rounded-xl hover:bg-gray-09',
     },
     size: {
       default: '',
@@ -25,6 +27,8 @@ const buttonVariants = cva('', {
       md: 'h-9 px-4 font-m-2 rounded-lg',
       sm: 'h-7 px-2 font-s-2 rounded-md',
       buttonText: 'w-fit h-fit',
+      buttonIconLarge: 'h-12 w-12 flex items-center justify-center',
+      buttonIconMedium: 'h-9 w-9 flex items-center justify-center',
     },
   },
   defaultVariants: {
