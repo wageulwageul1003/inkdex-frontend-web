@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { registerStep2Schema } from '../schema';
+import { registerStep1Schema } from '../schema';
 
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
@@ -28,7 +28,7 @@ const Step1 = () => {
   const searchParams = useSearchParams();
 
   const form = useForm({
-    resolver: zodResolver(registerStep2Schema),
+    resolver: zodResolver(registerStep1Schema),
     mode: 'onChange',
     defaultValues: {
       email: '',
@@ -36,15 +36,7 @@ const Step1 = () => {
     },
   });
 
-  const {
-    control,
-    formState,
-    handleSubmit,
-    setError,
-    clearErrors,
-    getValues,
-    watch,
-  } = form;
+  const { formState, setError, clearErrors } = form;
 
   useEffect(() => {
     if (!expireTimestamp || !isCertNumVisible || buttonText === '인증 완료')
@@ -57,9 +49,9 @@ const Step1 = () => {
         // 타이머가 만료되면 오류 메시지 표시
         setError('code', {
           type: 'manual',
-          message: '입력 유효 시간이 초과되었습니다. 다시 요청해주세요.',
+          message: '인증번호가 만료됐어요. 재전송해주세요.',
         });
-        setButtonText('인증번호 재전송');
+        setButtonText('인증 재요청');
         setIsValid(false);
       }
     }, 1000);
@@ -100,6 +92,12 @@ const Step1 = () => {
       }
     } catch (error) {
       const errorData = error as ErrorData;
+      if (errorData?.code === 422) {
+        setError('email', {
+          type: 'manual',
+          message: '올바른 이메일 형식을 입력해주세요.',
+        });
+      }
     }
   };
 
@@ -109,7 +107,7 @@ const Step1 = () => {
     if (expireTimestamp && now > expireTimestamp) {
       setError('code', {
         type: 'manual',
-        message: '입력 유효 시간이 초과되었습니다. 다시 요청해주세요.',
+        message: '인증번호가 만료됐어요. 재전송해주세요.',
       });
       return;
     }
@@ -131,7 +129,7 @@ const Step1 = () => {
       if (errorData?.code === 4001) {
         setError('code', {
           type: 'manual',
-          message: '입력 유효 시간이 초과되었습니다. 다시 요청해주세요.',
+          message: '인증번호가 만료됐어요. 재전송해주세요.',
         });
       } else if (errorData?.code === 400) {
         setError('code', {
@@ -143,7 +141,7 @@ const Step1 = () => {
   };
 
   const onSubmit = () => {
-    console.log(form.getValues());
+    router.push(`/register/step2?email=${form.getValues('email')}`);
   };
 
   return (
@@ -171,7 +169,7 @@ const Step1 = () => {
             className=""
           >
             <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-1">
+              <div className="flex gap-1">
                 <FormFields
                   fieldType={FormFieldType.INPUT}
                   control={form.control}
@@ -218,6 +216,7 @@ const Step1 = () => {
           size="lg"
           variant="contained"
           disabled={!formState.isValid && !isValid}
+          className="w-full"
         >
           다음
         </Button>

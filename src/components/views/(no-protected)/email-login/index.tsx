@@ -118,6 +118,7 @@ const EmailLogin = () => {
           variant="outline"
           size="lg"
           onClick={() => router.push('/register/step1')}
+          className="w-full"
         >
           회원가입 하기
         </Button>
