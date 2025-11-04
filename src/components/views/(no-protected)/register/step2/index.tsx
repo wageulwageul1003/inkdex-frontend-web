@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 import { registerStep2Schema } from '../schema';
@@ -13,6 +14,7 @@ import { Form } from '@/components/ui/form';
 
 const Step2 = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const form = useForm({
     resolver: zodResolver(registerStep2Schema),
@@ -26,7 +28,9 @@ const Step2 = () => {
   const { formState } = form;
 
   const onSubmit = () => {
-    console.log(form.getValues());
+    router.push(
+      `/register/step3?email=${searchParams.get('email')}&password=${form.getValues('password')}`,
+    );
   };
 
   return (
@@ -75,7 +79,13 @@ const Step2 = () => {
           onClick={form.handleSubmit(onSubmit)}
           size="lg"
           variant="contained"
-          disabled={!formState.isValid}
+          disabled={
+            !(
+              form.watch('password') !== '' &&
+              form.watch('passwordConfirm') !== ''
+            )
+          }
+          className="w-full"
         >
           다음
         </Button>
