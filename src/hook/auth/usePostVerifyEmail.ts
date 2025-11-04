@@ -2,16 +2,19 @@ import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 
-import { TVerifyEmailSchema } from '@/components/views/(no-protected)/register/schema';
 import { verifyEmailKey } from '@/constants/queryKeys';
 import { CERTIFICATION_TOKEN } from '@/constants/tokens';
 import { ErrorData, agent } from '@/utils/fetch';
 
-export const postVerifyEmail = async (params: TVerifyEmailSchema) => {
+export type TPostVerifyEmailPayload = {
+  email: string;
+};
+
+export const postVerifyEmail = async (payload: TPostVerifyEmailPayload) => {
   const response = await agent(`/api/v1/auth/verify-email`, {
     method: 'POST',
     body: JSON.stringify({
-      ...params,
+      ...payload,
     }),
   });
   return response;

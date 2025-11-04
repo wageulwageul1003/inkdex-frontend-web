@@ -2,9 +2,10 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
-import { registerStep2Schema } from '../schema';
+import { registerStep3Schema } from '../schema';
 
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
@@ -13,10 +14,11 @@ import { Form } from '@/components/ui/form';
 
 const Step3 = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const form = useForm({
-    resolver: zodResolver(registerStep2Schema),
-    mode: 'onSubmit',
+    resolver: zodResolver(registerStep3Schema),
+    mode: 'onChange',
     defaultValues: {
       name: '',
     },
@@ -25,7 +27,9 @@ const Step3 = () => {
   const { formState } = form;
 
   const onSubmit = () => {
-    console.log(form.getValues());
+    router.push(
+      `/register/step4?email=${searchParams.get('email')}&password=${searchParams.get('password')}&name=${form.getValues('name')}`,
+    );
   };
 
   return (
@@ -67,6 +71,7 @@ const Step3 = () => {
           size="lg"
           variant="contained"
           disabled={!formState.isValid}
+          className="w-full"
         >
           다음
         </Button>
