@@ -2,6 +2,7 @@ type NativeMessageType =
   | 'OPEN_CAMERA'
   | 'OPEN_GALLERY'
   | 'REQUEST_NOTIFICATION'
+  | 'GET_FCM_TOKEN'
   | 'BIOMETRIC_AUTH';
 
 class NativeBridge {
@@ -130,6 +131,22 @@ class NativeBridge {
       });
 
       this.sendMessage('REQUEST_NOTIFICATION');
+    });
+  }
+
+  // FCM 토큰 가져오기
+  getFCMToken(): Promise<{ token: string }> {
+    return new Promise((resolve, reject) => {
+      if (!this.isNative) {
+        reject(new Error('Not in native app'));
+        return;
+      }
+
+      this.onMessage('FCM_TOKEN', (data: any) => {
+        resolve(data);
+      });
+
+      this.sendMessage('GET_FCM_TOKEN');
     });
   }
 
