@@ -3,22 +3,27 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { registerStep4Schema } from '../schema';
 
+import { CustomAlertDialog } from '@/components/shared/custom-alert-dialog';
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { usePostRegister } from '@/hook/auth/usePostRegister';
+import { useGetTermsDetail } from '@/hook/terms/useGetTermsDetail';
 import { useGetTermsList } from '@/hook/terms/useGetTermsList';
 
 const Step4 = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: termsList } = useGetTermsList();
+  const [isOpen, setIsOpen] = useState(false);
+  const [uuid, setUuid] = useState('');
+  const { data: termsContent } = useGetTermsDetail(uuid);
 
   const { mutateAsync: postRegister } = usePostRegister();
 
@@ -72,6 +77,11 @@ const Step4 = () => {
         setValue(item.id, checked);
       });
     }
+  };
+
+  const handleOpenAgreeModal = (uuid: string) => {
+    setIsOpen(true);
+    setUuid(uuid);
   };
 
   const { formState } = form;
@@ -139,7 +149,11 @@ const Step4 = () => {
                   }}
                   required={item.isRequired}
                 />
-                <Button variant="buttonIconTextOnly" size="buttonIconMedium">
+                <Button
+                  variant="buttonIconTextOnly"
+                  size="buttonIconMedium"
+                  onClick={() => handleOpenAgreeModal(item.id)}
+                >
                   <Icons.keyboardArrowRight className="size-6 fill-gray-08" />
                 </Button>
               </div>
@@ -159,6 +173,14 @@ const Step4 = () => {
           다음
         </Button>
       </div>
+
+      <CustomAlertDialog
+        isOpen={isOpen}
+        onOpenChange={() => setIsOpen(false)}
+        title={termsContent?.title}
+      >
+        <div>{termsContent?.content}</div>
+      </CustomAlertDialog>
     </div>
   );
 };

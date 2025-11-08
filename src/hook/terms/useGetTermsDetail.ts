@@ -5,6 +5,7 @@ import { agent } from '@/utils/fetch';
 
 export interface ITermsDetailResponse {
   id: string;
+  title: string;
   content: string;
 }
 
