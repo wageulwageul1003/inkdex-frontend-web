@@ -74,7 +74,7 @@ export const SelectComponent: React.FC<SelectProps> = ({
       value={selectValue}
       defaultValue={defaultValue}
     >
-      <SelectTrigger className={cn('font-body1', className)}>
+      <SelectTrigger className={cn(className)}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
