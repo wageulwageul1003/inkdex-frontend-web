@@ -179,11 +179,6 @@ export const InputField = <T extends FieldValues>({
             id={formItemId}
             {...field}
           />
-          {props.maxCharacters && (
-            <span className="font-caption mt-2 truncate text-gray-500">
-              ({field.value?.length.toString() || '0'}/{props.maxCharacters})
-            </span>
-          )}
         </fieldset>
       );
 

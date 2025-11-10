@@ -26,6 +26,7 @@ import keyboardArrowLeft from '@/public/icons/keyboard_arrow_left.svg';
 import keyboardArrowRight from '@/public/icons/keyboard_arrow_right.svg';
 import keyboardArrowUp from '@/public/icons/keyboard_arrow_up.svg';
 import moreHoriz from '@/public/icons/more_horiz.svg';
+import person from '@/public/icons/person.svg';
 import photo from '@/public/icons/photo.svg';
 import radioButtonChecked from '@/public/icons/radio_button_checked.svg';
 import radioButtonUnchecked from '@/public/icons/radio_button_unchecked.svg';
@@ -70,4 +71,5 @@ export const Icons = {
   camera,
   ellipse,
   photo,
+  person,
 };

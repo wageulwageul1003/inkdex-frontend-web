@@ -8,12 +8,10 @@ import { useForm } from 'react-hook-form';
 
 import { registerStep4Schema } from '../schema';
 
-import { CustomAlertDialog } from '@/components/shared/custom-alert-dialog';
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { usePostRegister } from '@/hook/auth/usePostRegister';
 import { useGetTermsDetail } from '@/hook/terms/useGetTermsDetail';
 import { useGetTermsList } from '@/hook/terms/useGetTermsList';
 
@@ -25,15 +23,10 @@ const Step4 = () => {
   const [uuid, setUuid] = useState('');
   const { data: termsContent } = useGetTermsDetail(uuid);
 
-  const { mutateAsync: postRegister } = usePostRegister();
-
   // Create dynamic form with default values
   const form = useForm<any>({
     resolver: zodResolver(registerStep4Schema),
     defaultValues: {
-      email: searchParams.get('email'),
-      nickname: '',
-      password: searchParams.get('password'),
       agreedTermIds: [],
     },
   });
@@ -76,6 +69,16 @@ const Step4 = () => {
       termsList.data.content.forEach((item) => {
         setValue(item.id, checked);
       });
+
+      // Update agreedTermIds array
+      if (checked) {
+        // Add all term IDs
+        const allTermIds = termsList.data.content.map((item) => item.id);
+        setValue('agreedTermIds', allTermIds);
+      } else {
+        // Clear all term IDs
+        setValue('agreedTermIds', []);
+      }
     }
   };
 
@@ -90,7 +93,9 @@ const Step4 = () => {
     const payload = form.getValues();
     console.log(payload);
 
-    // postRegister(payload);
+    router.push(
+      `/register/step5?email=${searchParams.get('email')}&password=${searchParams.get('password')}&name=${searchParams.get('name')}&agreedTermIds=${payload.agreedTermIds.join(',')}`,
+    );
   };
 
   return (
@@ -140,6 +145,27 @@ const Step4 = () => {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     setValue(item.id, e.target.checked);
 
+                    // Update agreedTermIds array
+                    const currentAgreedTermIds =
+                      form.getValues('agreedTermIds');
+                    if (e.target.checked) {
+                      // Add item.id if checked and not already in array
+                      if (!currentAgreedTermIds.includes(item.id)) {
+                        setValue('agreedTermIds', [
+                          ...currentAgreedTermIds,
+                          item.id,
+                        ]);
+                      }
+                    } else {
+                      // Remove item.id if unchecked
+                      setValue(
+                        'agreedTermIds',
+                        currentAgreedTermIds.filter(
+                          (id: string) => id !== item.id,
+                        ),
+                      );
+                    }
+
                     if (termsList?.data?.content) {
                       const allChecked = termsList.data.content.every((term) =>
                         Boolean(watch(term.id)),
@@ -174,13 +200,13 @@ const Step4 = () => {
         </Button>
       </div>
 
-      <CustomAlertDialog
+      {/* <CustomAlertDialog
         isOpen={isOpen}
         onOpenChange={() => setIsOpen(false)}
         title={termsContent?.title}
       >
         <div>{termsContent?.content}</div>
-      </CustomAlertDialog>
+      </CustomAlertDialog> */}
     </div>
   );
 };
