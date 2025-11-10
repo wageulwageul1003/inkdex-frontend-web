@@ -66,42 +66,37 @@ const Chips: React.FC<ChipsProps> = ({
     }
   };
 
-  return (
-    <div className={'no-scrollbar flex w-full gap-1 overflow-x-scroll'}>
-      {items.map((item, index) => {
-        const isSelected = isItemSelected(String(item.value));
-        const isDisabled = disabledItems.includes(String(item.value));
+  return items.map((item, index) => {
+    const isSelected = isItemSelected(String(item.value));
+    const isDisabled = disabledItems.includes(String(item.value));
 
-        let buttonStyles = '';
-        let textStyles = '';
+    let buttonStyles = '';
+    let textStyles = '';
 
-        if (isDisabled) {
-          buttonStyles =
-            'border-gray-200 bg-gray-100 cursor-not-allowed border';
-          textStyles = 'text-gray-400';
-        } else if (isSelected) {
-          buttonStyles = 'bg-black';
-          textStyles = 'text-white';
-        } else {
-          buttonStyles = 'bg-gray-200';
-          textStyles = 'text-black';
-        }
+    if (isDisabled) {
+      buttonStyles = 'border-gray-200 bg-gray-03 cursor-not-allowed border';
+      textStyles = 'text-gray-400';
+    } else if (isSelected) {
+      buttonStyles = 'bg-gray-09';
+      textStyles = 'text-white';
+    } else {
+      buttonStyles = 'bg-gray-03';
+      textStyles = 'text-gray-09';
+    }
 
-        return (
-          <button
-            key={index}
-            className={`rounded-xs flex h-9 flex-shrink-0 items-center whitespace-nowrap px-3 transition-all ${buttonStyles}`}
-            onClick={() => {
-              if (!isDisabled) handleItemClick(String(item.value));
-            }}
-            disabled={isDisabled}
-          >
-            <span className={cn(textStyles, '')}>{item.label}</span>
-          </button>
-        );
-      })}
-    </div>
-  );
+    return (
+      <button
+        key={index}
+        className={`flex h-9 flex-shrink-0 items-center whitespace-nowrap rounded-full px-4 py-3 transition-all ${buttonStyles}`}
+        onClick={() => {
+          if (!isDisabled) handleItemClick(String(item.value));
+        }}
+        disabled={isDisabled}
+      >
+        <span className={cn(textStyles, 'font-s-2')}>{item.label}</span>
+      </button>
+    );
+  });
 };
 
 export default Chips;

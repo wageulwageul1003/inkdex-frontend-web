@@ -46,3 +46,9 @@ export const registerStep5Schema = z.object({
 });
 
 export type TRegisterStep5Schema = z.infer<typeof registerStep5Schema>;
+
+export const registerStep6Schema = z.object({
+  categoryIds: z.array(z.string()),
+});
+
+export type TRegisterStep6Schema = z.infer<typeof registerStep6Schema>;
