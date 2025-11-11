@@ -1,7 +1,6 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FC, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -70,25 +69,13 @@ export const PostsWrite: FC<TProps> = (props) => {
   };
 
   return (
-    <div className="flex w-full flex-col">
+    <div className="flex flex-1 flex-col bg-white px-4">
       <Header
         left={
-          <Icons.close
+          <Icons.ArrowBackIos
             className="size-6 fill-black"
             onClick={() => router.back()}
           />
-        }
-        title={<span>글쓰기</span>}
-        right={
-          <Button
-            onClick={form.handleSubmit(onSubmit)}
-            disabled={isSubmitting}
-            size="cta"
-            variant="cta"
-            className="px-3 py-2"
-          >
-            업로드
-          </Button>
         }
       />
       <Form {...form}>
@@ -96,26 +83,17 @@ export const PostsWrite: FC<TProps> = (props) => {
           onSubmit={form.handleSubmit(onSubmit, (errors) => {
             console.log('Validation Errors:', errors);
           })}
-          className="mt-6"
+          className="mt-3 flex flex-col items-center justify-center"
         >
-          <div className="relative aspect-square rounded-[24px]">
-            <Image
-              src={image || '/default-image.png'}
-              alt="post-image"
-              width={100}
-              height={100}
-              className="w-full rounded-[24px]"
-            />
-
-            <div className="absolute right-2 top-2 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-gray-600">
-              <Icons.close
-                className="size-4 fill-white"
-                onClick={() => setImage(null)}
-              />
-            </div>
+          <div className="flex h-[240px] w-[240px] flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-gray-04 bg-gray-02">
+            <Icons.plus className="size-6 fill-gray-06" />
+            <span className="font-xs-2 text-center text-gray-05">
+              여기를 눌러서 <br />
+              당신의 문장을 남겨주세요
+            </span>
           </div>
 
-          <div className="flex flex-col gap-8">
+          <div className="mt-8 flex w-full flex-col gap-8">
             <FormFields
               fieldType={FormFieldType.SELECT}
               control={form.control}
@@ -131,12 +109,13 @@ export const PostsWrite: FC<TProps> = (props) => {
             />
 
             <FormFields
-              fieldType={FormFieldType.TIMER_INPUT}
+              fieldType={FormFieldType.TEXTAREA}
               control={form.control}
               name="content"
               label="내용"
+              placeholder="내용을 작성해주세요."
               isVerified={false}
-              expire={100}
+              maxCharacters={1000}
             />
 
             <FormFields
@@ -144,12 +123,22 @@ export const PostsWrite: FC<TProps> = (props) => {
               control={form.control}
               name="tags"
               label="태그"
-              placeholder="태그를 입력해주세요."
-              maxCount={10}
+              placeholder="태그(선택)"
             />
           </div>
         </form>
       </Form>
+
+      <div className="pb-[52px]">
+        <Button
+          onClick={form.handleSubmit(onSubmit)}
+          size="lg"
+          variant="contained"
+          className="w-full"
+        >
+          다음
+        </Button>
+      </div>
     </div>
   );
 };

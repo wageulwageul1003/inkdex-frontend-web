@@ -28,6 +28,7 @@ import keyboardArrowUp from '@/public/icons/keyboard_arrow_up.svg';
 import moreHoriz from '@/public/icons/more_horiz.svg';
 import person from '@/public/icons/person.svg';
 import photo from '@/public/icons/photo.svg';
+import plus from '@/public/icons/plus.svg';
 import radioButtonChecked from '@/public/icons/radio_button_checked.svg';
 import radioButtonUnchecked from '@/public/icons/radio_button_unchecked.svg';
 import schedule from '@/public/icons/schedule.svg';
@@ -72,4 +73,5 @@ export const Icons = {
   ellipse,
   photo,
   person,
+  plus,
 };
