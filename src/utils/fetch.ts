@@ -4,7 +4,7 @@ import { ACCESS_TOKEN } from '@/constants/tokens';
 
 export interface ErrorData {
   status: number;
-  code: number;
+  code: string;
   message: string;
   description?: string;
   data?: object;
@@ -57,6 +57,7 @@ export const agent = async (url: string, options?: RequestInit) => {
         message: errorData.message || 'Unknown error message',
         description: errorData.description || 'Unknown error',
         data: errorData.data,
+        error: errorData.error,
       };
 
       // Check for code 4001 and redirect

@@ -92,10 +92,16 @@ const Step1 = () => {
       }
     } catch (error) {
       const errorData = error as ErrorData;
-      if (errorData?.code === 422) {
+      console.log(errorData);
+      if (errorData?.error === 'error.unprocessable_entity') {
         setError('email', {
           type: 'manual',
           message: '올바른 이메일 형식을 입력해주세요.',
+        });
+      } else if (errorData?.error === 'error.user.email_duplicate') {
+        setError('email', {
+          type: 'manual',
+          message: '이미 사용 중인 이메일 주소입니다.',
         });
       }
     }
@@ -123,15 +129,16 @@ const Step1 = () => {
         setIsValid(true);
         clearErrors('code');
         setButtonText('인증 완료');
+        router.push(`/register/step2?email=${form.getValues('email')}`);
       }
     } catch (error) {
       const errorData = error as ErrorData;
-      if (errorData?.code === 4001) {
+      if (errorData?.error === 'error.auth.code_expired_warn') {
         setError('code', {
           type: 'manual',
           message: '인증번호가 만료됐어요. 재전송해주세요.',
         });
-      } else if (errorData?.code === 400) {
+      } else if (errorData?.error === 'error.auth.code_mismatch') {
         setError('code', {
           type: 'manual',
           message: '인증번호가 일치하지 않습니다.',
@@ -141,7 +148,7 @@ const Step1 = () => {
   };
 
   const onSubmit = () => {
-    router.push(`/register/step2?email=${form.getValues('email')}`);
+    handleVerifyCertNum();
   };
 
   return (
@@ -183,7 +190,7 @@ const Step1 = () => {
                   onClick={
                     buttonText === '인증 요청' || buttonText === '인증 재요청'
                       ? startTimer
-                      : handleVerifyCertNum
+                      : undefined
                   }
                   disabled={buttonText === '인증 완료'}
                   size="lg"
@@ -215,8 +222,8 @@ const Step1 = () => {
           onClick={form.handleSubmit(onSubmit)}
           size="lg"
           variant="contained"
-          disabled={!isValid}
           className="w-full"
+          disabled={!form.formState.isValid}
         >
           다음
         </Button>

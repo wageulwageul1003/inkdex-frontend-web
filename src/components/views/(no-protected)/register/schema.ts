@@ -1,9 +1,14 @@
 import { z } from 'zod';
 
-import { validatePassword } from '@/lib/utils';
+import { validateEmail, validatePassword } from '@/lib/utils';
 
 export const registerStep1Schema = z.object({
-  email: z.string().min(1, { message: '이메일을 입력해 주세요.' }),
+  email: z
+    .string()
+    .min(1, { message: '이메일을 입력해 주세요.' })
+    .refine((email) => validateEmail(email), {
+      message: '올바른 이메일 형식을 입력해주세요.',
+    }),
   code: z.string().nonempty({ message: '인증번호를 입력해 주세요.' }),
 });
 

@@ -11,6 +11,7 @@ import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { useGetNicknameDuplicateCheck } from '@/hook/auth/useGetNicknameDuplicateCheck';
+import { ErrorData } from '@/utils/fetch';
 
 const Step5 = () => {
   const router = useRouter();
@@ -28,20 +29,24 @@ const Step5 = () => {
   const { formState } = form;
 
   const onSubmit = async () => {
-    const nickname = form.getValues('nickname');
-    const result = await checkNicknameDuplicate(nickname);
+    try {
+      const nickname = form.getValues('nickname');
+      const result = await checkNicknameDuplicate(nickname);
 
-    if (!!result.data.content) {
-      form.setError('nickname', {
-        type: 'manual',
-        message: '이미 사용 중인 닉네임입니다.',
-      });
-      return;
+      if (result?.data?.content) {
+        router.push(
+          `/register/step6?email=${searchParams.get('email')}&password=${searchParams.get('password')}&fullName=${searchParams.get('fullName')}&agreedTermIds=${searchParams.get('agreedTermIds')}&nickname=${nickname}&profileImage=${searchParams.get('profileImage')}`,
+        );
+      }
+    } catch (error) {
+      const errorData = error as ErrorData;
+      if (errorData?.error === 'error.account.nickname_duplicate') {
+        form.setError('nickname', {
+          type: 'manual',
+          message: '이미 사용 중인 닉네임입니다.',
+        });
+      }
     }
-
-    router.push(
-      `/register/step6?email=${searchParams.get('email')}&password=${searchParams.get('password')}&fullName=${searchParams.get('fullName')}&agreedTermIds=${searchParams.get('agreedTermIds')}&nickname=${nickname}&profileImage=${searchParams.get('profileImage')}`,
-    );
   };
 
   return (
