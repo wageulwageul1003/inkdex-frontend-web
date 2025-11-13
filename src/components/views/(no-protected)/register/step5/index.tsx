@@ -33,7 +33,7 @@ const Step5 = () => {
       const nickname = form.getValues('nickname');
       const result = await checkNicknameDuplicate(nickname);
 
-      if (result?.data?.content) {
+      if (!result?.data?.content) {
         router.push(
           `/register/step6?email=${searchParams.get('email')}&password=${searchParams.get('password')}&fullName=${searchParams.get('fullName')}&agreedTermIds=${searchParams.get('agreedTermIds')}&nickname=${nickname}&profileImage=${searchParams.get('profileImage')}`,
         );
