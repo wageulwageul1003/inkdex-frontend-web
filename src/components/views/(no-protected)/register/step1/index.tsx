@@ -215,7 +215,7 @@ const Step1 = () => {
           onClick={form.handleSubmit(onSubmit)}
           size="lg"
           variant="contained"
-          disabled={!formState.isValid && !isValid}
+          disabled={!isValid}
           className="w-full"
         >
           다음

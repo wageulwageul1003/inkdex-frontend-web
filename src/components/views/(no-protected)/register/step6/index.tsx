@@ -9,6 +9,8 @@ import { registerSchema, TRegisterSchema } from '../schema';
 import Chips from '@/components/shared/chips';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
+import { toast } from '@/components/ui/sonner';
+import { usePostEmailLogin } from '@/hook/auth/usePostEmailLogin';
 import { usePostRegister } from '@/hook/auth/usePostRegister';
 import { useGetCategoryList } from '@/hook/common/useGetCategoryList';
 
@@ -17,6 +19,7 @@ const Step6 = () => {
   const searchParams = useSearchParams();
   const { data: categories } = useGetCategoryList();
   const { mutateAsync: register } = usePostRegister();
+  const { mutateAsync: emailLogin } = usePostEmailLogin();
 
   const form = useForm<TRegisterSchema>({
     resolver: zodResolver(registerSchema),
@@ -34,7 +37,16 @@ const Step6 = () => {
   const { control, formState } = form;
 
   const onSubmit = (data: TRegisterSchema) => {
-    register(data);
+    register(data).then(() => {
+      // 회원가입 성공 하면 자동 로그인 시도
+      emailLogin({
+        username: data.email,
+        password: data.password,
+      }).then(() => {
+        toast.success('회원가입이 완료되었습니다.');
+        router.push('/home');
+      });
+    });
   };
 
   return (
