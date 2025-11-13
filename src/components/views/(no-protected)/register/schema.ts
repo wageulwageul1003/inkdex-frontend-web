@@ -30,7 +30,7 @@ export const registerStep2Schema = z
 export type TRegisterStep2Schema = z.infer<typeof registerStep2Schema>;
 
 export const registerStep3Schema = z.object({
-  name: z.string().min(1, { message: '이름을 입력해 주세요.' }),
+  fullName: z.string().min(1, { message: '이름을 입력해 주세요.' }),
 });
 
 export type TRegisterStep3Schema = z.infer<typeof registerStep3Schema>;
@@ -47,8 +47,13 @@ export const registerStep5Schema = z.object({
 
 export type TRegisterStep5Schema = z.infer<typeof registerStep5Schema>;
 
-export const registerStep6Schema = z.object({
-  categoryIds: z.array(z.string()),
+export const registerSchema = z.object({
+  email: z.string().min(1, { message: '이메일을 입력해 주세요.' }),
+  password: z.string().min(1, { message: '비밀번호를 입력해 주세요.' }),
+  fullName: z.string().min(1, { message: '이름을 입력해 주세요.' }),
+  nickname: z.string().min(1, { message: '닉네임을 입력해 주세요.' }),
+  agreedTermIds: z.array(z.string()),
+  preferredCategorySlugs: z.array(z.string()),
 });
 
-export type TRegisterStep6Schema = z.infer<typeof registerStep6Schema>;
+export type TRegisterSchema = z.infer<typeof registerSchema>;

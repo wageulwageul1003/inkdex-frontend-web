@@ -94,7 +94,7 @@ const Step4 = () => {
     console.log(payload);
 
     router.push(
-      `/register/step5?email=${searchParams.get('email')}&password=${searchParams.get('password')}&name=${searchParams.get('name')}&agreedTermIds=${payload.agreedTermIds.join(',')}`,
+      `/register/step5?email=${searchParams.get('email')}&password=${searchParams.get('password')}&fullName=${searchParams.get('fullName')}&agreedTermIds=${payload.agreedTermIds.join(',')}`,
     );
   };
 

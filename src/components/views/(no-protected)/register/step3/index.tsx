@@ -20,7 +20,7 @@ const Step3 = () => {
     resolver: zodResolver(registerStep3Schema),
     mode: 'onChange',
     defaultValues: {
-      name: '',
+      fullName: '',
     },
   });
 
@@ -28,7 +28,7 @@ const Step3 = () => {
 
   const onSubmit = () => {
     router.push(
-      `/register/step4?email=${searchParams.get('email')}&password=${searchParams.get('password')}&name=${form.getValues('name')}`,
+      `/register/step4?email=${searchParams.get('email')}&password=${searchParams.get('password')}&fullName=${form.getValues('fullName')}`,
     );
   };
 
@@ -58,7 +58,7 @@ const Step3 = () => {
             <FormFields
               fieldType={FormFieldType.INPUT}
               control={form.control}
-              name="name"
+              name="fullName"
               placeholder="이름을 입력해주세요"
             />
           </form>

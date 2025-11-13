@@ -1,34 +1,40 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
-import { useSearchParams } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useForm, Controller } from 'react-hook-form';
 
-import { registerStep6Schema } from '../schema';
+import { registerSchema, TRegisterSchema } from '../schema';
 
 import Chips from '@/components/shared/chips';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
+import { usePostRegister } from '@/hook/auth/usePostRegister';
 import { useGetCategoryList } from '@/hook/common/useGetCategoryList';
 
 const Step6 = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: categories } = useGetCategoryList();
+  const { mutateAsync: register } = usePostRegister();
 
-  const form = useForm({
-    resolver: zodResolver(registerStep6Schema),
+  const form = useForm<TRegisterSchema>({
+    resolver: zodResolver(registerSchema),
     mode: 'onChange',
     defaultValues: {
-      categoryIds: [],
+      email: searchParams.get('email') || '',
+      password: searchParams.get('password') || '',
+      fullName: searchParams.get('fullName') || '',
+      nickname: searchParams.get('nickname') || '',
+      agreedTermIds: searchParams.get('agreedTermIds')?.split(',') || [],
+      preferredCategorySlugs: [],
     },
   });
 
-  const { formState } = form;
+  const { control, formState } = form;
 
-  const onSubmit = () => {
-    console.log(form.getValues());
+  const onSubmit = (data: TRegisterSchema) => {
+    register(data);
   };
 
   return (
@@ -51,14 +57,22 @@ const Step6 = () => {
         </div>
 
         <div className="mt-9 flex flex-wrap gap-x-2 gap-y-4">
-          <Chips
-            items={
-              categories?.data?.content.map((item) => ({
-                value: item.slug,
-                label: item.name,
-              })) || []
-            }
-            variant="multiple"
+          <Controller
+            name="preferredCategorySlugs"
+            control={control}
+            render={({ field }) => (
+              <Chips
+                items={
+                  categories?.data?.content.map((item) => ({
+                    value: item.slug,
+                    label: item.name,
+                  })) || []
+                }
+                variant="multiple"
+                selected={field.value}
+                onChange={field.onChange}
+              />
+            )}
           />
         </div>
       </div>

@@ -40,7 +40,7 @@ const Step5 = () => {
     }
 
     router.push(
-      `/register/step6?email=${searchParams.get('email')}&password=${searchParams.get('password')}&name=${searchParams.get('name')}&agreedTermIds=${searchParams.get('agreedTermIds')}&nickname=${nickname}&profileImage=${searchParams.get('profileImage')}`,
+      `/register/step6?email=${searchParams.get('email')}&password=${searchParams.get('password')}&fullName=${searchParams.get('fullName')}&agreedTermIds=${searchParams.get('agreedTermIds')}&nickname=${nickname}&profileImage=${searchParams.get('profileImage')}`,
     );
   };
 

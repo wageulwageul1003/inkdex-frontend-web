@@ -2,12 +2,12 @@ import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 
-import { TRegisterStep4Schema } from '@/components/views/(no-protected)/register/schema';
+import { TRegisterSchema } from '@/components/views/(no-protected)/register/schema';
 import { registerKey } from '@/constants/queryKeys';
 import { CERTIFICATION_TOKEN } from '@/constants/tokens';
 import { ErrorData, agent } from '@/utils/fetch';
 
-export const postRegister = async (payload: TRegisterStep4Schema) => {
+export const postRegister = async (payload: TRegisterSchema) => {
   // Get the certification token from cookies
   const certificationToken = Cookies.get(CERTIFICATION_TOKEN);
 
