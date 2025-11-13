@@ -35,7 +35,7 @@ const EmailLogin = () => {
     try {
       const response = await postEmailLogin(form.getValues());
 
-      if (response.code === 200) {
+      if (response.code === 'success.login') {
         router.push('/home');
         Cookies.set(USER_ID, response.data.content.id);
       } else {
