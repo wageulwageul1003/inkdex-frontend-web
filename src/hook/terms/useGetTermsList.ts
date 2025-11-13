@@ -9,6 +9,7 @@ export interface ITermsListResponse {
   id: string;
   title: string;
   isRequired: boolean;
+  isExistDetail: boolean;
 }
 
 export const TermsListScheme = z.object({});

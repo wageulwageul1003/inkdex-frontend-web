@@ -135,7 +135,7 @@ const Step4 = () => {
                   control={control}
                   name={item.id}
                   checkboxLabel={
-                    <span className="font-s-1 text-gray-08">
+                    <span className="font-s-1 flex gap-1 text-gray-08">
                       <span className="text-sand-07">
                         {item.isRequired ? '[필수]' : '[선택]'}
                       </span>
@@ -175,13 +175,15 @@ const Step4 = () => {
                   }}
                   required={item.isRequired}
                 />
-                <Button
-                  variant="buttonIconTextOnly"
-                  size="buttonIconMedium"
-                  onClick={() => handleOpenAgreeModal(item.id)}
-                >
-                  <Icons.keyboardArrowRight className="size-6 fill-gray-08" />
-                </Button>
+                {item.isExistDetail && (
+                  <Button
+                    variant="buttonIconTextOnly"
+                    size="buttonIconMedium"
+                    onClick={() => handleOpenAgreeModal(item.id)}
+                  >
+                    <Icons.keyboardArrowRight className="size-6 fill-gray-08" />
+                  </Button>
+                )}
               </div>
             ))}
           </form>
