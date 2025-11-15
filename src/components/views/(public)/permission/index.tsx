@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -17,20 +18,29 @@ import { PERMISSION_SHOWN } from '@/constants/tokens';
 
 const permissions = [
   {
-    title: '사진 (선택)',
-    description: '게시글 작성 시 사진첨부',
-    icon: 'photo',
+    title: '알림',
+    isRequired: false,
+    description: '앱 알림',
+    icon: 'bell',
   },
   {
-    title: '카메라 (선택)',
-    description: '게시글 작성 시 사진 촬영',
+    title: '카메라',
+    isRequired: false,
+    description:
+      '게시글 작성, 콘텐츠 등록 시 <br />사진 촬영과 이미지 등 콘텐츠 접근',
     icon: 'camera',
   },
   {
-    title: '알림 (선택)',
-    description: '푸시 알림 및 정보 알림 기능에 사용',
-    icon: 'bell',
+    title: '사진',
+    isRequired: false,
+    description: '이미지 직접 저장 권한, 사진 첨부',
+    icon: 'photo',
   },
+];
+
+const permissionDescription = [
+  '선택적 접근 권한은 관련 기능 이용 시 동의를 받고 있으며, 비허용시에도 해당 기능 외 서비스 이용이 가능합니다.',
+  '휴대폰 “설정 메뉴 > 잉덱스 앱 > 잉덱스 접근 허용”에서 권한 설정을 변경할 수 있습니다. ',
 ];
 
 export default function Permission() {
@@ -59,38 +69,52 @@ export default function Permission() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen} disableOverlayClick={true}>
-      <DialogContent
-        className="px-5 pb-5 pt-8"
-        showCloseButton={false}
-        closeOnOverlayClick={false}
-      >
+      <DialogContent showCloseButton={false} closeOnOverlayClick={false}>
         <DialogHeader>
           <DialogTitle className="text-center">앱 접근 권한 안내</DialogTitle>
         </DialogHeader>
 
-        <div className="mt-12 flex flex-col gap-9 pb-7">
+        <div className="mt-5 flex flex-col space-y-7 pb-8">
           {permissions.map((permission) => (
-            <div key={permission.title} className="flex items-center gap-7">
-              <div className="size-8 fill-black">
+            <div key={permission.title} className="flex items-start gap-4">
+              <div className="flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full bg-sand-01">
                 {Icons[permission.icon as keyof typeof Icons] &&
                   React.createElement(
                     Icons[permission.icon as keyof typeof Icons],
-                    { className: 'size-8 fill-black' },
+                    { className: 'size-6 fill-sand-08' },
                   )}
               </div>
+
               <div>
-                <p className="">{permission.title}</p>
-                <p className="mt-[6px]">{permission.description}</p>
+                <div className="flex items-center gap-1">
+                  <p className="font-s-1 text-gray-08">{permission.title}</p>
+                  <p className="font-s-1 text-sand-07">
+                    {permission.isRequired ? '[필수]' : '[선택]'}
+                  </p>
+                </div>
+                <p
+                  className="font-xs-1 mt-1 text-gray-05"
+                  dangerouslySetInnerHTML={{ __html: permission.description }}
+                />
               </div>
             </div>
           ))}
         </div>
 
-        <div className="border-t border-gray-300 pb-8 pt-5">
-          <p>접근권한 변경 방법</p>
-          <p className="mt-2">{`휴대폰 설정 > 인덱스 에서 접근 권한 변경 가능`}</p>
+        <div className="border-t border-gray-02 py-5">
+          {permissionDescription.map((desc, index) => (
+            <div key={index} className="flex items-start">
+              <Icons.ellipse className="size-4 fill-gray-05" />
+              <p className="font-xs-2 text-gray-05">{desc}</p>
+            </div>
+          ))}
         </div>
-        <Button onClick={onClickConfirm}>확인</Button>
+
+        <DialogFooter className="py-3">
+          <Button onClick={onClickConfirm} size="lg" variant="contained">
+            확인
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
