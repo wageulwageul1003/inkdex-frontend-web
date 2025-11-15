@@ -40,7 +40,7 @@ const Step5 = () => {
       }
     } catch (error) {
       const errorData = error as ErrorData;
-      if (errorData?.error === 'error.account.nickname_duplicate') {
+      if (errorData?.code === 'error.account.nickname_duplicate') {
         form.setError('nickname', {
           type: 'manual',
           message: '이미 사용 중인 닉네임입니다.',

@@ -93,12 +93,12 @@ const Step1 = () => {
     } catch (error) {
       const errorData = error as ErrorData;
       console.log(errorData);
-      if (errorData?.error === 'error.unprocessable_entity') {
+      if (errorData?.code === 'error.unprocessable_entity') {
         setError('email', {
           type: 'manual',
           message: '올바른 이메일 형식을 입력해주세요.',
         });
-      } else if (errorData?.error === 'error.user.email_duplicate') {
+      } else if (errorData?.code === 'error.user.email_duplicate') {
         setError('email', {
           type: 'manual',
           message: '이미 사용 중인 이메일 주소입니다.',
@@ -133,12 +133,12 @@ const Step1 = () => {
       }
     } catch (error) {
       const errorData = error as ErrorData;
-      if (errorData?.error === 'error.auth.code_expired_warn') {
+      if (errorData?.code === 'error.auth.code_expired_warn') {
         setError('code', {
           type: 'manual',
           message: '인증번호가 만료됐어요. 재전송해주세요.',
         });
-      } else if (errorData?.error === 'error.auth.code_mismatch') {
+      } else if (errorData?.code === 'error.auth.code_mismatch') {
         setError('code', {
           type: 'manual',
           message: '인증번호가 일치하지 않습니다.',
