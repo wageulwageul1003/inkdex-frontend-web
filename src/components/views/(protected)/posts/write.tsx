@@ -6,13 +6,14 @@ import { FC, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { Collection } from './_components/Collection';
 import { TWriteSchema, writeSchema } from './schema';
 
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
+import { Form, FormLabel } from '@/components/ui/form';
 import { SELECTED_IMAGE } from '@/constants/tokens';
 import { useGetCategoryList } from '@/hook/common/useGetCategoryList';
 import { usePostPosts } from '@/hook/posts/usePostPosts';
@@ -126,17 +127,22 @@ export const PostsWrite: FC<TProps> = (props) => {
               placeholder="태그(선택)"
             />
           </div>
+
+          <div className="mb-2 mt-12 flex w-full flex-col gap-2 pt-6">
+            <FormLabel>컬렉션</FormLabel>
+            <Collection />
+          </div>
         </form>
       </Form>
 
-      <div className="pb-[52px]">
+      <div className="mt-[60px] pb-[52px]">
         <Button
           onClick={form.handleSubmit(onSubmit)}
           size="lg"
           variant="contained"
           className="w-full"
         >
-          다음
+          완료
         </Button>
       </div>
     </div>

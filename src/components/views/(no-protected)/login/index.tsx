@@ -104,7 +104,11 @@ export default function Login() {
         </div>
       </div>
       <div className="flex justify-center pb-3.5">
-        <Button onClick={() => router.push('/home')} variant="icon" size="sm">
+        <Button
+          onClick={() => router.push('/home')}
+          variant="textOnly"
+          size="sm"
+        >
           로그인 없이 둘러보기
           <Icons.keyboardArrowRight className="size-4 fill-gray-06" />
         </Button>

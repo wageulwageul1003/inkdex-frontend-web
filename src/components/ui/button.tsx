@@ -16,7 +16,6 @@ const buttonVariants = cva('', {
       textOnly: 'text-gray-08 disabled:text-gray-04',
       buttonText:
         'border-b border-gray-08 disabled:border-gray-04 text-gray-08 disabled:text-gray-04',
-      icon: 'flex items-center gap-1',
       // button-icon
       buttonIconContained: 'bg-gray-09',
       buttonIconTextOnly: 'rounded-xl hover:bg-gray-09',
