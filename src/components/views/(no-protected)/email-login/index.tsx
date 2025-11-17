@@ -107,6 +107,7 @@ const EmailLogin = () => {
             variant="buttonText"
             size="buttonText"
             className="font-xs-2 border-b border-gray-08 text-gray-08"
+            onClick={() => router.push('/reset-password')}
           >
             비밀번호 찾기
           </Button>
