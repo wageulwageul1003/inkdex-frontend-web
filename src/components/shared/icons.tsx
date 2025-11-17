@@ -3,6 +3,7 @@ import arrowLeftAlt from '@/public/icons/arrow_left_alt.svg';
 import arrowRightAlt from '@/public/icons/arrow_right_alt.svg';
 import asterisk from '@/public/icons/asterisk.svg';
 import bell from '@/public/icons/bell.svg';
+import bookmark from '@/public/icons/bookmark.svg';
 import calendarMonth from '@/public/icons/calendar_month.svg';
 import camera from '@/public/icons/camera.svg';
 import check from '@/public/icons/check.svg';
@@ -19,6 +20,8 @@ import emergencyHome from '@/public/icons/emergency_home.svg';
 import emergencyHomeFill from '@/public/icons/emergency_home_fill.svg';
 import error from '@/public/icons/error.svg';
 import errorFill from '@/public/icons/error_fill.svg';
+import home from '@/public/icons/home.svg';
+import image from '@/public/icons/image.svg';
 import info from '@/public/icons/info.svg';
 import infoFill from '@/public/icons/info_fill.svg';
 import keyboardArrowDown from '@/public/icons/keyboard_arrow_down.svg';
@@ -26,6 +29,7 @@ import keyboardArrowLeft from '@/public/icons/keyboard_arrow_left.svg';
 import keyboardArrowRight from '@/public/icons/keyboard_arrow_right.svg';
 import keyboardArrowUp from '@/public/icons/keyboard_arrow_up.svg';
 import moreHoriz from '@/public/icons/more_horiz.svg';
+import note from '@/public/icons/note.svg';
 import person from '@/public/icons/person.svg';
 import photo from '@/public/icons/photo.svg';
 import plus from '@/public/icons/plus.svg';
@@ -33,6 +37,8 @@ import radioButtonChecked from '@/public/icons/radio_button_checked.svg';
 import radioButtonUnchecked from '@/public/icons/radio_button_unchecked.svg';
 import schedule from '@/public/icons/schedule.svg';
 import search from '@/public/icons/search.svg';
+import send from '@/public/icons/send.svg';
+import user from '@/public/icons/user.svg';
 import visibility from '@/public/icons/visibility.svg';
 import visibilityOff from '@/public/icons/visibility_off.svg';
 
@@ -74,4 +80,10 @@ export const Icons = {
   photo,
   person,
   plus,
+  bookmark,
+  home,
+  note,
+  user,
+  image,
+  send,
 };
