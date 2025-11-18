@@ -35,6 +35,11 @@ export default function Login() {
       bgColor: 'bg-white',
       color: 'text-black',
       border: 'border-gray-02',
+      onClick: () => {
+        signIn('google', {
+          callbackUrl: '/auth/google-redirect',
+        });
+      },
     },
     {
       title: '이메일',
