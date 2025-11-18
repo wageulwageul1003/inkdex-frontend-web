@@ -9,6 +9,7 @@ import { AuthProvider } from '@/providers/auth';
 import QueryProvider from '@/providers/query-provider';
 
 import '@/styles/globals.css';
+import AuthSession from '@/providers/AuthSession';
 
 export async function generateMetadata(): Promise<Metadata> {
   // Define the base URL for production and development
@@ -45,9 +46,11 @@ export default async function IndexLayout({
         <QueryProvider>
           <AuthProvider>
             <Suspense fallback={<Loading />}>
-              <div className="default-layout-content flex flex-1">
-                {children}
-              </div>
+              <AuthSession>
+                <div className="default-layout-content flex flex-1">
+                  {children}
+                </div>
+              </AuthSession>
             </Suspense>
           </AuthProvider>
         </QueryProvider>

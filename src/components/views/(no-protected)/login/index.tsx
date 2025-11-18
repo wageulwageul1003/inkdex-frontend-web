@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import React from 'react';
 
 import { Icons } from '@/components/shared/icons';
@@ -16,6 +17,9 @@ export default function Login() {
       iconSrc: '/thrid-party-logo/Kakao.png',
       bgColor: 'bg-[#FEE500]',
       color: 'text-gray-09',
+      onClick: () => {
+        signIn('kakao');
+      },
     },
     {
       title: 'Apple',
