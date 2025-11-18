@@ -1,4 +1,5 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
+import AppleProvider from 'next-auth/providers/apple';
 import GoogleProvider from 'next-auth/providers/google';
 import KakaoProvider, { KakaoProfile } from 'next-auth/providers/kakao';
 
@@ -7,7 +8,6 @@ declare module 'next-auth' {
     user: {
       email?: string | null;
       name?: string | null;
-      image?: string | null;
     };
   }
 }
@@ -31,14 +31,22 @@ interface ExtendedKakaoProfile extends KakaoProfile {
 
 export const authOptions: NextAuthOptions = {
   providers: [
+    // ⭐ Kakao
     KakaoProvider({
       clientId: process.env.NEXT_KAKAO_CLIENT_ID || '',
       clientSecret: process.env.NEXT_KAKAO_CLIENT_SECRET || '',
     }),
 
+    // ⭐ Google
     GoogleProvider({
       clientId: process.env.NEXT_GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.NEXT_GOOGLE_CLIENT_SECRET || '',
+    }),
+
+    // ⭐ Apple
+    AppleProvider({
+      clientId: process.env.NEXT_APPLE_CLIENT_ID || '',
+      clientSecret: process.env.NEXT_APPLE_CLIENT_SECRET || '',
     }),
   ],
 
@@ -52,12 +60,16 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, profile, account }) {
       if (account?.provider === 'kakao' && profile) {
         const p = profile as ExtendedKakaoProfile;
-
         token.email = p.kakao_account?.email ?? null;
         token.name = p.kakao_account?.name ?? null;
       }
 
       if (account?.provider === 'google' && profile) {
+        token.email = profile.email ?? null;
+        token.name = profile.name ?? null;
+      }
+
+      if (account?.provider === 'apple' && profile) {
         token.email = profile.email ?? null;
         token.name = profile.name ?? null;
       }
@@ -74,5 +86,4 @@ export const authOptions: NextAuthOptions = {
 };
 
 const handler = NextAuth(authOptions);
-
 export { handler as GET, handler as POST };

@@ -28,6 +28,11 @@ export default function Login() {
       iconSrc: '/thrid-party-logo/Apple.png',
       bgColor: 'bg-black',
       color: 'text-white',
+      onClick: () => {
+        signIn('apple', {
+          callbackUrl: '/auth/apple-redirect',
+        });
+      },
     },
     {
       title: '구글',
