@@ -18,7 +18,9 @@ export default function Login() {
       bgColor: 'bg-[#FEE500]',
       color: 'text-gray-09',
       onClick: () => {
-        signIn('kakao');
+        signIn('kakao', {
+          callbackUrl: '/auth/kakao-redirect',
+        });
       },
     },
     {
