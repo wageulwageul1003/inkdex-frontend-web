@@ -2,12 +2,6 @@ import { Meta } from '@storybook/addon-docs/blocks';
 import { Button } from '../../../components/ui/button';
 import { Icons } from '../../../components/shared/icons';
 
-export const ButtonExample = ({ variant, size, children, ...props }) => (
-  <Button variant={variant} size={size} {...props}>
-    {children}
-  </Button>
-);
-
 export const ButtonGrid = () => (
   <div className="flex flex-wrap items-center gap-4">
     <Button variant="contained" size="lg">
