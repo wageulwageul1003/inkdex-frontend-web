@@ -4,15 +4,6 @@ import React from 'react';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 
-/**
- * Button 컴포넌트는 다양한 스타일과 크기를 지원하는 재사용 가능한 버튼입니다.
- *
- * ## 주요 기능:
- * - 여러 variant (default, contained, outline, textOnly, buttonText)
- * - 다양한 size (lg, md, sm, buttonText, buttonIconLarge, buttonIconMedium)
- * - disabled 상태 지원
- * - asChild prop으로 다른 컴포넌트로 렌더링 가능
- */
 const meta: Meta<typeof Button> = {
   title: 'UI Components/Button',
   component: Button,
@@ -21,7 +12,7 @@ const meta: Meta<typeof Button> = {
   },
   argTypes: {
     variant: {
-      control: { type: 'select' },
+      control: 'select',
       options: [
         'default',
         'contained',
@@ -29,16 +20,12 @@ const meta: Meta<typeof Button> = {
         'textOnly',
         'buttonText',
         'buttonIconContained',
+        'buttonIconOutline',
         'buttonIconTextOnly',
       ],
-      description: '버튼의 시각적 스타일을 결정합니다.',
-      table: {
-        type: { summary: 'string' },
-        defaultValue: { summary: 'default' },
-      },
     },
     size: {
-      control: { type: 'select' },
+      control: 'select',
       options: [
         'default',
         'lg',
@@ -48,27 +35,22 @@ const meta: Meta<typeof Button> = {
         'buttonIconLarge',
         'buttonIconMedium',
       ],
-      description: '버튼의 크기를 결정합니다.',
-      table: {
-        type: { summary: 'string' },
-        defaultValue: { summary: 'default' },
-      },
-    },
-    disabled: {
-      control: { type: 'boolean' },
-      description: '버튼을 비활성화 상태로 만듭니다.',
-    },
-    asChild: {
-      control: { type: 'boolean' },
-      description: '다른 컴포넌트로 렌더링할 때 사용합니다.',
     },
     children: {
-      control: { type: 'text' },
-      description: '버튼 내부에 표시될 텍스트나 요소입니다.',
+      control: 'text',
+    },
+    // 숨기고 싶은 props
+    asChild: {
+      table: { disable: true },
+    },
+    disabled: {
+      table: { disable: true },
     },
   },
   args: {
-    children: '버튼',
+    children: 'Button',
+    variant: 'default',
+    size: 'default',
   },
 };
 
@@ -76,11 +58,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  args: {
-    children: '기본 버튼',
-  },
-};
+export const Default: Story = {};
 
 export const Varaints: Story = {
   render: () => (
