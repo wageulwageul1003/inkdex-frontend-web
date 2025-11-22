@@ -47,8 +47,9 @@
     "babel.config.js",
     "jest.config.ts",
     "svg.d.ts",
-    ".storybook/**/*.ts",
-    ".storybook/**/*.tsx"
+    ".stories/**/*.ts",
+    ".stories/**/*.tsx",
+    ".stories/**/*.mdx"
   ],
   "exclude": ["node_modules", ".next"]
 }
