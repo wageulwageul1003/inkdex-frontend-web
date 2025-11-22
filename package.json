@@ -21,7 +21,9 @@
     "release": "standard-version",
     "release:dev": "standard-version --prerelease alpha",
     "push": "git add . && bun run commit && bun run release && git push origin $(git branch --show-current) --follow-tags",
-    "push:dev": "git add . && bun run commit && bun run release:dev && git push origin $(git branch --show-current) --follow-tags"
+    "push:dev": "git add . && bun run commit && bun run release:dev && git push origin $(git branch --show-current) --follow-tags",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "config": {
     "commitizen": {
@@ -59,6 +61,9 @@
     "@radix-ui/react-toggle": "^1.1.2",
     "@radix-ui/react-toggle-group": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.1.8",
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/addon-links": "^10.0.8",
+    "@storybook/nextjs": "^10.0.8",
     "@svgr/webpack": "^8.1.0",
     "@tanstack/react-query": "^5.67.2",
     "@tiptap/extension-color": "^2.11.5",
@@ -107,6 +112,7 @@
     "sass": "^1.83.0",
     "sharp": "^0.33.5",
     "sonner": "^2.0.7",
+    "storybook": "^10.0.8",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "tiptap": "^1.32.2",
@@ -143,6 +149,7 @@
     "standard-version": "^9.5.0",
     "tailwindcss": "^3.4.17",
     "ts-node": "^10.9.2",
-    "typescript": "5.5.4"
+    "typescript": "5.5.4",
+    "eslint-plugin-storybook": "10.0.8"
   }
 }

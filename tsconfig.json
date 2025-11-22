@@ -46,7 +46,9 @@
     "postcss.config.mjs",
     "babel.config.js",
     "jest.config.ts",
-    "svg.d.ts"
+    "svg.d.ts",
+    ".storybook/**/*.ts",
+    ".storybook/**/*.tsx"
   ],
   "exclude": ["node_modules", ".next"]
 }
