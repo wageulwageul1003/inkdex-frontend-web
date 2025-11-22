@@ -53,30 +53,30 @@ export const ToggleGrid = () => {
   const [toggle1, setToggle1] = useState(false);
   const [toggle2, setToggle2] = useState(true);
 
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-3">
-        <Switch checked={toggle1} onCheckedChange={setToggle1} />
-        <span className="font-xxl-1 font-medium">기본 토글</span>
-      </div>
-      <div className="flex items-center gap-3">
-        <Switch checked={toggle2} onCheckedChange={setToggle2} />
-        <span className="font-xxl-1 font-medium">활성화된 토글</span>
-      </div>
-      <div className="flex items-center gap-3">
-        <Switch disabled />
-        <span className="font-xxl-1 font-medium text-gray-400">
-          비활성화된 토글
-        </span>
-      </div>
-      <div className="flex items-center gap-3">
-        <Switch checked disabled />
-        <span className="font-xxl-1 font-medium text-gray-400">
-          활성화되고 비활성화된 토글
-        </span>
-      </div>
-    </div>
-  );
+return (
+<div className="flex flex-col gap-4">
+<div className="flex items-center gap-3">
+<Switch checked={toggle1} onCheckedChange={setToggle1} />
+<span className="font-xxl-1">기본 토글</span>
+</div>
+<div className="flex items-center gap-3">
+<Switch checked={toggle2} onCheckedChange={setToggle2} />
+<span className="font-xxl-1">활성화된 토글</span>
+</div>
+<div className="flex items-center gap-3">
+<Switch disabled />
+<span className="font-xxl-1 text-gray-400">
+비활성화된 토글
+</span>
+</div>
+<div className="flex items-center gap-3">
+<Switch checked disabled />
+<span className="font-xxl-1 text-gray-400">
+활성화되고 비활성화된 토글
+</span>
+</div>
+</div>
+);
 };
 
 <Meta title="UI Components/Controls/Documentation" />
