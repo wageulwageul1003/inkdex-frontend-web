@@ -7,8 +7,7 @@ import { cn } from '@/lib/utils';
 const buttonVariants = cva('', {
   variants: {
     variant: {
-      default:
-        'bg-white text-gray-500 w-fit border border-gray-400 rounded-[12px]',
+      default: 'bg-white text-gray-500 w-fit border border-gray-400',
       contained:
         'bg-black text-white pressed:bg-gray-10 disabled:bg-gray-04 disabled:text-white',
       outline:
@@ -17,11 +16,14 @@ const buttonVariants = cva('', {
       buttonText:
         'border-b border-gray-08 disabled:border-gray-04 text-gray-08 disabled:text-gray-04',
       // button-icon
-      buttonIconContained: 'bg-gray-09',
-      buttonIconTextOnly: 'rounded-xl hover:bg-gray-09',
+      buttonIconContained:
+        'rounded-lg bg-gray-09 hover:bg-gray-10 disabled:bg-gray-04',
+      buttonIconOutline:
+        'rounded-lg bg-gray-03 border-gray-03 hover:bg-gray-03 border disabled:bg-gray-02 disabled:border-gray-03',
+      buttonIconTextOnly: 'rounded-lg hover:bg-gray-01 bg-white',
     },
     size: {
-      default: '',
+      default: 'h-12 px-4 font-m-2 rounded-lg',
       lg: 'h-12 px-4 font-m-2 rounded-lg',
       md: 'h-9 px-4 font-m-2 rounded-lg',
       sm: 'h-7 px-2 font-s-2 rounded-md',

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import React from 'react';
 
+import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 
 /**
@@ -17,12 +18,6 @@ const meta: Meta<typeof Button> = {
   component: Button,
   parameters: {
     layout: 'centered',
-    docs: {
-      description: {
-        component:
-          '프로젝트에서 사용되는 기본 버튼 컴포넌트입니다. Radix UI와 class-variance-authority를 기반으로 구축되었습니다.',
-      },
-    },
   },
   argTypes: {
     variant: {
@@ -81,182 +76,100 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-/**
- * 기본 버튼 스타일입니다.
- * 흰색 배경에 회색 테두리와 회색 텍스트를 가집니다.
- */
 export const Default: Story = {
   args: {
     children: '기본 버튼',
   },
 };
 
-/**
- * 강조된 버튼 스타일입니다.
- * 검은색 배경에 흰색 텍스트를 가집니다.
- */
-export const Contained: Story = {
-  args: {
-    variant: 'contained',
-    children: '강조 버튼',
-  },
-};
-
-/**
- * 아웃라인 버튼 스타일입니다.
- * 흰색 배경에 회색 테두리를 가집니다.
- */
-export const Outline: Story = {
-  args: {
-    variant: 'outline',
-    children: '아웃라인 버튼',
-  },
-};
-
-/**
- * 텍스트만 있는 버튼 스타일입니다.
- * 배경이나 테두리 없이 텍스트만 표시됩니다.
- */
-export const TextOnly: Story = {
-  args: {
-    variant: 'textOnly',
-    children: '텍스트 버튼',
-  },
-};
-
-/**
- * 밑줄이 있는 텍스트 버튼 스타일입니다.
- * 텍스트 아래에 밑줄이 표시됩니다.
- */
-export const ButtonText: Story = {
-  args: {
-    variant: 'buttonText',
-    children: '밑줄 텍스트 버튼',
-  },
-};
-
-/**
- * 아이콘용 강조 버튼 스타일입니다.
- * 아이콘을 넣기 위한 정사각형 버튼입니다.
- */
-export const ButtonIconContained: Story = {
-  args: {
-    variant: 'buttonIconContained',
-    size: 'buttonIconMedium',
-    children: '🔍',
-  },
-};
-
-/**
- * 아이콘용 텍스트 버튼 스타일입니다.
- * 호버 시 배경색이 변경됩니다.
- */
-export const ButtonIconTextOnly: Story = {
-  args: {
-    variant: 'buttonIconTextOnly',
-    size: 'buttonIconMedium',
-    children: '⚙️',
-  },
-};
-
-/**
- * 큰 크기의 버튼입니다.
- * 높이 48px, 패딩 16px을 가집니다.
- */
-export const Large: Story = {
-  args: {
-    variant: 'contained',
-    size: 'lg',
-    children: '큰 버튼',
-  },
-};
-
-/**
- * 중간 크기의 버튼입니다.
- * 높이 36px, 패딩 16px을 가집니다.
- */
-export const Medium: Story = {
-  args: {
-    variant: 'contained',
-    size: 'md',
-    children: '중간 버튼',
-  },
-};
-
-/**
- * 작은 크기의 버튼입니다.
- * 높이 28px, 패딩 8px을 가집니다.
- */
-export const Small: Story = {
-  args: {
-    variant: 'contained',
-    size: 'sm',
-    children: '작은 버튼',
-  },
-};
-
-/**
- * 비활성화된 버튼입니다.
- * 클릭할 수 없고 회색으로 표시됩니다.
- */
-export const Disabled: Story = {
-  args: {
-    variant: 'contained',
-    disabled: true,
-    children: '비활성화된 버튼',
-  },
-};
-
-/**
- * 다양한 버튼 스타일을 한 번에 보여주는 예시입니다.
- */
-export const AllVariants: Story = {
-  render: () => (
-    <div className="flex flex-wrap items-center gap-4">
-      <Button variant="default">기본</Button>
-      <Button variant="contained">강조</Button>
-      <Button variant="outline">아웃라인</Button>
-      <Button variant="textOnly">텍스트</Button>
-      <Button variant="buttonText">밑줄 텍스트</Button>
-      <Button variant="buttonIconContained" size="buttonIconMedium">
-        🔍
-      </Button>
-      <Button variant="buttonIconTextOnly" size="buttonIconMedium">
-        ⚙️
-      </Button>
-    </div>
-  ),
-  parameters: {
-    docs: {
-      description: {
-        story: '모든 버튼 variant를 한 번에 확인할 수 있습니다.',
-      },
-    },
-  },
-};
-
-/**
- * 다양한 버튼 크기를 한 번에 보여주는 예시입니다.
- */
-export const AllSizes: Story = {
+export const Varaints: Story = {
   render: () => (
     <div className="flex flex-wrap items-center gap-4">
       <Button variant="contained" size="lg">
-        큰 버튼
+        contained
       </Button>
-      <Button variant="contained" size="md">
-        중간 버튼
+      <Button variant="outline" size="lg">
+        outline
       </Button>
-      <Button variant="contained" size="sm">
-        작은 버튼
+      <Button variant="textOnly" size="lg">
+        textOnly
       </Button>
     </div>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story: '모든 버튼 크기를 한 번에 확인할 수 있습니다.',
-      },
-    },
+};
+
+export const Sizes: Story = {
+  render: () => (
+    <div className="flex flex-wrap items-center gap-4">
+      <Button variant="contained" size="lg">
+        lg
+      </Button>
+      <Button variant="contained" size="md">
+        md
+      </Button>
+      <Button variant="contained" size="sm">
+        sm
+      </Button>
+    </div>
+  ),
+};
+
+export const WithIcon: Story = {
+  render: () => {
+    return (
+      <div className="flex flex-col gap-3">
+        <Button variant="outline" size="lg" className="flex items-center gap-2">
+          <span>outline</span>
+          <Icons.dehaze className="size-6 fill-gray-08" />
+        </Button>
+        <Button variant="outline" size="lg" className="flex items-center gap-2">
+          <Icons.dehaze className="size-6 fill-gray-08" />
+          <span>outline</span>
+        </Button>
+      </div>
+    );
+  },
+};
+
+export const ButtonIcon: Story = {
+  render: () => {
+    return (
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-wrap items-center gap-4">
+          <Button variant="buttonIconContained" size="buttonIconLarge">
+            <Icons.dehaze className="size-6 fill-white" />
+          </Button>
+          <Button variant="buttonIconOutline" size="buttonIconLarge">
+            <Icons.dehaze className="size-6 fill-gray-08" />
+          </Button>
+          <Button variant="buttonIconTextOnly" size="buttonIconLarge">
+            <Icons.dehaze className="size-6 fill-gray-08" />
+          </Button>
+        </div>
+        <div className="flex flex-wrap items-center gap-4">
+          <Button variant="buttonIconContained" size="buttonIconMedium">
+            <Icons.dehaze className="size-6 fill-white" />
+          </Button>
+          <Button variant="buttonIconOutline" size="buttonIconMedium">
+            <Icons.dehaze className="size-6 fill-gray-08" />
+          </Button>
+          <Button variant="buttonIconTextOnly" size="buttonIconMedium">
+            <Icons.dehaze className="size-6 fill-gray-08" />
+          </Button>
+        </div>
+      </div>
+    );
+  },
+};
+
+export const ButtonText: Story = {
+  render: () => {
+    return (
+      <div className="flex flex-wrap items-center gap-4">
+        <Button variant="buttonText" size="buttonText">
+          buttonText
+        </Button>
+      </div>
+    );
   },
 };
