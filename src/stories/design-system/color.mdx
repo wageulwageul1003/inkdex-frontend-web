@@ -1,0 +1,235 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+export const ColorSwatch = ({ name, cssVar, rgb }) => (
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      marginBottom: '8px',
+      padding: '8px',
+      border: '1px solid #e5e5e5',
+      borderRadius: '6px',
+    }}
+  >
+    <div
+      style={{
+        width: '40px',
+        height: '40px',
+        backgroundColor: `rgb(${rgb})`,
+        borderRadius: '4px',
+        marginRight: '12px',
+        border: '1px solid rgba(0,0,0,0.1)',
+      }}
+    />
+    <div>
+      <div style={{ fontWeight: 'bold', fontSize: '14px' }}>{name}</div>
+      <div style={{ fontSize: '12px', color: '#666', fontFamily: 'monospace' }}>
+        --{cssVar}: {rgb}
+      </div>
+      <div style={{ fontSize: '12px', color: '#666', fontFamily: 'monospace' }}>
+        rgb({rgb})
+      </div>
+    </div>
+  </div>
+);
+
+export const ColorGroup = ({ title, colors }) => (
+  <div style={{ marginBottom: '32px' }}>
+    <h3
+      style={{
+        marginBottom: '16px',
+        color: '#1ea7fd',
+        borderBottom: '2px solid #f0f0f0',
+        paddingBottom: '8px',
+      }}
+    >
+      {title}
+    </h3>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+        gap: '12px',
+      }}
+    >
+      {colors.map((color, index) => (
+        <ColorSwatch key={index} {...color} />
+      ))}
+    </div>
+  </div>
+);
+
+<Meta title="Design System/Colors" />
+
+<div className="sb-container">
+  <div className='sb-section-title'>
+    # 컬러 시스템
+
+    프로젝트에서 사용되는 모든 색상 변수들입니다. CSS 변수로 정의되어 일관된 디자인을 유지합니다.
+
+  </div>
+
+  <div className="sb-section">
+    <ColorGroup 
+      title="🎨 기본 색상"
+      colors={[
+        { name: "White", cssVar: "white", rgb: "255, 255, 255" },
+        { name: "Black", cssVar: "black", rgb: "10, 10, 10" }
+      ]}
+    />
+
+    <ColorGroup
+      title="🔘 Gray Scale"
+      colors={[
+        { name: "Gray 01", cssVar: "gray-01", rgb: "242, 242, 242" },
+        { name: "Gray 02", cssVar: "gray-02", rgb: "224, 224, 224" },
+        { name: "Gray 03", cssVar: "gray-03", rgb: "189, 189, 189" },
+        { name: "Gray 04", cssVar: "gray-04", rgb: "162, 162, 162" },
+        { name: "Gray 05", cssVar: "gray-05", rgb: "117, 117, 117" },
+        { name: "Gray 06", cssVar: "gray-06", rgb: "97, 97, 97" },
+        { name: "Gray 07", cssVar: "gray-07", rgb: "77, 77, 77" },
+        { name: "Gray 08", cssVar: "gray-08", rgb: "56, 56, 56" },
+        { name: "Gray 09", cssVar: "gray-09", rgb: "33, 33, 33" },
+        { name: "Gray 10", cssVar: "gray-10", rgb: "10, 10, 10" }
+      ]}
+    />
+
+    <ColorGroup
+      title="🏖️ Sand Palette"
+      colors={[
+        { name: "Sand 01", cssVar: "sand-01", rgb: "247, 247, 244" },
+        { name: "Sand 02", cssVar: "sand-02", rgb: "238, 237, 234" },
+        { name: "Sand 03", cssVar: "sand-03", rgb: "227, 226, 224" },
+        { name: "Sand 04", cssVar: "sand-04", rgb: "213, 211, 208" },
+        { name: "Sand 05", cssVar: "sand-05", rgb: "196, 193, 190" },
+        { name: "Sand 06", cssVar: "sand-06", rgb: "177, 173, 169" },
+        { name: "Sand 07", cssVar: "sand-07", rgb: "157, 152, 148" },
+        { name: "Sand 08", cssVar: "sand-08", rgb: "136, 131, 127" },
+        { name: "Sand 09", cssVar: "sand-09", rgb: "115, 110, 106" },
+        { name: "Sand 10", cssVar: "sand-10", rgb: "93, 88, 84" }
+      ]}
+    />
+
+    <ColorGroup
+      title="💙 Blue Palette"
+      colors={[
+        { name: "Blue 01", cssVar: "blue-01", rgb: "237, 245, 254" },
+        { name: "Blue 02", cssVar: "blue-02", rgb: "219, 234, 254" },
+        { name: "Blue 03", cssVar: "blue-03", rgb: "191, 219, 254" },
+        { name: "Blue 04", cssVar: "blue-04", rgb: "145, 200, 255" },
+        { name: "Blue 05", cssVar: "blue-05", rgb: "96, 165, 250" },
+        { name: "Blue 06", cssVar: "blue-06", rgb: "59, 130, 246" },
+        { name: "Blue 07", cssVar: "blue-07", rgb: "37, 99, 235" },
+        { name: "Blue 08", cssVar: "blue-08", rgb: "29, 78, 216" },
+        { name: "Blue 09", cssVar: "blue-09", rgb: "30, 64, 175" },
+        { name: "Blue 10", cssVar: "blue-10", rgb: "30, 58, 138" }
+      ]}
+    />
+
+    <ColorGroup
+      title="💚 Green Palette"
+      colors={[
+        { name: "Green 01", cssVar: "green-01", rgb: "220, 252, 231" },
+        { name: "Green 02", cssVar: "green-02", rgb: "187, 247, 208" },
+        { name: "Green 03", cssVar: "green-03", rgb: "134, 239, 172" },
+        { name: "Green 04", cssVar: "green-04", rgb: "74, 222, 128" },
+        { name: "Green 05", cssVar: "green-05", rgb: "34, 197, 94" },
+        { name: "Green 06", cssVar: "green-06", rgb: "22, 163, 74" },
+        { name: "Green 07", cssVar: "green-07", rgb: "21, 128, 61" },
+        { name: "Green 08", cssVar: "green-08", rgb: "22, 101, 52" },
+        { name: "Green 09", cssVar: "green-09", rgb: "20, 83, 45" },
+        { name: "Green 10", cssVar: "green-10", rgb: "20, 83, 45" }
+      ]}
+    />
+
+    <ColorGroup
+      title="❤️ Red Palette"
+      colors={[
+        { name: "Red 01", cssVar: "red-01", rgb: "254, 242, 242" },
+        { name: "Red 02", cssVar: "red-02", rgb: "254, 226, 226" },
+        { name: "Red 03", cssVar: "red-03", rgb: "254, 202, 202" },
+        { name: "Red 04", cssVar: "red-04", rgb: "252, 165, 165" },
+        { name: "Red 05", cssVar: "red-05", rgb: "248, 113, 113" },
+        { name: "Red 06", cssVar: "red-06", rgb: "239, 68, 68" },
+        { name: "Red 07", cssVar: "red-07", rgb: "220, 38, 38" },
+        { name: "Red 08", cssVar: "red-08", rgb: "185, 28, 28" },
+        { name: "Red 09", cssVar: "red-09", rgb: "153, 27, 27" },
+        { name: "Red 10", cssVar: "red-10", rgb: "127, 29, 29" }
+      ]}
+    />
+
+    <ColorGroup
+      title="💛 Yellow Palette"
+      colors={[
+        { name: "Yellow 01", cssVar: "yellow-01", rgb: "254, 252, 232" },
+        { name: "Yellow 02", cssVar: "yellow-02", rgb: "254, 249, 195" },
+        { name: "Yellow 03", cssVar: "yellow-03", rgb: "254, 240, 138" },
+        { name: "Yellow 04", cssVar: "yellow-04", rgb: "253, 224, 71" },
+        { name: "Yellow 05", cssVar: "yellow-05", rgb: "250, 204, 21" },
+        { name: "Yellow 06", cssVar: "yellow-06", rgb: "234, 179, 8" },
+        { name: "Yellow 07", cssVar: "yellow-07", rgb: "202, 138, 4" },
+        { name: "Yellow 08", cssVar: "yellow-08", rgb: "161, 98, 7" },
+        { name: "Yellow 09", cssVar: "yellow-09", rgb: "133, 77, 14" },
+        { name: "Yellow 10", cssVar: "yellow-10", rgb: "113, 63, 18" }
+      ]}
+    />
+
+  </div>
+</div>
+
+<style>
+  {`
+  .sb-container {
+    margin-bottom: 48px;
+  }
+
+  .sb-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .sb-section-title {
+    margin-bottom: 32px;
+  }
+
+  .sb-section-item {
+    background: #f6f9fc;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+
+  .sb-section-item h3 {
+    margin-top: 0;
+    color: #1ea7fd;
+  }
+
+  .sb-section-item h4 {
+    color: #333;
+    margin-top: 24px;
+    margin-bottom: 8px;
+  }
+
+  .sb-section-item ul {
+    margin: 8px 0;
+    padding-left: 20px;
+  }
+
+  .sb-section-item li {
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  pre {
+    background: #f8f8f8;
+    border-radius: 4px;
+    padding: 16px;
+    overflow-x: auto;
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 12px 0;
+  }
+  `}
+</style>
