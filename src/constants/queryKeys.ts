@@ -14,6 +14,9 @@ const postsListKey = 'postsListKey';
 const postsDetailKey = 'postsDetailKey';
 const postsKey = 'postsKey';
 
+const collectionListKey = 'collectionListKey';
+const collectionDetailKey = 'collectionDetailKey';
+
 const bookmarkKey = 'bookmarkKey';
 const deleteBookmarkKey = 'deleteBookmarkKey';
 const bookmarkListKey = 'bookmarkListKey';
@@ -50,6 +53,8 @@ export {
   postsListKey,
   postsDetailKey,
   postsKey,
+  collectionListKey,
+  collectionDetailKey,
   bookmarkKey,
   deleteBookmarkKey,
   bookmarkListKey,
