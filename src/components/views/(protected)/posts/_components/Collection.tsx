@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import { Loading } from '@/components/shared/Loading';
@@ -20,6 +21,7 @@ import { useInfiniteScroll } from '@/hook/common/useInfiniteScroll';
 import { IResponsePaged } from '@/types/global';
 
 export const Collection = () => {
+  const router = useRouter();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGetCollectionList({
       size: '10',
@@ -48,7 +50,10 @@ export const Collection = () => {
 
         <div className="mt-7 px-4">
           <div className="flex items-center justify-between rounded-lg bg-gray-01 py-2 pl-3 pr-4">
-            <div className="flex items-center gap-3">
+            <div
+              className="flex items-center gap-3"
+              onClick={() => router.push('/collection/write')}
+            >
               <Icons.plus className="size-6 fill-gray-06" />
               <span className="font-s-2 text-gray-09">새로 만들기</span>
             </div>
