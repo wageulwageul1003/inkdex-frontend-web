@@ -153,7 +153,7 @@ const Keywords: React.FC<Props> = (props) => {
               removeKeyword(index);
             }}
           >
-            <Icons.close className="size-4" />
+            <Icons.close className="size-3 fill-gray-05" />
           </button>
         </div>
       ))}

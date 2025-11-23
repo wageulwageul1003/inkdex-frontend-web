@@ -1,0 +1,141 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+export const ColorSwatch = ({ name, rgb }) => (
+  <div className="rounded-md bg-gray-50 p-4">
+    <div
+      className="h-10 w-10 rounded-md border border-black"
+      style={{ backgroundColor: `rgb(${rgb})` }}
+    ></div>
+    <div>
+      <h3>{name}</h3>
+      <p>{rgb}</p>
+    </div>
+  </div>
+);
+
+export const ColorGroup = ({ title, colors }) => (
+  <div className="">
+    <h3 className="mb-4">{title}</h3>
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {colors.map((color, index) => (
+        <ColorSwatch key={index} {...color} />
+      ))}
+    </div>
+  </div>
+);
+
+<Meta title="Design System/Colors" />
+<div>
+  <div>
+    <h1>컬러 시스템</h1>
+    <p>프로젝트에서 사용되는 모든 색상 변수들입니다. CSS 변수로 정의되어 일관된 디자인을 유지합니다.</p>
+
+  </div>
+
+  <div className="flex flex-col gap-10">
+    <ColorGroup 
+      title="🎨 기본 색상"
+      colors={[
+        { name: "white", rgb: "255, 255, 255" },
+        { name: "black", rgb: "10, 10, 10" }
+      ]}
+    />
+
+    <ColorGroup
+      title="🩶 Gray Scale"
+      colors={[
+        { name: "gray-01", rgb: "242, 242, 242" },
+        { name: "gray-02", rgb: "224, 224, 224" },
+        { name: "gray-03", rgb: "189, 189, 189" },
+        { name: "gray-04", rgb: "162, 162, 162" },
+        { name: "gray-05", rgb: "117, 117, 117" },
+        { name: "gray-06", rgb: "97, 97, 97" },
+        { name: "gray-07", rgb: "77, 77, 77" },
+        { name: "gray-08", rgb: "56, 56, 56" },
+        { name: "gray-09", rgb: "33, 33, 33" },
+        { name: "gray-10", rgb: "10, 10, 10" }
+      ]}
+    />
+
+    <ColorGroup
+      title="🧡 Sand Palette"
+      colors={[
+        { name: "sand-01", rgb: "247, 247, 244" },
+        { name: "sand-02", rgb: "238, 237, 234" },
+        { name: "sand-03", rgb: "227, 226, 224" },
+        { name: "sand-04", rgb: "213, 211, 208" },
+        { name: "sand-05", rgb: "196, 193, 190" },
+        { name: "sand-06", rgb: "177, 173, 169" },
+        { name: "sand-07", rgb: "157, 152, 148" },
+        { name: "sand-08", rgb: "136, 131, 127" },
+        { name: "sand-09", rgb: "115, 110, 106" },
+        { name: "sand-10", rgb: "93, 88, 84" }
+      ]}
+    />
+
+    <ColorGroup
+      title="💙 Blue Palette"
+      colors={[
+        { name: "blue-01", rgb: "237, 245, 254" },
+        { name: "blue-02", rgb: "219, 234, 254" },
+        { name: "blue-03", rgb: "191, 219, 254" },
+        { name: "blue-04", rgb: "145, 200, 255" },
+        { name: "blue-05", rgb: "96, 165, 250" },
+        { name: "blue-06", rgb: "59, 130, 246" },
+        { name: "blue-07", rgb: "37, 99, 235" },
+        { name: "blue-08", rgb: "29, 78, 216" },
+        { name: "blue-09", rgb: "30, 64, 175" },
+        { name: "blue-10", rgb: "30, 58, 138" }
+      ]}
+    />
+
+    <ColorGroup
+      title="💚 Green Palette"
+      colors={[
+        { name: "green-01", rgb: "220, 252, 231" },
+        { name: "green-02", rgb: "187, 247, 208" },
+        { name: "green-03", rgb: "134, 239, 172" },
+        { name: "green-04", rgb: "74, 222, 128" },
+        { name: "green-05", rgb: "34, 197, 94" },
+        { name: "green-06", rgb: "22, 163, 74" },
+        { name: "green-07", rgb: "21, 128, 61" },
+        { name: "green-08", rgb: "22, 101, 52" },
+        { name: "green-09", rgb: "20, 83, 45" },
+        { name: "green-10", rgb: "20, 83, 45" }
+      ]}
+    />
+
+    <ColorGroup
+      title="❤️ Red Palette"
+      colors={[
+        { name: "red-01", rgb: "254, 242, 242" },
+        { name: "red-02", rgb: "254, 226, 226" },
+        { name: "red-03", rgb: "254, 202, 202" },
+        { name: "red-04", rgb: "252, 165, 165" },
+        { name: "red-05", rgb: "248, 113, 113" },
+        { name: "red-06", rgb: "239, 68, 68" },
+        { name: "red-07", rgb: "220, 38, 38" },
+        { name: "red-08", rgb: "185, 28, 28" },
+        { name: "red-09", rgb: "153, 27, 27" },
+        { name: "red-10", rgb: "127, 29, 29" }
+      ]}
+    />
+
+    <ColorGroup
+      title="💛 Yellow Palette"
+      colors={[
+        { name: "yellow-01", rgb: "254, 252, 232" },
+        { name: "yellow-02", rgb: "254, 249, 195" },
+        { name: "yellow-03", rgb: "254, 240, 138" },
+        { name: "yellow-04", rgb: "253, 224, 71" },
+        { name: "yellow-05", rgb: "250, 204, 21" },
+        { name: "yellow-06", rgb: "234, 179, 8" },
+        { name: "yellow-07", rgb: "202, 138, 4" },
+        { name: "yellow-08", rgb: "161, 98, 7" },
+        { name: "yellow-09", rgb: "133, 77, 14" },
+        { name: "yellow-10", rgb: "113, 63, 18" }
+      ]}
+    />
+
+  </div>
+</div>

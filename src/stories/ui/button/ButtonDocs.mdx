@@ -1,0 +1,125 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Button } from '../../../components/ui/button';
+import { Icons } from '../../../components/shared/icons';
+
+export const ButtonGrid = () => (
+  <div className="flex flex-wrap items-center gap-4">
+    <Button variant="contained" size="lg">
+      contained
+    </Button>
+    <Button variant="outline" size="lg">
+      outline
+    </Button>
+    <Button variant="textOnly" size="lg">
+      textOnly
+    </Button>
+  </div>
+);
+
+export const SizeGrid = () => (
+  <div className="flex flex-wrap items-center gap-4">
+    <Button variant="contained" size="lg">
+      lg
+    </Button>
+    <Button variant="contained" size="md">
+      md
+    </Button>
+    <Button variant="contained" size="sm">
+      sm
+    </Button>
+  </div>
+);
+
+export const IconGrid = () => {
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-wrap items-center gap-4">
+        <Button variant="buttonIconContained" size="buttonIconLarge">
+          <Icons.dehaze className="size-6 fill-white" />
+        </Button>
+        <Button variant="buttonIconOutline" size="buttonIconLarge">
+          <Icons.dehaze className="size-6 fill-gray-08" />
+        </Button>
+        <Button variant="buttonIconTextOnly" size="buttonIconLarge">
+          <Icons.dehaze className="size-6 fill-gray-08" />
+        </Button>
+      </div>
+      <div className="flex flex-wrap items-center gap-4">
+        <Button variant="buttonIconContained" size="buttonIconMedium">
+          <Icons.dehaze className="size-6 fill-white" />
+        </Button>
+        <Button variant="buttonIconOutline" size="buttonIconMedium">
+          <Icons.dehaze className="size-6 fill-gray-08" />
+        </Button>
+        <Button variant="buttonIconTextOnly" size="buttonIconMedium">
+          <Icons.dehaze className="size-6 fill-gray-08" />
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export const WithIconGrid = () => {
+  return (
+    <div className="flex flex-col gap-3">
+      <Button variant="outline" size="lg" className="flex items-center gap-2">
+        <span>outline</span>
+        <Icons.dehaze className="size-6 fill-gray-08" />
+      </Button>
+      <Button variant="outline" size="lg" className="flex items-center gap-2">
+        <Icons.dehaze className="size-6 fill-gray-08" />
+        <span>outline</span>
+      </Button>
+    </div>
+  );
+};
+
+export const ButtonTextGrid = () => {
+  return (
+    <div className="flex flex-wrap items-center gap-4">
+      <Button variant="buttonText" size="buttonText">
+        buttonText
+      </Button>
+    </div>
+  );
+};
+
+<Meta title="UI Components/Button/Documentation" />
+
+<div className="flex flex-col gap-4">
+  <div>
+    <h1>Button 컴포넌트 문서</h1>
+    <p>사용자 인터랙션을 위한 핵심 UI 요소입니다. 다양한 스타일과 크기를 제공하여 모든 디자인 요구사항을 충족합니다.</p>
+  </div>
+
+<div className="bg-gray-50 p-4">
+  <h3>Variants</h3>
+  <p>Button 컴포넌트가 제공하는 모든 스타일 변형</p>
+  <ButtonGrid />
+</div>
+
+<div className="bg-gray-50 p-4">
+  <h3>Sizes</h3>
+  <p>다양한 크기의 버튼</p>
+  <SizeGrid />
+</div>
+
+<div className="bg-gray-50 p-4">
+  <h3>With Icon</h3>
+  <p>텍스트와 아이콘을 함께 사용</p>
+  <WithIconGrid />
+</div>
+
+<div className="bg-gray-50 p-4">
+  <h3>Button Icon</h3>
+  <p>아이콘만으로 구성된 버튼</p>
+  <IconGrid />
+</div>
+
+<div className="bg-gray-50 p-4">
+  <h3>Button Text</h3>
+  <p>텍스트 스타일의 버튼</p>
+  <ButtonTextGrid />
+</div>
+
+</div>
