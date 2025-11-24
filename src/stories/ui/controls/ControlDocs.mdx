@@ -54,30 +54,26 @@ export const ToggleGrid = () => {
   const [toggle2, setToggle2] = useState(true);
 
 return (
+
 <div className="flex flex-col gap-4">
-<div className="flex items-center gap-3">
-<Switch checked={toggle1} onCheckedChange={setToggle1} />
-<span className="font-xxl-1">기본 토글</span>
+  <div className="flex items-center gap-3">
+    <Switch checked={toggle1} onCheckedChange={setToggle1} />
+    <span className="font-xxl-1">기본 토글</span>
+  </div>
+  <div className="flex items-center gap-3">
+    <Switch checked={toggle2} onCheckedChange={setToggle2} />
+    <span className="font-xxl-1">활성화된 토글</span>
+  </div>
+  <div className="flex items-center gap-3">
+    <Switch disabled />
+    <span className="font-xxl-1 text-gray-400">비활성화된 토글</span>
+  </div>
+  <div className="flex items-center gap-3">
+    <Switch checked disabled />
+    <span className="font-xxl-1 text-gray-400">활성화되고 비활성화된 토글</span>
+  </div>
 </div>
-<div className="flex items-center gap-3">
-<Switch checked={toggle2} onCheckedChange={setToggle2} />
-<span className="font-xxl-1">활성화된 토글</span>
-</div>
-<div className="flex items-center gap-3">
-<Switch disabled />
-<span className="font-xxl-1 text-gray-400">
-비활성화된 토글
-</span>
-</div>
-<div className="flex items-center gap-3">
-<Switch checked disabled />
-<span className="font-xxl-1 text-gray-400">
-활성화되고 비활성화된 토글
-</span>
-</div>
-</div>
-);
-};
+); };
 
 <Meta title="UI Components/Controls/Documentation" />
 
@@ -87,19 +83,19 @@ return (
     <p>UI 컴포넌트를 위한 핵심 UI 요소입니다. 다양한 스타일과 크기를 제공하여 모든 디자인 요구사항을 충족합니다.</p>
   </div>
 
-<div className="bg-gray-50 p-4">
+<div className="bg-lime-50 p-4">
   <h3>Radio</h3>
   <p>단일의 항목을 선택하는 Radio 컴포넌트</p>
   <RadioGrid />
 </div>
 
-<div className="bg-gray-50 p-4">
+<div className="bg-lime-50 p-4">
   <h3>Checkbox</h3>
   <p>다중 항목을 선택하는 Checkbox 컴포넌트</p>
   <CheckboxGrid />
 </div>
 
-<div className="bg-gray-50 p-4">
+<div className="bg-lime-50 p-4">
   <h3>Toggle</h3>
   <p>ON/OFF를 관리하는 Switch 컴포넌트</p>
   <ToggleGrid />
