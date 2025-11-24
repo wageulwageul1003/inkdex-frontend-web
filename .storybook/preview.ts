@@ -10,8 +10,10 @@ const preview: Preview = {
       },
     },
 
-    a11y: {
-      test: 'todo',
+    options: {
+      storySort: {
+        order: ['Design System', ['Fonts', 'Colors', 'Shadows']],
+      },
     },
   },
 };

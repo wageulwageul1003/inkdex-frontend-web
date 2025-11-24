@@ -67,13 +67,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         )}
 
         {/* Code success and timer */}
-        <p className="absolute right-4 top-1/2 -translate-y-1/2">
+        <div className="absolute inset-y-0 right-4 flex items-center">
           {isVerified ? (
-            <Icons.schedule className="size-5 fill-gray-05" />
+            <Icons.check className="size-5 fill-gray-05" />
           ) : (
             expire && <Timer expire={expire} />
           )}
-        </p>
+        </div>
       </fieldset>
     );
   },
