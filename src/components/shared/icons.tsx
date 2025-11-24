@@ -4,6 +4,7 @@ import arrowRightAlt from '@/public/icons/arrow_right_alt.svg';
 import asterisk from '@/public/icons/asterisk.svg';
 import bell from '@/public/icons/bell.svg';
 import bookmark from '@/public/icons/bookmark.svg';
+import bookmark_fill from '@/public/icons/bookmark_fill.svg';
 import calendarMonth from '@/public/icons/calendar_month.svg';
 import camera from '@/public/icons/camera.svg';
 import check from '@/public/icons/check.svg';
@@ -20,6 +21,8 @@ import emergencyHome from '@/public/icons/emergency_home.svg';
 import emergencyHomeFill from '@/public/icons/emergency_home_fill.svg';
 import error from '@/public/icons/error.svg';
 import errorFill from '@/public/icons/error_fill.svg';
+import heart from '@/public/icons/heart.svg';
+import heart_filled from '@/public/icons/heart_filled.svg';
 import home from '@/public/icons/home.svg';
 import image from '@/public/icons/image.svg';
 import info from '@/public/icons/info.svg';
@@ -28,6 +31,7 @@ import keyboardArrowDown from '@/public/icons/keyboard_arrow_down.svg';
 import keyboardArrowLeft from '@/public/icons/keyboard_arrow_left.svg';
 import keyboardArrowRight from '@/public/icons/keyboard_arrow_right.svg';
 import keyboardArrowUp from '@/public/icons/keyboard_arrow_up.svg';
+import messageCircle from '@/public/icons/message-circle.svg';
 import moreHoriz from '@/public/icons/more_horiz.svg';
 import note from '@/public/icons/note.svg';
 import person from '@/public/icons/person.svg';
@@ -80,10 +84,14 @@ export const Icons = {
   photo,
   person,
   plus,
-  bookmark,
+  bookmark_fill,
   home,
   note,
   user,
   image,
   send,
+  bookmark,
+  heart,
+  heart_filled,
+  messageCircle,
 };
