@@ -31,9 +31,9 @@ export const CategoryItemComponent = ({
     <div className="flex items-center justify-center justify-between rounded-[16px] border border-gray-300 p-4">
       <span>{label}</span>
       {status === 'add' ? (
-        <Icons.categoryAdd className="size-6 fill-black stroke-white" />
+        <Icons.bell className="size-6 fill-black stroke-white" />
       ) : (
-        <Icons.categoryRemove className="size-6 fill-gray-200 stroke-black" />
+        <Icons.bell className="size-6 fill-gray-200 stroke-black" />
       )}
     </div>
   );

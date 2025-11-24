@@ -67,8 +67,8 @@ export const InquiryWriteComponent = () => {
               ? 'bg-black text-white'
               : 'bg-gray-200 text-gray-400'
           }`}
-          size="cta"
-          variant="cta"
+          size="default"
+          variant="default"
         >
           로그인
         </Button>

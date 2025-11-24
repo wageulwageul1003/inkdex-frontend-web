@@ -23,7 +23,7 @@ const MyPageComponent = () => {
         <p>마이페이지</p>
         <div className="flex gap-5">
           <Icons.bell className="size-6" />
-          <Icons.setting
+          <Icons.bell
             className="size-6"
             onClick={() => router.push('/preferences')}
           />

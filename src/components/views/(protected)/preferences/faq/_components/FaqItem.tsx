@@ -1,7 +1,6 @@
+'use client';
+
 import { Icons } from '@/components/shared/icons';
-import { useGetFaqCategory } from '@/hooks/faq/useGetFaqCategory';
-import { useSpecificConstant } from '@/hooks/useGetConstant';
-import { useGetConstantLabel } from '@/hooks/useGetLabelValue';
 import { cn } from '@/lib/utils';
 
 interface FaqItemProps {
@@ -24,26 +23,6 @@ export const FaqItem = ({
   type,
 }: FaqItemProps) => {
   // FAQ 카테고리
-  const { constants: faqSupport } = useSpecificConstant('const_faq_support');
-
-  // 카테고리 (이용 안내 관리)
-  const { data: lectureCategory } = useGetFaqCategory('lecture');
-  const { data: exhibitionCategory } = useGetFaqCategory('exhibition');
-  const { data: readingKitCategory } = useGetFaqCategory('readingKit');
-
-  const faqCategoryLabel = useGetConstantLabel(faqSupport, category);
-  const lectureCategoryLabel = useGetConstantLabel(
-    lectureCategory ?? [],
-    category,
-  );
-  const exhibitionCategoryLabel = useGetConstantLabel(
-    exhibitionCategory ?? [],
-    category,
-  );
-  const readingKitCategoryLabel = useGetConstantLabel(
-    readingKitCategory ?? [],
-    category,
-  );
 
   return (
     <div className={cn('w-full', isExpanded && 'px-1 py-5')}>
@@ -56,22 +35,15 @@ export const FaqItem = ({
         onClick={onToggle}
       >
         <div className={cn(`flex-items flex flex-col gap-1`, `md:flex-row`)}>
-          <span className="font-body2 text-gray-400">
-            [
-            {faqCategoryLabel ||
-              lectureCategoryLabel ||
-              exhibitionCategoryLabel ||
-              readingKitCategoryLabel}
-            ]
-          </span>
+          <span className="font-body2 text-gray-400"></span>
           <p className="font-body2-bold line-clamp-2 block flex-1 overflow-hidden text-gray-700 hover:text-gray-400 group-hover:text-gray-400">
             {title}
           </p>
         </div>
         {isExpanded ? (
-          <Icons.keyboard_arrow_up className="h-m w-m shrink-0 fill-gray-500" />
+          <Icons.keyboardArrowUp className="h-m w-m shrink-0 fill-gray-500" />
         ) : (
-          <Icons.keyboard_arrow_down className="h-m w-m shrink-0 fill-gray-500" />
+          <Icons.keyboardArrowDown className="h-m w-m shrink-0 fill-gray-500" />
         )}
       </div>
 

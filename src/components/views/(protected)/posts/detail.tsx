@@ -160,7 +160,7 @@ export const PostsDetail: FC<TProps> = (props) => {
 
         <div className="mt-4 flex items-center justify-between p-5">
           <p className="flex items-center gap-1 text-gray-500">
-            <Icons.like className="size-6" />
+            <Icons.bell className="size-6" />
             {data?.likeCount && data?.likeCount > 9999
               ? '9999+'
               : data?.likeCount || 0}
@@ -169,7 +169,7 @@ export const PostsDetail: FC<TProps> = (props) => {
             className="flex items-center gap-1 text-gray-500"
             onClick={() => setCommentOpen(true)}
           >
-            <Icons.message className="size-6" />
+            <Icons.bell className="size-6" />
             {data?.commentCount && data?.commentCount > 9999
               ? '9999+'
               : data?.commentCount || 0}
@@ -181,7 +181,7 @@ export const PostsDetail: FC<TProps> = (props) => {
             className={`size-6 ${data?.bookmarked ? 'fill-black stroke-black' : 'fill-white stroke-black'}`}
           />
           {data?.userPublicId !== Cookies.get('userPublicId') && (
-            <Icons.report className="size-6 fill-black stroke-black" />
+            <Icons.bell className="size-6 fill-black stroke-black" />
           )}
         </div>
       </div>

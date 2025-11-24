@@ -34,7 +34,7 @@ export const MyIndexComponent = () => {
             </div>
           </div>
         </div>
-        <Button variant="outline" size="outline">
+        <Button variant="outline" size="default">
           프로필 편집
         </Button>
       </div>
