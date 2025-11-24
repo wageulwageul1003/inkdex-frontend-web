@@ -9,15 +9,16 @@ interface ChipsProps {
   disabledItems?: string[]; // 비활성화할 항목 배열
   selected?: string | string[]; // 선택된 항목(들)
   onChange?: (item: string | string[]) => void; // 선택 변경 시 호출될 콜백
+  type?: 'round' | 'text';
 }
 
 const Chips: React.FC<ChipsProps> = ({
   items,
-
   variant = 'single',
   disabledItems = [],
   selected,
   onChange,
+  type = 'round',
 }) => {
   // 내부 상태는 외부에서 제어될 때만 사용
   const [internalSelected, setInternalSelected] = React.useState<
@@ -73,15 +74,28 @@ const Chips: React.FC<ChipsProps> = ({
     let buttonStyles = '';
     let textStyles = '';
 
-    if (isDisabled) {
-      buttonStyles = 'border-gray-200 bg-gray-03 cursor-not-allowed border';
-      textStyles = 'text-gray-400';
-    } else if (isSelected) {
-      buttonStyles = 'bg-gray-09';
-      textStyles = 'text-white';
+    if (type === 'round') {
+      if (isDisabled) {
+        buttonStyles = 'border-gray-200 bg-gray-03 cursor-not-allowed border';
+        textStyles = 'text-gray-400';
+      } else if (isSelected) {
+        buttonStyles = 'bg-gray-09';
+        textStyles = 'text-white';
+      } else {
+        buttonStyles = 'bg-gray-03';
+        textStyles = 'text-gray-09';
+      }
     } else {
-      buttonStyles = 'bg-gray-03';
-      textStyles = 'text-gray-09';
+      if (isDisabled) {
+        buttonStyles = 'border-gray-200 bg-gray-03 cursor-not-allowed border';
+        textStyles = 'text-gray-400';
+      } else if (isSelected) {
+        buttonStyles = 'bg-gray-09';
+        textStyles = 'text-white';
+      } else {
+        buttonStyles = 'bg-gray-03';
+        textStyles = 'text-gray-09';
+      }
     }
 
     return (
