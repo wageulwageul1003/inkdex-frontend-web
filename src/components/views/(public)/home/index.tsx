@@ -8,6 +8,7 @@ import { CategoryFilter } from './_components/CategoryFilter';
 import { WriteType } from './_components/WriteType';
 
 import { Loading } from '@/components/shared/Loading';
+import { Alaram } from '@/components/shared/alaram';
 import Chips from '@/components/shared/chips';
 import { Icons } from '@/components/shared/icons';
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
@@ -38,7 +39,12 @@ export const Home = () => {
   );
 
   return (
-    <div className="flex w-full flex-col">
+    <div className="flex flex-1 flex-col bg-white px-4">
+      <div className="flex justify-between py-3">
+        <span className="font-l-1 text-black">피드</span>
+        <Alaram status={true} />
+      </div>
+
       <div className="flex w-full">
         <div className="relative w-full py-4">
           <div className="flex items-center gap-2">
