@@ -7,20 +7,20 @@ import { cn } from '@/lib/utils';
 const buttonVariants = cva('', {
   variants: {
     variant: {
-      default: 'bg-white text-gray-500 w-fit border border-gray-400',
+      default: 'bg-white text-gray-500 w-fit border border-gray-400 shrink-0',
       contained:
-        'bg-black text-white pressed:bg-gray-10 disabled:bg-gray-04 disabled:text-white',
+        'bg-black text-white pressed:bg-gray-10 disabled:bg-gray-04 disabled:text-white shrink-0',
       outline:
-        'border border-gray-03 text-gray-08 disabled:bg-gray-01 disabled:text-gray-04 bg-white',
-      textOnly: 'text-gray-08 disabled:text-gray-04',
+        'border border-gray-03 text-gray-08 disabled:bg-gray-01 disabled:text-gray-04 bg-white shrink-0',
+      textOnly: 'text-gray-08 disabled:text-gray-04 shrink-0',
       buttonText:
-        'border-b border-gray-08 disabled:border-gray-04 text-gray-08 disabled:text-gray-04',
+        'border-b border-gray-08 disabled:border-gray-04 text-gray-08 disabled:text-gray-04 shrink-0',
       // button-icon
       buttonIconContained:
-        'rounded-lg bg-gray-09 hover:bg-gray-10 disabled:bg-gray-04',
+        'rounded-lg bg-gray-09 hover:bg-gray-10 disabled:bg-gray-04 shrink-0',
       buttonIconOutline:
-        'rounded-lg bg-gray-03 border-gray-03 hover:bg-gray-03 border disabled:bg-gray-02 disabled:border-gray-03',
-      buttonIconTextOnly: 'rounded-lg hover:bg-gray-01 bg-white',
+        'rounded-lg bg-gray-03 border-gray-03 hover:bg-gray-03 border disabled:bg-gray-02 disabled:border-gray-03 shrink-0',
+      buttonIconTextOnly: 'rounded-lg hover:bg-gray-01 bg-white shrink-0',
     },
     size: {
       default: 'h-12 px-4 font-m-2 rounded-lg',
