@@ -87,27 +87,38 @@ const Chips: React.FC<ChipsProps> = ({
       }
     } else {
       if (isDisabled) {
-        buttonStyles = 'border-gray-200 bg-gray-03 cursor-not-allowed border';
+        buttonStyles = 'cursor-not-allowed';
         textStyles = 'text-gray-400';
       } else if (isSelected) {
-        buttonStyles = 'bg-gray-09';
-        textStyles = 'text-white';
+        buttonStyles = 'bg-sand-01';
+        textStyles = 'text-sand-08';
       } else {
-        buttonStyles = 'bg-gray-03';
-        textStyles = 'text-gray-09';
+        buttonStyles = 'bg-white';
+        textStyles = 'text-gray-05';
       }
     }
 
     return (
       <button
         key={index}
-        className={`flex h-9 flex-shrink-0 items-center whitespace-nowrap rounded-full px-4 py-3 transition-all ${buttonStyles}`}
+        className={cn(
+          `flex flex-shrink-0 items-center whitespace-nowrap transition-all`,
+          type === 'round' ? 'rounded-full px-4 py-3' : 'px-2 py-1.5',
+          buttonStyles,
+        )}
         onClick={() => {
           if (!isDisabled) handleItemClick(String(item.value));
         }}
         disabled={isDisabled}
       >
-        <span className={cn(textStyles, 'font-s-2')}>{item.label}</span>
+        <span
+          className={cn(
+            textStyles,
+            type === 'round' ? 'font-s-2' : 'font-xs-2',
+          )}
+        >
+          {item.label}
+        </span>
       </button>
     );
   });
