@@ -1,0 +1,76 @@
+import { useRouter } from 'next/navigation';
+import React from 'react';
+
+import { Card } from './Card';
+
+import { Loading } from '@/components/shared/Loading';
+import Chips from '@/components/shared/chips';
+import { useGetCategoryList } from '@/hook/common/useGetCategoryList';
+import { useInfiniteScroll } from '@/hook/common/useInfiniteScroll';
+import {
+  useGetPostsList,
+  IPostListResponse,
+} from '@/hook/home/useGetPostsList';
+import { IResponsePaged } from '@/types/global';
+
+export const Recommend = () => {
+  const router = useRouter();
+  const { data: categories } = useGetCategoryList();
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useGetPostsList({
+      category: '',
+      size: '10',
+      sort: 'createdAt,desc',
+    });
+
+  const observerRef = useInfiniteScroll(
+    { fetchNextPage, hasNextPage, isFetchingNextPage },
+    { threshold: 0.1 },
+  );
+
+  return (
+    <div>
+      <div className="flex w-full">
+        <div className="relative w-full py-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <Chips
+              items={[
+                { value: '', label: '전체' },
+                ...(categories?.data?.content.map((item) => ({
+                  value: item.slug,
+                  label: item.name,
+                })) || []),
+              ]}
+              variant="single"
+            />
+          </div>
+
+          <div className="mt-4 flex flex-col gap-4">
+            {data?.pages?.map(
+              (page: IResponsePaged<IPostListResponse>, i: number) => (
+                <React.Fragment key={i}>
+                  {page.data.content.map((item: IPostListResponse) => (
+                    <div
+                      key={item.publicId}
+                      onClick={() => router.push(`/posts/${item.publicId}`)}
+                    >
+                      <Card
+                        ratio={item.aspectRatio}
+                        key={item.publicId}
+                        nickname={item.userNickname}
+                        viewCounting={item.viewCount}
+                        nicknameSrc={item.thumbnailUrl || ''}
+                        src={item.thumbnailUrl}
+                      />
+                    </div>
+                  ))}
+                </React.Fragment>
+              ),
+            )}
+            <div ref={observerRef}>{isFetchingNextPage && <Loading />}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
