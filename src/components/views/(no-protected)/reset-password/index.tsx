@@ -111,10 +111,18 @@ const ResetPassword = () => {
         isOpen={alertOpen}
         onOpenChange={setAlertOpen}
         title="등록된 이메일이 아닙니다"
+        description={
+          <>
+            해당 이메일로 가입된 이력이 없어요.
+            <br />
+            정확한 이메일로 다시 시도해 주세요.
+          </>
+        }
         cancelText="확인"
         confirmText="확인"
         onConfirm={() => setAlertOpen(false)}
-      />
+        type="warning"
+      ></CustomAlertDialog>
     </div>
   );
 };
