@@ -6,7 +6,7 @@ import { resetPasswordKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 
 export const postResetPassword = async (params: TResetPasswordSchema) => {
-  const response = await agent(`/api/v1/account/reset-password`, {
+  const response = await agent(`/api/v1/account/password-reset`, {
     method: 'POST',
     body: JSON.stringify({
       ...params,

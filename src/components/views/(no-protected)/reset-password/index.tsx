@@ -27,8 +27,13 @@ const ResetPassword = () => {
 
   const { control, formState } = form;
 
-  const onSubmit = (data: TResetPasswordSchema) => {
-    postResetPassword(data);
+  const onSubmit = async (data: TResetPasswordSchema) => {
+    const response = await postResetPassword(data);
+    console.log(response);
+    if (response.code === 'success.account.reset_password') {
+      router.push('/reset-password/success');
+    } else {
+    }
   };
 
   return (
