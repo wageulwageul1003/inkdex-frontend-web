@@ -2,20 +2,24 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { resetPasswordSchema, TResetPasswordSchema } from './schema';
 
+import { CustomAlertDialog } from '@/components/shared/custom-alert-dialog';
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { usePostResetPassword } from '@/hook/auth/usePostResetPassword';
+import { ErrorData } from '@/utils/fetch';
 
 const ResetPassword = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { mutateAsync: postResetPassword } = usePostResetPassword();
+  const [alertOpen, setAlertOpen] = useState(false);
 
   const form = useForm<TResetPasswordSchema>({
     resolver: zodResolver(resetPasswordSchema),
@@ -28,11 +32,16 @@ const ResetPassword = () => {
   const { control, formState } = form;
 
   const onSubmit = async (data: TResetPasswordSchema) => {
-    const response = await postResetPassword(data);
-    console.log(response);
-    if (response.code === 'success.account.reset_password') {
-      router.push('/reset-password/success');
-    } else {
+    try {
+      const response = await postResetPassword(data);
+      if (response.code === 'success.account.reset_password') {
+        router.push('/reset-password/success');
+      }
+    } catch (error) {
+      const errorData = error as ErrorData;
+      if (errorData?.code === 'error.user.not_found') {
+        setAlertOpen(true);
+      }
     }
   };
 
@@ -97,6 +106,15 @@ const ResetPassword = () => {
           이메일 전송
         </Button>
       </div>
+
+      <CustomAlertDialog
+        isOpen={alertOpen}
+        onOpenChange={setAlertOpen}
+        title="등록된 이메일이 아닙니다"
+        cancelText="확인"
+        confirmText="확인"
+        onConfirm={() => setAlertOpen(false)}
+      />
     </div>
   );
 };
