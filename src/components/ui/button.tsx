@@ -9,7 +9,7 @@ const buttonVariants = cva('', {
     variant: {
       default: 'bg-white text-gray-500 w-fit border border-gray-400 shrink-0',
       contained:
-        'bg-black text-white pressed:bg-gray-10 disabled:bg-gray-04 disabled:text-white shrink-0',
+        'bg-black text-white pressed:bg-gray-10 disabled:bg-gray-04 disabled:text-white shrink-0 rounded-lg',
       outline:
         'border border-gray-03 text-gray-08 disabled:bg-gray-01 disabled:text-gray-04 bg-white shrink-0',
       textOnly: 'text-gray-08 disabled:text-gray-04 shrink-0',
