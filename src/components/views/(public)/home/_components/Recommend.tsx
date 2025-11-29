@@ -30,7 +30,7 @@ export const Recommend = () => {
 
   return (
     <div>
-      <div className="flex flex-wrap items-center gap-2 px-4 py-2">
+      <div className="ove flex items-center gap-2 px-4 py-2">
         <Chips
           items={[
             { value: '', label: '전체' },
