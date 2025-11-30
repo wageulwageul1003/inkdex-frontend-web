@@ -20,7 +20,7 @@ const buttonVariants = cva('', {
         'rounded-lg bg-gray-09 hover:bg-gray-10 disabled:bg-gray-04 shrink-0',
       buttonIconOutline:
         'rounded-lg bg-gray-03 border-gray-03 hover:bg-gray-03 border disabled:bg-gray-02 disabled:border-gray-03 shrink-0',
-      buttonIconTextOnly: 'rounded-lg hover:bg-gray-01 bg-white shrink-0',
+      buttonIconTextOnly: 'rounded-lg hover:bg-gray-01 bg-transparent shrink-0',
     },
     size: {
       default: 'h-12 px-4 font-m-2 rounded-lg',

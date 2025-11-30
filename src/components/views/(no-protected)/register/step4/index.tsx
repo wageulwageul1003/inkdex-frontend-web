@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 
 import { registerStep4Schema } from '../schema';
 
+import { CustomModal } from '@/components/shared/custom-modal';
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
@@ -114,22 +115,27 @@ const Step4 = () => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-2 px-4"
+            className="flex flex-col gap-2"
           >
-            <FormFields
-              fieldType={FormFieldType.CHECKBOX}
-              control={control}
-              name="agreeAll"
-              checkboxLabel={
-                <span className="font-m-1 text-gray-08">약관 전체 동의</span>
-              }
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                handleAgreeAll(e.target.checked)
-              }
-            />
+            <div className="flex rounded-lg bg-white px-4 py-3">
+              <FormFields
+                fieldType={FormFieldType.CHECKBOX}
+                control={control}
+                name="agreeAll"
+                checkboxLabel={
+                  <span className="font-m-1 text-gray-08">약관 전체 동의</span>
+                }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleAgreeAll(e.target.checked)
+                }
+              />
+            </div>
 
             {termsList?.data?.content.map((item) => (
-              <div className="flex items-center justify-between" key={item.id}>
+              <div
+                className="flex items-center justify-between px-4"
+                key={item.id}
+              >
                 <FormFields
                   fieldType={FormFieldType.CHECKBOX}
                   control={control}
@@ -202,13 +208,17 @@ const Step4 = () => {
         </Button>
       </div>
 
-      {/* <CustomAlertDialog
+      <CustomModal
         isOpen={isOpen}
         onOpenChange={() => setIsOpen(false)}
-        title={termsContent?.title}
-      >
-        <div>{termsContent?.content}</div>
-      </CustomAlertDialog> */}
+        title={termsContent?.title || ''}
+        description={
+          <span className="font-m-2 text-gray-08">
+            {termsContent?.content || ''}
+          </span>
+        }
+        isCancelButton={false}
+      />
     </div>
   );
 };
