@@ -6,7 +6,7 @@ export default function MenusLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col">
+    <div className="w-full">
       {children}
       <BottomMenu />
     </div>

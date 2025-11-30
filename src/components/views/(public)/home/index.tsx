@@ -14,7 +14,7 @@ export const Home = () => {
   const [writeOpen, setWriteOpen] = useState(false);
 
   return (
-    <div className="flex flex-1 flex-col bg-white px-4">
+    <div className="w-full bg-white px-4">
       <div className="flex justify-between py-3">
         <span className="font-l-1 text-black">피드</span>
         <Alaram status={true} />

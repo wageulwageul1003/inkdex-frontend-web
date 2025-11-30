@@ -29,8 +29,8 @@ export const Recommend = () => {
   );
 
   return (
-    <div>
-      <div className="ove flex items-center gap-2 px-4 py-2">
+    <div className="w-full">
+      <div className="flex items-center gap-2 overflow-x-scroll px-4 py-2">
         <Chips
           items={[
             { value: '', label: '전체' },
