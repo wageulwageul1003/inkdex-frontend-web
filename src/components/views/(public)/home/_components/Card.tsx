@@ -3,11 +3,13 @@
 import Image from 'next/image';
 
 import FavoriteToggle from '@/components/shared/favorite-toggle';
+import { FollowingButton } from '@/components/shared/following-button';
 import { Icons } from '@/components/shared/icons';
 import { UserProfile } from '@/components/shared/user-profile';
 import { Button } from '@/components/ui/button';
 
 interface CardProps {
+  following?: boolean;
   nickname: string;
   bio: string;
   viewCounting: number;
@@ -18,6 +20,7 @@ interface CardProps {
 }
 
 export const Card = ({
+  following,
   nickname,
   bio,
   viewCounting,
@@ -28,11 +31,20 @@ export const Card = ({
 }: CardProps) => {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <UserProfile nickname={nickname} nicknameSrc={nicknameSrc} bio={bio} />
-        <Button variant="buttonIconTextOnly" size="buttonIconMedium">
-          <Icons.moreHoriz className="size-6 fill-gray-08" />
-        </Button>
+      <div className="flex items-center gap-2">
+        <div className="flex-1">
+          <UserProfile
+            nickname={nickname}
+            nicknameSrc={nicknameSrc}
+            bio={bio}
+          />
+        </div>
+        <div className="flex shrink-0 items-center gap-1">
+          <FollowingButton following={!!following} />
+          <Button variant="buttonIconTextOnly" size="buttonIconMedium">
+            <Icons.moreHoriz className="size-6 fill-gray-08" />
+          </Button>
+        </div>
       </div>
 
       <div className="h-full w-full rounded-lg border border-gray-03">
