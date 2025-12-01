@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 
 interface CardProps {
   nickname: string;
+  bio: string;
   viewCounting: number;
   commentCounting?: number;
   nicknameSrc: string;
@@ -18,6 +19,7 @@ interface CardProps {
 
 export const Card = ({
   nickname,
+  bio,
   viewCounting,
   commentCounting,
   nicknameSrc,
@@ -27,7 +29,7 @@ export const Card = ({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <UserProfile nickname={nickname} nicknameSrc={nicknameSrc} />
+        <UserProfile nickname={nickname} nicknameSrc={nicknameSrc} bio={bio} />
         <Button variant="buttonIconTextOnly" size="buttonIconMedium">
           <Icons.moreHoriz className="size-6 fill-gray-08" />
         </Button>

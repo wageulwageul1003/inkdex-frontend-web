@@ -5,13 +5,13 @@ import Image from 'next/image';
 interface UserProfileProps {
   nickname: string;
   nicknameSrc: string;
-  intro?: string;
+  bio?: string;
 }
 
 export const UserProfile = ({
   nickname,
   nicknameSrc,
-  intro,
+  bio,
 }: UserProfileProps) => {
   return (
     <div className="flex gap-2">
@@ -25,7 +25,7 @@ export const UserProfile = ({
       </div>
       <div className="flex flex-col">
         <p className="font-s-1 text-gray-09">{nickname}</p>
-        {intro && <p className="font-xs-2 text-gray-06">{intro}</p>}
+        {bio && <p className="font-xs-2 text-gray-06">{bio}</p>}
       </div>
     </div>
   );

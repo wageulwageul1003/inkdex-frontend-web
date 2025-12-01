@@ -48,19 +48,14 @@ export const Recommend = () => {
           (page: IResponsePaged<IPostListResponse>, i: number) => (
             <React.Fragment key={i}>
               {page.data.content.map((item: IPostListResponse) => (
-                <div
+                <Card
                   key={item.publicId}
-                  onClick={() => router.push(`/posts/${item.publicId}`)}
-                >
-                  <Card
-                    ratio={item.aspectRatio}
-                    key={item.publicId}
-                    nickname={item.userNickname}
-                    viewCounting={item.viewCount}
-                    nicknameSrc={item.thumbnailUrl || ''}
-                    src={item.thumbnailUrl}
-                  />
-                </div>
+                  ratio={item.imageMetadata?.aspectRatio}
+                  nickname={item.userNickname}
+                  viewCounting={item.viewCount}
+                  nicknameSrc={item.thumbnailUrl || ''}
+                  src={item.thumbnailUrl}
+                />
               ))}
             </React.Fragment>
           ),
