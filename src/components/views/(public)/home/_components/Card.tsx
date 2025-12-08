@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import FavoriteToggle from '@/components/shared/favorite-toggle';
 import { FollowingButton } from '@/components/shared/following-button';
@@ -9,6 +10,7 @@ import { UserProfile } from '@/components/shared/user-profile';
 import { Button } from '@/components/ui/button';
 
 interface CardProps {
+  publicId: string;
   following?: boolean;
   nickname: string;
   bio: string;
@@ -20,6 +22,7 @@ interface CardProps {
 }
 
 export const Card = ({
+  publicId,
   following,
   nickname,
   bio,
@@ -29,6 +32,7 @@ export const Card = ({
   src,
   ratio = 1.5,
 }: CardProps) => {
+  const router = useRouter();
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2">
@@ -64,7 +68,10 @@ export const Card = ({
             <FavoriteToggle />
             <p className="font-xs-2 text-gray-08">{viewCounting}</p>
           </div>
-          <div className="flex items-center gap-1 py-1">
+          <div
+            className="flex items-center gap-1 py-1"
+            onClick={() => router.push(`/comment/${publicId}`)}
+          >
             <Icons.messageCircle className="size-6 stroke-gray-05" />
             <p className="font-xs-2 text-gray-08">{commentCounting}</p>
           </div>
