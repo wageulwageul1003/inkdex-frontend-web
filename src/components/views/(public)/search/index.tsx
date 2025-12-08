@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 
@@ -11,12 +12,13 @@ import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Form } from '@/components/ui/form';
 
 export const Search = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof searchSchema>>({
     resolver: zodResolver(searchSchema),
   });
 
   const onSubmit = (data: z.infer<typeof searchSchema>) => {
-    console.log(data);
+    router.push(`/search/result?searchKeyword=${data.searchKeyword}`);
   };
   return (
     <div className="flex flex-1 flex-col bg-white px-4">
