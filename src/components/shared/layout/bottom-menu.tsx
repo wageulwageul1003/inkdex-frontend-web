@@ -1,13 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
-import { Button } from '../ui/button';
-
-import { Icons } from './icons';
+import { Button } from '../../ui/button';
+import { Icons } from '../icons';
 
 export const BottomMenu = () => {
+  const router = useRouter();
   const pathname = usePathname();
 
   const menuItems = [
@@ -48,6 +48,9 @@ export const BottomMenu = () => {
           size="buttonIconMedium"
           variant="contained"
           className="shadow-2"
+          onClick={() => {
+            router.push('/posts/write');
+          }}
         >
           <Icons.plus className="size-6 fill-white" />
         </Button>
