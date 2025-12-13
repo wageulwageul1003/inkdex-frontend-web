@@ -17,6 +17,7 @@ import { Form, FormLabel } from '@/components/ui/form';
 import { SELECTED_IMAGE } from '@/constants/tokens';
 import { useGetCategoryList } from '@/hook/common/useGetCategoryList';
 import { usePostPosts } from '@/hook/posts/usePostPosts';
+import { nativeBridge } from '@/lib/native-bridge';
 
 interface TProps {
   uuid: string;
@@ -86,7 +87,10 @@ export const PostsWrite: FC<TProps> = (props) => {
           })}
           className="mt-3 flex flex-col items-center justify-center"
         >
-          <div className="flex h-[240px] w-[240px] flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-gray-04 bg-gray-02">
+          <div
+            className="flex h-[240px] w-[240px] flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-gray-04 bg-gray-02"
+            onClick={() => nativeBridge.openGallery()}
+          >
             <Icons.plus className="size-6 fill-gray-06" />
             <span className="font-xs-2 text-center text-gray-05">
               여기를 눌러서 <br />
