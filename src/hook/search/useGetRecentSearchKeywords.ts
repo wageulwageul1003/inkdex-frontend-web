@@ -5,21 +5,18 @@ import { agent } from '@/utils/fetch';
 
 export interface IRecentSearchKeywordsResponse {
   id: string;
-  username: string;
-  nickname: string;
-  profileImageUrl: string;
-  followerCount: number;
-  followingCount: number;
+  searchTerm: string;
 }
 
-export const GetRecentSearchKeywords =
-  async (): Promise<IRecentSearchKeywordsResponse> => {
-    const data = await agent(`/api/v1/search/me/recent`, {
-      method: 'GET',
-    });
+export const GetRecentSearchKeywords = async (): Promise<
+  IRecentSearchKeywordsResponse[]
+> => {
+  const data = await agent(`/api/v1/search/me/recent`, {
+    method: 'GET',
+  });
 
-    return data.data.content;
-  };
+  return data.data.content;
+};
 
 export const useGetRecentSearchKeywords = () =>
   useQuery({

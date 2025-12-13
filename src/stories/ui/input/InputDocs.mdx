@@ -1,0 +1,80 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Input } from '../../../components/ui/input';
+
+export const BasicInput = () => (
+    <Input placeholder="텍스트를 입력하세요" />
+
+);
+
+export const PasswordInput = () => (
+ 
+    <Input type="password" placeholder="비밀번호" />
+
+);
+
+export const VerificationInput = () => (
+
+    <Input placeholder="인증 코드를 입력하세요" expire={180} />
+
+);
+
+export const ErrorInput = () => (
+    <Input
+      placeholder="잘못된 값이 입력된 상태"
+      error={{ type: 'manual', message: '유효하지 않은 값입니다.' }}
+    />
+
+);
+
+<Meta title="UI Components/Input/Documentation" />
+
+<div className="flex flex-col gap-4">
+  <div>
+    <h1>Input 컴포넌트 문서</h1>
+    <p>
+      텍스트, 비밀번호, 인증 코드 등 다양한 형태의 입력을 받기 위한 기본 인풋 필드입니다.
+      <code>Input</code> 컴포넌트는 <code>react-hook-form</code>과 함께 사용할 수 있도록 설계되어 있으며,
+      에러 상태, 비밀번호 토글, 인증 타이머 표시를 지원합니다.
+    </p>
+  </div>
+
+{' '}
+
+<div className="bg-lime-50 p-4">
+  <h3>기본 사용</h3>
+  <p>가장 일반적인 텍스트 입력 필드입니다.</p>
+  <BasicInput />
+</div>
+
+{' '}
+
+<div className="bg-lime-50 p-4">
+  <h3>비밀번호 입력</h3>
+  <p>
+    <code>type="password"</code>로 사용하면 우측에 토글 아이콘이 나타나며,
+    비밀번호 표시/숨김을 전환할 수 있습니다.
+  </p>
+  <PasswordInput />
+</div>
+
+{' '}
+
+<div className="bg-lime-50 p-4">
+  <h3>인증 코드 + 타이머</h3>
+  <p>
+    <code>expire</code> 값을 전달하면 우측에 타이머가 표시되고,
+    <code>isVerified</code>가 <code>true</code>가 되면 인증 완료 아이콘으로
+    변경됩니다.
+  </p>
+  <VerificationInput />
+</div>
+
+  <div className="bg-lime-50 p-4">
+    <h3>에러 상태</h3>
+    <p>
+      <code>error</code> prop에 <code>react-hook-form</code>의 <code>FieldError</code>와 유사한 형태의 객체를 전달하면
+      테두리 색이 에러 컬러로 변경되며, 하단에 에러 메시지를 함께 노출할 수 있습니다.
+    </p>
+    <ErrorInput />
+  </div>
+</div>

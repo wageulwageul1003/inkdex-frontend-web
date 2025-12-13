@@ -36,9 +36,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type === 'password' && showPassword ? 'text' : type}
           className={cn(
-            'search-box font-body1 placeholder:font-body1 flex h-12 w-full items-center justify-between rounded border border-gray-200 bg-white px-4 placeholder-gray-300 hover:border-gray-500 focus:border-gray-500 focus-visible:outline-none',
-            'file:border-0 file:bg-transparent autofill:shadow-[inset_0_0_0_1000px_var(--white)] disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-400',
-            error && 'border-red-600',
+            'font-m-2 placeholder:font-m-2 flex h-12 w-full items-center justify-between rounded-lg border border-gray-03 bg-white px-4 text-black placeholder-gray-05 hover:border-sand-05 focus:border-gray-06 focus-visible:outline-none',
+            'file:border-0 file:bg-transparent autofill:shadow-[inset_0_0_0_1000px_var(--white)] disabled:cursor-not-allowed disabled:border-gray-03 disabled:bg-gray-02 disabled:text-gray-08',
+            '[&::-ms-clear]:hidden [&::-ms-reveal]:hidden [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden',
+            error && 'border-red-05',
+            type === 'password' && 'pr-11',
             className,
           )}
           ref={ref}
@@ -54,28 +56,24 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             title={showPassword ? 'Show password' : 'Hide password'}
             tabIndex={-1}
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-2/3 -translate-y-3/4"
+            className="absolute right-4 top-2/3 -translate-y-3/4"
           >
             {showPassword ? (
-              <Icons.visibility className="h-m w-m shrink-0 fill-gray-500" />
+              <Icons.visibility className="size-6 shrink-0 fill-gray-05" />
             ) : (
-              <Icons.visibility_off className="h-m w-m shrink-0 fill-gray-500" />
+              <Icons.visibilityOff className="size-6 shrink-0 fill-gray-05" />
             )}
           </button>
         )}
 
         {/* Code success and timer */}
-        <p className="absolute right-3 top-1/2 -translate-y-1/2">
+        <div className="absolute inset-y-0 right-4 flex items-center">
           {isVerified ? (
-            <Icons.check className="h-m w-m fill-green-700" />
+            <Icons.check className="size-5 fill-gray-05" />
           ) : (
             expire && <Timer expire={expire} />
           )}
-        </p>
-
-        {isSearchIcon && (
-          <Icons.search className="text-gray-6 h-m w-m absolute right-3 top-1/2 -translate-y-1/2" />
-        )}
+        </div>
       </fieldset>
     );
   },

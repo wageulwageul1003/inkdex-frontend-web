@@ -1,30 +1,64 @@
 import { z } from 'zod';
 
+import { validateEmail, validatePassword } from '@/lib/utils';
+
 export const registerStep1Schema = z.object({
-  agreeAll: z.boolean().optional(),
+  email: z
+    .string()
+    .min(1, { message: '이메일을 입력해 주세요.' })
+    .refine((email) => validateEmail(email), {
+      message: '올바른 이메일 형식을 입력해주세요.',
+    }),
+  code: z.string().nonempty({ message: '인증번호를 입력해 주세요.' }),
 });
 
 export type TRegisterStep1Schema = z.infer<typeof registerStep1Schema>;
 
-export const registerStep2Schema = z.object({
-  email: z.string().min(1, { message: '이메일을 입력해 주세요.' }),
-  code: z.string().nonempty({ message: '인증번호를 입력해 주세요.' }),
-  nickname: z.string().min(1, { message: '닉네임을 입력해 주세요.' }),
-  password: z.string().min(1, { message: '비밀번호를 입력해 주세요.' }),
-  agreedTermIds: z.array(z.string()).optional(),
-});
+export const registerStep2Schema = z
+  .object({
+    password: z
+      .string()
+      .min(8, { message: '영문, 숫자, 특수문자 포함 8자 이상 입력하세요.' })
+      .refine((pwd) => validatePassword(pwd), {
+        message: '영문, 숫자, 특수문자 포함 8자 이상 입력하세요.',
+      })
+      .optional(), // 비밀번호
+    passwordConfirm: z
+      .string()
+      .min(1, { message: '비밀번호를 한번 더 입력해주세요.' }),
+  })
+  .refine((data) => data.password === data.passwordConfirm, {
+    message: '비밀번호가 일치하지 않습니다.',
+    path: ['passwordConfirm'],
+  });
 
 export type TRegisterStep2Schema = z.infer<typeof registerStep2Schema>;
 
-export const verifyEmailSchema = z.object({
-  email: z.string().min(1, { message: '이메일을 입력해 주세요.' }),
+export const registerStep3Schema = z.object({
+  fullName: z.string().min(1, { message: '이름을 입력해 주세요.' }),
 });
 
-export type TVerifyEmailSchema = z.infer<typeof verifyEmailSchema>;
+export type TRegisterStep3Schema = z.infer<typeof registerStep3Schema>;
 
-export const confirmEmailSchema = z.object({
-  email: z.string().min(1, { message: '이메일을 입력해 주세요.' }),
-  code: z.string().min(1, { message: '인증번호를 입력해 주세요.' }),
+export const registerStep4Schema = z.object({
+  agreedTermIds: z.array(z.string()),
 });
 
-export type TConfirmEmailSchema = z.infer<typeof confirmEmailSchema>;
+export type TRegisterStep4Schema = z.infer<typeof registerStep4Schema>;
+
+export const registerStep5Schema = z.object({
+  nickname: z.string().min(1, { message: '닉네임을 입력해 주세요.' }),
+});
+
+export type TRegisterStep5Schema = z.infer<typeof registerStep5Schema>;
+
+export const registerSchema = z.object({
+  email: z.string().min(1, { message: '이메일을 입력해 주세요.' }),
+  password: z.string().min(1, { message: '비밀번호를 입력해 주세요.' }),
+  fullName: z.string().min(1, { message: '이름을 입력해 주세요.' }),
+  nickname: z.string().min(1, { message: '닉네임을 입력해 주세요.' }),
+  agreedTermIds: z.array(z.string()),
+  preferredCategorySlugs: z.array(z.string()),
+});
+
+export type TRegisterSchema = z.infer<typeof registerSchema>;

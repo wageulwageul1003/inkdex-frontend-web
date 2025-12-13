@@ -2,26 +2,26 @@
 
 import React, { ReactNode } from 'react';
 
+import { Icons } from './icons';
+
 import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 
 interface CustomAlertDialogProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
-  description?: string;
-  children?: ReactNode;
+  description?: ReactNode;
   cancelText?: string;
   confirmText?: string;
   onConfirm?: () => void;
+  type?: 'warning' | 'error' | 'success';
 }
 
 export const CustomAlertDialog = ({
@@ -29,10 +29,10 @@ export const CustomAlertDialog = ({
   onOpenChange,
   title,
   description,
-  children,
   cancelText = '취소',
   confirmText = '확인',
   onConfirm,
+  type = 'warning',
 }: CustomAlertDialogProps) => {
   const handleConfirm = () => {
     if (onConfirm) {
@@ -44,14 +44,20 @@ export const CustomAlertDialog = ({
   return (
     <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
       <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>{title}</AlertDialogTitle>
-          {description && (
-            <AlertDialogDescription>{description}</AlertDialogDescription>
-          )}
-        </AlertDialogHeader>
+        <AlertDialogHeader></AlertDialogHeader>
 
-        {children}
+        <div className="flex flex-col items-center gap-1">
+          {type === 'warning' && (
+            <Icons.emergencyHomeFill className="size-5 fill-gray-05" />
+          )}
+          <p className="font-m-1 text-black">{title}</p>
+
+          {description && (
+            <div className="font-s-2 text-center text-gray-05">
+              {description}
+            </div>
+          )}
+        </div>
 
         <AlertDialogFooter>
           <AlertDialogCancel onClick={() => onOpenChange(false)}>

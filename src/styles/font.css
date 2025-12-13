@@ -1,6 +1,104 @@
-.font-header {
-  font-family: var(--font-wantedSans);
+/* font-xxxl */
+.font-xxxl-1 {
+  font-family: var(--font-SpoqaHanSansNeo);
+  font-size: 26px;
+  line-height: 36px;
+  font-weight: 700;
+}
+
+.font-xxxl-2 {
+  font-family: var(--font-SpoqaHanSansNeo);
+  font-size: 26px;
+  line-height: 36px;
   font-weight: 400;
+}
+
+/* font-xxl */
+.font-xxl-1 {
+  font-family: var(--font-SpoqaHanSansNeo);
+  font-size: 22px;
+  line-height: 32px;
+  font-weight: 700;
+}
+
+.font-xxl-2 {
+  font-family: var(--font-SpoqaHanSansNeo);
+  font-size: 22px;
+  line-height: 32px;
+  font-weight: 400;
+}
+
+/* font-xl */
+.font-xl-1 {
+  font-family: var(--font-SpoqaHanSansNeo);
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 700;
+}
+
+.font-xl-2 {
+  font-family: var(--font-SpoqaHanSansNeo);
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 400;
+}
+
+/* font-l */
+.font-l-1 {
+  font-family: var(--font-SpoqaHanSansNeo);
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 700;
+}
+
+.font-l-2 {
+  font-family: var(--font-SpoqaHanSansNeo);
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 400;
+}
+
+/* font-m */
+.font-m-1 {
+  font-family: var(--font-SpoqaHanSansNeo);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+}
+
+.font-m-2 {
+  font-family: var(--font-SpoqaHanSansNeo);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+/* font-s */
+.font-s-1 {
+  font-family: var(--font-SpoqaHanSansNeo);
   font-size: 14px;
-  line-height: normal;
+  line-height: 20px;
+  font-weight: 700;
+}
+
+.font-s-2 {
+  font-family: var(--font-SpoqaHanSansNeo);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+/* font-xs */
+.font-xs-1 {
+  font-family: var(--font-SpoqaHanSansNeo);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+}
+
+.font-xs-2 {
+  font-family: var(--font-SpoqaHanSansNeo);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
 }

@@ -5,19 +5,30 @@ import { IResponsePaged } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface IPostListResponse {
-  aspectRatio: number;
   publicId: string;
-  userPublicId: string;
+  userId: string;
   userNickname: string;
-  profileImageUrl: string | null;
+  profileImageUrl: string;
+  userBio: string;
+  following: boolean;
+  categorySlug: string;
+  content: string;
+  imageUrl: string;
   thumbnailUrl: string;
-  viewCount: number;
   imageMetadata: {
     width: number;
     height: number;
     aspectRatio: number;
     fileSize: number;
   };
+  tags: string[];
+  likeCount: number;
+  liked: boolean;
+  bookmarked: boolean;
+  commentCount: number;
+  viewCount: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // PARAMS TYPE

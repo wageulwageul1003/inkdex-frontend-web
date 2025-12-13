@@ -4,30 +4,39 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-const buttonVariants = cva(
-  'w-full flex items-center justify-center gap-2 whitespace-nowrap focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
-  {
-    variants: {
-      variant: {
-        cta: 'bg-black text-white rounded-[16px] w-full',
-        default:
-          'bg-white text-gray-500 w-fit border border-gray-400 rounded-[12px]',
-        outline:
-          'bg-white border-gray-400 text-black w-fit rounded-[12px] border',
-      },
-      size: {
-        cta: 'py-5',
-        default: '',
-        outline: 'py-2 px-3',
-        icon: 'h-9 w-9',
-      },
+const buttonVariants = cva('', {
+  variants: {
+    variant: {
+      default: 'bg-white text-gray-500 w-fit border border-gray-400 shrink-0',
+      contained:
+        'bg-black text-white pressed:bg-gray-10 disabled:bg-gray-04 disabled:text-white shrink-0 rounded-lg',
+      outline:
+        'border border-gray-03 text-gray-08 disabled:bg-gray-01 disabled:text-gray-04 bg-white shrink-0',
+      textOnly: 'text-gray-08 disabled:text-gray-04 shrink-0',
+      buttonText:
+        'border-b border-gray-08 disabled:border-gray-04 text-gray-08 disabled:text-gray-04 shrink-0',
+      // button-icon
+      buttonIconContained:
+        'rounded-lg bg-gray-09 hover:bg-gray-10 disabled:bg-gray-04 shrink-0',
+      buttonIconOutline:
+        'rounded-lg bg-gray-03 border-gray-03 hover:bg-gray-03 border disabled:bg-gray-02 disabled:border-gray-03 shrink-0',
+      buttonIconTextOnly: 'rounded-lg hover:bg-gray-01 bg-transparent shrink-0',
     },
-    defaultVariants: {
-      variant: 'default',
-      size: 'default',
+    size: {
+      default: 'h-12 px-4 font-m-2 rounded-lg',
+      lg: 'h-12 px-4 font-m-2 rounded-lg',
+      md: 'h-9 px-4 font-m-2 rounded-lg',
+      sm: 'h-7 px-2 font-s-2 rounded-md',
+      buttonText: 'w-fit h-fit',
+      buttonIconLarge: 'h-12 w-12 flex items-center justify-center',
+      buttonIconMedium: 'h-9 w-9 flex items-center justify-center',
     },
   },
-);
+  defaultVariants: {
+    variant: 'default',
+    size: 'default',
+  },
+});
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,

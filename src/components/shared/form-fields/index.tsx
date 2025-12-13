@@ -23,6 +23,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import SelectComponent from '@/components/ui/select-container';
+import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
@@ -41,7 +42,7 @@ export enum FormFieldType {
   // RADIO VARIANTS
   RADIO = 'radio',
   CHECKBOX = 'checkbox',
-  SWITCH = 'switch',
+  TOGGLE = 'toggle',
 
   // DATE VARIANTS
   DATE_PICKER = 'datePicker',
@@ -132,7 +133,7 @@ interface CustomProps<T extends FieldValues> {
    */
   options?: TOptionList;
   checkboxValue?: string | boolean | number;
-  checkboxLabel?: string;
+  checkboxLabel?: string | React.ReactNode;
 
   // Dynamic content and skeleton rendering
   renderSkeleton?: (
@@ -150,6 +151,9 @@ interface CustomProps<T extends FieldValues> {
   // editor props
   setHasFile?: React.Dispatch<React.SetStateAction<boolean>>;
   maxCount?: number;
+
+  // event handlers
+  onChange?: (e: any) => void;
 }
 
 export const InputField = <T extends FieldValues>({
@@ -175,11 +179,6 @@ export const InputField = <T extends FieldValues>({
             id={formItemId}
             {...field}
           />
-          {props.maxCharacters && (
-            <span className="font-caption mt-2 truncate text-gray-500">
-              ({field.value?.length.toString() || '0'}/{props.maxCharacters})
-            </span>
-          )}
         </fieldset>
       );
 
@@ -234,8 +233,8 @@ export const InputField = <T extends FieldValues>({
             error={error}
           />
           {props.maxCharacters && (
-            <span className="font-caption absolute bottom-2 right-3 truncate text-gray-500">
-              ({field.value?.length.toString() || '0'}/{props.maxCharacters})
+            <span className="font-xs-2 absolute bottom-3 right-4 truncate text-gray-04">
+              {field.value?.length.toString() || '0'}/{props.maxCharacters}
             </span>
           )}
         </fieldset>
@@ -297,7 +296,10 @@ export const InputField = <T extends FieldValues>({
           className={props.className}
           disabled={props.disabled}
           checked={field.value}
-          onChange={field.onChange}
+          onChange={(e) => {
+            field.onChange(e);
+            props.onChange?.(e);
+          }}
         />
       );
     case FormFieldType.RADIO:
@@ -334,6 +336,17 @@ export const InputField = <T extends FieldValues>({
         </RadioGroup>
       );
 
+    // TOGGLE
+    case FormFieldType.TOGGLE:
+      return (
+        <Switch
+          className={props.className}
+          disabled={props.disabled}
+          checked={field.value}
+          onCheckedChange={field.onChange}
+        />
+      );
+
     // SKELETON
     case FormFieldType.SKELETON:
       return props.renderSkeleton ? props.renderSkeleton(field) : null;
@@ -364,10 +377,7 @@ const FormFields = <T extends FieldValues>(props: CustomProps<T>) => {
         <FormItem className={cn(className)}>
           {/* LABEL */}
           {label && (
-            <FormLabel
-              required={required}
-              className={cn(labelClassName, labelSlot === undefined && 'mb-1')}
-            >
+            <FormLabel required={required} className={cn(labelClassName)}>
               {label}
             </FormLabel>
           )}

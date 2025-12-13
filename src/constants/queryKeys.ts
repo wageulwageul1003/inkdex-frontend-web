@@ -1,5 +1,6 @@
 const emailLoginKey = 'emailLoginKey';
 const nicknameDuplicateCheckKey = 'nicknameDuplicateCheckKey';
+const resetPasswordKey = 'resetPasswordKey';
 
 const verifyEmailKey = 'verifyEmailKey';
 const confirmEmailKey = 'confirmEmailKey';
@@ -12,6 +13,10 @@ const categoryListKey = 'categoryListKey';
 const postsListKey = 'postsListKey';
 const postsDetailKey = 'postsDetailKey';
 const postsKey = 'postsKey';
+
+const collectionListKey = 'collectionListKey';
+const collectionDetailKey = 'collectionDetailKey';
+const collectionKey = 'collectionKey';
 
 const bookmarkKey = 'bookmarkKey';
 const deleteBookmarkKey = 'deleteBookmarkKey';
@@ -39,6 +44,7 @@ const faqCategoryKey = 'faqCategoryKey';
 export {
   emailLoginKey,
   nicknameDuplicateCheckKey,
+  resetPasswordKey,
   verifyEmailKey,
   confirmEmailKey,
   registerKey,
@@ -48,6 +54,9 @@ export {
   postsListKey,
   postsDetailKey,
   postsKey,
+  collectionListKey,
+  collectionDetailKey,
+  collectionKey,
   bookmarkKey,
   deleteBookmarkKey,
   bookmarkListKey,

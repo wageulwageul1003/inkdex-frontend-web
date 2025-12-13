@@ -4,11 +4,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 
+import { Hot } from './_components/result/Hot';
 import { searchSchema } from './schema';
 
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
-import { Icons } from '@/components/shared/icons';
 import { Form } from '@/components/ui/form';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export const SearchResult = () => {
   const form = useForm<z.infer<typeof searchSchema>>({
@@ -20,26 +21,37 @@ export const SearchResult = () => {
   };
 
   return (
-    <div className="flex flex-col gap-10 py-4">
-      <div className="flex w-full items-center justify-between gap-4">
-        <Icons.keyboardArrowLeft className="size-6 fill-black" />
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full flex-1"
-          >
-            <div className="flex items-center rounded-[16px] border border-gray-400">
-              <FormFields
-                fieldType={FormFieldType.INPUT}
-                control={form.control}
-                name="searchKeyword"
-                placeholder="검색어를 입력해주세요."
-                className="w-full"
-              />
-            </div>
-          </form>
-        </Form>
-      </div>
+    <div className="w-full bg-white px-4">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="pb-3 pt-2">
+          <FormFields
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="searchKeyword"
+            placeholder="검색어를 입력해주세요."
+            className="mt-2 w-full"
+          />
+        </form>
+      </Form>
+
+      <Tabs defaultValue="hot" className="mt-3 w-full">
+        <TabsList className="">
+          <TabsTrigger value="hot">인기</TabsTrigger>
+          <TabsTrigger value="latest">최신</TabsTrigger>
+          <TabsTrigger value="user">사용자</TabsTrigger>
+        </TabsList>
+
+        {/* 인기 */}
+        <TabsContent value="hot">
+          <Hot />
+        </TabsContent>
+
+        {/* 최신 */}
+        <TabsContent value="latest"></TabsContent>
+
+        {/* 사용자 */}
+        <TabsContent value="user"></TabsContent>
+      </Tabs>
     </div>
   );
 };

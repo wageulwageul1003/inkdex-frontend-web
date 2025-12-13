@@ -1,8 +1,4 @@
-// import { Icons } from '@/components/shared/icons';
-// import { useGetFaqCategory } from '@/hooks/faq/useGetFaqCategory';
-// import { useSpecificConstant } from '@/hooks/useGetConstant';
-// import { useGetConstantLabel } from '@/hooks/useGetLabelValue';
-// import { cn } from '@/lib/utils';
+'use client';
 
 // interface FaqItemProps {
 //   uuid: string;

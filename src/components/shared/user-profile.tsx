@@ -5,12 +5,17 @@ import Image from 'next/image';
 interface UserProfileProps {
   nickname: string;
   nicknameSrc: string;
+  bio?: string;
 }
 
-export const UserProfile = ({ nickname, nicknameSrc }: UserProfileProps) => {
+export const UserProfile = ({
+  nickname,
+  nicknameSrc,
+  bio,
+}: UserProfileProps) => {
   return (
-    <div className="flex gap-[6px]">
-      <div className="flex h-6 w-6 items-center justify-center rounded-full border border-gray-400">
+    <div className="flex gap-2">
+      <div className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-03">
         <Image
           src={nicknameSrc || '/default-profile.png'}
           alt=""
@@ -18,7 +23,10 @@ export const UserProfile = ({ nickname, nicknameSrc }: UserProfileProps) => {
           height={16}
         />
       </div>
-      <p className="text-gray-700">{nickname}</p>
+      <div className="flex flex-col">
+        <p className="font-s-1 text-gray-09">{nickname}</p>
+        {bio && <p className="font-xs-2 text-gray-06">{bio}</p>}
+      </div>
     </div>
   );
 };

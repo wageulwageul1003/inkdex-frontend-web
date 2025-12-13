@@ -4,7 +4,7 @@ import { Icons } from '@/components/shared/icons';
 import { cn } from '@/lib/utils';
 type TProps = InputHTMLAttributes<HTMLInputElement> & {
   className?: string;
-  label?: string;
+  label?: string | React.ReactNode;
   checkboxStyle?: string;
   labelStyle?: string;
 };
@@ -17,6 +17,8 @@ const Checkbox: FC<TProps> = (props) => {
     labelStyle,
     checked,
     onChange,
+    disabled,
+    id,
     ...rest
   } = props;
   const [isChecked, setIsChecked] = useState(checked || false);
@@ -57,28 +59,29 @@ const Checkbox: FC<TProps> = (props) => {
       <div className="relative">
         <input
           type="checkbox"
-          id={label}
+          id={id}
           className="sr-only"
           checked={isChecked}
           onChange={handleChange}
-          name={label}
           {...rest}
         />
-        <div
-          className="flex h-5 w-5 cursor-pointer items-center justify-center rounded border border-gray-300"
-          onClick={handleClick}
-        >
-          <div className="h-4 w-4">
-            {isChecked ? (
-              <Icons.checkOn className="size-5 fill-black stroke-white" />
-            ) : (
-              <Icons.checkOff className="size-5 fill-white stroke-gray-400" />
-            )}
-          </div>
+        <div onClick={handleClick}>
+          {isChecked ? (
+            <Icons.checkBox
+              className={cn('size-6 fill-gray-08', disabled && 'fill-gray-04')}
+            />
+          ) : (
+            <Icons.checkBoxOutlineBlank
+              className={cn(
+                'size-6 stroke-gray-05',
+                disabled && 'stroke-gray-04',
+              )}
+            />
+          )}
         </div>
       </div>
       <label
-        htmlFor={label}
+        htmlFor={id}
         className={cn(
           !label && 'hidden',
           'whitespace-wrap cursor-pointer',

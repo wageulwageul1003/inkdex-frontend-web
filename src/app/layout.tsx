@@ -3,6 +3,7 @@ import React, { Suspense } from 'react';
 
 import Loading from './loading';
 
+import { Toaster } from '@/components/ui/sonner';
 import { cn } from '@/lib/utils';
 import { AuthProvider } from '@/providers/auth';
 import QueryProvider from '@/providers/query-provider';
@@ -43,9 +44,14 @@ export default async function IndexLayout({
       <body className={cn('flex min-h-screen flex-col')}>
         <QueryProvider>
           <AuthProvider>
-            <Suspense fallback={<Loading />}>{children}</Suspense>
+            <Suspense fallback={<Loading />}>
+              <div className="default-layout-content flex flex-1">
+                {children}
+              </div>
+            </Suspense>
           </AuthProvider>
         </QueryProvider>
+        <Toaster />
       </body>
     </html>
   );

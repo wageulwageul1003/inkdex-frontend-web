@@ -9,15 +9,16 @@ interface ChipsProps {
   disabledItems?: string[]; // 비활성화할 항목 배열
   selected?: string | string[]; // 선택된 항목(들)
   onChange?: (item: string | string[]) => void; // 선택 변경 시 호출될 콜백
+  type?: 'round' | 'text';
 }
 
 const Chips: React.FC<ChipsProps> = ({
   items,
-
   variant = 'single',
   disabledItems = [],
   selected,
   onChange,
+  type = 'round',
 }) => {
   // 내부 상태는 외부에서 제어될 때만 사용
   const [internalSelected, setInternalSelected] = React.useState<
@@ -66,42 +67,61 @@ const Chips: React.FC<ChipsProps> = ({
     }
   };
 
-  return (
-    <div className={'no-scrollbar flex w-full gap-1 overflow-x-scroll'}>
-      {items.map((item, index) => {
-        const isSelected = isItemSelected(String(item.value));
-        const isDisabled = disabledItems.includes(String(item.value));
+  return items.map((item, index) => {
+    const isSelected = isItemSelected(String(item.value));
+    const isDisabled = disabledItems.includes(String(item.value));
 
-        let buttonStyles = '';
-        let textStyles = '';
+    let buttonStyles = '';
+    let textStyles = '';
 
-        if (isDisabled) {
-          buttonStyles =
-            'border-gray-200 bg-gray-100 cursor-not-allowed border';
-          textStyles = 'text-gray-400';
-        } else if (isSelected) {
-          buttonStyles = 'bg-black';
-          textStyles = 'text-white';
-        } else {
-          buttonStyles = 'bg-gray-200';
-          textStyles = 'text-black';
-        }
+    if (type === 'round') {
+      if (isDisabled) {
+        buttonStyles = 'border-gray-200 bg-gray-03 cursor-not-allowed border';
+        textStyles = 'text-gray-400';
+      } else if (isSelected) {
+        buttonStyles = 'bg-gray-09';
+        textStyles = 'text-white';
+      } else {
+        buttonStyles = 'bg-gray-03';
+        textStyles = 'text-gray-09';
+      }
+    } else {
+      if (isDisabled) {
+        buttonStyles = 'cursor-not-allowed';
+        textStyles = 'text-gray-400';
+      } else if (isSelected) {
+        buttonStyles = 'bg-sand-01';
+        textStyles = 'text-sand-08';
+      } else {
+        buttonStyles = 'bg-white';
+        textStyles = 'text-gray-05';
+      }
+    }
 
-        return (
-          <button
-            key={index}
-            className={`flex flex-shrink-0 items-center whitespace-nowrap rounded-full px-3 py-2 transition-all ${buttonStyles}`}
-            onClick={() => {
-              if (!isDisabled) handleItemClick(String(item.value));
-            }}
-            disabled={isDisabled}
-          >
-            <span className={cn(textStyles, '')}>{item.label}</span>
-          </button>
-        );
-      })}
-    </div>
-  );
+    return (
+      <button
+        key={index}
+        className={cn(
+          `flex flex-shrink-0 items-center whitespace-nowrap transition-all`,
+          type === 'round' ? 'rounded-full px-4 py-3' : 'px-2 py-1.5',
+          buttonStyles,
+        )}
+        onClick={() => {
+          if (!isDisabled) handleItemClick(String(item.value));
+        }}
+        disabled={isDisabled}
+      >
+        <span
+          className={cn(
+            textStyles,
+            type === 'round' ? 'font-s-2' : 'font-xs-2',
+          )}
+        >
+          {item.label}
+        </span>
+      </button>
+    );
+  });
 };
 
 export default Chips;
