@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 
-import { Icons } from './icons';
+import { Icons } from '../icons';
 
 import { useAuth } from '@/providers/auth';
 
