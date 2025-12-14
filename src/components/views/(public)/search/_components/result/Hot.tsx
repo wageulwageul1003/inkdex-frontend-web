@@ -48,18 +48,7 @@ export const Hot = () => {
           (page: IResponsePaged<IPostListResponse>, i: number) => (
             <React.Fragment key={i}>
               {page.data.content.map((item: IPostListResponse) => (
-                <Card
-                  key={item.publicId}
-                  publicId={item.publicId}
-                  following={item.following}
-                  ratio={item.imageMetadata?.aspectRatio}
-                  nickname={item.userNickname}
-                  bio={item.userBio}
-                  viewCounting={item.viewCount}
-                  commentCounting={item.commentCount}
-                  nicknameSrc={item.thumbnailUrl || ''}
-                  src={item.thumbnailUrl}
-                />
+                <Card key={item.publicId} item={item} />
               ))}
             </React.Fragment>
           ),

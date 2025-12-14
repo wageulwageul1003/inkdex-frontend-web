@@ -48,21 +48,7 @@ export const Recommend = () => {
           (page: IResponsePaged<IPostListResponse>, i: number) => (
             <React.Fragment key={i}>
               {page.data.content.map((item: IPostListResponse) => (
-                <Card
-                  key={item.publicId}
-                  publicId={item.publicId}
-                  following={item.following}
-                  ratio={item.imageMetadata?.aspectRatio}
-                  nickname={item.userNickname}
-                  bio={item.userBio}
-                  likeCount={item.likeCount}
-                  viewCounting={item.viewCount}
-                  commentCounting={item.commentCount}
-                  nicknameSrc={item.thumbnailUrl || ''}
-                  src={item.thumbnailUrl}
-                  content={item.content}
-                  tags={item.tags}
-                />
+                <Card key={item.publicId} item={item} />
               ))}
             </React.Fragment>
           ),

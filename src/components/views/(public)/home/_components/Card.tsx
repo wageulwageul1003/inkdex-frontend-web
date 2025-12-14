@@ -10,36 +10,9 @@ import BookmarkToggle from '@/components/shared/post-toggle/bookmark-toggle';
 import FavoriteToggle from '@/components/shared/post-toggle/favorite-toggle';
 import { UserProfile } from '@/components/shared/user-profile';
 import { Button } from '@/components/ui/button';
+import { IPostListResponse } from '@/hook/home/useGetPostsList';
 
-interface CardProps {
-  publicId: string;
-  following?: boolean;
-  nickname: string;
-  bio: string;
-  likeCount: number;
-  viewCounting: number;
-  commentCounting?: number;
-  nicknameSrc: string;
-  src: string;
-  ratio: number;
-  content: string;
-  tags: string[];
-}
-
-export const Card = ({
-  publicId,
-  following,
-  nickname,
-  bio,
-  likeCount,
-  viewCounting,
-  commentCounting,
-  nicknameSrc,
-  src,
-  ratio = 1.5,
-  content,
-  tags,
-}: CardProps) => {
+export const Card = ({ item }: { item: IPostListResponse }) => {
   const router = useRouter();
   const contentRef = useRef<HTMLParagraphElement | null>(null);
   const [expanded, setExpanded] = useState(false);
@@ -69,19 +42,19 @@ export const Card = ({
       ro.disconnect();
       window.removeEventListener('resize', checkOverflow);
     };
-  }, [expanded, content]);
+  }, [expanded, item.content]);
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2">
         <div className="flex-1">
           <UserProfile
-            nickname={nickname}
-            nicknameSrc={nicknameSrc}
-            bio={bio}
+            nickname={item.userNickname}
+            nicknameSrc={item.thumbnailUrl || ''}
+            bio={item.userBio}
           />
         </div>
         <div className="flex shrink-0 items-center gap-1">
-          <FollowingButton following={!!following} />
+          <FollowingButton following={!!item.following} />
           <Button variant="buttonIconTextOnly" size="buttonIconMedium">
             <Icons.moreHoriz className="size-6 fill-gray-08" />
           </Button>
@@ -90,11 +63,11 @@ export const Card = ({
 
       <div className="h-full w-full rounded-lg border border-gray-03">
         <Image
-          src={src || '/default-image.png'}
+          src={item.thumbnailUrl || '/default-image.png'}
           alt=""
           width={100}
           height={100}
-          style={{ aspectRatio: ratio }}
+          style={{ aspectRatio: item.imageMetadata?.aspectRatio }}
           className="h-full w-full rounded-lg border border-gray-03"
         />
       </div>
@@ -103,14 +76,14 @@ export const Card = ({
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1 py-1">
             <FavoriteToggle />
-            <p className="font-xs-2 text-gray-08">{likeCount}</p>
+            <p className="font-xs-2 text-gray-08">{item.likeCount}</p>
           </div>
           <div
             className="flex items-center gap-1 py-1"
-            onClick={() => router.push(`/comment/${publicId}`)}
+            onClick={() => router.push(`/comment/${item.publicId}`)}
           >
             <Icons.messageCircle className="size-6 stroke-gray-05" />
-            <p className="font-xs-2 text-gray-08">{commentCounting}</p>
+            <p className="font-xs-2 text-gray-08">{item.commentCount}</p>
           </div>
         </div>
 
@@ -122,7 +95,7 @@ export const Card = ({
           ref={contentRef}
           className={`font-s-2 text-black ${expanded ? '' : 'line-clamp-2'}`}
         >
-          {content}
+          {item.content}
         </p>
 
         {showMore && (
@@ -136,7 +109,7 @@ export const Card = ({
         )}
 
         <div className="flex items-center gap-[2px]">
-          {tags.map((tag) => (
+          {item.tags.map((tag) => (
             <span key={tag} className="font-s-2 text-sand-07">
               #{tag}
             </span>
