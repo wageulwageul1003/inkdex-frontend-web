@@ -7,19 +7,16 @@ import { Loading } from '@/components/shared/Loading';
 import Chips from '@/components/shared/chips';
 import { useGetCategoryList } from '@/hook/common/useGetCategoryList';
 import { useInfiniteScroll } from '@/hook/common/useInfiniteScroll';
-import {
-  useGetPostsList,
-  IPostListResponse,
-} from '@/hook/home/useGetPostsList';
-import { IResponsePaged } from '@/types/global';
+import { useGetPostsList } from '@/hook/home/useGetPostsList';
 
 export const Recommend = () => {
   const router = useRouter();
   const { data: categories } = useGetCategoryList();
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGetPostsList({
       category: '',
-      size: '10',
+      size: '3',
       sort: 'createdAt,desc',
     });
 
@@ -43,17 +40,12 @@ export const Recommend = () => {
           type="text"
         />
       </div>
+
       <div className="mt-4 flex flex-col gap-4">
-        {data?.pages?.map(
-          (page: IResponsePaged<IPostListResponse>, i: number) => (
-            <React.Fragment key={i}>
-              {page.data.content.map((item: IPostListResponse) => (
-                <Card key={item.publicId} item={item} />
-              ))}
-            </React.Fragment>
-          ),
-        )}
-        <div ref={observerRef}>{isFetchingNextPage && <Loading />}</div>
+        {data?.content.map((item) => <Card key={item.id} item={item} />)}
+        <div ref={observerRef} className="flex h-1 justify-center">
+          {isFetchingNextPage && <Loading />}
+        </div>
       </div>
     </div>
   );

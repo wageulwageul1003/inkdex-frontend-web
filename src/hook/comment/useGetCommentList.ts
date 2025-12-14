@@ -1,55 +1,52 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { postsListKey } from '@/constants/queryKeys';
+import { commentListKey } from '@/constants/queryKeys';
 import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
-export interface IPostListResponse {
-  id: string;
+export interface ICommentRepliesResponse {
+  id: number;
+  postId: string;
   userId: string;
-  userNickname: string;
-  profileImageUrl: string;
-  userBio: string;
-  following: boolean;
-  categorySlug: string;
   content: string;
-  imageUrl: string;
-  thumbnailUrl: string;
-  imageMetadata: {
-    width: number;
-    height: number;
-    aspectRatio: number;
-    fileSize: number;
-  };
-  tags: string[];
-  likeCount: number;
-  liked: boolean;
-  bookmarked: boolean;
-  commentCount: number;
-  viewCount: number;
+  createdAt: string;
+  updatedAt: string | null;
+  isLiked: boolean;
+  likesCount: number;
+  repliesCount: number;
+}
+
+export interface ICommentListResponse {
+  id: string;
+  postId: string;
+  userId: string;
+  content: string;
   createdAt: string;
   updatedAt: string;
+  isLiked: boolean;
+  likesCount: number;
+  repliesCount: number;
+  replies: ICommentRepliesResponse[];
 }
 
 // PARAMS TYPE
-type TGetPostsListParams = {
-  category?: string;
+type TGetCommentListParams = {
+  id: string;
   page?: string;
   size?: string;
   sort?: string;
 };
 
-export const GetPostsList = async (
-  params: TGetPostsListParams,
-): Promise<IResponsePaged<IPostListResponse>> => {
+export const GetCommentList = async (
+  params: TGetCommentListParams,
+): Promise<IResponsePaged<ICommentListResponse>> => {
   const queryParams = new URLSearchParams();
 
-  if (params.category) queryParams.set('category', params.category);
   if (params.page) queryParams.set('page', String(Number(params.page) - 1));
   if (params.size) queryParams.set('size', String(params.size));
   if (params.sort) queryParams.set('sort', String(params.sort));
 
-  const url = `/api/v1/posts/list?${queryParams.toString()}`;
+  const url = `/api/v1/posts/${params.id}/comments?${queryParams.toString()}`;
 
   const data = await agent(url, {
     method: 'GET',
@@ -58,15 +55,15 @@ export const GetPostsList = async (
   return data;
 };
 
-export const useGetPostsList = (params: TGetPostsListParams) => {
+export const useGetCommentList = (params: TGetCommentListParams) => {
   return useInfiniteQuery<
-    IResponsePaged<IPostListResponse>,
+    IResponsePaged<ICommentListResponse>,
     Error,
-    TInfiniteListResult<IPostListResponse>
+    TInfiniteListResult<ICommentListResponse>
   >({
-    queryKey: [postsListKey, params],
+    queryKey: [commentListKey, params],
     queryFn: ({ pageParam = 1 }) =>
-      GetPostsList({ ...params, page: String(pageParam) }),
+      GetCommentList({ ...params, page: String(pageParam) }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) =>
       lastPage.data.paging.hasNext

@@ -14,6 +14,8 @@ const postsListKey = 'postsListKey';
 const postsDetailKey = 'postsDetailKey';
 const postsKey = 'postsKey';
 
+const commentListKey = 'commentListKey';
+
 const collectionListKey = 'collectionListKey';
 const collectionDetailKey = 'collectionDetailKey';
 const collectionKey = 'collectionKey';
@@ -54,6 +56,7 @@ export {
   postsListKey,
   postsDetailKey,
   postsKey,
+  commentListKey,
   collectionListKey,
   collectionDetailKey,
   collectionKey,

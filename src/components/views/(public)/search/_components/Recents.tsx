@@ -4,7 +4,6 @@ import { useGetRecentSearchKeywords } from '@/hook/search/useGetRecentSearchKeyw
 
 export const Recents = () => {
   const { data: recentItems } = useGetRecentSearchKeywords();
-  console.log(recentItems);
   return (
     <div className="flex flex-col gap-4">
       {recentItems && recentItems.length > 0 ? (

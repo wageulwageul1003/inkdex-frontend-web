@@ -80,7 +80,7 @@ export const Card = ({ item }: { item: IPostListResponse }) => {
           </div>
           <div
             className="flex items-center gap-1 py-1"
-            onClick={() => router.push(`/comment/${item.publicId}`)}
+            onClick={() => router.push(`/comment/${item.id}`)}
           >
             <Icons.messageCircle className="size-6 stroke-gray-05" />
             <p className="font-xs-2 text-gray-08">{item.commentCount}</p>
