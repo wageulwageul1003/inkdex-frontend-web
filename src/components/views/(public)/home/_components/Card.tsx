@@ -2,10 +2,12 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useLayoutEffect, useRef, useState } from 'react';
 
-import FavoriteToggle from '@/components/shared/favorite-toggle';
 import { FollowingButton } from '@/components/shared/following-button';
 import { Icons } from '@/components/shared/icons';
+import BookmarkToggle from '@/components/shared/post-toggle/bookmark-toggle';
+import FavoriteToggle from '@/components/shared/post-toggle/favorite-toggle';
 import { UserProfile } from '@/components/shared/user-profile';
 import { Button } from '@/components/ui/button';
 
@@ -14,11 +16,14 @@ interface CardProps {
   following?: boolean;
   nickname: string;
   bio: string;
+  likeCount: number;
   viewCounting: number;
   commentCounting?: number;
   nicknameSrc: string;
   src: string;
   ratio: number;
+  content: string;
+  tags: string[];
 }
 
 export const Card = ({
@@ -26,13 +31,45 @@ export const Card = ({
   following,
   nickname,
   bio,
+  likeCount,
   viewCounting,
   commentCounting,
   nicknameSrc,
   src,
   ratio = 1.5,
+  content,
+  tags,
 }: CardProps) => {
   const router = useRouter();
+  const contentRef = useRef<HTMLParagraphElement | null>(null);
+  const [expanded, setExpanded] = useState(false);
+  const [showMore, setShowMore] = useState(false);
+
+  useLayoutEffect(() => {
+    const el = contentRef.current;
+    if (!el) return;
+
+    const checkOverflow = () => {
+      if (!contentRef.current) return;
+      if (expanded) return;
+      setShowMore(
+        contentRef.current.scrollHeight > contentRef.current.clientHeight + 1,
+      );
+    };
+
+    checkOverflow();
+
+    const ro = new ResizeObserver(() => {
+      checkOverflow();
+    });
+    ro.observe(el);
+
+    window.addEventListener('resize', checkOverflow);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', checkOverflow);
+    };
+  }, [expanded, content]);
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2">
@@ -66,7 +103,7 @@ export const Card = ({
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1 py-1">
             <FavoriteToggle />
-            <p className="font-xs-2 text-gray-08">{viewCounting}</p>
+            <p className="font-xs-2 text-gray-08">{likeCount}</p>
           </div>
           <div
             className="flex items-center gap-1 py-1"
@@ -77,12 +114,35 @@ export const Card = ({
           </div>
         </div>
 
-        <Button variant="buttonIconTextOnly" size="buttonIconMedium">
-          <Icons.moreHoriz className="size-6 fill-gray-08" />
-        </Button>
+        <BookmarkToggle />
       </div>
 
-      <p>content</p>
+      <div>
+        <p
+          ref={contentRef}
+          className={`font-s-2 text-black ${expanded ? '' : 'line-clamp-2'}`}
+        >
+          {content}
+        </p>
+
+        {showMore && (
+          <button
+            type="button"
+            className="font-xs-2 mt-1 text-gray-08"
+            onClick={() => setExpanded((prev) => !prev)}
+          >
+            {expanded ? '접기' : '더보기'}
+          </button>
+        )}
+
+        <div className="flex items-center gap-[2px]">
+          {tags.map((tag) => (
+            <span key={tag} className="font-s-2 text-sand-07">
+              #{tag}
+            </span>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

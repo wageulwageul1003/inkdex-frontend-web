@@ -55,10 +55,13 @@ export const Recommend = () => {
                   ratio={item.imageMetadata?.aspectRatio}
                   nickname={item.userNickname}
                   bio={item.userBio}
+                  likeCount={item.likeCount}
                   viewCounting={item.viewCount}
                   commentCounting={item.commentCount}
                   nicknameSrc={item.thumbnailUrl || ''}
                   src={item.thumbnailUrl}
+                  content={item.content}
+                  tags={item.tags}
                 />
               ))}
             </React.Fragment>
