@@ -91,22 +91,24 @@ export const Card = ({ item }: { item: IPostListResponse }) => {
       </div>
 
       <div>
-        <p
-          ref={contentRef}
-          className={`font-s-2 text-black ${expanded ? '' : 'line-clamp-2'}`}
-        >
-          {item.content}
-        </p>
-
-        {showMore && (
-          <button
-            type="button"
-            className="font-xs-2 mt-1 text-gray-08"
-            onClick={() => setExpanded((prev) => !prev)}
+        <div className="relative">
+          <p
+            ref={contentRef}
+            className={`font-s-2 whitespace-pre-line text-black ${expanded ? '' : 'line-clamp-2'} ${showMore && !expanded ? 'pr-10' : ''}`}
           >
-            {expanded ? '접기' : '더보기'}
-          </button>
-        )}
+            {item.content}
+          </p>
+
+          {showMore && !expanded && (
+            <button
+              type="button"
+              className="font-xs-2 absolute bottom-0 right-0 bg-white pl-3 text-gray-05"
+              onClick={() => setExpanded((prev) => !prev)}
+            >
+              ...더보기
+            </button>
+          )}
+        </div>
 
         <div className="flex items-center gap-[2px]">
           {item.tags.map((tag) => (
