@@ -5,6 +5,7 @@ export const writeSchema = z.object({
   categorySlug: z.string(),
   content: z.string(),
   tags: z.array(z.string()),
+  collectionIds: z.array(z.string()),
 });
 
 export type TWriteSchema = z.infer<typeof writeSchema>;

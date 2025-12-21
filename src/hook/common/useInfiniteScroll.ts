@@ -1,5 +1,5 @@
 import { UseInfiniteQueryResult } from '@tanstack/react-query';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 interface UseInfiniteScrollOptions {
   /**
@@ -34,9 +34,15 @@ export function useInfiniteScroll<TData, TError>(
   options: UseInfiniteScrollOptions = {},
 ) {
   const { threshold = 0.1, enabled = true } = options;
-  const observerRef = useRef<HTMLDivElement>(null);
+  const [target, setTarget] = useState<HTMLDivElement | null>(null);
+
+  const observerRef = useCallback((node: HTMLDivElement | null) => {
+    setTarget(node);
+  }, []);
 
   useEffect(() => {
+    if (!target) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         // 요소가 화면에 보이고, 다음 페이지가 있으며, 현재 로딩 중이 아니고, 활성화되어 있을 때만 다음 페이지 로드
@@ -52,17 +58,19 @@ export function useInfiniteScroll<TData, TError>(
       { threshold },
     );
 
-    const currentTarget = observerRef.current;
-    if (currentTarget) {
-      observer.observe(currentTarget);
-    }
+    observer.observe(target);
 
     return () => {
-      if (currentTarget) {
-        observer.unobserve(currentTarget);
-      }
+      observer.unobserve(target);
     };
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage, threshold, enabled]);
+  }, [
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    threshold,
+    enabled,
+    target,
+  ]);
 
   return observerRef;
 }

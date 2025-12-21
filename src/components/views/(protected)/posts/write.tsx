@@ -24,10 +24,10 @@ interface TProps {
 
 export const PostsWrite: FC<TProps> = (props) => {
   const { uuid } = props;
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [image, setImage] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter();
+  const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
   const { mutateAsync: postPosts } = usePostPosts();
   const { data: categories } = useGetCategoryList();
 
@@ -51,21 +51,24 @@ export const PostsWrite: FC<TProps> = (props) => {
       categorySlug: '',
       content: '',
       tags: [] as string[],
+      collectionIds: [],
     },
   });
 
   const onSubmit = async (data: TWriteSchema) => {
+    console.log('제출 데이터:', selectedCollections);
     try {
-      setIsSubmitting(true);
-      console.log('제출 데이터:', data);
-      await postPosts(data);
+      const formData = {
+        ...data,
+        collectionIds: selectedCollections,
+      };
+      await postPosts(formData);
       toast.success('게시물이 성공적으로 등록되었습니다.');
       router.push('/home'); // 게시물 목록 페이지로 이동
     } catch (error) {
       console.error('게시물 등록 오류:', error);
       toast.error('게시물 등록에 실패했습니다. 다시 시도해주세요.');
     } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -130,7 +133,10 @@ export const PostsWrite: FC<TProps> = (props) => {
 
           <div className="mb-2 mt-12 flex w-full flex-col gap-2 pt-6">
             <FormLabel>컬렉션</FormLabel>
-            <Collection />
+            <Collection
+              selectedCollections={selectedCollections}
+              setSelectedCollections={setSelectedCollections}
+            />
           </div>
         </form>
       </Form>
@@ -141,6 +147,7 @@ export const PostsWrite: FC<TProps> = (props) => {
           size="lg"
           variant="contained"
           className="w-full"
+          disabled={form.formState.isSubmitting}
         >
           완료
         </Button>
