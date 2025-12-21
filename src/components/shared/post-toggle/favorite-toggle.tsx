@@ -15,15 +15,12 @@ interface FavoriteToggleProps
   className?: string;
   disabled?: boolean;
   onToggle?: (isFavorited: boolean) => void;
-  uuid?: string;
-  constWishTarget?: string;
 }
 
 const FavoriteToggle = ({
   defaultFavorite = false,
   disabled,
   onToggle,
-  constWishTarget,
   ...props
 }: FavoriteToggleProps) => {
   // const { mutateAsync: postWish } = usePostWish();
@@ -63,22 +60,6 @@ const FavoriteToggle = ({
     if (onToggle) {
       onToggle(newState);
     }
-
-    // if (newState) {
-    //   if (props.uuid && constWishTarget) {
-    //     postWish({
-    //       constWishTarget: constWishTarget,
-    //       targetUuid: props.uuid,
-    //     });
-    //   }
-    // } else {
-    //   if (props.uuid && constWishTarget) {
-    //     postWish({
-    //       constWishTarget: constWishTarget,
-    //       targetUuid: props.uuid,
-    //     });
-    //   }
-    // }
   };
 
   return (

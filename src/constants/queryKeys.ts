@@ -24,6 +24,10 @@ const bookmarkKey = 'bookmarkKey';
 const deleteBookmarkKey = 'deleteBookmarkKey';
 const bookmarkListKey = 'bookmarkListKey';
 
+const likeKey = 'likeKey';
+const deleteLikeKey = 'deleteLikeKey';
+const likeListKey = 'likeListKey';
+
 const followKey = 'followKey';
 const deleteFollowKey = 'deleteFollowKey';
 const followListKey = 'followListKey';
@@ -63,6 +67,9 @@ export {
   bookmarkKey,
   deleteBookmarkKey,
   bookmarkListKey,
+  likeKey,
+  deleteLikeKey,
+  likeListKey,
   followKey,
   deleteFollowKey,
   followListKey,

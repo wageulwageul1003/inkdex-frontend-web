@@ -11,12 +11,40 @@ import FavoriteToggle from '@/components/shared/post-toggle/favorite-toggle';
 import { UserProfile } from '@/components/shared/user-profile';
 import { Button } from '@/components/ui/button';
 import { IPostListResponse } from '@/hook/home/useGetPostsList';
+import { useDeletetBookmark } from '@/hook/posts/bookmark/useDeletetBookmark';
+import { usePostBookmark } from '@/hook/posts/bookmark/usePostBookmark';
+import { useDeletetLike } from '@/hook/posts/like/useDeletetLike';
+import { usePostLike } from '@/hook/posts/like/usePostLike';
 
 export const Card = ({ item }: { item: IPostListResponse }) => {
   const router = useRouter();
   const contentRef = useRef<HTMLParagraphElement | null>(null);
   const [expanded, setExpanded] = useState(false);
   const [showMore, setShowMore] = useState(false);
+
+  // 북마크
+  const { mutateAsync: postBookmark } = usePostBookmark();
+  const { mutateAsync: deleteBookmark } = useDeletetBookmark();
+
+  // 좋아요
+  const { mutateAsync: postLike } = usePostLike();
+  const { mutateAsync: deleteLike } = useDeletetLike();
+
+  const handleBookmark = () => {
+    if (!item?.bookmarked) {
+      postBookmark({ postId: item.id });
+    } else {
+      deleteBookmark({ postId: item.id });
+    }
+  };
+
+  const handleLike = () => {
+    if (!item.liked) {
+      postLike({ postId: item.id });
+    } else {
+      deleteLike({ postId: item.id });
+    }
+  };
 
   useLayoutEffect(() => {
     const el = contentRef.current;
@@ -75,7 +103,10 @@ export const Card = ({ item }: { item: IPostListResponse }) => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1 py-1">
-            <FavoriteToggle />
+            <FavoriteToggle
+              defaultFavorite={item.liked}
+              onToggle={handleLike}
+            />
             <p className="font-xs-2 text-gray-08">{item.likeCount}</p>
           </div>
           <div
@@ -87,7 +118,10 @@ export const Card = ({ item }: { item: IPostListResponse }) => {
           </div>
         </div>
 
-        <BookmarkToggle />
+        <BookmarkToggle
+          defaultBookmark={item.bookmarked}
+          onToggle={handleBookmark}
+        />
       </div>
 
       <div>

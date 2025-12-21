@@ -13,8 +13,6 @@ interface BookmarToggleProps
   defaultBookmark?: boolean;
   disabled?: boolean;
   onToggle?: (isFavorited: boolean) => void;
-  uuid?: string;
-  constWishTarget?: string;
 }
 
 const BookmarkToggle = ({
@@ -60,22 +58,6 @@ const BookmarkToggle = ({
     if (onToggle) {
       onToggle(newState);
     }
-
-    // if (newState) {
-    //   if (props.uuid && constWishTarget) {
-    //     postWish({
-    //       constWishTarget: constWishTarget,
-    //       targetUuid: props.uuid,
-    //     });
-    //   }
-    // } else {
-    //   if (props.uuid && constWishTarget) {
-    //     postWish({
-    //       constWishTarget: constWishTarget,
-    //       targetUuid: props.uuid,
-    //     });
-    //   }
-    // }
   };
 
   return (
@@ -86,7 +68,7 @@ const BookmarkToggle = ({
       {...props}
     >
       {isBookmarked ? (
-        <Icons.bookmark className={`size-6 fill-red-05`} />
+        <Icons.bookmark_fill className={`size-6 fill-sand-07`} />
       ) : (
         <Icons.bookmark className={`size-6 stroke-gray-05`} />
       )}

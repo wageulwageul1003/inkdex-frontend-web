@@ -1,29 +1,28 @@
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { bookmarkKey, postsDetailKey } from '@/constants/queryKeys';
+import { deleteLikeKey, postsListKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 
-export const postBookmark = async (params: { postId: string }) => {
-  const response = await agent(`/api/v1/bookmarks/${params.postId}`, {
-    method: 'POST',
+export const deleteLike = async (params: { postId: string }) => {
+  const response = await agent(`/api/v1/posts/${params.postId}/like`, {
+    method: 'DELETE',
   });
 
   return response;
 };
 
-export const usePostBookmark = () => {
+export const useDeletetLike = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: postBookmark,
+    mutationFn: deleteLike,
 
     onSuccess: async (response, variables) => {
       await queryClient.invalidateQueries({
-        queryKey: [bookmarkKey],
+        queryKey: [deleteLikeKey],
       });
-      // Also invalidate the specific post detail to refresh the UI
       await queryClient.invalidateQueries({
-        queryKey: [postsDetailKey, variables.postId],
+        queryKey: [postsListKey],
       });
     },
     onError: (error: ErrorData) => {},
