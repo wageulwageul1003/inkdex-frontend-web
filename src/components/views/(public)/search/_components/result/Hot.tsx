@@ -1,17 +1,10 @@
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-import { Card } from '../../../home/_components/Card';
-
-import { Loading } from '@/components/shared/Loading';
 import Chips from '@/components/shared/chips';
 import { useGetCategoryList } from '@/hook/common/useGetCategoryList';
 import { useInfiniteScroll } from '@/hook/common/useInfiniteScroll';
-import {
-  useGetPostsList,
-  IPostListResponse,
-} from '@/hook/home/useGetPostsList';
-import { IResponsePaged } from '@/types/global';
+import { useGetPostsList } from '@/hook/home/useGetPostsList';
 
 export const Hot = () => {
   const router = useRouter();
@@ -43,7 +36,7 @@ export const Hot = () => {
           type="text"
         />
       </div>
-      <div className="mt-4 flex flex-col gap-4">
+      {/* <div className="mt-4 flex flex-col gap-4">
         {data?.pages?.map(
           (page: IResponsePaged<IPostListResponse>, i: number) => (
             <React.Fragment key={i}>
@@ -54,7 +47,7 @@ export const Hot = () => {
           ),
         )}
         <div ref={observerRef}>{isFetchingNextPage && <Loading />}</div>
-      </div>
+      </div> */}
     </div>
   );
 };
