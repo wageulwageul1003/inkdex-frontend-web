@@ -9,7 +9,7 @@ import { useGetCategoryList } from '@/hook/common/useGetCategoryList';
 import { useInfiniteScroll } from '@/hook/common/useInfiniteScroll';
 import { useGetPostsList } from '@/hook/home/useGetPostsList';
 
-export const Recommend = () => {
+export const Latest = () => {
   const router = useRouter();
   const { data: categories } = useGetCategoryList();
 
@@ -17,7 +17,7 @@ export const Recommend = () => {
     useGetPostsList({
       category: '',
       size: '3',
-      feedType: 'recommended',
+      feedType: 'latest',
     });
 
   const observerRef = useInfiniteScroll(

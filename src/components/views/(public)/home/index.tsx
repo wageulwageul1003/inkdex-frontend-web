@@ -3,6 +3,8 @@
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
+import { Following } from './_components/Following';
+import { Latest } from './_components/Latest';
 import { Recommend } from './_components/Recommend';
 
 import { Alaram } from '@/components/shared/alaram';
@@ -34,10 +36,14 @@ export const Home = () => {
           </TabsContent>
 
           {/* 최신 */}
-          <TabsContent value="latest"></TabsContent>
+          <TabsContent value="latest">
+            <Latest />
+          </TabsContent>
 
           {/* 팔로우 */}
-          <TabsContent value="follow"></TabsContent>
+          <TabsContent value="follow">
+            <Following />
+          </TabsContent>
         </Tabs>
       </div>
     </div>

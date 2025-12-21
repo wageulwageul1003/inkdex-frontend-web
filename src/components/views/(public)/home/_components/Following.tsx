@@ -4,12 +4,11 @@ import React from 'react';
 import { Card } from './Card';
 
 import { Loading } from '@/components/shared/Loading';
-import Chips from '@/components/shared/chips';
 import { useGetCategoryList } from '@/hook/common/useGetCategoryList';
 import { useInfiniteScroll } from '@/hook/common/useInfiniteScroll';
 import { useGetPostsList } from '@/hook/home/useGetPostsList';
 
-export const Recommend = () => {
+export const Following = () => {
   const router = useRouter();
   const { data: categories } = useGetCategoryList();
 
@@ -17,7 +16,7 @@ export const Recommend = () => {
     useGetPostsList({
       category: '',
       size: '3',
-      feedType: 'recommended',
+      feedType: 'following',
     });
 
   const observerRef = useInfiniteScroll(
@@ -27,7 +26,7 @@ export const Recommend = () => {
 
   return (
     <div className="w-full">
-      <div className="flex items-center gap-2 overflow-x-scroll px-4 py-2">
+      {/* <div className="flex items-center gap-2 overflow-x-scroll px-4 py-2">
         <Chips
           items={[
             { value: '', label: '전체' },
@@ -39,7 +38,7 @@ export const Recommend = () => {
           variant="single"
           type="text"
         />
-      </div>
+      </div> */}
 
       <div className="mt-4 flex flex-col gap-4">
         {data?.content.map((item) => <Card key={item.id} item={item} />)}

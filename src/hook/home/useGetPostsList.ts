@@ -37,6 +37,7 @@ type TGetPostsListParams = {
   page?: string;
   size?: string;
   sort?: string;
+  feedType?: string;
 };
 
 export const GetPostsList = async (
@@ -48,6 +49,7 @@ export const GetPostsList = async (
   if (params.page) queryParams.set('page', String(Number(params.page) - 1));
   if (params.size) queryParams.set('size', String(params.size));
   if (params.sort) queryParams.set('sort', String(params.sort));
+  if (params.feedType) queryParams.set('feedType', String(params.feedType));
 
   const url = `/api/v1/posts/list?${queryParams.toString()}`;
 
