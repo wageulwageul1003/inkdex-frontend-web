@@ -43,7 +43,12 @@ export const Collection = () => {
       </div>
       <div className="grid grid-cols-2 gap-1">
         {data?.content.map((item) => (
-          <div key={item.collectionId}>
+          <div
+            key={item.collectionId}
+            onClick={() =>
+              router.push(`/collection/detail/${item.collectionId}`)
+            }
+          >
             <div className="relative aspect-square w-full overflow-hidden rounded-sm border border-gray-02">
               <Image
                 src={item.thumbnailUrl}

@@ -19,6 +19,7 @@ const commentListKey = 'commentListKey';
 const collectionListKey = 'collectionListKey';
 const collectionDetailKey = 'collectionDetailKey';
 const collectionKey = 'collectionKey';
+const specificCollectionListKey = 'specificCollectionListKey';
 
 const bookmarkKey = 'bookmarkKey';
 const deleteBookmarkKey = 'deleteBookmarkKey';
@@ -68,6 +69,7 @@ export {
   collectionListKey,
   collectionDetailKey,
   collectionKey,
+  specificCollectionListKey,
   bookmarkKey,
   deleteBookmarkKey,
   bookmarkListKey,
