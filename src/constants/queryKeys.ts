@@ -40,6 +40,8 @@ const myProfileKey = 'myProfileKey';
 const myPostsKey = 'myPostsKey';
 
 const recentSearchKeywordsKey = 'recentSearchKeywordsKey';
+const hotPostsListKey = 'hotPostsListKey';
+const latestPostsListKey = 'latestPostsListKey';
 const recommendSearchKeywordsKey = 'recommendSearchKeywordsKey';
 const hotSearchKeywordsKey = 'hotSearchKeywordsKey';
 
@@ -79,6 +81,8 @@ export {
   myProfileKey,
   myPostsKey,
   recentSearchKeywordsKey,
+  hotPostsListKey,
+  latestPostsListKey,
   recommendSearchKeywordsKey,
   hotSearchKeywordsKey,
   faqListKey,

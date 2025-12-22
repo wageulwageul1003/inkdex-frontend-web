@@ -7,14 +7,14 @@ import { NoResult } from './no-result';
 
 import { Loading } from '@/components/shared/Loading';
 import { useInfiniteScroll } from '@/hook/common/useInfiniteScroll';
-import { useGetHotPostsList } from '@/hook/search/useGetHotPostsList';
+import { useGetLatestPostsList } from '@/hook/search/useGetLatestPostsList';
 
-export const Hot = () => {
+export const Latest = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useGetHotPostsList({
+    useGetLatestPostsList({
       query: searchParams.get('searchKeyword') || undefined,
       size: '3',
     });

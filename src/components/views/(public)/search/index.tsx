@@ -20,6 +20,7 @@ export const Search = () => {
   const onSubmit = (data: z.infer<typeof searchSchema>) => {
     router.push(`/search/result?searchKeyword=${data.searchKeyword}`);
   };
+
   return (
     <div className="flex flex-1 flex-col bg-white px-4">
       <Form {...form}>

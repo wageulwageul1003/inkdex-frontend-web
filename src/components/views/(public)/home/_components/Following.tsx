@@ -26,20 +26,6 @@ export const Following = () => {
 
   return (
     <div className="w-full">
-      {/* <div className="flex items-center gap-2 overflow-x-scroll px-4 py-2">
-        <Chips
-          items={[
-            { value: '', label: '전체' },
-            ...(categories?.data?.content.map((item) => ({
-              value: item.slug,
-              label: item.name,
-            })) || []),
-          ]}
-          variant="single"
-          type="text"
-        />
-      </div> */}
-
       <div className="mt-4 flex flex-col gap-4">
         {data?.content.map((item) => <Card key={item.id} item={item} />)}
         <div ref={observerRef} className="flex h-1 justify-center">
