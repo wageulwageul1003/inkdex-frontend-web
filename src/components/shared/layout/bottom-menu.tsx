@@ -13,7 +13,7 @@ export const BottomMenu = () => {
   const menuItems = [
     { href: '/home', icon: Icons.home, label: '피드' },
     { href: '/search', icon: Icons.search, label: '검색' },
-    { href: '/wishlist', icon: Icons.note, label: '나의 인덱스' },
+    { href: '/my-inkdex', icon: Icons.note, label: '나의 인덱스' },
     { href: '/my', icon: Icons.user, label: 'MY' },
   ];
 
