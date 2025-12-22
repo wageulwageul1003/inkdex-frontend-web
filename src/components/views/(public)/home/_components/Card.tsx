@@ -4,12 +4,10 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useLayoutEffect, useRef, useState } from 'react';
 
-import { FollowingButton } from '@/components/shared/following-button';
 import { Icons } from '@/components/shared/icons';
 import BookmarkToggle from '@/components/shared/post-toggle/bookmark-toggle';
 import FavoriteToggle from '@/components/shared/post-toggle/favorite-toggle';
 import { UserProfile } from '@/components/shared/user-profile';
-import { Button } from '@/components/ui/button';
 import { IPostListResponse } from '@/hook/home/useGetPostsList';
 import { useDeletetBookmark } from '@/hook/posts/bookmark/useDeletetBookmark';
 import { usePostBookmark } from '@/hook/posts/bookmark/usePostBookmark';
@@ -73,21 +71,13 @@ export const Card = ({ item }: { item: IPostListResponse }) => {
   }, [expanded, item.content]);
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center gap-2">
-        <div className="flex-1">
-          <UserProfile
-            nickname={item.userNickname}
-            nicknameSrc={item.thumbnailUrl || ''}
-            bio={item.userBio}
-          />
-        </div>
-        <div className="flex shrink-0 items-center gap-1">
-          <FollowingButton following={!!item.following} />
-          <Button variant="buttonIconTextOnly" size="buttonIconMedium">
-            <Icons.moreHoriz className="size-6 fill-gray-08" />
-          </Button>
-        </div>
-      </div>
+      <UserProfile
+        nickname={item.userNickname}
+        nicknameSrc={item.thumbnailUrl || ''}
+        bio={item.userBio}
+        following={item.following}
+        isShowMore={true}
+      />
 
       <div className="h-full w-full rounded-lg border border-gray-03">
         <Image
