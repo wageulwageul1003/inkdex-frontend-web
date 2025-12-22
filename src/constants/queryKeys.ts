@@ -43,6 +43,7 @@ const deleteRecentSearchKeywordKey = 'deleteRecentSearchKeywordKey';
 const recentSearchKeywordsKey = 'recentSearchKeywordsKey';
 const hotPostsListKey = 'hotPostsListKey';
 const latestPostsListKey = 'latestPostsListKey';
+const userListKey = 'userListKey';
 const recommendSearchKeywordsKey = 'recommendSearchKeywordsKey';
 const hotSearchKeywordsKey = 'hotSearchKeywordsKey';
 
@@ -85,6 +86,7 @@ export {
   recentSearchKeywordsKey,
   hotPostsListKey,
   latestPostsListKey,
+  userListKey,
   recommendSearchKeywordsKey,
   hotSearchKeywordsKey,
   faqListKey,

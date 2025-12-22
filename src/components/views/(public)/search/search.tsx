@@ -7,6 +7,7 @@ import z from 'zod';
 
 import { Hot } from './_components/result/Hot';
 import { Latest } from './_components/result/Latest';
+import { User } from './_components/result/User';
 import { searchSchema } from './schema';
 
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
@@ -56,7 +57,9 @@ export const SearchResult = () => {
         </TabsContent>
 
         {/* 사용자 */}
-        <TabsContent value="user"></TabsContent>
+        <TabsContent value="user">
+          <User />
+        </TabsContent>
       </Tabs>
     </div>
   );
