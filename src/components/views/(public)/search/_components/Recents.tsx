@@ -1,20 +1,39 @@
 'use client';
 
+import { Icons } from '@/components/shared/icons';
+import { Button } from '@/components/ui/button';
+import { useDeleteSearchKeyword } from '@/hook/search/useDeleteSearchKeyword';
 import { useGetRecentSearchKeywords } from '@/hook/search/useGetRecentSearchKeywords';
 
 export const Recents = () => {
   const { data: recentItems } = useGetRecentSearchKeywords();
+  const { mutateAsync: deleteSearchKeyword } = useDeleteSearchKeyword();
+
   return (
     <div className="flex flex-col gap-4">
       {recentItems && recentItems.length > 0 ? (
         <>
           <div className="flex items-center justify-between">
-            <p>최근 검색어</p>
-            <p>전체 삭제</p>
+            <p className="font-m-1 text-black">최근 검색어</p>
+            <Button
+              variant="buttonText"
+              size="buttonText"
+              className="font-xs-2 text-gray-08"
+            >
+              전체 삭제
+            </Button>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-col gap-2">
             {recentItems.map((item) => (
-              <p key={item.id}>{item.searchTerm}</p>
+              <div key={item.id} className="flex items-center py-2">
+                <p className="font-m-2 flex-1 text-gray-08">
+                  {item.searchTerm}
+                </p>
+                <Icons.closeSmall
+                  className="size-6 fill-gray-05"
+                  onClick={() => deleteSearchKeyword({ searchId: item.id })}
+                />
+              </div>
             ))}
           </div>
         </>

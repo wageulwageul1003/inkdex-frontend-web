@@ -17,7 +17,7 @@ export const usePostBookmark = () => {
   return useMutation({
     mutationFn: postBookmark,
 
-    onSuccess: async (response, variables) => {
+    onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [bookmarkKey],
       });

@@ -17,7 +17,7 @@ export const useDeletetLike = () => {
   return useMutation({
     mutationFn: deleteLike,
 
-    onSuccess: async (response, variables) => {
+    onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [deleteLikeKey],
       });

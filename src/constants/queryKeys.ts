@@ -39,6 +39,7 @@ const blockListKey = 'blockListKey';
 const myProfileKey = 'myProfileKey';
 const myPostsKey = 'myPostsKey';
 
+const deleteRecentSearchKeywordKey = 'deleteRecentSearchKeywordKey';
 const recentSearchKeywordsKey = 'recentSearchKeywordsKey';
 const hotPostsListKey = 'hotPostsListKey';
 const latestPostsListKey = 'latestPostsListKey';
@@ -80,6 +81,7 @@ export {
   blockListKey,
   myProfileKey,
   myPostsKey,
+  deleteRecentSearchKeywordKey,
   recentSearchKeywordsKey,
   hotPostsListKey,
   latestPostsListKey,

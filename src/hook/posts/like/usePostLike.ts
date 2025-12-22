@@ -17,7 +17,7 @@ export const usePostLike = () => {
   return useMutation({
     mutationFn: postLike,
 
-    onSuccess: async (response, variables) => {
+    onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [likeKey],
       });
