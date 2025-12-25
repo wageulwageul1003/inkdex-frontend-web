@@ -212,7 +212,7 @@ export const SelectCalendar = (props: TProps) => {
                       {state.isInRange && (
                         <div
                           className={cn(
-                            'absolute inset-y-2 left-0 right-0 bg-[rgb(var(--green-05))]',
+                            'absolute inset-y-[0.1px] left-0 right-0 bg-sand-02',
                             (state.isRangeStart || state.isSingleDayRange) &&
                               'left-[calc(50%-20px)] rounded-l-full',
                             (state.isRangeEnd || state.isSingleDayRange) &&
@@ -226,13 +226,13 @@ export const SelectCalendar = (props: TProps) => {
                         className={cn(
                           'font-m-1 relative z-10 flex h-10 w-10 items-center justify-center text-center',
                           state.isInCurrentMonth
-                            ? 'text-gray-09'
-                            : 'text-gray-03',
+                            ? 'text-gray-10'
+                            : 'text-gray-10',
                           (state.isRangeStart ||
                             state.isRangeEnd ||
                             state.isSingleDayRange) &&
-                            'rounded-full bg-[rgb(var(--green-06))] text-white',
-                          state.isToday && 'ring-1 ring-gray-04',
+                            'rounded-full bg-sand-02 text-gray-10',
+                          state.isToday && 'ring-2 ring-gray-04',
                         )}
                       >
                         {format(date, 'd')}
