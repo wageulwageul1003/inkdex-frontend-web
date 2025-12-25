@@ -12,7 +12,6 @@ import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
@@ -117,6 +116,12 @@ export const SelectCalendar = (props: TProps) => {
     setSelectedDate(endStr ? `${startStr} - ${endStr}` : startStr);
   };
 
+  const handleReset = () => {
+    setRangeStart(null);
+    setRangeEnd(null);
+    form.reset();
+  };
+
   return (
     <Drawer>
       <DrawerTrigger asChild>
@@ -132,7 +137,7 @@ export const SelectCalendar = (props: TProps) => {
           <DrawerTitle>날짜 선택</DrawerTitle>
         </DrawerHeader>
 
-        <div className="mt-7 flex-1 px-4 pb-3">
+        <div className="mt-7 flex-1 px-4 pb-6">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit, (errors) => {
@@ -245,12 +250,24 @@ export const SelectCalendar = (props: TProps) => {
           </div>
         </div>
 
-        <DrawerFooter className="sticky bottom-3 z-10 bg-white px-4">
-          <DrawerClose asChild>
-            <Button variant="contained" size="lg" onClick={handleSave}>
-              저장
-            </Button>
-          </DrawerClose>
+        <DrawerFooter className="sticky bottom-3 z-10 flex flex-row items-center gap-2 bg-white px-4">
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={handleReset}
+            className="flex-1"
+          >
+            초기화
+          </Button>
+
+          <Button
+            variant="contained"
+            size="lg"
+            onClick={handleSave}
+            className="flex-1"
+          >
+            저장
+          </Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
