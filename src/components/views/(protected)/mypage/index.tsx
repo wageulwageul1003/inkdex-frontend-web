@@ -6,7 +6,10 @@ import { ActivityComponent } from './_components/Activity';
 import { MyIndexComponent } from './_components/MyIndex';
 import { StatisticsComponent } from './_components/Statistics';
 
+import { Alaram } from '@/components/shared/alaram';
 import { Icons } from '@/components/shared/icons';
+import { Header } from '@/components/shared/layout/header';
+import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const MyPageMenu = [
@@ -18,17 +21,22 @@ const MyPageMenu = [
 const MyPageComponent = () => {
   const router = useRouter();
   return (
-    <div className="flex w-full flex-col">
-      <div className="flex items-center justify-between py-2">
-        <p>마이페이지</p>
-        <div className="flex gap-5">
-          <Icons.bell className="size-6" />
-          <Icons.bell
-            className="size-6"
-            onClick={() => router.push('/preferences')}
-          />
-        </div>
-      </div>
+    <div className="flex w-full flex-col px-4">
+      <Header
+        left={<span className="font-l-1 text-black">마이페이지</span>}
+        right={
+          <span className="flex items-center gap-2">
+            <Alaram status={true} />
+            <Button
+              variant="buttonIconTextOnly"
+              size="buttonIconMedium"
+              onClick={() => router.push('/preferences')}
+            >
+              <Icons.settings className="size-6 fill-gray-08" />
+            </Button>
+          </span>
+        }
+      />
 
       <div className="flex flex-1 flex-col">
         <Tabs defaultValue="my-index">
