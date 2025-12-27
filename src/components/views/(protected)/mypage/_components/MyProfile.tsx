@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import { Icons } from '@/components/shared/icons';
@@ -10,9 +9,8 @@ import { useGetMyProfile } from '@/hook/auth/useGetMyProfile';
 
 export const MyProfile = () => {
   const { data: myProfile } = useGetMyProfile();
-  const router = useRouter();
   return (
-    <div className="p-4">
+    <div className="rounded-lg bg-gray-01 p-4">
       <div className="flex items-center gap-3">
         <div className="flex h-[56px] w-[56px] items-center justify-center rounded-full border border-gray-03">
           <Image
