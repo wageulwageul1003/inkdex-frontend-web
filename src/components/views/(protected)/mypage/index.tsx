@@ -2,15 +2,12 @@
 
 import { useRouter } from 'next/navigation';
 
-import { ActivityComponent } from './_components/Activity';
-import { MyIndexComponent } from './_components/MyIndex';
-import { StatisticsComponent } from './_components/Statistics';
+import { MyProfile } from './_components/MyProfile';
 
 import { Alaram } from '@/components/shared/alaram';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const MyPageMenu = [
   { value: 'my-index', label: '나의 인덱스' },
@@ -38,7 +35,11 @@ const MyPageComponent = () => {
         }
       />
 
-      <div className="flex flex-1 flex-col">
+      <div className="mt-3 flex flex-1 flex-col">
+        <MyProfile />
+      </div>
+
+      {/* <div className="flex flex-1 flex-col">
         <Tabs defaultValue="my-index">
           <TabsList>
             {MyPageMenu.map((item) => (
@@ -47,9 +48,7 @@ const MyPageComponent = () => {
               </TabsTrigger>
             ))}
           </TabsList>
-          <TabsContent value="my-index">
-            <MyIndexComponent />
-          </TabsContent>
+          <TabsContent value="my-index"></TabsContent>
           <TabsContent value="statistics">
             <StatisticsComponent />
           </TabsContent>
@@ -57,7 +56,7 @@ const MyPageComponent = () => {
             <ActivityComponent />
           </TabsContent>
         </Tabs>
-      </div>
+      </div> */}
     </div>
   );
 };
