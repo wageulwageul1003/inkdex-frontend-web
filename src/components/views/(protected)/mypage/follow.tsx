@@ -11,9 +11,14 @@ import { Header } from '@/components/shared/layout/header';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useGetMyProfile } from '@/hook/auth/useGetMyProfile';
 
-export const Follow = () => {
+interface IFollow {
+  type: 'follower' | 'following';
+}
+
+export const Follow = (props: IFollow) => {
   const router = useRouter();
   const { data: myProfile } = useGetMyProfile();
+  const [defaultTab, setDefaultTab] = React.useState(props.type);
 
   return (
     <div className="w-full flex-1 px-4">
@@ -27,10 +32,14 @@ export const Follow = () => {
       />
 
       <div className="mt-5">
-        <Tabs defaultValue="follower" className="w-full">
+        <Tabs defaultValue={defaultTab} className="w-full">
           <TabsList className="">
-            <TabsTrigger value="follower">팔로워</TabsTrigger>
-            <TabsTrigger value="following">팔로잉</TabsTrigger>
+            <TabsTrigger value="follower">
+              팔로워 {myProfile?.followerCount || 0}
+            </TabsTrigger>
+            <TabsTrigger value="following">
+              팔로잉 {myProfile?.followingCount || 0}
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="follower">

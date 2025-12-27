@@ -1,5 +1,5 @@
 import { Follow } from '@/components/views/(protected)/mypage/follow';
 
-export default function Following() {
-  return <Follow />;
+export default function Follower() {
+  return <Follow type="follower" />;
 }

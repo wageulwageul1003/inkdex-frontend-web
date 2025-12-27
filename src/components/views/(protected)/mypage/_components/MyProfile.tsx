@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import { Icons } from '@/components/shared/icons';
@@ -9,6 +10,8 @@ import { useGetMyProfile } from '@/hook/auth/useGetMyProfile';
 
 export const MyProfile = () => {
   const { data: myProfile } = useGetMyProfile();
+  const router = useRouter();
+
   return (
     <div className="rounded-lg bg-gray-01 p-4">
       <div className="flex items-center gap-3">
@@ -23,11 +26,19 @@ export const MyProfile = () => {
         <div className="flex flex-1 flex-col gap-1">
           <span className="font-medium">{myProfile?.nickname}</span>
           <div className="flex items-center gap-2">
-            <p className="text-black">
-              팔로워 <span>{myProfile?.followerCount}</span>
+            <p
+              className="font-s-2 flex items-center gap-1 text-gray-09"
+              onClick={() => router.push('/my/follower')}
+            >
+              팔로워
+              <span className="font-s-1">{myProfile?.followerCount}</span>
             </p>
-            <p className="text-black">
-              팔로잉 <span>{myProfile?.followingCount}</span>
+            <p
+              className="font-s-2 flex items-center gap-1 text-gray-09"
+              onClick={() => router.push('/my/following')}
+            >
+              팔로잉
+              <span className="font-s-1">{myProfile?.followingCount}</span>
             </p>
           </div>
         </div>

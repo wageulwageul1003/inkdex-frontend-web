@@ -32,6 +32,7 @@ const likeListKey = 'likeListKey';
 const followKey = 'followKey';
 const deleteFollowKey = 'deleteFollowKey';
 const followListKey = 'followListKey';
+const followingListKey = 'followingListKey';
 
 const blockKey = 'blockKey';
 const deleteBlockKey = 'deleteBlockKey';
@@ -79,6 +80,7 @@ export {
   followKey,
   deleteFollowKey,
   followListKey,
+  followingListKey,
   blockKey,
   deleteBlockKey,
   blockListKey,
