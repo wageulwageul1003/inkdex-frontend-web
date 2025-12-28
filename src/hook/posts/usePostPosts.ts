@@ -42,7 +42,6 @@ export const usePostPosts = () => {
     mutationFn: postRegister,
 
     onSuccess: async (response) => {
-      // 쿼리 캐시 갱신
       await queryClient.invalidateQueries({
         queryKey: [postsKey],
       });

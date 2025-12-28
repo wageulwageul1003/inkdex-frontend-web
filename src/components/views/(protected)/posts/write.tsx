@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { FC, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -25,9 +25,7 @@ interface TProps {
 }
 
 export const PostsWrite: FC<TProps> = (props) => {
-  const { uuid } = props;
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [selectedCollections, setSelectedCollections] = useState<
     ICollectionListResponse[]
   >([]);

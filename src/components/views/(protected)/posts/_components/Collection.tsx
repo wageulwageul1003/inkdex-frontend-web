@@ -88,11 +88,11 @@ export const Collection = (props: TProps) => {
         </DrawerHeader>
 
         <div className="mt-7 flex-1 overflow-y-auto px-4 pb-5">
-          <div className="flex items-center justify-between rounded-lg bg-gray-01 py-2 pl-3 pr-4">
-            <div
-              className="flex items-center gap-3"
-              onClick={() => router.push('/collection/write')}
-            >
+          <div
+            className="flex items-center justify-between rounded-lg bg-gray-01 py-2 pl-3 pr-4"
+            onClick={() => router.push('/collection/write')}
+          >
+            <div className="flex items-center gap-3">
               <Icons.plus className="size-6 fill-gray-06" />
               <span className="font-s-2 text-gray-09">새로 만들기</span>
             </div>

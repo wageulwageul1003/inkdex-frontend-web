@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { CollectionWriteSchema, TCollectionWriteSchema } from './schema';
@@ -12,9 +13,13 @@ import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { usePostCollection } from '@/hook/collection/usePostCollection';
+import { isApp } from '@/lib/device';
+import { nativeBridge } from '@/lib/native-bridge';
 
 export const CollectionWriteComponent = () => {
   const router = useRouter();
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const imageFileRef = useRef<File | null>(null);
 
   const { mutateAsync: postCollection } = usePostCollection();
 
@@ -27,10 +32,49 @@ export const CollectionWriteComponent = () => {
     },
   });
 
+  const handleImageSelect = async () => {
+    if (!isApp()) {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = (e) => {
+        const file = (e.target as HTMLInputElement).files?.[0];
+        if (file) {
+          if (previewUrl) URL.revokeObjectURL(previewUrl);
+          setPreviewUrl(URL.createObjectURL(file));
+          imageFileRef.current = file;
+          form.setValue('image', 'file-selected');
+        }
+      };
+      input.click();
+    } else {
+      const result = await nativeBridge.openGallery();
+      if (result) {
+        const imageData = result.base64 || result.uri;
+        setPreviewUrl(imageData);
+        // base64를 File로 변환
+        const response = await fetch(imageData);
+        const blob = await response.blob();
+        imageFileRef.current = new File([blob], 'image.jpg', {
+          type: blob.type || 'image/jpeg',
+        });
+        form.setValue('image', 'file-selected');
+      }
+    }
+  };
+
   const onSubmit = async (data: TCollectionWriteSchema) => {
     try {
-      await postCollection(data);
-      router.back();
+      if (!imageFileRef.current) {
+        return;
+      }
+
+      await postCollection({
+        ...data,
+        imageFile: imageFileRef.current,
+      }).then(() => {
+        router.back();
+      });
     } catch (error) {
       console.error('컬렉션 등록 오류:', error);
     }
@@ -53,12 +97,24 @@ export const CollectionWriteComponent = () => {
           })}
           className="mt-3 flex flex-col items-center justify-center"
         >
-          <div className="flex h-[240px] w-[240px] flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-gray-04 bg-gray-02">
-            <Icons.plus className="size-6 fill-gray-06" />
-            <span className="font-xs-2 text-center text-gray-05">
-              대표 이미지 설정
-            </span>
-          </div>
+          {previewUrl ? (
+            <img
+              src={previewUrl}
+              alt=""
+              className="h-[240px] w-[240px] rounded-lg object-cover"
+              onClick={() => handleImageSelect()}
+            />
+          ) : (
+            <div
+              className="flex h-[240px] w-[240px] flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-gray-04 bg-gray-02"
+              onClick={() => handleImageSelect()}
+            >
+              <Icons.plus className="size-6 fill-gray-06" />
+              <span className="font-xs-2 text-center text-gray-05">
+                대표 이미지 설정
+              </span>
+            </div>
+          )}
 
           <div className="mt-8 flex w-full flex-col gap-8">
             <FormFields
