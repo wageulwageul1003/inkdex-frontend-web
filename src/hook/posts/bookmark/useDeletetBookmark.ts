@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { deleteBookmarkKey, postsDetailKey } from '@/constants/queryKeys';
+import { deleteBookmarkKey, postsListKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 
 export const deleteBookmark = async (params: { postId: string }) => {
@@ -17,13 +17,12 @@ export const useDeletetBookmark = () => {
   return useMutation({
     mutationFn: deleteBookmark,
 
-    onSuccess: async (response, variables) => {
+    onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [deleteBookmarkKey],
       });
-      // Also invalidate the specific post detail to refresh the UI
       await queryClient.invalidateQueries({
-        queryKey: [postsDetailKey, variables.postId],
+        queryKey: [postsListKey],
       });
     },
     onError: (error: ErrorData) => {},

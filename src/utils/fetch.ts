@@ -71,7 +71,6 @@ export const agent = async (url: string, options?: RequestInit) => {
 
     // accessToken 발급
     if (response.headers.get('authorization')) {
-      console.log(response.headers.get('authorization'));
       Cookies.set(
         ACCESS_TOKEN,
         response.headers.get('authorization') as string,

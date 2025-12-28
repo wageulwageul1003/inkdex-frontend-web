@@ -22,8 +22,8 @@ import { useGetCategoryLabel } from '@/hook/common/useGetCategoryLabel';
 import { useDeleteFollow } from '@/hook/follow/useDeleteFollow';
 import { usePostFollow } from '@/hook/follow/usePostFollow';
 import { useGetPostsDetail } from '@/hook/home/useGetPostsDetail';
-import { useDeletetBookmark } from '@/hook/posts/useDeletetBookmark';
-import { usePostBookmark } from '@/hook/posts/usePostBookmark';
+import { useDeletetBookmark } from '@/hook/posts/bookmark/useDeletetBookmark';
+import { usePostBookmark } from '@/hook/posts/bookmark/usePostBookmark';
 
 interface TProps {
   uuid: string;

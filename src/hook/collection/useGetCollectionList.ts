@@ -1,12 +1,13 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { collectionListKey } from '@/constants/queryKeys';
-import { IResponsePaged } from '@/types/global';
+import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface ICollectionListResponse {
-  uuid: string;
+  collectionId: string;
   name: string;
+  thumbnailUrl: string;
 }
 
 // PARAMS TYPE
@@ -33,15 +34,23 @@ export const GetCollectionList = async (
 };
 
 export const useGetCollectionList = (params: TGetCollectionListParams) => {
-  return useInfiniteQuery<IResponsePaged<ICollectionListResponse>>({
+  return useInfiniteQuery<
+    IResponsePaged<ICollectionListResponse>,
+    Error,
+    TInfiniteListResult<ICollectionListResponse>
+  >({
     queryKey: [collectionListKey, params],
     queryFn: ({ pageParam = 1 }) =>
       GetCollectionList({ ...params, page: String(pageParam) }),
     initialPageParam: 1,
-    getNextPageParam: (lastPage) => {
-      return lastPage.data.paging.hasNext
+    getNextPageParam: (lastPage) =>
+      lastPage.data.paging.hasNext
         ? lastPage.data.paging.currentPage + 1
-        : undefined;
-    },
+        : undefined,
+
+    select: (data) => ({
+      content: data.pages.flatMap((p) => p.data.content),
+      paging: data.pages[data.pages.length - 1].data.paging,
+    }),
   });
 };

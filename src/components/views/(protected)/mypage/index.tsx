@@ -2,12 +2,12 @@
 
 import { useRouter } from 'next/navigation';
 
-import { ActivityComponent } from './_components/Activity';
-import { MyIndexComponent } from './_components/MyIndex';
-import { StatisticsComponent } from './_components/Statistics';
+import { MyProfile } from './_components/MyProfile';
 
+import { Alaram } from '@/components/shared/alaram';
 import { Icons } from '@/components/shared/icons';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Header } from '@/components/shared/layout/header';
+import { Button } from '@/components/ui/button';
 
 const MyPageMenu = [
   { value: 'my-index', label: '나의 인덱스' },
@@ -18,19 +18,28 @@ const MyPageMenu = [
 const MyPageComponent = () => {
   const router = useRouter();
   return (
-    <div className="flex w-full flex-col">
-      <div className="flex items-center justify-between py-2">
-        <p>마이페이지</p>
-        <div className="flex gap-5">
-          <Icons.bell className="size-6" />
-          <Icons.bell
-            className="size-6"
-            onClick={() => router.push('/preferences')}
-          />
-        </div>
+    <div className="flex w-full flex-col px-4">
+      <Header
+        left={<span className="font-l-1 text-black">마이페이지</span>}
+        right={
+          <span className="flex items-center gap-2">
+            <Alaram status={true} />
+            <Button
+              variant="buttonIconTextOnly"
+              size="buttonIconMedium"
+              onClick={() => router.push('/preferences')}
+            >
+              <Icons.settings className="size-6 fill-gray-08" />
+            </Button>
+          </span>
+        }
+      />
+
+      <div className="mt-3 flex flex-1 flex-col">
+        <MyProfile />
       </div>
 
-      <div className="flex flex-1 flex-col">
+      {/* <div className="flex flex-1 flex-col">
         <Tabs defaultValue="my-index">
           <TabsList>
             {MyPageMenu.map((item) => (
@@ -39,9 +48,7 @@ const MyPageComponent = () => {
               </TabsTrigger>
             ))}
           </TabsList>
-          <TabsContent value="my-index">
-            <MyIndexComponent />
-          </TabsContent>
+          <TabsContent value="my-index"></TabsContent>
           <TabsContent value="statistics">
             <StatisticsComponent />
           </TabsContent>
@@ -49,7 +56,7 @@ const MyPageComponent = () => {
             <ActivityComponent />
           </TabsContent>
         </Tabs>
-      </div>
+      </div> */}
     </div>
   );
 };

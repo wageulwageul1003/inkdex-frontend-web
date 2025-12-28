@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { bookmarkKey, postsDetailKey } from '@/constants/queryKeys';
+import { bookmarkKey, postsListKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 
 export const postBookmark = async (params: { postId: string }) => {
@@ -17,13 +17,12 @@ export const usePostBookmark = () => {
   return useMutation({
     mutationFn: postBookmark,
 
-    onSuccess: async (response, variables) => {
+    onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [bookmarkKey],
       });
-      // Also invalidate the specific post detail to refresh the UI
       await queryClient.invalidateQueries({
-        queryKey: [postsDetailKey, variables.postId],
+        queryKey: [postsListKey],
       });
     },
     onError: (error: ErrorData) => {},

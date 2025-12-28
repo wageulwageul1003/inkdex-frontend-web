@@ -10,6 +10,7 @@ export interface IMyProfileResponse {
   profileImageUrl: string;
   followerCount: number;
   followingCount: number;
+  bio: string;
 }
 
 export const GetMyProfile = async (): Promise<IMyProfileResponse> => {

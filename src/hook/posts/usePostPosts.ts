@@ -25,6 +25,7 @@ const createFormData = (params: TWriteSchema): FormData => {
     categorySlug: params.categorySlug,
     content: params.content,
     tags: params.tags || [],
+    collectionIds: params.collectionIds || [],
   };
 
   // 데이터 객체를 JSON 문자열로 변환하여 추가

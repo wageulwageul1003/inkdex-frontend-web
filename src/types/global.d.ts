@@ -28,3 +28,8 @@ export interface IResponse<T> {
   message: string;
   error: null | string;
 }
+
+export type TInfiniteListResult<T> = {
+  content: T[];
+  paging: IResponsePaged<T>['data']['paging'];
+};

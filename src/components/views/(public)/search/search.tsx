@@ -1,10 +1,13 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 
 import { Hot } from './_components/result/Hot';
+import { Latest } from './_components/result/Latest';
+import { User } from './_components/result/User';
 import { searchSchema } from './schema';
 
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
@@ -15,6 +18,8 @@ export const SearchResult = () => {
   const form = useForm<z.infer<typeof searchSchema>>({
     resolver: zodResolver(searchSchema),
   });
+
+  const [tabs, setTabs] = useState('hot');
 
   const onSubmit = (data: z.infer<typeof searchSchema>) => {
     console.log(data);
@@ -34,7 +39,7 @@ export const SearchResult = () => {
         </form>
       </Form>
 
-      <Tabs defaultValue="hot" className="mt-3 w-full">
+      <Tabs value={tabs} onValueChange={setTabs} className="mt-3 w-full">
         <TabsList className="">
           <TabsTrigger value="hot">인기</TabsTrigger>
           <TabsTrigger value="latest">최신</TabsTrigger>
@@ -47,10 +52,14 @@ export const SearchResult = () => {
         </TabsContent>
 
         {/* 최신 */}
-        <TabsContent value="latest"></TabsContent>
+        <TabsContent value="latest">
+          <Latest />
+        </TabsContent>
 
         {/* 사용자 */}
-        <TabsContent value="user"></TabsContent>
+        <TabsContent value="user">
+          <User />
+        </TabsContent>
       </Tabs>
     </div>
   );
