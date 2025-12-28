@@ -6,8 +6,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { FC, useState } from 'react';
 
-import { TypeItemComponent } from '../../(public)/home/_components/WriteType';
-
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
@@ -192,7 +190,7 @@ export const PostsDetail: FC<TProps> = (props) => {
               <span>게시글 편집</span>
             </SheetTitle>
           </div>
-          <div className="mt-6 grid grid-cols-2 gap-2">
+          {/* <div className="mt-6 grid grid-cols-2 gap-2">
             {editTypeItems.map((item) => (
               <TypeItemComponent
                 key={item.value}
@@ -200,7 +198,7 @@ export const PostsDetail: FC<TProps> = (props) => {
                 onClick={() => item.onClick()}
               />
             ))}
-          </div>
+          </div> */}
         </SheetContent>
       </Sheet>
 
