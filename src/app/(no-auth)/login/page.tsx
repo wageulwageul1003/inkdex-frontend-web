@@ -1,5 +1,5 @@
-import { Notification } from '@/components/views/(public)/notification';
+import Login from '@/components/views/(no-protected)/login';
 
 export default function LoginPage() {
-  return <Notification />;
+  return <Login />;
 }
