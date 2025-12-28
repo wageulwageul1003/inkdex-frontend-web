@@ -1,8 +1,8 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { FC, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { FC, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -14,40 +14,31 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form, FormLabel } from '@/components/ui/form';
-import { SELECTED_IMAGE } from '@/constants/tokens';
+import { ICollectionListResponse } from '@/hook/collection/useGetCollectionList';
 import { useGetCategoryList } from '@/hook/common/useGetCategoryList';
 import { usePostPosts } from '@/hook/posts/usePostPosts';
+import { isApp } from '@/lib/device';
+import { nativeBridge } from '@/lib/native-bridge';
 
 interface TProps {
   uuid: string;
 }
 
 export const PostsWrite: FC<TProps> = (props) => {
-  const { uuid } = props;
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const [image, setImage] = useState<string | null>(null);
-  const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
+  const [selectedCollections, setSelectedCollections] = useState<
+    ICollectionListResponse[]
+  >([]);
   const { mutateAsync: postPosts } = usePostPosts();
   const { data: categories } = useGetCategoryList();
-
-  // 컴포넌트 마운트 시 localStorage에서 이미지 데이터 가져오기
-  useEffect(() => {
-    try {
-      const storedImage = sessionStorage.getItem(SELECTED_IMAGE);
-      if (storedImage) {
-        setImage(storedImage);
-      }
-    } catch (error) {
-      console.error('이미지 데이터 로드 실패:', error);
-    }
-  }, []);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const imageFileRef = useRef<File | null>(null);
 
   const form = useForm({
     resolver: zodResolver(writeSchema),
     mode: 'onChange',
     defaultValues: {
-      image: image || '',
+      image: '',
       categorySlug: '',
       content: '',
       tags: [] as string[],
@@ -55,14 +46,50 @@ export const PostsWrite: FC<TProps> = (props) => {
     },
   });
 
-  const onSubmit = async (data: TWriteSchema) => {
-    console.log('제출 데이터:', selectedCollections);
-    try {
-      const formData = {
-        ...data,
-        collectionIds: selectedCollections,
+  const handleImageSelect = async () => {
+    if (!isApp()) {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = (e) => {
+        const file = (e.target as HTMLInputElement).files?.[0];
+        if (file) {
+          if (previewUrl) URL.revokeObjectURL(previewUrl);
+          setPreviewUrl(URL.createObjectURL(file));
+          imageFileRef.current = file;
+          form.setValue('image', 'file-selected');
+        }
       };
-      await postPosts(formData);
+      input.click();
+    } else {
+      const result = await nativeBridge.openGallery();
+      if (result) {
+        const imageData = result.base64 || result.uri;
+        setPreviewUrl(imageData);
+        // base64를 File로 변환
+        const response = await fetch(imageData);
+        const blob = await response.blob();
+        imageFileRef.current = new File([blob], 'image.jpg', {
+          type: blob.type || 'image/jpeg',
+        });
+        form.setValue('image', 'file-selected');
+      }
+    }
+  };
+
+  const onSubmit = async (data: TWriteSchema) => {
+    try {
+      if (!imageFileRef.current) {
+        toast.error('이미지를 선택해주세요.');
+        return;
+      }
+      await postPosts({
+        ...data,
+        collectionIds: selectedCollections.map(
+          (collection) => collection.collectionId,
+        ),
+        imageFile: imageFileRef.current,
+      });
       toast.success('게시물이 성공적으로 등록되었습니다.');
       router.push('/home'); // 게시물 목록 페이지로 이동
     } catch (error) {
@@ -89,13 +116,25 @@ export const PostsWrite: FC<TProps> = (props) => {
           })}
           className="mt-3 flex flex-col items-center justify-center"
         >
-          <div className="flex h-[240px] w-[240px] flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-gray-04 bg-gray-02">
-            <Icons.plus className="size-6 fill-gray-06" />
-            <span className="font-xs-2 text-center text-gray-05">
-              여기를 눌러서 <br />
-              당신의 문장을 남겨주세요
-            </span>
-          </div>
+          {previewUrl ? (
+            <img
+              src={previewUrl}
+              alt=""
+              className="h-[240px] w-[240px] rounded-lg object-cover"
+              onClick={() => handleImageSelect()}
+            />
+          ) : (
+            <div
+              className="flex h-[240px] w-[240px] flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-gray-04 bg-gray-02"
+              onClick={() => handleImageSelect()}
+            >
+              <Icons.plus className="size-6 fill-gray-06" />
+              <span className="font-xs-2 text-center text-gray-05">
+                여기를 눌러서 <br />
+                당신의 문장을 남겨주세요
+              </span>
+            </div>
+          )}
 
           <div className="mt-8 flex w-full flex-col gap-8">
             <FormFields

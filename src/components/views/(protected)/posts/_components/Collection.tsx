@@ -14,13 +14,16 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-import { useGetCollectionList } from '@/hook/collection/useGetCollectionList';
+import {
+  ICollectionListResponse,
+  useGetCollectionList,
+} from '@/hook/collection/useGetCollectionList';
 import { useInfiniteScroll } from '@/hook/common/useInfiniteScroll';
 import { cn } from '@/lib/utils';
 
 interface TProps {
-  selectedCollections: string[];
-  setSelectedCollections: (collections: string[]) => void;
+  selectedCollections: ICollectionListResponse[];
+  setSelectedCollections: (collections: ICollectionListResponse[]) => void;
 }
 
 export const Collection = (props: TProps) => {
@@ -39,14 +42,45 @@ export const Collection = (props: TProps) => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button
-          variant="outline"
-          size="lg"
-          className="flex w-full items-center justify-center gap-1"
-        >
-          <Icons.plus className="size-6 fill-gray-06" />
-          <span className="font-m-2">컬렉션에 담기</span>
-        </Button>
+        {selectedCollections.length > 0 ? (
+          <div className="rounded-lg border border-gray-03 bg-white px-4 py-3">
+            <div className="flex items-center gap-1">
+              <span className="font-xs-2 text-gray-08">컬렉션</span>
+              <span className="font-xs-2 text-gray-05">
+                ({selectedCollections.length})
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {selectedCollections.map((item) => (
+                <div
+                  key={item.collectionId}
+                  className="flex items-center gap-2 py-2 pl-2 pr-3"
+                >
+                  <div className="h-6 w-6 shrink-0 rounded-md border border-gray-03">
+                    <Image
+                      src={item.thumbnailUrl}
+                      alt={item.thumbnailUrl}
+                      width={24}
+                      height={24}
+                    />
+                  </div>
+                  <span className="font-xs-2 line-clamp-1 flex-1 text-gray-09">
+                    {item.name}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <Button
+            variant="outline"
+            size="lg"
+            className="flex w-full items-center justify-center gap-1"
+          >
+            <Icons.plus className="size-6 fill-gray-06" />
+            <span className="font-m-2">컬렉션에 담기</span>
+          </Button>
+        )}
       </DrawerTrigger>
       <DrawerContent className="flex max-h-[624px] flex-col">
         <DrawerHeader>
@@ -54,11 +88,11 @@ export const Collection = (props: TProps) => {
         </DrawerHeader>
 
         <div className="mt-7 flex-1 overflow-y-auto px-4 pb-5">
-          <div className="flex items-center justify-between rounded-lg bg-gray-01 py-2 pl-3 pr-4">
-            <div
-              className="flex items-center gap-3"
-              onClick={() => router.push('/collection/write')}
-            >
+          <div
+            className="flex items-center justify-between rounded-lg bg-gray-01 py-2 pl-3 pr-4"
+            onClick={() => router.push('/collection/write')}
+          >
+            <div className="flex items-center gap-3">
               <Icons.plus className="size-6 fill-gray-06" />
               <span className="font-s-2 text-gray-09">새로 만들기</span>
             </div>
@@ -67,17 +101,18 @@ export const Collection = (props: TProps) => {
           <div className="mt-4 flex flex-col gap-4">
             {data?.content.map((item) =>
               (() => {
-                const isSelected = selectedCollections.includes(
-                  item.collectionId,
+                const isSelected = selectedCollections.some(
+                  (collection) => collection.collectionId === item.collectionId,
                 );
 
                 const toggle = () => {
                   setSelectedCollections(
                     isSelected
                       ? selectedCollections.filter(
-                          (id) => id !== item.collectionId,
+                          (collection) =>
+                            collection.collectionId !== item.collectionId,
                         )
-                      : [...selectedCollections, item.collectionId],
+                      : [...selectedCollections, item],
                   );
                 };
 
