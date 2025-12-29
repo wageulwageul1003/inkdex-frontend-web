@@ -3,6 +3,7 @@
 import { Bell, BellOff, Send } from 'lucide-react';
 import React from 'react';
 
+import { Loading } from '@/components/shared/Loading';
 import { usePushNotification } from '@/hooks/usePushNotification';
 
 export const Notification = () => {
@@ -39,11 +40,7 @@ export const Notification = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex w-full flex-col items-center justify-center p-8">
-        <p className="text-gray-500">로딩 중...</p>
-      </div>
-    );
+    return <Loading />;
   }
 
   if (!isSupported) {

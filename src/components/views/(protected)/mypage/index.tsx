@@ -39,6 +39,8 @@ const MyPageComponent = () => {
         <MyProfile />
       </div>
 
+      <p onClick={() => router.push('/notification')}> 알림 설정</p>
+
       {/* <div className="flex flex-1 flex-col">
         <Tabs defaultValue="my-index">
           <TabsList>
