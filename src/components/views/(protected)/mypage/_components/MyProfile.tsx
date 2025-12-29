@@ -42,7 +42,11 @@ export const MyProfile = () => {
             </p>
           </div>
         </div>
-        <Button variant="buttonIconOutline" size="buttonIconMedium">
+        <Button
+          variant="buttonIconOutline"
+          size="buttonIconMedium"
+          onClick={() => router.push('/edit-profile')}
+        >
           <Icons.edit className="size-6" />
         </Button>
       </div>
