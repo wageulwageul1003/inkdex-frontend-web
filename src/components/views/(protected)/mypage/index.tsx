@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 
 import { MyProfile } from './_components/MyProfile';
+import { Summary } from './_components/Summary';
 
 import { Alaram } from '@/components/shared/alaram';
 import { Icons } from '@/components/shared/icons';
@@ -37,26 +38,8 @@ const MyPageComponent = () => {
 
       <div className="mt-3 flex flex-1 flex-col">
         <MyProfile />
+        <Summary />
       </div>
-
-      {/* <div className="flex flex-1 flex-col">
-        <Tabs defaultValue="my-index">
-          <TabsList>
-            {MyPageMenu.map((item) => (
-              <TabsTrigger key={item.value} value={item.value}>
-                {item.label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          <TabsContent value="my-index"></TabsContent>
-          <TabsContent value="statistics">
-            <StatisticsComponent />
-          </TabsContent>
-          <TabsContent value="activity">
-            <ActivityComponent />
-          </TabsContent>
-        </Tabs>
-      </div> */}
     </div>
   );
 };
