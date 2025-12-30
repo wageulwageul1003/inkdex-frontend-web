@@ -7,24 +7,36 @@ import { registerKey } from '@/constants/queryKeys';
 import { CERTIFICATION_TOKEN } from '@/constants/tokens';
 import { ErrorData, agent } from '@/utils/fetch';
 
-export const postRegister = async (payload: TRegisterSchema) => {
-  // Get the certification token from cookies
-  const certificationToken = Cookies.get(CERTIFICATION_TOKEN);
+interface RegisterParams extends TRegisterSchema {
+  imageFile?: File;
+}
 
-  // Create options for the agent function
+const createFormData = (params: RegisterParams): FormData => {
+  const formData = new FormData();
+
+  const { imageFile, ...data } = params;
+
+  formData.append('data', JSON.stringify(data));
+  if (imageFile) {
+    formData.append('image', imageFile, imageFile.name);
+  }
+
+  return formData;
+};
+
+export const postRegister = async (params: RegisterParams) => {
+  const certificationToken = Cookies.get(CERTIFICATION_TOKEN);
+  const formData = createFormData(params);
+
   const options: RequestInit = {
     method: 'POST',
-    body: JSON.stringify(payload),
+    body: formData,
   };
 
-  // Add the certification token to headers if it exists
   if (certificationToken) {
-    // Initialize headers if not already present
     if (!options.headers) {
       options.headers = {};
     }
-    // Add the Authorization header with the certification token
-    // This will be properly merged in the agent function
     (options.headers as Record<string, string>)['Authorization'] =
       `Bearer ${certificationToken}`;
   }

@@ -36,17 +36,33 @@ const Step6 = () => {
 
   const { control, formState } = form;
 
-  const onSubmit = (data: TRegisterSchema) => {
-    register(data).then(() => {
+  const onSubmit = async (data: TRegisterSchema) => {
+    try {
+      const profileImageUrl = searchParams.get('profileImage');
+      let imageFile: File | undefined;
+
+      if (profileImageUrl) {
+        const decodedUrl = decodeURIComponent(profileImageUrl);
+        const response = await fetch(decodedUrl);
+        const blob = await response.blob();
+        imageFile = new File([blob], 'profile.jpg', {
+          type: blob.type || 'image/jpeg',
+        });
+      }
+
+      await register({ ...data, imageFile });
+
       // 회원가입 성공 하면 자동 로그인 시도
-      emailLogin({
+      await emailLogin({
         username: data.email,
         password: data.password,
-      }).then(() => {
-        toast.success('회원가입이 완료되었습니다.');
-        router.push('/home');
       });
-    });
+
+      toast.success('회원가입이 완료되었습니다.');
+      router.push('/home');
+    } catch (error) {
+      console.error('회원가입 오류:', error);
+    }
   };
 
   return (

@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { registerStep5Schema } from '../schema';
@@ -11,11 +12,15 @@ import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { useGetNicknameDuplicateCheck } from '@/hook/auth/useGetNicknameDuplicateCheck';
+import { isApp } from '@/lib/device';
+import { nativeBridge } from '@/lib/native-bridge';
 import { ErrorData } from '@/utils/fetch';
 
 const Step5 = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const imageFileRef = useRef<File | null>(null);
   const { mutateAsync: checkNicknameDuplicate } =
     useGetNicknameDuplicateCheck();
 
@@ -28,14 +33,46 @@ const Step5 = () => {
   });
   const { formState } = form;
 
+  const handleImageSelect = async () => {
+    if (!isApp()) {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = (e) => {
+        const file = (e.target as HTMLInputElement).files?.[0];
+        if (file) {
+          if (previewUrl) URL.revokeObjectURL(previewUrl);
+          setPreviewUrl(URL.createObjectURL(file));
+          imageFileRef.current = file;
+        }
+      };
+      input.click();
+    } else {
+      const result = await nativeBridge.openGallery();
+      if (result) {
+        const imageData = result.base64 || result.uri;
+        setPreviewUrl(imageData);
+        const response = await fetch(imageData);
+        const blob = await response.blob();
+        imageFileRef.current = new File([blob], 'image.jpg', {
+          type: blob.type || 'image/jpeg',
+        });
+      }
+    }
+  };
+
   const onSubmit = async () => {
     try {
       const nickname = form.getValues('nickname');
       const result = await checkNicknameDuplicate(nickname);
 
       if (!result?.data?.content) {
+        const profileImage = previewUrl
+          ? encodeURIComponent(previewUrl)
+          : searchParams.get('profileImage') || '';
+
         router.push(
-          `/register/step6?email=${searchParams.get('email')}&password=${searchParams.get('password')}&fullName=${searchParams.get('fullName')}&agreedTermIds=${searchParams.get('agreedTermIds')}&nickname=${nickname}&profileImage=${searchParams.get('profileImage')}`,
+          `/register/step6?email=${searchParams.get('email')}&password=${searchParams.get('password')}&fullName=${searchParams.get('fullName')}&agreedTermIds=${searchParams.get('agreedTermIds')}&nickname=${nickname}&profileImage=${profileImage}`,
         );
       }
     } catch (error) {
@@ -53,8 +90,19 @@ const Step5 = () => {
     <div className="flex flex-1 flex-col bg-gray-01 px-4">
       <div className="mt-[58px]"></div>
       <div className="flex items-center justify-center">
-        <div className="relative flex h-[146px] w-[146px] items-center justify-center rounded-full bg-gray-03">
-          <Icons.person className="z-10 size-[146px] fill-white" />
+        <div
+          className="relative flex h-[146px] w-[146px] cursor-pointer items-center justify-center rounded-full bg-gray-03"
+          onClick={handleImageSelect}
+        >
+          {previewUrl ? (
+            <img
+              src={previewUrl}
+              alt="프로필 이미지"
+              className="h-full w-full rounded-full object-cover"
+            />
+          ) : (
+            <Icons.person className="z-10 size-[146px] fill-white" />
+          )}
           <div className="absolute bottom-0 right-0 z-10 rounded-full bg-gray-04 p-1.5">
             <Icons.camera className="size-6 fill-white" />
           </div>
