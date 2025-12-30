@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 
+import MyHeader from './_components/MyHeader';
 import { MyProfile } from './_components/MyProfile';
 import { Summary } from './_components/Summary';
 
@@ -39,6 +40,14 @@ const MyPageComponent = () => {
       <div className="mt-3 flex flex-1 flex-col">
         <MyProfile />
         <Summary />
+
+        <div className="flex flex-col gap-4">
+          <MyHeader title="북마크" onClick={() => router.push('/bookmark')} />
+          <MyHeader
+            title="관심 있는 카테고리"
+            onClick={() => router.push('/')}
+          />
+        </div>
       </div>
     </div>
   );
