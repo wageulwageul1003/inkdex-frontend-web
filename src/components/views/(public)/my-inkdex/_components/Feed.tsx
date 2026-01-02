@@ -9,7 +9,7 @@ import { Loading } from '@/components/shared/Loading';
 import Chips from '@/components/shared/chips';
 import { useGetCategoryList } from '@/hooks/common/useGetCategoryList';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
-import { useGetPostsList } from '@/hooks/home/useGetPostsList';
+import { useGetMyInkdexFeedList } from '@/hooks/my-inkdex/useGetPostsList';
 
 export const Feed = () => {
   const router = useRouter();
@@ -17,7 +17,7 @@ export const Feed = () => {
   const { data: categories } = useGetCategoryList();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useGetPostsList({
+    useGetMyInkdexFeedList({
       category: '',
       size: '3',
       feedType: 'recommended',

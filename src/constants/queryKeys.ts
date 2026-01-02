@@ -39,7 +39,6 @@ const deleteBlockKey = 'deleteBlockKey';
 const blockListKey = 'blockListKey';
 
 const myProfileKey = 'myProfileKey';
-const myPostsKey = 'myPostsKey';
 
 const deleteRecentSearchKeywordKey = 'deleteRecentSearchKeywordKey';
 const recentSearchKeywordsKey = 'recentSearchKeywordsKey';
@@ -48,6 +47,8 @@ const latestPostsListKey = 'latestPostsListKey';
 const userListKey = 'userListKey';
 const recommendSearchKeywordsKey = 'recommendSearchKeywordsKey';
 const hotSearchKeywordsKey = 'hotSearchKeywordsKey';
+
+const myInkdexFeedListKey = 'myInkdexFeedListKey';
 
 const faqListKey = 'faqListKey';
 const faqDetailKey = 'faqDetailKey';
@@ -85,7 +86,6 @@ export {
   deleteBlockKey,
   blockListKey,
   myProfileKey,
-  myPostsKey,
   deleteRecentSearchKeywordKey,
   recentSearchKeywordsKey,
   hotPostsListKey,
@@ -93,6 +93,7 @@ export {
   userListKey,
   recommendSearchKeywordsKey,
   hotSearchKeywordsKey,
+  myInkdexFeedListKey,
   faqListKey,
   faqDetailKey,
   faqCategoryKey,
