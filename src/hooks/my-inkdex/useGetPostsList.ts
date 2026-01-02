@@ -34,6 +34,8 @@ export interface IMyInkdexFeedListResponse {
 // PARAMS TYPE
 type TGetMyInkdexFeedListParams = {
   category?: string;
+  startDate?: string;
+  endDate?: string;
   page?: string;
   size?: string;
   sort?: string;
@@ -46,6 +48,8 @@ export const GetMyInkdexFeedList = async (
   const queryParams = new URLSearchParams();
 
   if (params.category) queryParams.set('category', params.category);
+  if (params.startDate) queryParams.set('startDate', params.startDate);
+  if (params.endDate) queryParams.set('endDate', params.endDate);
   if (params.page) queryParams.set('page', String(Number(params.page) - 1));
   if (params.size) queryParams.set('size', String(params.size));
   if (params.sort) queryParams.set('sort', String(params.sort));

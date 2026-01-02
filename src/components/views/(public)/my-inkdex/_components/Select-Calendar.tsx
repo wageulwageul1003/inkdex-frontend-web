@@ -23,12 +23,19 @@ import { cn } from '@/lib/utils';
 import useCalendar from '@/providers/useCalendar';
 
 interface TProps {
-  selectedDate: string | null;
-  setSelectedDate: (date: string | null) => void;
+  selectedStartDate: string | null;
+  setSelectedStartDate: (date: string | null) => void;
+  selectedEndDate: string | null;
+  setSelectedEndDate: (date: string | null) => void;
 }
 
 export const SelectCalendar = (props: TProps) => {
-  const { selectedDate, setSelectedDate } = props;
+  const {
+    selectedStartDate,
+    setSelectedStartDate,
+    selectedEndDate,
+    setSelectedEndDate,
+  } = props;
   const calendar = useCalendar();
   const today = React.useMemo(() => new Date(), []);
   const form = useForm({
@@ -42,6 +49,7 @@ export const SelectCalendar = (props: TProps) => {
 
   const [rangeStart, setRangeStart] = React.useState<Date | null>(null);
   const [rangeEnd, setRangeEnd] = React.useState<Date | null>(null);
+  const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
     const startStr = rangeStart ? format(rangeStart, 'yyyy.MM.dd') : '';
@@ -71,7 +79,10 @@ export const SelectCalendar = (props: TProps) => {
     const isRangeStart = hasStart && isSameDay(date, rangeStart as Date);
     const isRangeEnd = hasEnd && isSameDay(date, rangeEnd as Date);
     const isSingleDayRange =
-      hasStart && hasEnd && isSameDay(rangeStart as Date, rangeEnd as Date);
+      hasStart &&
+      hasEnd &&
+      isSameDay(rangeStart as Date, rangeEnd as Date) &&
+      isSameDay(date, rangeStart as Date);
 
     const isInRange =
       hasStart &&
@@ -96,6 +107,12 @@ export const SelectCalendar = (props: TProps) => {
       return;
     }
 
+    // 같은 날짜 클릭 시 시작일 = 종료일
+    if (isSameDay(date, rangeStart)) {
+      setRangeEnd(date);
+      return;
+    }
+
     if (isBefore(date, rangeStart)) {
       setRangeStart(date);
       setRangeEnd(rangeStart);
@@ -106,14 +123,37 @@ export const SelectCalendar = (props: TProps) => {
   };
 
   const handleSave = () => {
-    if (rangeStart === null) {
-      setSelectedDate(null);
+    if (rangeStart === null && rangeEnd === null) {
+      setSelectedStartDate(null);
+      setSelectedEndDate(null);
+      setOpen(false);
       return;
     }
 
-    const startStr = format(rangeStart, 'yyyy.MM.dd');
-    const endStr = rangeEnd ? format(rangeEnd, 'yyyy.MM.dd') : '';
-    setSelectedDate(endStr ? `${startStr} - ${endStr}` : startStr);
+    // 시작일만 있는 경우 → 시작일 = 종료일
+    if (rangeStart && !rangeEnd) {
+      const dateStr = format(rangeStart, 'yyyy.MM.dd');
+      setSelectedStartDate(dateStr);
+      setSelectedEndDate(dateStr);
+      setOpen(false);
+      return;
+    }
+
+    // 종료일만 있는 경우 → 시작일 = 종료일
+    if (!rangeStart && rangeEnd) {
+      const dateStr = format(rangeEnd, 'yyyy.MM.dd');
+      setSelectedStartDate(dateStr);
+      setSelectedEndDate(dateStr);
+      setOpen(false);
+      return;
+    }
+
+    // 둘 다 있는 경우
+    const startStr = format(rangeStart!, 'yyyy.MM.dd');
+    const endStr = format(rangeEnd!, 'yyyy.MM.dd');
+    setSelectedStartDate(startStr);
+    setSelectedEndDate(endStr);
+    setOpen(false);
   };
 
   const handleReset = () => {
@@ -123,11 +163,17 @@ export const SelectCalendar = (props: TProps) => {
   };
 
   return (
-    <Drawer>
+    <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <Button variant="outline" size="sm" className="flex items-center gap-1">
           <span className="font-s-2 text-gray-08">
-            {selectedDate ?? '날짜'}
+            {selectedStartDate && selectedEndDate
+              ? `${selectedStartDate} ~ ${selectedEndDate}`
+              : selectedStartDate
+                ? `${selectedStartDate} ~`
+                : selectedEndDate
+                  ? `~ ${selectedEndDate}`
+                  : '날짜'}
           </span>
           <Icons.keyboardArrowDown className="size-4 fill-gray-06" />
         </Button>
@@ -214,15 +260,14 @@ export const SelectCalendar = (props: TProps) => {
                       className="relative flex h-10 w-full items-center justify-center"
                       onClick={() => handleSelectDate(date)}
                     >
-                      {state.isInRange && (
+                      {state.isInRange && !state.isSingleDayRange && (
                         <div
                           className={cn(
                             'absolute inset-y-[0.1px] left-0 right-0 bg-sand-02',
-                            (state.isRangeStart || state.isSingleDayRange) &&
+                            state.isRangeStart &&
                               'left-[calc(50%-20px)] rounded-l-full',
-                            (state.isRangeEnd || state.isSingleDayRange) &&
+                            state.isRangeEnd &&
                               'right-[calc(50%-20px)] rounded-r-full',
-                            state.isSingleDayRange && 'rounded-full',
                           )}
                         />
                       )}
@@ -233,9 +278,9 @@ export const SelectCalendar = (props: TProps) => {
                           state.isInCurrentMonth
                             ? 'text-gray-10'
                             : 'text-gray-10',
-                          (state.isRangeStart ||
-                            state.isRangeEnd ||
-                            state.isSingleDayRange) &&
+                          (state.isSingleDayRange ||
+                            state.isRangeStart ||
+                            state.isRangeEnd) &&
                             'rounded-full bg-sand-02 text-gray-10',
                           state.isToday && 'ring-2 ring-gray-04',
                         )}

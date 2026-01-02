@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
@@ -13,13 +14,24 @@ import { useGetMyInkdexFeedList } from '@/hooks/my-inkdex/useGetPostsList';
 
 export const Feed = () => {
   const router = useRouter();
-  const [selectedDate, setSelectedDate] = React.useState<string | null>(null);
+  const [selectedStartDate, setSelectedStartDate] = React.useState<
+    string | null
+  >(null);
+  const [selectedEndDate, setSelectedEndDate] = React.useState<string | null>(
+    null,
+  );
   const { data: categories } = useGetCategoryList();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGetMyInkdexFeedList({
       category: '',
       size: '3',
+      startDate: selectedStartDate
+        ? dayjs(selectedStartDate).format('YYYY-MM-DD')
+        : '',
+      endDate: selectedEndDate
+        ? dayjs(selectedEndDate).format('YYYY-MM-DD')
+        : '',
       feedType: 'recommended',
     });
 
@@ -48,8 +60,10 @@ export const Feed = () => {
       <div className="flex items-center gap-3 px-4 py-2">
         {/* 날짜 필터 */}
         <SelectCalendar
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
+          selectedStartDate={selectedStartDate}
+          setSelectedStartDate={setSelectedStartDate}
+          selectedEndDate={selectedEndDate}
+          setSelectedEndDate={setSelectedEndDate}
         />
 
         {/* 카테고리 개수 */}
