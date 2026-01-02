@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import { Calendar } from './_components/Calendar';
@@ -9,7 +10,15 @@ import { Feed } from './_components/Feed';
 import { Alaram } from '@/components/shared/alaram';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-export const MyInkdex = () => {
+interface IMyInkdexProps {
+  defaultValue: string;
+}
+export const MyInkdex = ({ defaultValue }: IMyInkdexProps) => {
+  const router = useRouter();
+  const handleTabChange = (value: string) => {
+    router.push(`/my-inkdex/${value}`);
+  };
+
   return (
     <div className="w-full bg-white px-4">
       <div className="flex justify-between py-3">
@@ -18,7 +27,11 @@ export const MyInkdex = () => {
       </div>
 
       <div>
-        <Tabs defaultValue="feed" className="w-full">
+        <Tabs
+          defaultValue={defaultValue}
+          onValueChange={handleTabChange}
+          className="w-full"
+        >
           <TabsList className="">
             <TabsTrigger value="feed">피드</TabsTrigger>
             <TabsTrigger value="calendar">캘린더</TabsTrigger>
