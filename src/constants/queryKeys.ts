@@ -49,6 +49,7 @@ const recommendSearchKeywordsKey = 'recommendSearchKeywordsKey';
 const hotSearchKeywordsKey = 'hotSearchKeywordsKey';
 
 const myInkdexFeedListKey = 'myInkdexFeedListKey';
+const myInkdexCalendarKey = 'myInkdexCalendarKey';
 
 const faqListKey = 'faqListKey';
 const faqDetailKey = 'faqDetailKey';
@@ -94,6 +95,7 @@ export {
   recommendSearchKeywordsKey,
   hotSearchKeywordsKey,
   myInkdexFeedListKey,
+  myInkdexCalendarKey,
   faqListKey,
   faqDetailKey,
   faqCategoryKey,

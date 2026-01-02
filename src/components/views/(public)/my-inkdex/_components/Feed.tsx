@@ -10,7 +10,7 @@ import { Loading } from '@/components/shared/Loading';
 import Chips from '@/components/shared/chips';
 import { useGetCategoryList } from '@/hooks/common/useGetCategoryList';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
-import { useGetMyInkdexFeedList } from '@/hooks/my-inkdex/useGetPostsList';
+import { useGetMyInkdexFeedList } from '@/hooks/my-inkdex/useGetMyInkdexFeedList';
 
 export const Feed = () => {
   const router = useRouter();
