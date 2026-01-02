@@ -7,7 +7,6 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { Icons } from '@/components/shared/icons';
 import BookmarkToggle from '@/components/shared/post-toggle/bookmark-toggle';
 import FavoriteToggle from '@/components/shared/post-toggle/favorite-toggle';
-import { UserProfile } from '@/components/shared/user-profile';
 import { IPostListResponse } from '@/hook/home/useGetPostsList';
 import { useDeletetBookmark } from '@/hook/posts/bookmark/useDeletetBookmark';
 import { usePostBookmark } from '@/hook/posts/bookmark/usePostBookmark';
@@ -71,17 +70,17 @@ export const Card = ({ item }: { item: IPostListResponse }) => {
   }, [expanded, item.content]);
   return (
     <div className="flex flex-col gap-4">
-      <UserProfile
+      {/* <UserProfile
         nickname={item.userNickname}
-        nicknameSrc={item.thumbnailUrl || ''}
+        nicknameSrc={item.profileImageUrl}
         bio={item.userBio}
         following={item.following}
         isShowMore={true}
-      />
+      /> */}
 
       <div className="h-full w-full rounded-lg border border-gray-03">
         <Image
-          src={item.thumbnailUrl || '/default-image.png'}
+          src={item.imageUrl || '/default-image.png'}
           alt=""
           width={100}
           height={100}
