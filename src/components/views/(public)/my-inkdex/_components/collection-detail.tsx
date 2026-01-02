@@ -6,8 +6,8 @@ import React from 'react';
 import { Loading } from '@/components/shared/Loading';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
-import { useGetSpecificCollectionList } from '@/hook/collection/useGetSpecificCollectionList';
-import { useInfiniteScroll } from '@/hook/common/useInfiniteScroll';
+import { useGetSpecificCollectionList } from '@/hooks/collection/useGetSpecificCollectionList';
+import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 
 interface TProps {
   uuid: string;

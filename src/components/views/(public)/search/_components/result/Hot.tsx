@@ -6,8 +6,8 @@ import { Card } from '../../../home/_components/Card';
 import { NoResult } from './no-result';
 
 import { Loading } from '@/components/shared/Loading';
-import { useInfiniteScroll } from '@/hook/common/useInfiniteScroll';
-import { useGetHotPostsList } from '@/hook/search/useGetHotPostsList';
+import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
+import { useGetHotPostsList } from '@/hooks/search/useGetHotPostsList';
 
 export const Hot = () => {
   const router = useRouter();

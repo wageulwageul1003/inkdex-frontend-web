@@ -6,7 +6,7 @@ import React from 'react';
 
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
-import { useGetMyProfile } from '@/hook/auth/useGetMyProfile';
+import { useGetMyProfile } from '@/hooks/auth/useGetMyProfile';
 
 export const MyProfile = () => {
   const { data: myProfile } = useGetMyProfile();

@@ -19,8 +19,8 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer';
 import { Form } from '@/components/ui/form';
-import useCalendar from '@/hook/calendar/useCalendar';
 import { cn } from '@/lib/utils';
+import useCalendar from '@/providers/useCalendar';
 
 interface TProps {
   selectedDate: string | null;

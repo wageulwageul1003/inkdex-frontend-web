@@ -5,8 +5,8 @@ import { NoResult } from './no-result';
 
 import { Loading } from '@/components/shared/Loading';
 import { UserProfile } from '@/components/shared/user-profile';
-import { useInfiniteScroll } from '@/hook/common/useInfiniteScroll';
-import { useGetUserList } from '@/hook/search/useGetUserList';
+import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
+import { useGetUserList } from '@/hooks/search/useGetUserList';
 
 export const User = () => {
   const router = useRouter();

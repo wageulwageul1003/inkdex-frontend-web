@@ -1,4 +1,4 @@
-import { ICommentListResponse } from '@/hook/comment/useGetCommentList';
+import { ICommentListResponse } from '@/hooks/comment/useGetCommentList';
 
 const CommentItem = ({ item }: { item: ICommentListResponse }) => {
   return <div>CommentItem</div>;

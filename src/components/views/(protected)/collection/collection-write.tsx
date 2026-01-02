@@ -12,7 +12,7 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { usePostCollection } from '@/hook/collection/usePostCollection';
+import { usePostCollection } from '@/hooks/collection/usePostCollection';
 import { isApp } from '@/lib/device';
 import { nativeBridge } from '@/lib/native-bridge';
 

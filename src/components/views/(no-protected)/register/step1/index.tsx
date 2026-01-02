@@ -12,8 +12,8 @@ import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { toast } from '@/components/ui/sonner';
-import { usePostConfirmEmail } from '@/hook/auth/usePostConfirmEmail';
-import { usePostVerifyEmail } from '@/hook/auth/usePostVerifyEmail';
+import { usePostConfirmEmail } from '@/hooks/auth/usePostConfirmEmail';
+import { usePostVerifyEmail } from '@/hooks/auth/usePostVerifyEmail';
 import { ErrorData } from '@/utils/fetch';
 
 const Step1 = () => {

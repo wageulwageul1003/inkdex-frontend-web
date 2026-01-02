@@ -3,8 +3,8 @@ import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import React from 'react';
 
 import { Button } from '@/components/ui/button';
-import useCalendar from '@/hook/calendar/useCalendar';
 import { cn } from '@/lib/utils';
+import useCalendar from '@/providers/useCalendar';
 
 export const Calendar = () => {
   const calendar = useCalendar();

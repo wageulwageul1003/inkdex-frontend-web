@@ -7,8 +7,8 @@ import { DetailCard } from './DetailCard';
 import { ListCard } from './ListCard';
 
 import { Loading } from '@/components/shared/Loading';
-import { useInfiniteScroll } from '@/hook/common/useInfiniteScroll';
-import { useGetPostsList } from '@/hook/home/useGetPostsList';
+import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
+import { useGetPostsList } from '@/hooks/home/useGetPostsList';
 
 export const Bookmark = () => {
   const router = useRouter();

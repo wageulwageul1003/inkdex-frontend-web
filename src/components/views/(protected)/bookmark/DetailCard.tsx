@@ -9,11 +9,11 @@ import { Header } from '@/components/shared/layout/header';
 import BookmarkToggle from '@/components/shared/post-toggle/bookmark-toggle';
 import FavoriteToggle from '@/components/shared/post-toggle/favorite-toggle';
 import { UserProfile } from '@/components/shared/user-profile';
-import { IPostListResponse } from '@/hook/home/useGetPostsList';
-import { useDeletetBookmark } from '@/hook/posts/bookmark/useDeletetBookmark';
-import { usePostBookmark } from '@/hook/posts/bookmark/usePostBookmark';
-import { useDeletetLike } from '@/hook/posts/like/useDeletetLike';
-import { usePostLike } from '@/hook/posts/like/usePostLike';
+import { IPostListResponse } from '@/hooks/home/useGetPostsList';
+import { useDeletetBookmark } from '@/hooks/posts/bookmark/useDeletetBookmark';
+import { usePostBookmark } from '@/hooks/posts/bookmark/usePostBookmark';
+import { useDeletetLike } from '@/hooks/posts/like/useDeletetLike';
+import { usePostLike } from '@/hooks/posts/like/usePostLike';
 
 export const DetailCard = ({
   item,

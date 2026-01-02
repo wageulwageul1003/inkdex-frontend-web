@@ -7,9 +7,9 @@ import { SelectCalendar } from './Select-Calendar';
 
 import { Loading } from '@/components/shared/Loading';
 import Chips from '@/components/shared/chips';
-import { useGetCategoryList } from '@/hook/common/useGetCategoryList';
-import { useInfiniteScroll } from '@/hook/common/useInfiniteScroll';
-import { useGetPostsList } from '@/hook/home/useGetPostsList';
+import { useGetCategoryList } from '@/hooks/common/useGetCategoryList';
+import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
+import { useGetPostsList } from '@/hooks/home/useGetPostsList';
 
 export const Feed = () => {
   const router = useRouter();

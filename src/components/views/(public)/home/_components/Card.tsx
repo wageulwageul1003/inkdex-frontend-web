@@ -7,11 +7,11 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { Icons } from '@/components/shared/icons';
 import BookmarkToggle from '@/components/shared/post-toggle/bookmark-toggle';
 import FavoriteToggle from '@/components/shared/post-toggle/favorite-toggle';
-import { IPostListResponse } from '@/hook/home/useGetPostsList';
-import { useDeletetBookmark } from '@/hook/posts/bookmark/useDeletetBookmark';
-import { usePostBookmark } from '@/hook/posts/bookmark/usePostBookmark';
-import { useDeletetLike } from '@/hook/posts/like/useDeletetLike';
-import { usePostLike } from '@/hook/posts/like/usePostLike';
+import { IPostListResponse } from '@/hooks/home/useGetPostsList';
+import { useDeletetBookmark } from '@/hooks/posts/bookmark/useDeletetBookmark';
+import { usePostBookmark } from '@/hooks/posts/bookmark/usePostBookmark';
+import { useDeletetLike } from '@/hooks/posts/like/useDeletetLike';
+import { usePostLike } from '@/hooks/posts/like/usePostLike';
 
 export const Card = ({ item }: { item: IPostListResponse }) => {
   const router = useRouter();
@@ -79,14 +79,14 @@ export const Card = ({ item }: { item: IPostListResponse }) => {
       /> */}
 
       <div className="h-full w-full rounded-lg border border-gray-03">
-        <Image
+        {/* <Image
           src={item.imageUrl || '/default-image.png'}
           alt=""
           width={100}
           height={100}
           style={{ aspectRatio: item.imageMetadata?.aspectRatio }}
           className="h-full w-full rounded-lg border border-gray-03"
-        />
+        /> */}
       </div>
 
       <div className="flex items-center justify-between">

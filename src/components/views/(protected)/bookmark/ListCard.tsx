@@ -4,11 +4,11 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useLayoutEffect, useRef, useState } from 'react';
 
-import { IPostListResponse } from '@/hook/home/useGetPostsList';
-import { useDeletetBookmark } from '@/hook/posts/bookmark/useDeletetBookmark';
-import { usePostBookmark } from '@/hook/posts/bookmark/usePostBookmark';
-import { useDeletetLike } from '@/hook/posts/like/useDeletetLike';
-import { usePostLike } from '@/hook/posts/like/usePostLike';
+import { IPostListResponse } from '@/hooks/home/useGetPostsList';
+import { useDeletetBookmark } from '@/hooks/posts/bookmark/useDeletetBookmark';
+import { usePostBookmark } from '@/hooks/posts/bookmark/usePostBookmark';
+import { useDeletetLike } from '@/hooks/posts/like/useDeletetLike';
+import { usePostLike } from '@/hooks/posts/like/usePostLike';
 
 export const ListCard = ({ item }: { item: IPostListResponse }) => {
   const router = useRouter();

@@ -16,12 +16,12 @@ import {
 } from '@/components/ui/resizable';
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import { USER_ID } from '@/constants/tokens';
-import { useGetCategoryLabel } from '@/hook/common/useGetCategoryLabel';
-import { useDeleteFollow } from '@/hook/follow/useDeleteFollow';
-import { usePostFollow } from '@/hook/follow/usePostFollow';
-import { useGetPostsDetail } from '@/hook/home/useGetPostsDetail';
-import { useDeletetBookmark } from '@/hook/posts/bookmark/useDeletetBookmark';
-import { usePostBookmark } from '@/hook/posts/bookmark/usePostBookmark';
+import { useGetCategoryLabel } from '@/hooks/common/useGetCategoryLabel';
+import { useDeleteFollow } from '@/hooks/follow/useDeleteFollow';
+import { usePostFollow } from '@/hooks/follow/usePostFollow';
+import { useGetPostsDetail } from '@/hooks/home/useGetPostsDetail';
+import { useDeletetBookmark } from '@/hooks/posts/bookmark/useDeletetBookmark';
+import { usePostBookmark } from '@/hooks/posts/bookmark/usePostBookmark';
 
 interface TProps {
   uuid: string;

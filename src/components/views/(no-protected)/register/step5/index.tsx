@@ -11,7 +11,7 @@ import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { useGetNicknameDuplicateCheck } from '@/hook/auth/useGetNicknameDuplicateCheck';
+import { useGetNicknameDuplicateCheck } from '@/hooks/auth/useGetNicknameDuplicateCheck';
 import { isApp } from '@/lib/device';
 import { nativeBridge } from '@/lib/native-bridge';
 import { ErrorData } from '@/utils/fetch';

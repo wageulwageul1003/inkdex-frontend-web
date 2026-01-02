@@ -10,9 +10,9 @@ import Chips from '@/components/shared/chips';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/sonner';
-import { usePostEmailLogin } from '@/hook/auth/usePostEmailLogin';
-import { usePostRegister } from '@/hook/auth/usePostRegister';
-import { useGetCategoryList } from '@/hook/common/useGetCategoryList';
+import { usePostEmailLogin } from '@/hooks/auth/usePostEmailLogin';
+import { usePostRegister } from '@/hooks/auth/usePostRegister';
+import { useGetCategoryList } from '@/hooks/common/useGetCategoryList';
 
 const Step6 = () => {
   const router = useRouter();

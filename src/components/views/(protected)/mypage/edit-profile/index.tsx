@@ -12,8 +12,8 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { useGetMyProfile } from '@/hook/auth/useGetMyProfile';
-import { usePatchProfile } from '@/hook/auth/usePatchProfile';
+import { useGetMyProfile } from '@/hooks/auth/useGetMyProfile';
+import { usePatchProfile } from '@/hooks/auth/usePatchProfile';
 import { isApp } from '@/lib/device';
 import { nativeBridge } from '@/lib/native-bridge';
 

@@ -11,7 +11,7 @@ import Chips from '@/components/shared/chips';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
-import { useGetCategoryList } from '@/hook/common/useGetCategoryList';
+import { useGetCategoryList } from '@/hooks/common/useGetCategoryList';
 
 export const FavoriteCategoriesComponent = () => {
   const router = useRouter();
