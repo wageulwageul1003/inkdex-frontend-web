@@ -64,7 +64,11 @@ export const PreferencesComponent = () => {
               {menu.icon}
               <p className="font-m-1 text-gray-09">{menu.title}</p>
             </div>
-            <Button variant="buttonIconTextOnly" size="buttonIconMedium">
+            <Button
+              variant="buttonIconTextOnly"
+              size="buttonIconMedium"
+              onClick={() => router.push(menu.path)}
+            >
               <Icons.keyboardArrowRight className="size-6 fill-gray-08" />
             </Button>
           </div>
