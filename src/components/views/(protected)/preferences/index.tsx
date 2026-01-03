@@ -1,94 +1,72 @@
 'use client';
 
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
+import { Button } from '@/components/ui/button';
 
 const menus = [
   {
-    title: '알림',
-    subMenus: [
-      {
-        title: '푸시 알림',
-        path: '/preferences/notifications/push',
-      },
-    ],
+    title: 'FAQ',
+    path: '/preferences/faq',
+    icon: <Icons.user className="size-5 fill-gray-06" />,
   },
   {
-    title: '사용자',
-    subMenus: [
-      {
-        title: '계정 정보 관리',
-        path: '/preferences/user-setting',
-      },
-      {
-        title: '신고 게시물',
-        path: '/preferences/report',
-      },
-    ],
+    title: '알림설정',
+    path: '/preferences/push-setting',
+    icon: <Icons.bell className="size-5 fill-gray-06" />,
   },
   {
-    title: '기타',
-    subMenus: [
-      {
-        title: 'FAQ',
-        path: '/preferences/faq',
-      },
-      {
-        title: '공지사항',
-        path: '/preferences/notice',
-      },
-      {
-        title: '문의',
-        path: '/preferences/inquiry',
-      },
-      {
-        title: '약관 및 정책',
-        path: '/preferences/inquiry',
-      },
-      {
-        title: '앱 버전 정보',
-        path: '/preferences/inquiry',
-      },
-      {
-        title: '오픈 소스',
-        path: '/preferences/inquiry',
-      },
-    ],
+    title: '공지사항',
+    path: '/preferences/notice',
+    icon: <Icons.speakerphone className="size-5 fill-gray-06" />,
+  },
+  {
+    title: '문의하기',
+    path: '/preferences/inquiry',
+    icon: <Icons.question className="size-5 fill-gray-06" />,
+  },
+  {
+    title: '의견보내기',
+    path: '/preferences/feedback',
+    icon: <Icons.mail className="size-5 fill-gray-06" />,
+  },
+  {
+    title: '정보',
+    path: '/preferences/info',
+    icon: <Icons.infoFill className="size-5 fill-gray-06" />,
   },
 ];
 
 export const PreferencesComponent = () => {
   const router = useRouter();
   return (
-    <div className="flex w-full flex-col">
+    <div className="flex w-full flex-col px-4">
       <Header
-        title={<span>설정</span>}
         left={
-          <Icons.keyboardArrowLeft
+          <Icons.ArrowBackIos
+            className="size-6 stroke-gray-02"
             onClick={() => router.back()}
-            className="size-6 fill-black"
           />
         }
+        title={<span className="font-m-1 text-black">설정</span>}
       />
-      <div className="mt-5 flex flex-1 flex-col gap-6">
-        {menus.map((menu) => (
-          <div key={menu.title} className="border-b border-gray-300 pb-5">
-            <p className="text-gray-500">{menu.title}</p>
-            <div className="mt-4 flex flex-col gap-4">
-              {menu.subMenus.map((subMenu) => (
-                <Link
-                  key={subMenu.title}
-                  href={subMenu.path}
-                  className="flex items-center justify-between text-black"
-                >
-                  <span>{subMenu.title}</span>
-                  <Icons.keyboardArrowRight className="size-5" />
-                </Link>
-              ))}
+      <div className="mt-4 flex flex-1 flex-col">
+        {menus.map((menu, index) => (
+          <div
+            key={menu.title}
+            className={`flex items-center justify-between border-b border-gray-01 py-2 ${
+              index === menus.length - 1 ? 'border-b-0' : ''
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              {menu.icon}
+              <p className="font-m-1 text-gray-09">{menu.title}</p>
             </div>
+            <Button variant="buttonIconTextOnly" size="buttonIconMedium">
+              <Icons.keyboardArrowRight className="size-6 fill-gray-08" />
+            </Button>
           </div>
         ))}
       </div>

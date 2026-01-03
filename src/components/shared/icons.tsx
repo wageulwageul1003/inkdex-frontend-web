@@ -1,3 +1,4 @@
+import question from '@/public/icons/Question.svg';
 import archive from '@/public/icons/archive.svg';
 import arrowUpRight from '@/public/icons/arrow-up-right.svg';
 import ArrowBackIos from '@/public/icons/arrow_back_ios.svg';
@@ -39,6 +40,7 @@ import keyboardArrowDown from '@/public/icons/keyboard_arrow_down.svg';
 import keyboardArrowLeft from '@/public/icons/keyboard_arrow_left.svg';
 import keyboardArrowRight from '@/public/icons/keyboard_arrow_right.svg';
 import keyboardArrowUp from '@/public/icons/keyboard_arrow_up.svg';
+import mail from '@/public/icons/mail.svg';
 import messageCircle from '@/public/icons/message-circle.svg';
 import moodEmpty from '@/public/icons/mood-empty.svg';
 import moreHoriz from '@/public/icons/more_horiz.svg';
@@ -52,6 +54,7 @@ import schedule from '@/public/icons/schedule.svg';
 import search from '@/public/icons/search.svg';
 import send from '@/public/icons/send.svg';
 import settings from '@/public/icons/settings.svg';
+import speakerphone from '@/public/icons/speakerphone.svg';
 import user from '@/public/icons/user.svg';
 import visibility from '@/public/icons/visibility.svg';
 import visibilityOff from '@/public/icons/visibility_off.svg';
@@ -114,4 +117,7 @@ export const Icons = {
   inbox,
   moodEmpty,
   settings,
+  question,
+  mail,
+  speakerphone,
 };
