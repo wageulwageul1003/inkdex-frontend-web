@@ -1,5 +1,5 @@
-import { MyInkdex } from '@/components/views/(public)/my-inkdex';
+import { redirect } from 'next/navigation';
 
 export default function MyInkdexPage() {
-  return <MyInkdex />;
+  return redirect('/my-inkdex/feed');
 }

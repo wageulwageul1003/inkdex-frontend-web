@@ -13,8 +13,8 @@ import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { useGetTermsDetail } from '@/hook/terms/useGetTermsDetail';
-import { useGetTermsList } from '@/hook/terms/useGetTermsList';
+import { useGetTermsDetail } from '@/hooks/terms/useGetTermsDetail';
+import { useGetTermsList } from '@/hooks/terms/useGetTermsList';
 
 const Step4 = () => {
   const router = useRouter();

@@ -17,8 +17,8 @@ import {
 import {
   ICollectionListResponse,
   useGetCollectionList,
-} from '@/hook/collection/useGetCollectionList';
-import { useInfiniteScroll } from '@/hook/common/useInfiniteScroll';
+} from '@/hooks/collection/useGetCollectionList';
+import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { cn } from '@/lib/utils';
 
 interface TProps {

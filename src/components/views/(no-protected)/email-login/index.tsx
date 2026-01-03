@@ -14,7 +14,7 @@ import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { USER_ID } from '@/constants/tokens';
-import { usePostEmailLogin } from '@/hook/auth/usePostEmailLogin';
+import { usePostEmailLogin } from '@/hooks/auth/usePostEmailLogin';
 
 const EmailLogin = () => {
   const router = useRouter();

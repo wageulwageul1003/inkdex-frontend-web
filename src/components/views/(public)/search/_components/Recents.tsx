@@ -2,8 +2,8 @@
 
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
-import { useDeleteSearchKeyword } from '@/hook/search/useDeleteSearchKeyword';
-import { useGetRecentSearchKeywords } from '@/hook/search/useGetRecentSearchKeywords';
+import { useDeleteSearchKeyword } from '@/hooks/search/useDeleteSearchKeyword';
+import { useGetRecentSearchKeywords } from '@/hooks/search/useGetRecentSearchKeywords';
 
 export const Recents = () => {
   const { data: recentItems } = useGetRecentSearchKeywords();

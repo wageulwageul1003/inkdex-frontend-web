@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
-import { useGetMyProfile } from '@/hook/auth/useGetMyProfile';
+import { useGetMyProfile } from '@/hooks/auth/useGetMyProfile';
 
 export const MyIndexComponent = () => {
   const { data: myProfile } = useGetMyProfile();

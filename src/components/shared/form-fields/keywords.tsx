@@ -20,22 +20,15 @@ const Keywords: React.FC<Props> = (props) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editValue, setEditValue] = useState<string>('');
-  const mirrorRef = useRef<HTMLSpanElement>(null);
+  const [inputWidth, setInputWidth] = useState<number>(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const measureRef = useRef<HTMLSpanElement>(null);
 
-  // 입력값 변화 시 width 자동 조정
   useEffect(() => {
-    const mirror = mirrorRef.current;
-    const input = inputRef.current;
-    if (!mirror || !input) return;
-
-    // 현재 입력값 or placeholder 텍스트 반영
-    mirror.textContent = inputValue || props.placeholder || '';
-
-    // 실제 폭을 측정해서 input에 적용
-    const mirrorWidth = mirror.offsetWidth;
-    input.style.width = `${mirrorWidth + 10}px`; // 여유 padding 10px
-  }, [inputValue, props.placeholder]);
+    if (measureRef.current) {
+      setInputWidth(measureRef.current.offsetWidth);
+    }
+  }, [inputValue]);
 
   // 키워드 추가 처리
   const addKeyword = () => {
@@ -124,7 +117,7 @@ const Keywords: React.FC<Props> = (props) => {
       {keywords.map((keyword: string, index: number) => (
         <div
           key={index}
-          className="flex w-fit items-center gap-1 rounded-full border border-gray-03 px-4 py-3"
+          className="flex w-fit items-center gap-1 rounded-full border border-gray-03 px-3 py-2"
         >
           <span className="font-s-2 text-gray-05">#</span>
           {editingIndex === index ? (
@@ -135,7 +128,7 @@ const Keywords: React.FC<Props> = (props) => {
               onKeyDown={handleEditKeyDown}
               onBlur={finishEditing}
               autoFocus
-              className="font-s-2 min-w-[5ch] border-none bg-transparent px-0 text-black focus-visible:outline-none"
+              className="font-s-2 w-fit max-w-4 border-none bg-transparent px-0 text-black focus-visible:outline-none"
             />
           ) : (
             <span
@@ -160,8 +153,17 @@ const Keywords: React.FC<Props> = (props) => {
 
       {/* 새로운 키워드 입력 필드 */}
       {keywords.length < maxCount && (
-        <div className="flex w-fit min-w-[100px] max-w-[200px] items-center gap-1 rounded-full border border-gray-03 px-4 py-3">
+        <div className="flex w-fit items-center gap-1 rounded-full border border-gray-03 px-3 py-2">
           <span className="font-s-2 text-gray-05 focus:text-black">#</span>
+
+          {/* 너비 측정용 숨겨진 span */}
+          <span
+            ref={measureRef}
+            className="font-s-2 invisible absolute whitespace-pre"
+            aria-hidden="true"
+          >
+            {inputValue}
+          </span>
 
           {/* 실제 입력창 */}
           <input
@@ -172,15 +174,11 @@ const Keywords: React.FC<Props> = (props) => {
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder={props.placeholder || '키워드를 입력해주세요'}
+            style={inputValue ? { width: inputWidth + 4 } : undefined}
             className={cn(
               'font-s-2 border-none bg-transparent px-0 text-black placeholder-gray-05 focus-visible:outline-none',
+              !inputValue && 'max-w-[61px]',
             )}
-          />
-
-          {/* 숨겨진 미러 span (폭 계산용) */}
-          <span
-            ref={mirrorRef}
-            className="font-s-2 absolute left-[-9999px] top-[-9999px] whitespace-pre"
           />
         </div>
       )}

@@ -6,8 +6,8 @@ import { Card } from '../../../home/_components/Card';
 import { NoResult } from './no-result';
 
 import { Loading } from '@/components/shared/Loading';
-import { useInfiniteScroll } from '@/hook/common/useInfiniteScroll';
-import { useGetLatestPostsList } from '@/hook/search/useGetLatestPostsList';
+import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
+import { useGetLatestPostsList } from '@/hooks/search/useGetLatestPostsList';
 
 export const Latest = () => {
   const router = useRouter();

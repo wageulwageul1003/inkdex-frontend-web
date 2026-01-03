@@ -3,8 +3,8 @@
 import React from 'react';
 
 import { Loading } from '@/components/shared/Loading';
-import { useGetFollowerList } from '@/hook/auth/useGetFollowerList';
-import { useInfiniteScroll } from '@/hook/common/useInfiniteScroll';
+import { useGetFollowerList } from '@/hooks/auth/useGetFollowerList';
+import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 
 export const Follower = () => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =

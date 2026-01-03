@@ -10,9 +10,9 @@ import Chips from '@/components/shared/chips';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/sonner';
-import { usePostEmailLogin } from '@/hook/auth/usePostEmailLogin';
-import { usePostRegister } from '@/hook/auth/usePostRegister';
-import { useGetCategoryList } from '@/hook/common/useGetCategoryList';
+import { usePostEmailLogin } from '@/hooks/auth/usePostEmailLogin';
+import { usePostRegister } from '@/hooks/auth/usePostRegister';
+import { useGetCategoryList } from '@/hooks/common/useGetCategoryList';
 
 const Step6 = () => {
   const router = useRouter();
@@ -36,17 +36,33 @@ const Step6 = () => {
 
   const { control, formState } = form;
 
-  const onSubmit = (data: TRegisterSchema) => {
-    register(data).then(() => {
+  const onSubmit = async (data: TRegisterSchema) => {
+    try {
+      const profileImageUrl = searchParams.get('profileImage');
+      let imageFile: File | undefined;
+
+      if (profileImageUrl) {
+        const decodedUrl = decodeURIComponent(profileImageUrl);
+        const response = await fetch(decodedUrl);
+        const blob = await response.blob();
+        imageFile = new File([blob], 'profile.jpg', {
+          type: blob.type || 'image/jpeg',
+        });
+      }
+
+      await register({ ...data, imageFile });
+
       // 회원가입 성공 하면 자동 로그인 시도
-      emailLogin({
+      await emailLogin({
         username: data.email,
         password: data.password,
-      }).then(() => {
-        toast.success('회원가입이 완료되었습니다.');
-        router.push('/home');
       });
-    });
+
+      toast.success('회원가입이 완료되었습니다.');
+      router.push('/home');
+    } catch (error) {
+      console.error('회원가입 오류:', error);
+    }
   };
 
   return (

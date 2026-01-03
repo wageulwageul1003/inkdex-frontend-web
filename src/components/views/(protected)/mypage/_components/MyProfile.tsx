@@ -6,7 +6,7 @@ import React from 'react';
 
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
-import { useGetMyProfile } from '@/hook/auth/useGetMyProfile';
+import { useGetMyProfile } from '@/hooks/auth/useGetMyProfile';
 
 export const MyProfile = () => {
   const { data: myProfile } = useGetMyProfile();
@@ -42,7 +42,11 @@ export const MyProfile = () => {
             </p>
           </div>
         </div>
-        <Button variant="buttonIconOutline" size="buttonIconMedium">
+        <Button
+          variant="buttonIconOutline"
+          size="buttonIconMedium"
+          onClick={() => router.push('/edit-profile')}
+        >
           <Icons.edit className="size-6" />
         </Button>
       </div>

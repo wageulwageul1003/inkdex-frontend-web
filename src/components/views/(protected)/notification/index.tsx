@@ -4,7 +4,7 @@ import { Bell, BellOff, Send } from 'lucide-react';
 import React from 'react';
 
 import { Loading } from '@/components/shared/Loading';
-import { usePushNotification } from '@/hooks/usePushNotification';
+import { usePushNotification } from '@/providers/push/usePushNotification';
 
 export const Notification = () => {
   const {

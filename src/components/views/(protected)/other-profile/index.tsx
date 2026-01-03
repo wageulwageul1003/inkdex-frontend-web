@@ -6,11 +6,11 @@ import { FC } from 'react';
 
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
-import { useGetOtherProfile } from '@/hook/auth/other/useGetOtherProfile';
-import { useDeleteBlock } from '@/hook/block/useDeleteBlock';
-import { usePostBlock } from '@/hook/block/usePostBlock';
-import { useDeleteFollow } from '@/hook/follow/useDeleteFollow';
-import { usePostFollow } from '@/hook/follow/usePostFollow';
+import { useGetOtherProfile } from '@/hooks/auth/other/useGetOtherProfile';
+import { useDeleteBlock } from '@/hooks/block/useDeleteBlock';
+import { usePostBlock } from '@/hooks/block/usePostBlock';
+import { useDeleteFollow } from '@/hooks/follow/useDeleteFollow';
+import { usePostFollow } from '@/hooks/follow/usePostFollow';
 
 interface TProps {
   uuid: string;

@@ -9,7 +9,7 @@ import { Following } from './_components/Following';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useGetMyProfile } from '@/hook/auth/useGetMyProfile';
+import { useGetMyProfile } from '@/hooks/auth/useGetMyProfile';
 
 interface IFollow {
   type: 'follower' | 'following';

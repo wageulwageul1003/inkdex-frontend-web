@@ -8,8 +8,8 @@ import CommentItem from './_components/comment-item';
 import { Loading } from '@/components/shared/Loading';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
-import { useGetCommentList } from '@/hook/comment/useGetCommentList';
-import { useInfiniteScroll } from '@/hook/common/useInfiniteScroll';
+import { useGetCommentList } from '@/hooks/comment/useGetCommentList';
+import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 
 interface TProps {
   uuid: string;

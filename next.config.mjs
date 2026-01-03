@@ -10,6 +10,11 @@ const nextConfig = {
         hostname: '3.37.86.232',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'api-inkdex.com',
+        pathname: '/**',
+      },
     ],
   },
   webpack(config, { isServer }) {

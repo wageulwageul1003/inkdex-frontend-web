@@ -2,7 +2,9 @@
 
 import { useRouter } from 'next/navigation';
 
+import MyHeader from './_components/MyHeader';
 import { MyProfile } from './_components/MyProfile';
+import { Summary } from './_components/Summary';
 
 import { Alaram } from '@/components/shared/alaram';
 import { Icons } from '@/components/shared/icons';
@@ -37,28 +39,16 @@ const MyPageComponent = () => {
 
       <div className="mt-3 flex flex-1 flex-col">
         <MyProfile />
+        <Summary />
+
+        <div className="flex flex-col gap-4">
+          <MyHeader title="북마크" onClick={() => router.push('/bookmark')} />
+          <MyHeader
+            title="관심 있는 카테고리"
+            onClick={() => router.push('/favorite-categories')}
+          />
+        </div>
       </div>
-
-      <p onClick={() => router.push('/notification')}> 알림 설정</p>
-
-      {/* <div className="flex flex-1 flex-col">
-        <Tabs defaultValue="my-index">
-          <TabsList>
-            {MyPageMenu.map((item) => (
-              <TabsTrigger key={item.value} value={item.value}>
-                {item.label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          <TabsContent value="my-index"></TabsContent>
-          <TabsContent value="statistics">
-            <StatisticsComponent />
-          </TabsContent>
-          <TabsContent value="activity">
-            <ActivityComponent />
-          </TabsContent>
-        </Tabs>
-      </div> */}
     </div>
   );
 };

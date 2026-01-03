@@ -3,8 +3,9 @@ import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import React from 'react';
 
 import { Button } from '@/components/ui/button';
-import useCalendar from '@/hook/calendar/useCalendar';
+import { useGetMyInkdexCalendar } from '@/hooks/my-inkdex/useGetMyInkdexCalendar';
 import { cn } from '@/lib/utils';
+import useCalendar from '@/providers/useCalendar';
 
 export const Calendar = () => {
   const calendar = useCalendar();
@@ -14,6 +15,10 @@ export const Calendar = () => {
 
   const monthLabel = format(calendar.currentDate, 'yyyy년 M월');
 
+  const { data } = useGetMyInkdexCalendar({
+    year: calendar.currentDate.getFullYear(),
+    month: calendar.currentDate.getMonth() + 1,
+  });
   return (
     <div className="w-full">
       <div className="flex items-center justify-between py-3">

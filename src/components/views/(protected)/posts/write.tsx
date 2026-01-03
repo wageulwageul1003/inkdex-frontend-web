@@ -14,9 +14,9 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form, FormLabel } from '@/components/ui/form';
-import { ICollectionListResponse } from '@/hook/collection/useGetCollectionList';
-import { useGetCategoryList } from '@/hook/common/useGetCategoryList';
-import { usePostPosts } from '@/hook/posts/usePostPosts';
+import { ICollectionListResponse } from '@/hooks/collection/useGetCollectionList';
+import { useGetCategoryList } from '@/hooks/common/useGetCategoryList';
+import { usePostPosts } from '@/hooks/posts/usePostPosts';
 import { isApp } from '@/lib/device';
 import { nativeBridge } from '@/lib/native-bridge';
 
