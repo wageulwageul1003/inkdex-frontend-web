@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Following } from './_components/Following';
 import { Latest } from './_components/Latest';
@@ -10,10 +10,15 @@ import { Recommend } from './_components/Recommend';
 import { Alaram } from '@/components/shared/alaram';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-export const Home = () => {
+interface IHomeProps {
+  defaultValue: string;
+}
+
+export const Home = ({ defaultValue }: IHomeProps) => {
   const router = useRouter();
-  const [open, setOpen] = useState(false);
-  const [writeOpen, setWriteOpen] = useState(false);
+  const handleTabChange = (value: string) => {
+    router.push(`/home/${value}`);
+  };
 
   return (
     <div className="w-full bg-white px-4">
@@ -23,7 +28,11 @@ export const Home = () => {
       </div>
 
       <div>
-        <Tabs defaultValue="recommend" className="w-full">
+        <Tabs
+          defaultValue={defaultValue}
+          className="w-full"
+          onValueChange={handleTabChange}
+        >
           <TabsList className="">
             <TabsTrigger value="recommend">추천</TabsTrigger>
             <TabsTrigger value="latest">최신</TabsTrigger>
