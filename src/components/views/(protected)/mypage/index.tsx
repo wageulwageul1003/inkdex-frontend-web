@@ -25,7 +25,10 @@ const MyPageComponent = () => {
               size="buttonIconMedium"
               onClick={() => router.push('/preferences')}
             >
-              <Icons.settings className="size-6 fill-gray-08" />
+              <Icons.settings
+                className="size-6 fill-gray-08"
+                onClick={() => router.push('/preferences')}
+              />
             </Button>
           </span>
         }
