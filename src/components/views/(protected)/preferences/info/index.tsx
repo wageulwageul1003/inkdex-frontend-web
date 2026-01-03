@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
@@ -9,10 +10,25 @@ import {
   ITermsListResponse,
   useGetTermsList,
 } from '@/hooks/terms/useGetTermsList';
+import { nativeBridge } from '@/lib/native-bridge';
 
 export const InfoComponent = () => {
   const router = useRouter();
   const { data } = useGetTermsList();
+  const [appVersion, setAppVersion] = useState<string>('1.0.0');
+
+  useEffect(() => {
+    const fetchAppVersion = async () => {
+      try {
+        const { version } = await nativeBridge.getAppVersion();
+        setAppVersion(version);
+      } catch {
+        // 웹 환경이거나 에러 시 기본값 유지
+      }
+    };
+    fetchAppVersion();
+  }, []);
+
   return (
     <div className="flex w-full flex-col px-4">
       <Header
@@ -50,7 +66,7 @@ export const InfoComponent = () => {
             <p className="font-m-1 text-gray-09">버전</p>
           </div>
           <div className="flex items-center gap-2">
-            <p className="font-m-2 text-gray-07">1.0.0</p>
+            <p className="font-m-2 text-gray-07">{appVersion}</p>
             <Button
               variant="buttonIconTextOnly"
               size="buttonIconMedium"

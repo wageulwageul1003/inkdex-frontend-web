@@ -3,7 +3,8 @@ type NativeMessageType =
   | 'OPEN_GALLERY'
   | 'REQUEST_NOTIFICATION'
   | 'GET_FCM_TOKEN'
-  | 'BIOMETRIC_AUTH';
+  | 'BIOMETRIC_AUTH'
+  | 'GET_APP_VERSION';
 
 class NativeBridge {
   private isNative: boolean;
@@ -164,6 +165,32 @@ class NativeBridge {
 
       this.sendMessage('BIOMETRIC_AUTH');
     });
+  }
+
+  // 앱 버전 가져오기
+  getAppVersion(): Promise<{ version: string; buildNumber?: string }> {
+    return new Promise((resolve, reject) => {
+      if (!this.isNative) {
+        reject(new Error('Not in native app'));
+        return;
+      }
+
+      const timeout = setTimeout(() => {
+        reject(new Error('Get app version timeout'));
+      }, 5000);
+
+      this.onMessage('APP_VERSION', (data: any) => {
+        clearTimeout(timeout);
+        resolve(data);
+      });
+
+      this.sendMessage('GET_APP_VERSION');
+    });
+  }
+
+  // 네이티브 환경인지 확인
+  getIsNative(): boolean {
+    return this.isNative;
   }
 }
 
