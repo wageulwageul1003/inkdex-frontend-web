@@ -9,8 +9,10 @@ import { usePushNotification } from '@/providers/push/usePushNotification';
 export const Notification = () => {
   const {
     isSupported,
+    platform,
     permission,
     subscription,
+    expoPushToken,
     isLoading,
     error,
     requestPermission,
@@ -20,13 +22,16 @@ export const Notification = () => {
   } = usePushNotification();
 
   const handleEnableNotifications = async () => {
-    if (permission !== 'granted') {
-      await requestPermission();
-    }
-    if (permission === 'granted' && !subscription) {
-      await subscribe();
-    }
+    await requestPermission();
+    await subscribe();
   };
+
+  // expoPushToken이 변경되면 alert로 표시
+  React.useEffect(() => {
+    if (expoPushToken) {
+      alert(`Expo Push Token: ${expoPushToken}`);
+    }
+  }, [expoPushToken]);
 
   const handleDisableNotifications = async () => {
     await unsubscribe();
@@ -134,6 +139,9 @@ export const Notification = () => {
               알림 비활성화
             </button>
           )}
+
+          <span>플랫폼: {platform}</span>
+          <span>푸시 알림 토큰 : {expoPushToken || '없음'}</span>
 
           {subscription && (
             <button

@@ -119,7 +119,10 @@ class NativeBridge {
   }
 
   // 알림 권한 요청
-  requestNotificationPermission(): Promise<{ granted: boolean }> {
+  requestNotificationPermission(): Promise<{
+    granted: boolean;
+    token?: string | null;
+  }> {
     return new Promise((resolve, reject) => {
       if (!this.isNative) {
         reject(new Error('Not in native app'));

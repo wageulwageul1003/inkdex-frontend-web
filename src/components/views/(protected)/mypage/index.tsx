@@ -11,12 +11,6 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 
-const MyPageMenu = [
-  { value: 'my-index', label: '나의 인덱스' },
-  { value: 'statistics', label: '통계' },
-  { value: 'activity', label: '활동' },
-];
-
 const MyPageComponent = () => {
   const router = useRouter();
   return (
@@ -49,6 +43,8 @@ const MyPageComponent = () => {
           />
         </div>
       </div>
+
+      <p onClick={() => router.push('/notification')}>푸시 알림</p>
     </div>
   );
 };
