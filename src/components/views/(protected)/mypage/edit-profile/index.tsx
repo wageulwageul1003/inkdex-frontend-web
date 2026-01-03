@@ -87,6 +87,7 @@ export const EditProfileComponent = () => {
       form.reset({
         ...myProfile,
       });
+      setPreviewUrl(myProfile.profileImageUrl);
     }
   }, [myProfile]);
 
@@ -100,52 +101,64 @@ export const EditProfileComponent = () => {
           />
         }
       />
+      <div className="mt-[40px]"></div>
+      <div className="flex items-center justify-center">
+        <div
+          className="relative flex h-[146px] w-[146px] cursor-pointer items-center justify-center rounded-full bg-gray-03"
+          onClick={handleImageSelect}
+        >
+          {previewUrl ? (
+            <img
+              src={previewUrl}
+              alt="프로필 이미지"
+              className="h-full w-full rounded-full object-cover"
+            />
+          ) : (
+            <Icons.person className="z-10 size-[146px] fill-white" />
+          )}
+          <div className="absolute bottom-0 right-0 z-10 rounded-full bg-gray-04 p-1.5">
+            <Icons.camera className="size-6 fill-white" />
+          </div>
+        </div>
+      </div>
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit, (errors) => {
             console.log('Validation Errors:', errors);
           })}
-          className="mt-3 flex flex-col items-center justify-center"
+          className="mt-[34px] flex flex-1 flex-col"
         >
-          {previewUrl ? (
-            <img
-              src={previewUrl}
-              alt=""
-              className="h-[240px] w-[240px] rounded-lg object-cover"
-              onClick={() => handleImageSelect()}
-            />
-          ) : (
-            <div
-              className="flex h-[240px] w-[240px] flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-gray-04 bg-gray-02"
-              onClick={() => handleImageSelect()}
-            >
-              <Icons.plus className="size-6 fill-gray-06" />
-              <span className="font-xs-2 text-center text-gray-05">
-                대표 이미지 설정
-              </span>
-            </div>
-          )}
+          <FormFields
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="nickname"
+            placeholder="닉네임을 입력해주세요"
+            maxCharacters={10}
+          />
 
-          <div className="mt-8 flex w-full flex-col gap-8">
-            <FormFields
-              fieldType={FormFieldType.INPUT}
-              control={form.control}
-              name="name"
-              label="컬렉션 이름"
-              placeholder="컬렉션 이름을 입력해주세요."
-              maxCharacters={20}
-            />
-          </div>
+          <span className="font-xs-2 mt-2 text-gray-05">
+            공백 포함 최대 10자까지 입력할 수 있습니다.
+          </span>
+
+          <FormFields
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="bio"
+            label="자기소개"
+            placeholder="당신의 소개를 적어보세요."
+            maxCharacters={100}
+            className="mt-6"
+          />
         </form>
       </Form>
 
-      <div className="mt-[60px] pb-[52px]">
+      <div className="flex flex-col items-center pb-4 pt-[50px]">
         <Button
           onClick={form.handleSubmit(onSubmit)}
           size="lg"
           variant="contained"
           className="w-full"
-          disabled={!form.formState.isValid}
         >
           완료
         </Button>

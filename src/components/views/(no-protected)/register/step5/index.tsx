@@ -114,7 +114,7 @@ const Step5 = () => {
           onSubmit={form.handleSubmit(onSubmit, (errors) => {
             console.log('Validation Errors:', errors);
           })}
-          className="mt-[34px] flex flex-1 flex-col gap-2"
+          className="mt-[34px] flex flex-1 flex-col"
         >
           <FormFields
             fieldType={FormFieldType.INPUT}
