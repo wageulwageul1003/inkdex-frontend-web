@@ -146,7 +146,12 @@ class NativeBridge {
         return;
       }
 
+      const timeout = setTimeout(() => {
+        reject(new Error('FCM token request timeout'));
+      }, 10000);
+
       this.onMessage('FCM_TOKEN', (data: any) => {
+        clearTimeout(timeout);
         resolve(data);
       });
 
