@@ -59,6 +59,7 @@ const CommentList: FC<TProps> = ({
         <div className="ml-10 flex flex-col gap-2">
           {item.replies.map((reply: ICommentItemResponse) => (
             <CommentItem
+              key={reply.id}
               item={reply}
               setSelectedComment={setSelectedComment}
               selectedComment={selectedComment}

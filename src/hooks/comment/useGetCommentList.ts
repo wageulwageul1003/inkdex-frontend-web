@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { commentListKey } from '@/constants/queryKeys';
-import { IResponsePaged, TInfiniteListResult } from '@/types/global';
+import { IResponsePaged } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface ICommentItemResponse {
@@ -37,9 +37,26 @@ type TGetCommentListParams = {
   sort?: string;
 };
 
+export interface ICommentListApiResponse {
+  code: number;
+  data: {
+    totalCommentsCount: number;
+    content: ICommentListResponse[];
+    paging: IResponsePaged<ICommentListResponse>['data']['paging'];
+  };
+  message: string;
+  error: null | string;
+}
+
+export interface ICommentListData {
+  totalCommentsCount: number;
+  paging: IResponsePaged<ICommentListResponse>['data']['paging'];
+  content: ICommentListResponse[];
+}
+
 export const GetCommentList = async (
   params: TGetCommentListParams,
-): Promise<IResponsePaged<ICommentListResponse>> => {
+): Promise<ICommentListApiResponse> => {
   const queryParams = new URLSearchParams();
 
   if (params.page) queryParams.set('page', String(Number(params.page) - 1));
@@ -56,11 +73,7 @@ export const GetCommentList = async (
 };
 
 export const useGetCommentList = (params: TGetCommentListParams) => {
-  return useInfiniteQuery<
-    IResponsePaged<ICommentListResponse>,
-    Error,
-    TInfiniteListResult<ICommentListResponse>
-  >({
+  return useInfiniteQuery<ICommentListApiResponse, Error, ICommentListData>({
     queryKey: [commentListKey, params],
     queryFn: ({ pageParam = 1 }) =>
       GetCommentList({ ...params, page: String(pageParam) }),
@@ -71,6 +84,7 @@ export const useGetCommentList = (params: TGetCommentListParams) => {
         : undefined,
 
     select: (data) => ({
+      totalCommentsCount: data.pages[0].data.totalCommentsCount,
       content: data.pages.flatMap((p) => p.data.content),
       paging: data.pages[0].data.paging,
     }),

@@ -73,7 +73,11 @@ const CommentComponent: FC<TProps> = (props) => {
   return (
     <div className="flex w-full flex-col bg-white px-4">
       <Header
-        title="댓글"
+        title={
+          <span className="font-m-1 text-black">
+            댓글 {data?.totalCommentsCount}
+          </span>
+        }
         left={
           <Icons.ArrowBackIos
             className="size-6 stroke-gray-02"
