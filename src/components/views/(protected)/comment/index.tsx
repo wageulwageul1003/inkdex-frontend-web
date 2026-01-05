@@ -93,7 +93,7 @@ const CommentComponent: FC<TProps> = (props) => {
             </p>
           </div>
         ) : (
-          <div>
+          <div className="flex flex-col gap-3">
             {data?.content.map((item) => (
               <CommentItem key={item.id} item={item} />
             ))}
