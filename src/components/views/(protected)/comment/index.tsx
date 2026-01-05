@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import React, { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import CommentItem from './_components/comment-item';
+import CommentList from './_components/comment-list';
 import { commentSchema } from './schema';
 
 import { Loading } from '@/components/shared/Loading';
@@ -92,7 +92,7 @@ const CommentComponent: FC<TProps> = (props) => {
         ) : (
           <div className="flex flex-col gap-3">
             {data?.content.map((item) => (
-              <CommentItem
+              <CommentList
                 key={item.id}
                 item={item}
                 selectedComment={selectedComment}

@@ -1,10 +1,10 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { commentListKey } from '@/constants/queryKeys';
+import { commentReplyListKey } from '@/constants/queryKeys';
 import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
-export interface ICommentItemResponse {
+export interface ICommentReplyListResponse {
   id: string;
   postId: string;
   userId: string;
@@ -14,39 +14,27 @@ export interface ICommentItemResponse {
   isLiked: boolean;
   likesCount: number;
   repliesCount: number;
-}
-
-export interface ICommentListResponse {
-  id: string;
-  postId: string;
-  userId: string;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-  isLiked: boolean;
-  likesCount: number;
-  repliesCount: number;
-  replies: ICommentItemResponse[];
 }
 
 // PARAMS TYPE
 type TGetCommentListParams = {
-  id: string;
+  commentId: string;
   page?: string;
   size?: string;
   sort?: string;
+  enable?: boolean;
 };
 
-export const GetCommentList = async (
+export const GetCommentReplyList = async (
   params: TGetCommentListParams,
-): Promise<IResponsePaged<ICommentListResponse>> => {
+): Promise<IResponsePaged<ICommentReplyListResponse>> => {
   const queryParams = new URLSearchParams();
 
   if (params.page) queryParams.set('page', String(Number(params.page) - 1));
   if (params.size) queryParams.set('size', String(params.size));
   if (params.sort) queryParams.set('sort', String(params.sort));
 
-  const url = `/api/v1/posts/${params.id}/comments?${queryParams.toString()}`;
+  const url = `/api/v1/comments/${params.commentId}/replies?${queryParams.toString()}`;
 
   const data = await agent(url, {
     method: 'GET',
@@ -55,15 +43,15 @@ export const GetCommentList = async (
   return data;
 };
 
-export const useGetCommentList = (params: TGetCommentListParams) => {
+export const useGetCommentReplyList = (params: TGetCommentListParams) => {
   return useInfiniteQuery<
-    IResponsePaged<ICommentListResponse>,
+    IResponsePaged<ICommentReplyListResponse>,
     Error,
-    TInfiniteListResult<ICommentListResponse>
+    TInfiniteListResult<ICommentReplyListResponse>
   >({
-    queryKey: [commentListKey, params],
+    queryKey: [commentReplyListKey, params],
     queryFn: ({ pageParam = 1 }) =>
-      GetCommentList({ ...params, page: String(pageParam) }),
+      GetCommentReplyList({ ...params, page: String(pageParam) }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) =>
       lastPage.data.paging.hasNext

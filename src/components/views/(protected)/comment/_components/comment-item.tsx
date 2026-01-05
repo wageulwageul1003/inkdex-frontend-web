@@ -4,30 +4,27 @@ import { Divider } from '@/components/shared/divider';
 import { Icons } from '@/components/shared/icons';
 import FavoriteToggle from '@/components/shared/post-toggle/favorite-toggle';
 import { Button } from '@/components/ui/button';
-import { ICommentListResponse } from '@/hooks/comment/useGetCommentList';
+import { ICommentItemResponse } from '@/hooks/comment/useGetCommentList';
 import { useDeleteCommentLike } from '@/hooks/posts/like/useDeleteCommentLike';
 import { usePostCommentLike } from '@/hooks/posts/like/usePostCommentLike';
 
 interface TProps {
-  item: ICommentListResponse;
-  selectedComment: string | null;
-  setSelectedComment: (commentId: string | null) => void;
+  item: ICommentItemResponse;
+  selectedComment?: string | null;
+  setSelectedComment?: (commentId: string | null) => void;
+  variant: 'reply' | 'post';
 }
 
-const CommentItem: FC<TProps> = ({
-  item,
-  selectedComment,
-  setSelectedComment,
-}) => {
+const CommentItem: FC<TProps> = ({ item, setSelectedComment, variant }) => {
   // 좋아요
   const { mutateAsync: postCommentLike } = usePostCommentLike();
   const { mutateAsync: deleteCommentLike } = useDeleteCommentLike();
 
-  const handleLike = () => {
-    if (!item.isLiked) {
-      postCommentLike({ commentId: item.id });
+  const handleLike = (currentLike: boolean, id: string) => {
+    if (!currentLike) {
+      postCommentLike({ commentId: id });
     } else {
-      deleteCommentLike({ commentId: item.id });
+      deleteCommentLike({ commentId: id });
     }
   };
 
@@ -61,18 +58,22 @@ const CommentItem: FC<TProps> = ({
           <div className="flex items-center gap-1 py-1">
             <FavoriteToggle
               defaultFavorite={item.isLiked}
-              onToggle={handleLike}
+              onToggle={() => handleLike(item.isLiked, item.id)}
             />
             <p className="font-xs-2 text-gray-08">{item.likesCount}</p>
           </div>
-          <Divider />
+          {variant === 'post' && (
+            <div className="flex items-center gap-2">
+              <Divider />
 
-          <p
-            className="font-xs-2 cursor-pointer text-gray-08"
-            onClick={() => setSelectedComment(item.id)}
-          >
-            답글 달기
-          </p>
+              <p
+                className="font-xs-2 cursor-pointer text-gray-08"
+                onClick={() => setSelectedComment?.(item.id)}
+              >
+                답글 달기
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
