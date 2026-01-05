@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import CommentItem from './_components/comment-item';
@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { useGetCommentList } from '@/hooks/comment/useGetCommentList';
 import { usePostComment } from '@/hooks/comment/usePostComment';
+import { usePostCommentReply } from '@/hooks/comment/usePostCommentReply';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 
 interface TProps {
@@ -25,7 +26,10 @@ interface TProps {
 const CommentComponent: FC<TProps> = (props) => {
   const { uuid } = props;
   const router = useRouter();
+  const [selectedComment, setSelectedComment] = useState<string | null>(null);
   const { mutateAsync: postComment } = usePostComment();
+  const { mutateAsync: postCommentReply } = usePostCommentReply();
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useGetCommentList({
       id: uuid,
@@ -43,13 +47,24 @@ const CommentComponent: FC<TProps> = (props) => {
     mode: 'onSubmit',
     defaultValues: {
       publicId: uuid,
+      commentId: selectedComment || '',
       content: '',
     },
   });
 
   const onSubmit = async () => {
     try {
-      const response = await postComment(form.getValues());
+      if (selectedComment) {
+        // 대댓글 등록
+        const response = await postCommentReply({
+          publicId: uuid,
+          commentId: selectedComment,
+          content: form.getValues().content,
+        });
+      } else {
+        // 댓글 등록
+        const response = await postComment(form.getValues());
+      }
     } catch (error) {}
   };
 
@@ -77,7 +92,12 @@ const CommentComponent: FC<TProps> = (props) => {
         ) : (
           <div className="flex flex-col gap-3">
             {data?.content.map((item) => (
-              <CommentItem key={item.id} item={item} />
+              <CommentItem
+                key={item.id}
+                item={item}
+                selectedComment={selectedComment}
+                setSelectedComment={setSelectedComment}
+              />
             ))}
             <div ref={observerRef}>{isFetchingNextPage && <Loading />}</div>
           </div>

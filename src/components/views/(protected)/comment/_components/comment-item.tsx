@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 import { Divider } from '@/components/shared/divider';
 import { Icons } from '@/components/shared/icons';
 import FavoriteToggle from '@/components/shared/post-toggle/favorite-toggle';
@@ -6,7 +8,17 @@ import { ICommentListResponse } from '@/hooks/comment/useGetCommentList';
 import { useDeleteCommentLike } from '@/hooks/posts/like/useDeleteCommentLike';
 import { usePostCommentLike } from '@/hooks/posts/like/usePostCommentLike';
 
-const CommentItem = ({ item }: { item: ICommentListResponse }) => {
+interface TProps {
+  item: ICommentListResponse;
+  selectedComment: string | null;
+  setSelectedComment: (commentId: string | null) => void;
+}
+
+const CommentItem: FC<TProps> = ({
+  item,
+  selectedComment,
+  setSelectedComment,
+}) => {
   // 좋아요
   const { mutateAsync: postCommentLike } = usePostCommentLike();
   const { mutateAsync: deleteCommentLike } = useDeleteCommentLike();
@@ -55,7 +67,12 @@ const CommentItem = ({ item }: { item: ICommentListResponse }) => {
           </div>
           <Divider />
 
-          <p className="font-xs-2 text-gray-08">답글 달기</p>
+          <p
+            className="font-xs-2 cursor-pointer text-gray-08"
+            onClick={() => setSelectedComment(item.id)}
+          >
+            답글 달기
+          </p>
         </div>
       </div>
     </div>

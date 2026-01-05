@@ -15,6 +15,7 @@ const postsDetailKey = 'postsDetailKey';
 const postsKey = 'postsKey';
 
 const commentListKey = 'commentListKey';
+const commentReplyListKey = 'commentReplyListKey';
 
 const collectionListKey = 'collectionListKey';
 const collectionDetailKey = 'collectionDetailKey';
@@ -69,6 +70,7 @@ export {
   postsDetailKey,
   postsKey,
   commentListKey,
+  commentReplyListKey,
   collectionListKey,
   collectionDetailKey,
   collectionKey,
