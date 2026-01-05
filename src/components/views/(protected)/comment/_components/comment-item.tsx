@@ -1,3 +1,4 @@
+import { Divider } from '@/components/shared/divider';
 import { Icons } from '@/components/shared/icons';
 import FavoriteToggle from '@/components/shared/post-toggle/favorite-toggle';
 import { Button } from '@/components/ui/button';
@@ -44,7 +45,7 @@ const CommentItem = ({ item }: { item: ICommentListResponse }) => {
       </div>
       <div className="ml-10 flex flex-col gap-2">
         <p className="font-s-2 text-gray-08">{item.content}</p>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           <div className="flex items-center gap-1 py-1">
             <FavoriteToggle
               defaultFavorite={item.isLiked}
@@ -52,6 +53,9 @@ const CommentItem = ({ item }: { item: ICommentListResponse }) => {
             />
             <p className="font-xs-2 text-gray-08">{item.likesCount}</p>
           </div>
+          <Divider />
+
+          <p className="font-xs-2 text-gray-08">답글 달기</p>
         </div>
       </div>
     </div>

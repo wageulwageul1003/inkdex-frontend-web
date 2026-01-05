@@ -26,21 +26,12 @@ const CommentComponent: FC<TProps> = (props) => {
   const { uuid } = props;
   const router = useRouter();
   const { mutateAsync: postComment } = usePostComment();
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    isFetching,
-    isFetched,
-    isError,
-    error,
-  } = useGetCommentList({
-    id: uuid,
-    size: '10',
-    sort: 'createdAt,desc',
-  });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
+    useGetCommentList({
+      id: uuid,
+      size: '10',
+      sort: 'createdAt,desc',
+    });
 
   const observerRef = useInfiniteScroll(
     { fetchNextPage, hasNextPage, isFetchingNextPage },
@@ -63,15 +54,6 @@ const CommentComponent: FC<TProps> = (props) => {
   };
 
   if (isLoading) return <Loading />;
-
-  console.log({
-    isLoading,
-    isFetching,
-    isFetched,
-    isError,
-    error,
-    data,
-  });
 
   return (
     <div className="flex w-full flex-col bg-white px-4">
@@ -106,7 +88,7 @@ const CommentComponent: FC<TProps> = (props) => {
           onSubmit={form.handleSubmit(onSubmit, (errors) => {
             console.log('Validation Errors:', errors);
           })}
-          className="flex gap-1 py-2 pb-3"
+          className="sticky bottom-0 flex gap-1 bg-white py-2 pb-3"
         >
           <FormFields
             fieldType={FormFieldType.INPUT}
