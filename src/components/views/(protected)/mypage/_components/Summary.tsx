@@ -14,7 +14,7 @@ export const Summary = () => {
 
   return (
     <div className="mt-4">
-      <MyHeader title="활동 요약" onClick={() => router.push('/')} />
+      <MyHeader title="활동 요약" onClick={() => router.push('/summary')} />
 
       {/* chip */}
       <div className="mt-2 flex items-center gap-2">
