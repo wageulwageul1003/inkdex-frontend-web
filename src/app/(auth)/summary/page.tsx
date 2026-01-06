@@ -1,5 +1,5 @@
-import { SummaryComponent } from '@/components/views/(protected)/mypage/summary';
+import { redirect } from 'next/navigation';
 
 export default function Summary() {
-  return <SummaryComponent />;
+  redirect('/summary/yearly');
 }
