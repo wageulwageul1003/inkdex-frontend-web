@@ -32,34 +32,32 @@ export const SummaryComponent = ({ defaultValue }: ISummaryProps) => {
         title={<span className="font-m-1 text-black">활동 요약</span>}
       />
 
-      <div>
-        <Tabs
-          defaultValue={defaultValue}
-          onValueChange={handleTabChange}
-          className="w-full"
-        >
-          <TabsList className="">
-            <TabsTrigger value="yearly">연간 기록</TabsTrigger>
-            <TabsTrigger value="monthly">월간 기록</TabsTrigger>
-            <TabsTrigger value="all">전체 기록</TabsTrigger>
-          </TabsList>
+      <Tabs
+        defaultValue={defaultValue}
+        onValueChange={handleTabChange}
+        className="w-full"
+      >
+        <TabsList className="">
+          <TabsTrigger value="yearly">연간 기록</TabsTrigger>
+          <TabsTrigger value="monthly">월간 기록</TabsTrigger>
+          <TabsTrigger value="all">전체 기록</TabsTrigger>
+        </TabsList>
 
-          {/* 연간 기록 */}
-          <TabsContent value="yearly">
-            <Yearly />
-          </TabsContent>
+        {/* 연간 기록 */}
+        <TabsContent value="yearly" className="mt-5">
+          <Yearly />
+        </TabsContent>
 
-          {/* 월간 기록 */}
-          <TabsContent value="monthly">
-            <Monthly />
-          </TabsContent>
+        {/* 월간 기록 */}
+        <TabsContent value="monthly" className="mt-5">
+          <Monthly />
+        </TabsContent>
 
-          {/* 전체 기록 */}
-          <TabsContent value="all">
-            <All />
-          </TabsContent>
-        </Tabs>
-      </div>
+        {/* 전체 기록 */}
+        <TabsContent value="all" className="mt-5">
+          <All />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
