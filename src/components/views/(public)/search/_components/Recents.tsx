@@ -11,7 +11,7 @@ export const Recents = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      {recentItems && recentItems.length > 0 ? (
+      {recentItems && recentItems.data.content.length > 0 ? (
         <>
           <div className="flex items-center justify-between">
             <p className="font-m-1 text-black">최근 검색어</p>
@@ -24,7 +24,7 @@ export const Recents = () => {
             </Button>
           </div>
           <div className="flex flex-col gap-2">
-            {recentItems.map((item) => (
+            {recentItems?.data.content.map((item) => (
               <div key={item.id} className="flex items-center py-2">
                 <p className="font-m-2 flex-1 text-gray-08">
                   {item.searchTerm}
