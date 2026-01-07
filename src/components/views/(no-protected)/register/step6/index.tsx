@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/sonner';
 import { usePostEmailLogin } from '@/hooks/auth/usePostEmailLogin';
 import { usePostRegister } from '@/hooks/auth/usePostRegister';
-import { useGetCategoryList } from '@/hooks/common/useGetCategoryList';
+import { useGetCategoryList } from '@/hooks/category/useGetCategoryList';
 
 const Step6 = () => {
   const router = useRouter();

@@ -2,7 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { FavoriteCategoriesSchema, TFavoriteCategoriesSchema } from './schema';
@@ -11,13 +10,13 @@ import Chips from '@/components/shared/chips';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
-import { useGetCategoryList } from '@/hooks/common/useGetCategoryList';
+import { useGetCategoryList } from '@/hooks/category/useGetCategoryList';
+import { useGetFavoriteCategoryList } from '@/hooks/category/useGetFavoriteCategoryList';
 
 export const FavoriteCategoriesComponent = () => {
   const router = useRouter();
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const imageFileRef = useRef<File | null>(null);
   const { data: categories } = useGetCategoryList();
+  const { data: favoriteCategories } = useGetFavoriteCategoryList();
 
   const form = useForm<TFavoriteCategoriesSchema>({
     resolver: zodResolver(FavoriteCategoriesSchema),
@@ -69,7 +68,10 @@ export const FavoriteCategoriesComponent = () => {
                   })) || []
                 }
                 variant="multiple"
-                selected={field.value}
+                selected={
+                  favoriteCategories?.data.content.map((item) => item.slug) ||
+                  []
+                }
                 onChange={field.onChange}
               />
             )}

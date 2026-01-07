@@ -10,6 +10,7 @@ const termsListKey = 'termsListKey';
 const termsDetailKey = 'termsDetailKey';
 
 const categoryListKey = 'categoryListKey';
+const favoriteCategoryListKey = 'favoriteCategoryListKey';
 const postsListKey = 'postsListKey';
 const postsDetailKey = 'postsDetailKey';
 const postsKey = 'postsKey';
@@ -66,6 +67,7 @@ export {
   termsListKey,
   termsDetailKey,
   categoryListKey,
+  favoriteCategoryListKey,
   postsListKey,
   postsDetailKey,
   postsKey,

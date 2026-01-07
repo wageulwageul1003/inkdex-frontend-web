@@ -1,6 +1,6 @@
 'use client';
 
-import { useGetCategoryList } from './useGetCategoryList';
+import { useGetCategoryList } from '../category/useGetCategoryList';
 
 /**
  * 카테고리 slug를 입력받아 해당하는 카테고리 이름을 반환하는 훅

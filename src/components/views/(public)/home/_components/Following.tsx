@@ -4,7 +4,7 @@ import React from 'react';
 import { Card } from './Card';
 
 import { Loading } from '@/components/shared/Loading';
-import { useGetCategoryList } from '@/hooks/common/useGetCategoryList';
+import { useGetCategoryList } from '@/hooks/category/useGetCategoryList';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useGetPostsList } from '@/hooks/home/useGetPostsList';
 

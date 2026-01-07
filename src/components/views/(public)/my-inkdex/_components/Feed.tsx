@@ -8,7 +8,7 @@ import { SelectCalendar } from './Select-Calendar';
 
 import { Loading } from '@/components/shared/Loading';
 import Chips from '@/components/shared/chips';
-import { useGetCategoryList } from '@/hooks/common/useGetCategoryList';
+import { useGetCategoryList } from '@/hooks/category/useGetCategoryList';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useGetMyInkdexFeedList } from '@/hooks/my-inkdex/useGetMyInkdexFeedList';
 
