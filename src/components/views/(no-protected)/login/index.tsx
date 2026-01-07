@@ -109,8 +109,10 @@ export default function Login() {
           variant="textOnly"
           size="sm"
         >
-          로그인 없이 둘러보기
-          <Icons.keyboardArrowRight className="size-4 fill-gray-06" />
+          <span className="flex items-center gap-1">
+            로그인 없이 둘러보기
+            <Icons.keyboardArrowRight className="size-4 fill-gray-06" />
+          </span>
         </Button>
       </div>
     </div>

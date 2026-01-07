@@ -11,7 +11,10 @@ const noAuthRoutes = [
 
 const protectedRoutes = [
   // Add your protected routes here that require authentication
-  /\/mypage(\/.*)?$/,
+  /\/my(\/.*)?$/,
+  /\/search(\/.*)?$/,
+  /\/my-inkdex(\/.*)?$/,
+  /\/posts(\/.*)?$/,
 ];
 
 export async function middleware(request: NextRequest) {
