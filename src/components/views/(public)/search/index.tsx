@@ -18,7 +18,7 @@ export const Search = () => {
   });
 
   const onSubmit = (data: z.infer<typeof searchSchema>) => {
-    router.push(`/search/result?searchKeyword=${data.searchKeyword}`);
+    router.push(`/search/result/hot?searchKeyword=${data.searchKeyword}`);
   };
 
   return (

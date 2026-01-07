@@ -8,6 +8,7 @@ import { FollowingButton } from './following-button';
 import { Icons } from './icons';
 
 interface UserProfileProps {
+  publicId?: string;
   nickname: string;
   nicknameSrc: string;
   bio?: string;
@@ -16,6 +17,7 @@ interface UserProfileProps {
 }
 
 export const UserProfile = ({
+  publicId,
   nickname,
   nicknameSrc,
   bio,
@@ -41,7 +43,7 @@ export const UserProfile = ({
         </div>
       </div>
       <div className="flex shrink-0 items-center gap-1">
-        <FollowingButton following={!!following} />
+        <FollowingButton following={!!following} publicId={publicId || ''} />
         {isShowMore && (
           <Button variant="buttonIconTextOnly" size="buttonIconMedium">
             <Icons.moreHoriz className="size-6 fill-gray-08" />

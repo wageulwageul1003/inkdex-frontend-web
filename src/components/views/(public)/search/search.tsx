@@ -1,7 +1,8 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 
@@ -14,15 +15,31 @@ import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Form } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-export const SearchResult = () => {
+interface ISearchResultProps {
+  defaultValue: string;
+}
+
+export const SearchResult = ({ defaultValue }: ISearchResultProps) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const form = useForm<z.infer<typeof searchSchema>>({
     resolver: zodResolver(searchSchema),
   });
 
-  const [tabs, setTabs] = useState('hot');
+  const handleTabChange = (value: string) => {
+    router.push(
+      `/search/result/${value}?searchKeyword=${form.getValues('searchKeyword')}`,
+    );
+  };
+
+  useEffect(() => {
+    form.setValue('searchKeyword', searchParams.get('searchKeyword') || '');
+  }, [searchParams]);
 
   const onSubmit = (data: z.infer<typeof searchSchema>) => {
-    console.log(data);
+    router.push(
+      `/search/result/${defaultValue}?searchKeyword=${data.searchKeyword}`,
+    );
   };
 
   return (
@@ -39,7 +56,11 @@ export const SearchResult = () => {
         </form>
       </Form>
 
-      <Tabs value={tabs} onValueChange={setTabs} className="mt-3 w-full">
+      <Tabs
+        value={defaultValue}
+        onValueChange={handleTabChange}
+        className="mt-3 w-full"
+      >
         <TabsList className="">
           <TabsTrigger value="hot">인기</TabsTrigger>
           <TabsTrigger value="latest">최신</TabsTrigger>

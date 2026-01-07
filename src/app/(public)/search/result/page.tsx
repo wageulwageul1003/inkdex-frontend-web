@@ -1,5 +1,5 @@
-import { SearchResult } from '@/components/views/(public)/search/search';
+import { redirect } from 'next/navigation';
 
 export default function SearchResultPage() {
-  return <SearchResult />;
+  return redirect('/search/result/hot');
 }
