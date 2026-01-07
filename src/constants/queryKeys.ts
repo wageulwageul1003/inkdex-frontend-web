@@ -57,6 +57,8 @@ const faqListKey = 'faqListKey';
 const faqDetailKey = 'faqDetailKey';
 const faqCategoryKey = 'faqCategoryKey';
 
+const notificationUnReadCountKey = 'notificationUnReadCountKey';
+
 export {
   emailLoginKey,
   nicknameDuplicateCheckKey,
@@ -103,4 +105,5 @@ export {
   faqListKey,
   faqDetailKey,
   faqCategoryKey,
+  notificationUnReadCountKey,
 };

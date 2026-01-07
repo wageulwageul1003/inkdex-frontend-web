@@ -7,7 +7,7 @@ import { Following } from './_components/Following';
 import { Latest } from './_components/Latest';
 import { Recommend } from './_components/Recommend';
 
-import { Alaram } from '@/components/shared/alaram';
+import { Notification } from '@/components/shared/Notification';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface IHomeProps {
@@ -24,7 +24,7 @@ export const Home = ({ defaultValue }: IHomeProps) => {
     <div className="w-full bg-white px-4">
       <div className="flex justify-between py-3">
         <span className="font-l-1 text-black">피드</span>
-        <Alaram status={true} />
+        <Notification />
       </div>
 
       <div>

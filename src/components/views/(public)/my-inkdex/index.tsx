@@ -7,7 +7,7 @@ import { Calendar } from './_components/Calendar';
 import { Collection } from './_components/Collection';
 import { Feed } from './_components/Feed';
 
-import { Alaram } from '@/components/shared/alaram';
+import { Notification } from '@/components/shared/Notification';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface IMyInkdexProps {
@@ -23,7 +23,7 @@ export const MyInkdex = ({ defaultValue }: IMyInkdexProps) => {
     <div className="w-full bg-white px-4">
       <div className="flex justify-between py-3">
         <span className="font-l-1 text-black">나의 인덱스</span>
-        <Alaram status={true} />
+        <Notification />
       </div>
 
       <div>
