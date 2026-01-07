@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { FavoriteCategoriesSchema, TFavoriteCategoriesSchema } from './schema';
@@ -12,11 +13,13 @@ import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { useGetCategoryList } from '@/hooks/category/useGetCategoryList';
 import { useGetFavoriteCategoryList } from '@/hooks/category/useGetFavoriteCategoryList';
+import { usePutFavoriteCategory } from '@/hooks/category/usePutFavoriteCategory';
 
 export const FavoriteCategoriesComponent = () => {
   const router = useRouter();
   const { data: categories } = useGetCategoryList();
   const { data: favoriteCategories } = useGetFavoriteCategoryList();
+  const { mutateAsync: putFavoriteCategory } = usePutFavoriteCategory();
 
   const form = useForm<TFavoriteCategoriesSchema>({
     resolver: zodResolver(FavoriteCategoriesSchema),
@@ -26,10 +29,17 @@ export const FavoriteCategoriesComponent = () => {
     },
   });
 
+  useEffect(() => {
+    form.reset({
+      preferredCategorySlugs:
+        favoriteCategories?.data.content.map((item) => item.slug) || [],
+    });
+  }, [favoriteCategories]);
+
   const { control, formState } = form;
 
   const onSubmit = (data: TFavoriteCategoriesSchema) => {
-    console.log(data);
+    putFavoriteCategory(data);
   };
 
   return (
@@ -68,10 +78,7 @@ export const FavoriteCategoriesComponent = () => {
                   })) || []
                 }
                 variant="multiple"
-                selected={
-                  favoriteCategories?.data.content.map((item) => item.slug) ||
-                  []
-                }
+                selected={field.value}
                 onChange={field.onChange}
               />
             )}
