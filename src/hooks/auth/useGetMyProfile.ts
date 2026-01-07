@@ -14,7 +14,7 @@ export interface IMyProfileResponse {
 }
 
 export const GetMyProfile = async (): Promise<IMyProfileResponse> => {
-  const data = await agent(`/api/v1/users/profile`, {
+  const data = await agent(`/api/v1/me/profile`, {
     method: 'GET',
   });
 

@@ -25,7 +25,7 @@ export const GetFollowingList = async (
   if (params.page) queryParams.set('page', String(Number(params.page) - 1));
   if (params.size) queryParams.set('size', String(params.size));
 
-  const url = `/api/v1/users/follwers/followings?${queryParams.toString()}`;
+  const url = `/api/v1/me/followings?${queryParams.toString()}`;
 
   const data = await agent(url, {
     method: 'GET',
