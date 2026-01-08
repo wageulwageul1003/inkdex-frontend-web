@@ -25,7 +25,7 @@ export const UserProfile = ({
   isShowMore = true,
 }: UserProfileProps) => {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex w-full items-center gap-2">
       <div className="flex-1">
         <div className="flex gap-2">
           <div className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-03">

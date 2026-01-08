@@ -6,7 +6,6 @@ import { agent } from '@/utils/fetch';
 
 export interface IFollowingListResponse {
   id: string;
-  userName: string;
   nickname: string;
   profileImageUrl: string;
 }

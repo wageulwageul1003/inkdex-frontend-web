@@ -20,6 +20,10 @@ export const Follow = (props: IFollow) => {
   const { data: myProfile } = useGetMyProfile();
   const [defaultTab, setDefaultTab] = React.useState(props.type);
 
+  const handleTabChange = (value: string) => {
+    router.push(`/my/${value}`);
+  };
+
   return (
     <div className="w-full flex-1 px-4">
       <Header
@@ -32,7 +36,11 @@ export const Follow = (props: IFollow) => {
       />
 
       <div className="mt-5">
-        <Tabs defaultValue={defaultTab} className="w-full">
+        <Tabs
+          defaultValue={defaultTab}
+          className="w-full"
+          onValueChange={handleTabChange}
+        >
           <TabsList className="">
             <TabsTrigger value="follower">
               팔로워 {myProfile?.followerCount || 0}
