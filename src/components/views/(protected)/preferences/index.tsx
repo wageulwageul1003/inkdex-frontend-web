@@ -24,7 +24,7 @@ const menus = [
   },
   {
     title: '문의하기',
-    path: '/preferences/inquiry',
+    path: '/preferences/faq',
     icon: <Icons.question className="size-5 fill-gray-06" />,
   },
   {

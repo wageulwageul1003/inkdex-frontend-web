@@ -1,5 +1,11 @@
 'use client';
 
+import { useRouter, useSearchParams } from 'next/navigation';
+
+import { Icons } from '@/components/shared/icons';
+import { Header } from '@/components/shared/layout/header';
+import { Button } from '@/components/ui/button';
+
 // import { useRouter, useSearchParams } from 'next/navigation';
 // import { useState } from 'react';
 
@@ -8,13 +14,14 @@
 // import { useGetFaqList } from '@/hook/faq/useGetFaqList';
 
 export const FaqComponent = () => {
-  // const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
+  const router = useRouter();
   // const faqCategoryName = searchParams.get('faqCategoryName') || undefined;
   // const { data: faqListData } = useGetFaqList({
   //   constFaqType: 'support',
   //   faqCategoryName,
   // });
-  // const router = useRouter();
+
   // const [openItemId, setOpenItemId] = useState<string | null>(null);
 
   // FAQ 카테고리
@@ -66,7 +73,36 @@ export const FaqComponent = () => {
   // };
 
   return (
-    <div>
+    <div className="flex w-full flex-col px-4">
+      <Header
+        left={
+          <Icons.ArrowBackIos
+            className="size-6 stroke-gray-02"
+            onClick={() => router.back()}
+          />
+        }
+        title={<span className="font-m-1 text-black">문의하기</span>}
+      />
+
+      {/* 1:1 문의하기 연결 */}
+      <div className="px-4 py-5">
+        <Icons.messageCircle className="size-6 fill-black" />
+        <p className="font-m-1 mt-2 text-black">
+          원하시는 답변을 찾지 못하셨나요?
+        </p>
+        <p className="font-m-2 text-gray-6 mt-1">
+          1:1 문의를 통해 도움을 받아보세요.
+        </p>
+        <Button
+          onClick={() => router.push('/preferences/faq/1:1')}
+          size="lg"
+          variant="contained"
+          className="mt-5 w-full"
+        >
+          1:1 문의하기
+        </Button>
+      </div>
+
       {/* <div className="mt-4">
         <div className="flex-1 overflow-hidden">
           <Chips
