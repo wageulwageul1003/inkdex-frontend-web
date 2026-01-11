@@ -1,46 +1,86 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 
+import { inquirySchema, TInquirySchema } from './scheme';
+
+import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-
-const inquiryTabs = [
-  { value: 'list', label: '문의하기' },
-  { value: 'history', label: '문의내역' },
-];
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
+import { usePostInquiry } from '@/hooks/inquiry/usePostInquiry';
 
 export const InquiryComponent = () => {
   const router = useRouter();
+  const { mutateAsync: postInquiry } = usePostInquiry();
+
+  const form = useForm({
+    resolver: zodResolver(inquirySchema),
+    mode: 'onChange',
+    defaultValues: {
+      content: '',
+    },
+  });
+
+  const onSubmit = (data: TInquirySchema) => {
+    postInquiry(data);
+  };
 
   return (
-    <div className="flex w-full flex-col">
+    <div className="flex w-full flex-col px-4">
       <Header
-        title={<span>1:1 문의</span>}
+        title={<span className="font-m-1 text-black">1:1 문의하기</span>}
         left={
-          <Icons.keyboardArrowLeft
+          <Icons.ArrowBackIos
             onClick={() => router.back()}
-            className="size-6 fill-black"
+            className="size-6 fill-gray-06"
           />
         }
       />
-      <div className="mt-5 flex flex-1 flex-col gap-6">
-        <Tabs
-          value="list"
-          //   onValueChange={(value) => console.log(value)}
+      <div className="flex-1">
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit, (errors) => {
+              console.log('Validation Errors:', errors);
+            })}
+            className="mt-4 flex flex-col items-center justify-center"
+          >
+            <div className="flex w-full flex-col gap-6">
+              <FormFields
+                fieldType={FormFieldType.INPUT}
+                control={form.control}
+                name="title"
+                label="제목"
+                placeholder="제목을 입력해주세요."
+                maxCharacters={100}
+              />
+
+              <FormFields
+                fieldType={FormFieldType.TEXTAREA}
+                control={form.control}
+                name="content"
+                label="내용"
+                placeholder="내용을 작성해주세요."
+                maxCharacters={1000}
+              />
+            </div>
+          </form>
+        </Form>
+      </div>
+
+      <div className="pb-4">
+        <Button
+          onClick={form.handleSubmit(onSubmit)}
+          size="lg"
+          variant="contained"
           className="w-full"
+          disabled={!form.formState.isValid}
         >
-          <TabsList className="w-full">
-            {inquiryTabs.map((tab) => (
-              <TabsTrigger key={tab.value} value={tab.value} className="flex-1">
-                {tab.label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          <TabsContent value="list">Tab 1</TabsContent>
-          <TabsContent value="history">Tab 2</TabsContent>
-        </Tabs>
+          등록하기
+        </Button>
       </div>
     </div>
   );

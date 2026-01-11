@@ -94,7 +94,7 @@ export const FaqComponent = () => {
           1:1 문의를 통해 도움을 받아보세요.
         </p>
         <Button
-          onClick={() => router.push('/preferences/faq/1:1')}
+          onClick={() => router.push('/preferences/inquiry')}
           size="lg"
           variant="contained"
           className="mt-5 w-full"
