@@ -8,8 +8,8 @@ import { Button } from '@/components/ui/button';
 
 const menus = [
   {
-    title: 'FAQ',
-    path: '/preferences/faq',
+    title: '계정',
+    path: '/preferences/account',
     icon: <Icons.user className="size-5 fill-gray-06" />,
   },
   {
