@@ -4,20 +4,12 @@ import { notificationUnReadCountKey } from '@/constants/queryKeys';
 import { agent } from '@/utils/fetch';
 
 export interface INotificationUnReadCountResponse {
-  uuid: string;
-
-  faqCategoryName: string;
-  title: string;
-  content: string;
-  isShow: string;
-  priority: number;
-  createdAt: string;
-  updatedAt: string;
+  content: number;
 }
 
 export const GetNotificationUnReadCount =
   async (): Promise<INotificationUnReadCountResponse> => {
-    const data = await agent(`/api/v1/notification/unread-count`, {
+    const data = await agent(`/api/v1/notifications/unread-count`, {
       method: 'GET',
     });
 
