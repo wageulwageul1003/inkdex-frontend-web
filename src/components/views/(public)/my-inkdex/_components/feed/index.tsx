@@ -2,9 +2,8 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-import { Card } from '../../home/_components/Card';
-
-import { SelectCalendar } from './Select-Calendar';
+import { Card } from '../../../home/_components/Card';
+import { SelectCalendar } from '../calendar/Select-Calendar';
 
 import { Loading } from '@/components/shared/Loading';
 import Chips from '@/components/shared/chips';
@@ -32,7 +31,6 @@ export const Feed = () => {
       endDate: selectedEndDate
         ? dayjs(selectedEndDate).format('YYYY-MM-DD')
         : '',
-      feedType: 'recommended',
     });
 
   const observerRef = useInfiniteScroll(

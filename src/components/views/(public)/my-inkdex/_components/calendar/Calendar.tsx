@@ -3,8 +3,15 @@ import dayjs from 'dayjs';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import React from 'react';
 
+import { Card } from '../../../home/_components/Card';
+
+import { Loading } from '@/components/shared/Loading';
 import { Button } from '@/components/ui/button';
+import { DialogTitle } from '@/components/ui/dialog';
+import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
+import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useGetMyInkdexCalendar } from '@/hooks/my-inkdex/useGetMyInkdexCalendar';
+import { useGetMyInkdexFeedList } from '@/hooks/my-inkdex/useGetMyInkdexFeedList';
 import { useGetPostsCount } from '@/hooks/my-inkdex/useGetPostsCount';
 import { cn } from '@/lib/utils';
 import useCalendar from '@/providers/useCalendar';
@@ -27,6 +34,21 @@ export const Calendar = () => {
     year: calendar.currentDate.getFullYear(),
     month: calendar.currentDate.getMonth() + 1,
   });
+
+  const {
+    data: detailDatas,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetMyInkdexFeedList({
+    size: '3',
+    date: selectedDay ? dayjs(selectedDay).format('YYYY-MM-DD') : undefined,
+  });
+
+  const observerRef = useInfiniteScroll(
+    { fetchNextPage, hasNextPage, isFetchingNextPage },
+    { threshold: 0.1 },
+  );
 
   const thumbnailMap = React.useMemo(() => {
     if (!data?.data.content) return new Map<string, string>();
@@ -106,36 +128,57 @@ export const Calendar = () => {
             isSameDay(date, selectedDay);
 
           return (
-            <button
-              key={idx}
-              type="button"
-              className="flex w-full flex-col items-center"
-              onClick={() => setSelectedDay(date)}
-            >
-              <div
-                className={cn(
-                  'relative aspect-square w-full overflow-hidden rounded-lg bg-gray-02',
-                  isToday && 'ring-1 ring-gray-04',
-                )}
-              >
-                {thumbnailUrl && (
-                  <img
-                    src={thumbnailUrl}
-                    alt={`${dateKey} thumbnail`}
-                    className="h-full w-full object-cover"
-                  />
-                )}
-              </div>
+            <Drawer key={idx}>
+              <DrawerTrigger asChild>
+                <button
+                  type="button"
+                  className="flex w-full flex-col items-center"
+                  onClick={() => setSelectedDay(date)}
+                >
+                  <div
+                    className={cn(
+                      'relative aspect-square w-full overflow-hidden rounded-lg bg-gray-02',
+                      isToday && 'ring-1 ring-gray-04',
+                    )}
+                  >
+                    {thumbnailUrl && (
+                      <img
+                        src={thumbnailUrl}
+                        alt={`${dateKey} thumbnail`}
+                        className="h-full w-full object-cover"
+                      />
+                    )}
+                  </div>
 
-              <div
-                className={cn(
-                  'font-s-2 mt-1 flex h-7 w-7 items-center justify-center text-gray-09',
-                  isSelected && 'rounded-full bg-gray-03',
+                  <div
+                    className={cn(
+                      'font-s-2 mt-1 flex h-7 w-7 items-center justify-center text-gray-09',
+                      isSelected && 'rounded-full bg-gray-03',
+                    )}
+                  >
+                    {day}
+                  </div>
+                </button>
+              </DrawerTrigger>
+
+              <DrawerContent>
+                <DialogTitle>
+                  {selectedDay ? format(selectedDay, 'yyyy-MM-dd') : ''}
+                </DialogTitle>
+                {detailDatas?.paging.totalElements === 0 ? (
+                  <p>데이터 없음</p>
+                ) : (
+                  <div className="mt-4 flex flex-col gap-4">
+                    {detailDatas?.content.map((item) => (
+                      <Card key={item.id} item={item} />
+                    ))}
+                    <div ref={observerRef} className="flex h-1 justify-center">
+                      {isFetchingNextPage && <Loading />}
+                    </div>
+                  </div>
                 )}
-              >
-                {day}
-              </div>
-            </button>
+              </DrawerContent>
+            </Drawer>
           );
         })}
       </div>

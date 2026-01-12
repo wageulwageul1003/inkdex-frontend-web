@@ -36,10 +36,10 @@ type TGetMyInkdexFeedListParams = {
   category?: string;
   startDate?: string;
   endDate?: string;
+  date?: string;
   page?: string;
   size?: string;
   sort?: string;
-  feedType?: string;
 };
 
 export const GetMyInkdexFeedList = async (
@@ -50,10 +50,10 @@ export const GetMyInkdexFeedList = async (
   if (params.category) queryParams.set('category', params.category);
   if (params.startDate) queryParams.set('startDate', params.startDate);
   if (params.endDate) queryParams.set('endDate', params.endDate);
+  if (params.date) queryParams.set('date', params.date);
   if (params.page) queryParams.set('page', String(Number(params.page) - 1));
   if (params.size) queryParams.set('size', String(params.size));
   if (params.sort) queryParams.set('sort', String(params.sort));
-  if (params.feedType) queryParams.set('feedType', String(params.feedType));
 
   const url = `/api/v1/me/posts?${queryParams.toString()}`;
 

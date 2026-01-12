@@ -41,7 +41,7 @@ export const Collection = () => {
           </Button>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-1">
+      <div className="grid grid-cols-2 gap-x-1 gap-y-7">
         {data?.content.map((item) => (
           <div
             key={item.collectionId}
@@ -64,7 +64,9 @@ export const Collection = () => {
 
             <div className="mt-[2px] flex items-center gap-1">
               <Icons.inbox className="size-4 fill-gray-05" />
-              <span className="font-xs-2 text-gray-05">개</span>
+              <span className="font-xs-2 text-gray-05">
+                {item.postCount.toLocaleString()}개
+              </span>
             </div>
           </div>
         ))}

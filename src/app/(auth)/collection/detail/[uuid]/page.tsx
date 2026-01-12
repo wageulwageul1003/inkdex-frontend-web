@@ -1,4 +1,4 @@
-import { CollectionDetail } from '@/components/views/(public)/my-inkdex/_components/collection-detail';
+import { CollectionDetail } from '@/components/views/(public)/my-inkdex/_components/collection/collection-detail';
 
 export default async function Page({
   params,

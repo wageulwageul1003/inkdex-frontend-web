@@ -3,9 +3,9 @@
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-import { Calendar } from './_components/Calendar';
-import { Collection } from './_components/Collection';
-import { Feed } from './_components/Feed';
+import { Calendar } from './_components/calendar/Calendar';
+import { Collection } from './_components/collection';
+import { Feed } from './_components/feed';
 
 import { Notification } from '@/components/shared/Notification';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';

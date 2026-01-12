@@ -7,7 +7,11 @@ import { agent } from '@/utils/fetch';
 export interface ICollectionListResponse {
   collectionId: string;
   name: string;
+  postCount: number;
+  imageUrl: string;
   thumbnailUrl: string;
+  createdBy: number;
+  createdAt: string;
 }
 
 // PARAMS TYPE

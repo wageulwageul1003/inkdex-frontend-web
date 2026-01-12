@@ -5,30 +5,13 @@ import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface ISpecificCollectionListResponse {
-  id: string;
-  userId: string;
+  publicId: string;
+  userPublicId: string;
   userNickname: string;
   profileImageUrl: string;
-  userBio: string;
-  following: boolean;
-  categorySlug: string;
-  content: string;
-  imageUrl: string;
   thumbnailUrl: string;
-  imageMetadata: {
-    width: number;
-    height: number;
-    aspectRatio: number;
-    fileSize: number;
-  };
-  tags: string[];
-  likeCount: number;
-  liked: boolean;
-  bookmarked: boolean;
-  commentCount: number;
+  aspectRatio: number;
   viewCount: number;
-  createdAt: string;
-  updatedAt: string;
 }
 
 // PARAMS TYPE
