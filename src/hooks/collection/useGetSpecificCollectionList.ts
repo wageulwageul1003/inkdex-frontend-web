@@ -1,18 +1,10 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
+import { IPostListResponse } from '../home/useGetPostsList';
+
 import { specificCollectionListKey } from '@/constants/queryKeys';
 import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
-
-export interface ISpecificCollectionListResponse {
-  publicId: string;
-  userPublicId: string;
-  userNickname: string;
-  profileImageUrl: string;
-  thumbnailUrl: string;
-  aspectRatio: number;
-  viewCount: number;
-}
 
 // PARAMS TYPE
 type TGetSpecificCollectionListParams = {
@@ -23,7 +15,7 @@ type TGetSpecificCollectionListParams = {
 
 export const GetSpecificCollectionList = async (
   params: TGetSpecificCollectionListParams,
-): Promise<IResponsePaged<ISpecificCollectionListResponse>> => {
+): Promise<IResponsePaged<IPostListResponse>> => {
   const queryParams = new URLSearchParams();
 
   if (params.page) queryParams.set('page', String(Number(params.page) - 1));
@@ -42,9 +34,9 @@ export const useGetSpecificCollectionList = (
   params: TGetSpecificCollectionListParams,
 ) => {
   return useInfiniteQuery<
-    IResponsePaged<ISpecificCollectionListResponse>,
+    IResponsePaged<IPostListResponse>,
     Error,
-    TInfiniteListResult<ISpecificCollectionListResponse>
+    TInfiniteListResult<IPostListResponse>
   >({
     queryKey: [specificCollectionListKey, params],
     queryFn: ({ pageParam = 1 }) =>

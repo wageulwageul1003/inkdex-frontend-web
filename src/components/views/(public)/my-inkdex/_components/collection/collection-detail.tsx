@@ -12,7 +12,6 @@ import { Header } from '@/components/shared/layout/header';
 import { useGetSpecificCollection } from '@/hooks/collection/useGetSpecificCollection';
 import { useGetSpecificCollectionList } from '@/hooks/collection/useGetSpecificCollectionList';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
-import { IPostListResponse } from '@/hooks/home/useGetPostsList';
 
 interface TProps {
   uuid: string;
@@ -81,9 +80,7 @@ export const CollectionDetail = ({ uuid }: TProps) => {
 
       {/* collection의 post list */}
       <div className="flex flex-col">
-        {data?.content.map((item) => (
-          <Card key={item.id} item={item as IPostListResponse} />
-        ))}
+        {data?.content.map((item) => <Card key={item.id} item={item} />)}
         <div ref={observerRef} className="flex h-1 justify-center">
           {isFetchingNextPage && <Loading />}
         </div>
