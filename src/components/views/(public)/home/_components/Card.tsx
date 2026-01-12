@@ -79,14 +79,15 @@ export const Card = ({ item }: { item: IPostListResponse }) => {
         isShowMore={true}
       />
 
-      <div className="h-full w-full rounded-lg border border-gray-03">
+      <div
+        className="relative w-full overflow-hidden rounded-lg border border-gray-03"
+        style={{ aspectRatio: item.imageMetadata?.aspectRatio ?? '1 / 1' }}
+      >
         <Image
           src={item.imageUrl || '/default-image.png'}
-          alt=""
-          width={100}
-          height={100}
-          style={{ aspectRatio: item.imageMetadata?.aspectRatio }}
-          className="h-full w-full rounded-lg border border-gray-03"
+          alt={item.content}
+          fill
+          className="object-cover"
         />
       </div>
 
