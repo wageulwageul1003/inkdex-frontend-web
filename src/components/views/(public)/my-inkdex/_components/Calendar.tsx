@@ -1,19 +1,27 @@
 import { format, isSameDay, isSameMonth } from 'date-fns';
+import dayjs from 'dayjs';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import React from 'react';
 
 import { Button } from '@/components/ui/button';
 import { useGetMyInkdexCalendar } from '@/hooks/my-inkdex/useGetMyInkdexCalendar';
+import { useGetPostsCount } from '@/hooks/my-inkdex/useGetPostsCount';
 import { cn } from '@/lib/utils';
 import useCalendar from '@/providers/useCalendar';
 
 export const Calendar = () => {
   const calendar = useCalendar();
-
   const today = React.useMemo(() => new Date(), []);
   const [selectedDay, setSelectedDay] = React.useState<Date | null>(null);
 
   const monthLabel = format(calendar.currentDate, 'yyyy년 M월');
+
+  const { data: count } = useGetPostsCount({
+    startDate: dayjs(calendar.currentDate)
+      .startOf('month')
+      .format('YYYY-MM-DD'),
+    endDate: dayjs(calendar.currentDate).endOf('month').format('YYYY-MM-DD'),
+  });
 
   const { data } = useGetMyInkdexCalendar({
     year: calendar.currentDate.getFullYear(),
@@ -24,12 +32,16 @@ export const Calendar = () => {
     if (!data?.data.content) return new Map<string, string>();
 
     return new Map(
-      data.data.content.map((item) => [
-        item.date, // '2025-12-21'
-        item.thumbnailUrl,
-      ]),
+      data.data.content.map((item) => [item.date, item.thumbnailUrl]),
     );
   }, [data]);
+
+  const totalCount = React.useMemo(() => {
+    if (!data?.data.content) return 0;
+    return (
+      count?.data?.content?.reduce((acc, item) => acc + item.count, 0) ?? 0
+    );
+  }, [count]);
 
   return (
     <div className="w-full">
@@ -57,7 +69,7 @@ export const Calendar = () => {
         </div>
 
         <div className="flex items-center gap-1">
-          <span className="font-xs-2 text-gray-06">2개</span>
+          <span className="font-xs-2 text-gray-06">{totalCount}개</span>
         </div>
       </div>
 
