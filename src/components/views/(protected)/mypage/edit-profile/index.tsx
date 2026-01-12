@@ -31,6 +31,7 @@ export const EditProfileComponent = () => {
     defaultValues: {
       image: '',
       nickname: '',
+      bio: '',
     },
   });
 
@@ -67,13 +68,9 @@ export const EditProfileComponent = () => {
 
   const onSubmit = async (data: TEditProfileSchema) => {
     try {
-      if (!imageFileRef.current) {
-        return;
-      }
-
       await patchProfile({
         ...data,
-        imageFile: imageFileRef.current,
+        imageFile: imageFileRef.current || undefined,
       }).then(() => {
         router.back();
       });

@@ -15,14 +15,15 @@ export const MyProfile = () => {
   return (
     <div className="rounded-lg bg-gray-01 p-4">
       <div className="flex items-center gap-3">
-        <div className="flex h-[56px] w-[56px] items-center justify-center rounded-full border border-gray-03">
+        <div className="relative h-[56px] w-[56px] overflow-hidden rounded-full border border-gray-03">
           <Image
             src={myProfile?.profileImageUrl || '/default-profile.png'}
             alt="profile-image"
-            width={56}
-            height={56}
+            fill
+            className="object-cover"
           />
         </div>
+
         <div className="flex flex-1 flex-col gap-1">
           <span className="font-medium">{myProfile?.nickname}</span>
           <div className="flex items-center gap-2">

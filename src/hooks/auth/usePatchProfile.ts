@@ -6,7 +6,7 @@ import { myProfileKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 
 interface EditProfileParams extends TEditProfileSchema {
-  imageFile: File;
+  imageFile?: File;
 }
 
 const createFormData = (params: EditProfileParams): FormData => {
@@ -17,7 +17,9 @@ const createFormData = (params: EditProfileParams): FormData => {
   };
 
   formData.append('data', JSON.stringify(data));
-  formData.append('image', params.imageFile, params.imageFile.name);
+  if (params.imageFile) {
+    formData.append('image', params.imageFile, params.imageFile.name);
+  }
 
   return formData;
 };
@@ -25,7 +27,7 @@ const createFormData = (params: EditProfileParams): FormData => {
 export const patchProfile = async (params: EditProfileParams) => {
   const formData = createFormData(params);
 
-  const response = await agent(`/api/v1/profile`, {
+  const response = await agent(`/api/v1/me/profile`, {
     method: 'PATCH',
     body: formData,
   });
