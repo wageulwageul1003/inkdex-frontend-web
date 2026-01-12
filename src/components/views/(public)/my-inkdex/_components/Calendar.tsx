@@ -19,6 +19,18 @@ export const Calendar = () => {
     year: calendar.currentDate.getFullYear(),
     month: calendar.currentDate.getMonth() + 1,
   });
+
+  const thumbnailMap = React.useMemo(() => {
+    if (!data?.data.content) return new Map<string, string>();
+
+    return new Map(
+      data.data.content.map((item) => [
+        item.date, // '2025-12-21'
+        item.thumbnailUrl,
+      ]),
+    );
+  }, [data]);
+
   return (
     <div className="w-full">
       <div className="flex items-center justify-between py-3">
@@ -72,8 +84,10 @@ export const Calendar = () => {
             day,
           );
 
-          const isToday =
-            isSameMonth(date, today) && isSameDay(date, today) && day !== 0;
+          const dateKey = format(date, 'yyyy-MM-dd');
+          const thumbnailUrl = thumbnailMap.get(dateKey);
+
+          const isToday = isSameMonth(date, today) && isSameDay(date, today);
           const isSelected =
             selectedDay !== null &&
             isSameMonth(date, selectedDay) &&
@@ -88,10 +102,19 @@ export const Calendar = () => {
             >
               <div
                 className={cn(
-                  'aspect-square w-full rounded-lg bg-gray-02',
+                  'relative aspect-square w-full overflow-hidden rounded-lg bg-gray-02',
                   isToday && 'ring-1 ring-gray-04',
                 )}
-              />
+              >
+                {thumbnailUrl && (
+                  <img
+                    src={thumbnailUrl}
+                    alt={`${dateKey} thumbnail`}
+                    className="h-full w-full object-cover"
+                  />
+                )}
+              </div>
+
               <div
                 className={cn(
                   'font-s-2 mt-1 flex h-7 w-7 items-center justify-center text-gray-09',

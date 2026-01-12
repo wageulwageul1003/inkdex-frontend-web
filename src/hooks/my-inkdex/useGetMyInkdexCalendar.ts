@@ -1,24 +1,12 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 import { myInkdexCalendarKey } from '@/constants/queryKeys';
+import { IResponse } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
-export interface IPostsDetailResponse {
-  publicId: string;
-  userPublicId: string;
-  userNickname: string;
-  profileImageUrl: string | null;
-  categorySlug: string;
-  content: string;
-  imageUrl: string;
+export interface IMyInkdexCalendarResponse {
+  date: string;
   thumbnailUrl: string;
-  tags: string[];
-  likeCount: number;
-  commentCount: number;
-  viewCount: number;
-  bookmarked: number;
-  createdAt: string;
-  updatedAt: string;
 }
 
 type TGetMyInkdexCalendarParams = {
@@ -26,9 +14,9 @@ type TGetMyInkdexCalendarParams = {
   month: number;
 };
 
-export const GetPostsDetail = async (
+export const GetMyInkdexCalendar = async (
   params: TGetMyInkdexCalendarParams,
-): Promise<IPostsDetailResponse> => {
+): Promise<IResponse<IMyInkdexCalendarResponse>> => {
   const data = await agent(
     `/api/v1/me/posts/calendar?year=${params.year}&month=${params.month}`,
     {
@@ -36,12 +24,14 @@ export const GetPostsDetail = async (
     },
   );
 
-  return data.data.content;
+  return data;
 };
 
-export const useGetMyInkdexCalendar = (params: TGetMyInkdexCalendarParams) =>
+export const useGetMyInkdexCalendar = (
+  params: TGetMyInkdexCalendarParams,
+): UseQueryResult<IResponse<IMyInkdexCalendarResponse>> =>
   useQuery({
     queryKey: [myInkdexCalendarKey, params],
-    queryFn: () => GetPostsDetail(params),
+    queryFn: () => GetMyInkdexCalendar(params),
     enabled: !!params.year && !!params.month,
   });
