@@ -28,14 +28,15 @@ export const UserProfile = ({
     <div className="flex w-full items-center gap-2">
       <div className="flex-1">
         <div className="flex gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-03">
+          <div className="relative h-9 w-9 overflow-hidden rounded-full border border-gray-03">
             <Image
               src={nicknameSrc || '/default-profile.png'}
-              alt=""
-              width={16}
-              height={16}
+              alt="profile"
+              fill
+              className="object-cover"
             />
           </div>
+
           <div className="flex flex-col">
             <p className="font-s-1 text-gray-09">{nickname}</p>
             {bio && <p className="font-xs-2 text-gray-06">{bio}</p>}
