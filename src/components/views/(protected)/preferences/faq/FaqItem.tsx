@@ -36,7 +36,7 @@ export const FaqItem = ({
         onClick={onToggle}
       >
         <div className={cn(`flex-items flex flex-col`)}>
-          <span className="font-body2 text-gray-400">[ 111 ]</span>
+          <span className="font-body2 text-gray-04">[ 111 ]</span>
           <p className="font-m-1 text-gray-08">{title}</p>
         </div>
         {isExpanded ? (
@@ -47,8 +47,8 @@ export const FaqItem = ({
       </div>
 
       {isExpanded && (
-        <div className="bg-gray-1 mt-2 px-5 py-4">
-          <p className="font-m-2 text-gray-7">{content}</p>
+        <div className="mt-2 bg-gray-01 px-5 py-4">
+          <p className="font-m-2 text-gray-07">{content}</p>
         </div>
       )}
     </div>

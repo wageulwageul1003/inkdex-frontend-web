@@ -72,11 +72,13 @@ export const Card = ({ item }: { item: IPostListResponse }) => {
   return (
     <div className="flex flex-col gap-4">
       <UserProfile
+        userId={item.userId}
         nickname={item.userNickname}
         nicknameSrc={item.profileImageUrl}
         bio={item.userBio}
         following={item.following}
         isShowMore={true}
+        publicId={item.id}
       />
 
       <div

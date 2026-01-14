@@ -41,6 +41,10 @@ const blockKey = 'blockKey';
 const deleteBlockKey = 'deleteBlockKey';
 const blockListKey = 'blockListKey';
 
+const reportKey = 'reportKey';
+const deleteReportKey = 'deleteReportKey';
+const reportListKey = 'reportListKey';
+
 const myProfileKey = 'myProfileKey';
 
 const deleteRecentSearchKeywordKey = 'deleteRecentSearchKeywordKey';
@@ -98,6 +102,9 @@ export {
   blockKey,
   deleteBlockKey,
   blockListKey,
+  reportKey,
+  deleteReportKey,
+  reportListKey,
   myProfileKey,
   deleteRecentSearchKeywordKey,
   recentSearchKeywordsKey,

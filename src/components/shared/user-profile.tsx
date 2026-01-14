@@ -1,13 +1,19 @@
 'use client';
 
+import Cookies from 'js-cookie';
 import Image from 'next/image';
+import { useState } from 'react';
 
 import { Button } from '../ui/button';
 
 import { FollowingButton } from './following-button';
 import { Icons } from './icons';
 
+import { USER_ID } from '@/constants/tokens';
+import { usePostReport } from '@/hooks/report/usePostReport';
+
 interface UserProfileProps {
+  userId?: string;
   publicId?: string;
   nickname: string;
   nicknameSrc: string;
@@ -17,6 +23,7 @@ interface UserProfileProps {
 }
 
 export const UserProfile = ({
+  userId,
   publicId,
   nickname,
   nicknameSrc,
@@ -24,6 +31,19 @@ export const UserProfile = ({
   following,
   isShowMore = true,
 }: UserProfileProps) => {
+  const isMyProfile = userId === Cookies.get(USER_ID);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const { mutateAsync: postReport } = usePostReport();
+
+  const handleReport = () => {
+    console.log('handleReport');
+    postReport({
+      targetId: publicId || '',
+      targetType: 'POST',
+      reason: 'SPAM',
+    });
+  };
+
   return (
     <div className="flex w-full items-center gap-2">
       <div className="flex-1">
@@ -45,10 +65,25 @@ export const UserProfile = ({
       </div>
       <div className="flex shrink-0 items-center gap-1">
         <FollowingButton following={!!following} publicId={publicId || ''} />
-        {isShowMore && (
-          <Button variant="buttonIconTextOnly" size="buttonIconMedium">
-            <Icons.moreHoriz className="size-6 fill-gray-08" />
-          </Button>
+        {isShowMore && !isMyProfile && (
+          <div className="relative">
+            <Button
+              variant="buttonIconTextOnly"
+              size="buttonIconMedium"
+              onClick={() => setMoreOpen((prev) => !prev)}
+            >
+              <Icons.moreHoriz className="size-6 fill-gray-08" />
+            </Button>
+
+            {moreOpen && (
+              <div
+                className="absolute right-0 top-full z-10 mt-1 flex h-11 w-[147px] items-center justify-center rounded-lg border border-gray-03 bg-white text-center"
+                onClick={handleReport}
+              >
+                <p className="font-m-2 text-gray-08">게시물 신고하기</p>
+              </div>
+            )}
+          </div>
         )}
       </div>
     </div>
