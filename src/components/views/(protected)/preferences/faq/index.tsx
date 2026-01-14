@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
+import { useGetFaqList } from '@/hooks/faq/useGetFaqList';
 
 // import { useRouter, useSearchParams } from 'next/navigation';
 // import { useState } from 'react';
@@ -17,10 +18,9 @@ export const FaqComponent = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   // const faqCategoryName = searchParams.get('faqCategoryName') || undefined;
-  // const { data: faqListData } = useGetFaqList({
-  //   constFaqType: 'support',
-  //   faqCategoryName,
-  // });
+  const { data: faqListData } = useGetFaqList({
+    constFaqType: 'support',
+  });
 
   // const [openItemId, setOpenItemId] = useState<string | null>(null);
 
@@ -103,7 +103,10 @@ export const FaqComponent = () => {
         </Button>
       </div>
 
-      {/* <div className="mt-4">
+      <div className="mt-8">
+        <p className="font-m-1 text-black">자주 묻는 질문</p>
+
+        {/* <div className="mt-2">
         <div className="flex-1 overflow-hidden">
           <Chips
             items={categoryList}
@@ -114,27 +117,20 @@ export const FaqComponent = () => {
         </div>
       </div> */}
 
-      <div className="mt-1"></div>
-
-      {/* {faqListData?.data.content.map((item, index) => (
-        <div
-          key={item.uuid}
-          className={
-            index === faqListData.data.content.length - 1
-              ? ''
-              : 'border-b border-gray-200'
-          }
-        >
-          <FaqItem
-            uuid={item.uuid}
-            category={item.faqCategoryName}
-            title={item.title}
-            content={item.content}
-            isExpanded={openItemId === item.uuid}
-            onToggle={() => handleToggle(item.uuid)}
-          />
-        </div>
-      ))} */}
+        {/* <div className="flex flex-col gap-1">
+          {faqListData?.data.content.map((item, index) => (
+            <FaqItem
+              key={item.uuid}
+              uuid={item.uuid}
+              category={item.faqCategoryName}
+              title={item.title}
+              content={item.content}
+              isExpanded={openItemId === item.uuid}
+              onToggle={() => handleToggle(item.uuid)}
+            />
+          ))}
+        </div> */}
+      </div>
     </div>
   );
 };

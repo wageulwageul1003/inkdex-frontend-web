@@ -48,7 +48,7 @@ export const GetFaqList = async (
     queryParams.append('faqCategoryName', params.faqCategoryName);
 
   // Construct the URL
-  const url = `/api/faq/${params.constFaqType}?${queryParams.toString()}`;
+  const url = `/api/v1/faqs?${queryParams.toString()}`;
 
   const data = await agent(url, {
     method: 'GET',
@@ -61,11 +61,6 @@ export const useGetFaqList = (
   params: TFaqListParams,
 ): UseQueryResult<IResponsePaged<IFaqListResponse>> =>
   useQuery({
-    queryKey: [
-      faqListKey,
-      params.constFaqType,
-      params.faqCategoryName,
-      params.searchKeyword,
-    ],
+    queryKey: [faqListKey, params],
     queryFn: () => GetFaqList(params),
   });
