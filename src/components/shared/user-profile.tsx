@@ -36,7 +36,7 @@ export const UserProfile = ({
   const { mutateAsync: postReport } = usePostReport();
 
   const handleReport = () => {
-    console.log('handleReport');
+    setMoreOpen(false);
     postReport({
       targetId: publicId || '',
       targetType: 'POST',
