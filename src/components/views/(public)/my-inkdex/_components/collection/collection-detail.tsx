@@ -2,13 +2,14 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Card } from '../../../home/_components/Card';
 
 import { Loading } from '@/components/shared/Loading';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
+import { Button } from '@/components/ui/button';
 import { useGetSpecificCollection } from '@/hooks/collection/useGetSpecificCollection';
 import { useGetSpecificCollectionList } from '@/hooks/collection/useGetSpecificCollectionList';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
@@ -19,6 +20,7 @@ interface TProps {
 
 export const CollectionDetail = ({ uuid }: TProps) => {
   const router = useRouter();
+  const [moreOpen, setMoreOpen] = useState(false);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGetSpecificCollectionList({
@@ -37,14 +39,41 @@ export const CollectionDetail = ({ uuid }: TProps) => {
 
   return (
     <div className="w-full">
-      <Header
-        left={
-          <Icons.ArrowBackIos
-            className="size-6 fill-gray-06"
-            onClick={() => router.back()}
-          />
-        }
-      />
+      <div className="px-4">
+        <Header
+          left={
+            <Icons.ArrowBackIos
+              className="size-6 fill-gray-06"
+              onClick={() => router.back()}
+            />
+          }
+          right={
+            <div className="relative">
+              <Button
+                onClick={() => setMoreOpen((prev) => !prev)}
+                variant="buttonIconTextOnly"
+                size="buttonIconMedium"
+              >
+                <Icons.moreHoriz className="size-6 fill-gray-08" />
+              </Button>
+
+              {moreOpen && (
+                <div className="absolute right-0 top-full z-10 mt-1 flex w-[104px] flex-col items-center rounded-lg border border-gray-03 bg-white text-center">
+                  <p
+                    className="font-m-2 flex h-11 items-center px-2 text-gray-08"
+                    onClick={() => router.push(`/collection/edit/${uuid}`)}
+                  >
+                    정보 편집
+                  </p>
+                  <p className="font-m-2 flex h-11 items-center px-2 text-red-05">
+                    삭제
+                  </p>
+                </div>
+              )}
+            </div>
+          }
+        />
+      </div>
 
       <div className="overflow-hidden">
         {/* Thumbnail */}

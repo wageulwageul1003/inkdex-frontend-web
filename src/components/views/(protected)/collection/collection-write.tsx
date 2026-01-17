@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { CollectionWriteSchema, TCollectionWriteSchema } from './schema';
@@ -12,16 +12,25 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import { useGetSpecificCollection } from '@/hooks/collection/useGetSpecificCollection';
 import { usePostCollection } from '@/hooks/collection/usePostCollection';
 import { isApp } from '@/lib/device';
 import { nativeBridge } from '@/lib/native-bridge';
 
-export const CollectionWriteComponent = () => {
+interface TProps {
+  uuid?: string;
+}
+
+export const CollectionWriteComponent = ({ uuid }: TProps) => {
   const router = useRouter();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const imageFileRef = useRef<File | null>(null);
 
   const { mutateAsync: postCollection } = usePostCollection();
+
+  const { data: collectionInfo } = useGetSpecificCollection({
+    collectionId: uuid || '',
+  });
 
   const form = useForm({
     resolver: zodResolver(CollectionWriteSchema),
@@ -31,6 +40,15 @@ export const CollectionWriteComponent = () => {
       name: '',
     },
   });
+
+  useEffect(() => {
+    if (collectionInfo) {
+      form.reset({
+        image: '',
+        name: collectionInfo.name,
+      });
+    }
+  }, [collectionInfo]);
 
   const handleImageSelect = async () => {
     if (!isApp()) {
@@ -121,7 +139,7 @@ export const CollectionWriteComponent = () => {
               fieldType={FormFieldType.INPUT}
               control={form.control}
               name="name"
-              label="컬렉션 이름"
+              label="컬렉션"
               placeholder="컬렉션 이름을 입력해주세요."
               maxCharacters={20}
             />

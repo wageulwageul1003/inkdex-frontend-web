@@ -368,6 +368,7 @@ const FormFields = <T extends FieldValues>(props: CustomProps<T>) => {
     message,
     messageClassName,
     infoSlot,
+    fieldType,
   } = props;
   return (
     <FormField
@@ -379,8 +380,16 @@ const FormFields = <T extends FieldValues>(props: CustomProps<T>) => {
           {label && (
             <FormLabel required={required} className={cn(labelClassName)}>
               {label}
+              {/* maxCharacters */}
+              {fieldType === FormFieldType.INPUT && props.maxCharacters && (
+                <span className="font-caption ml-1 mt-2 truncate text-gray-500">
+                  ({field.value?.length.toString() || '0'}/{props.maxCharacters}
+                  )
+                </span>
+              )}
             </FormLabel>
           )}
+
           {labelSlot}
           {/* DESCRIPTION */}
           {message && (
