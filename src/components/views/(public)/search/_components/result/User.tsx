@@ -31,7 +31,7 @@ export const User = () => {
         <div className="mt-4 flex flex-col gap-4">
           {data?.content.map((item) => (
             <UserProfile
-              publicId={item.id}
+              userId={item.id}
               nickname={item.nickname}
               nicknameSrc={item.profileImageUrl}
               bio={item.bio}

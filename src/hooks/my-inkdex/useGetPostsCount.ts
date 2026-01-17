@@ -10,15 +10,17 @@ export interface IPostsCountResponse {
 }
 
 type TGetPostsCountParams = {
-  startDate: string;
-  endDate: string;
+  startDate: string | null;
+  endDate: string | null;
 };
 
 export const GetPostsCount = async (
   params: TGetPostsCountParams,
 ): Promise<IResponse<IPostsCountResponse>> => {
   const data = await agent(
-    `/api/v1/me/posts/counts?startDate=${params.startDate}&endDate=${params.endDate}`,
+    params.startDate || params.endDate
+      ? `/api/v1/me/posts/counts?startDate=${params.startDate}&endDate=${params.endDate}`
+      : `/api/v1/me/posts/counts`,
     {
       method: 'GET',
     },
