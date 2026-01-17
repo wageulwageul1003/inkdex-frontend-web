@@ -102,8 +102,8 @@ const Chips: React.FC<ChipsProps> = ({
       <button
         key={index}
         className={cn(
-          `flex min-w-[65px] flex-shrink-0 items-center justify-center whitespace-nowrap transition-all`,
-          type === 'round' ? 'rounded-full px-4 py-3' : 'px-2 py-1.5',
+          `flex min-w-[65px] flex-shrink-0 items-center justify-center whitespace-nowrap rounded-full transition-all`,
+          type === 'round' ? 'px-4 py-3' : 'px-2 py-1.5',
           buttonStyles,
         )}
         onClick={() => {
