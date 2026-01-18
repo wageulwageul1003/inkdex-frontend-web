@@ -45,6 +45,15 @@ import messageCircle from '@/public/icons/message-circle.svg';
 import moodEmpty from '@/public/icons/mood-empty.svg';
 import moreHoriz from '@/public/icons/more_horiz.svg';
 import note from '@/public/icons/note.svg';
+import number01 from '@/public/icons/number-01.svg';
+import number02 from '@/public/icons/number-02.svg';
+import number03 from '@/public/icons/number-03.svg';
+import number04 from '@/public/icons/number-04.svg';
+import number05 from '@/public/icons/number-05.svg';
+import number06 from '@/public/icons/number-06.svg';
+import number07 from '@/public/icons/number-07.svg';
+import number08 from '@/public/icons/number-08.svg';
+import number09 from '@/public/icons/number-09.svg';
 import person from '@/public/icons/person.svg';
 import photo from '@/public/icons/photo.svg';
 import plus from '@/public/icons/plus.svg';
@@ -120,4 +129,13 @@ export const Icons = {
   question,
   mail,
   speakerphone,
+  number01,
+  number02,
+  number03,
+  number04,
+  number05,
+  number06,
+  number07,
+  number08,
+  number09,
 };
