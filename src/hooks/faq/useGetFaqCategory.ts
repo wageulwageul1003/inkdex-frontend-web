@@ -5,28 +5,28 @@ import { IConstant } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface IFaqCategoryResponse {
-  uuid: string;
-  label: string;
+  codeGroup: string;
+  code: string;
+  name: string;
+  description: string;
+  sortOrder: number;
 }
 
-export const GetFaqCategory = async (
-  constFaqType: string,
-): Promise<IConstant[]> => {
-  const data = await agent(`/api/faq/category-list/${constFaqType}`, {
+export const GetFaqCategory = async (): Promise<IConstant[]> => {
+  const data = await agent(`/api/v1/faqs/categories`, {
     method: 'GET',
   });
 
   // Transform the data to the required format
-  return data.data.map((item: IFaqCategoryResponse) => ({
-    label: item.label,
-    value: item.uuid,
+  return data.data.content.map((item: IFaqCategoryResponse) => ({
+    label: item.name,
+    value: item.code,
     disabled: false,
   }));
 };
 
-export const useGetFaqCategory = (constFaqType: string) =>
+export const useGetFaqCategory = () =>
   useQuery({
-    queryKey: [faqCategoryKey, constFaqType],
-    queryFn: () => GetFaqCategory(constFaqType),
-    enabled: !!constFaqType,
+    queryKey: [faqCategoryKey],
+    queryFn: () => GetFaqCategory(),
   });

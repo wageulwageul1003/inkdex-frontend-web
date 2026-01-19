@@ -22,16 +22,14 @@ type TFaqListParams = {
   page?: string;
   size?: string;
   searchKeyword?: string;
-  constFaqType?: string;
-  faqCategoryName?: string;
+  categoryCode?: string;
 };
 
 export const FaqListScheme = z.object({
   page: z.string().optional(),
   size: z.string().optional(),
   searchKeyword: z.string().optional(),
-  constFaqType: z.string().optional(),
-  faqCategoryName: z.string().optional(),
+  categoryCode: z.string().optional(),
 });
 
 export const GetFaqList = async (
@@ -44,11 +42,9 @@ export const GetFaqList = async (
     queryParams.append('searchKeyword', params.searchKeyword);
   if (params.page) queryParams.append('page', String(Number(params.page) - 1));
   if (params.size) queryParams.append('size', params.size);
-  if (params.faqCategoryName)
-    queryParams.append('faqCategoryName', params.faqCategoryName);
 
   // Construct the URL
-  const url = `/api/v1/faqs?${queryParams.toString()}`;
+  const url = `/api/v1/faqs/${params.categoryCode}?${queryParams.toString()}`;
 
   const data = await agent(url, {
     method: 'GET',

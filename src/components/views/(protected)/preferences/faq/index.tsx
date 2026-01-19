@@ -1,76 +1,70 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useMemo, useState } from 'react';
 
+import Chips from '@/components/shared/chips';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
+import { useGetFaqCategory } from '@/hooks/faq/useGetFaqCategory';
 import { useGetFaqList } from '@/hooks/faq/useGetFaqList';
-
-// import { useRouter, useSearchParams } from 'next/navigation';
-// import { useState } from 'react';
-
-// import { FaqItem } from './_components/FaqItem';
-
-// import { useGetFaqList } from '@/hook/faq/useGetFaqList';
 
 export const FaqComponent = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  // const faqCategoryName = searchParams.get('faqCategoryName') || undefined;
-  const { data: faqListData } = useGetFaqList({
-    constFaqType: 'support',
-  });
 
-  // const [openItemId, setOpenItemId] = useState<string | null>(null);
+  const [openItemId, setOpenItemId] = useState<string | null>(null);
 
   // FAQ 카테고리
-  //   const { constants: faqSupport } = useSpecificConstant('const_faq_support');
+  const { data: faqCategory } = useGetFaqCategory();
 
   // "전체" 카테고리를 추가한 카테고리 목록
-  //   const categoryList = useMemo(() => {
-  //     if (!faqSupport) return [];
-  //     return [
-  //       {
-  //         label: '전체',
-  //         value: '전체',
-  //         disabled: false,
-  //       },
-  //       ...faqSupport,
-  //     ];
-  //   }, [faqSupport]);
+  const categoryList = useMemo(() => {
+    if (!faqCategory) return [];
+    return [
+      {
+        label: '전체',
+        value: 'all',
+        disabled: false,
+      },
+      ...faqCategory,
+    ];
+  }, [faqCategory]);
 
-  // const initialCategory = searchParams.get('faqCategoryName') || '전체';
-  // const [selectedCategory, setSelectedCategory] =
-  //   useState<string>(initialCategory);
+  const initialCategory = searchParams.get('faqCategory') || 'all';
+  const [selectedCategory, setSelectedCategory] =
+    useState<string>(initialCategory);
 
-  // const handleCategory = (item: string | string[]) => {
-  //   if (typeof item === 'string') {
-  //     setSelectedCategory(item);
-  //     updateUrlParams(item);
-  //   }
-  // };
+  const { data: faqListData } = useGetFaqList({
+    categoryCode: selectedCategory,
+  });
 
-  // const updateUrlParams = (item: string) => {
-  //   const params = new URLSearchParams(searchParams.toString());
+  const handleCategory = (item: string | string[]) => {
+    if (typeof item === 'string') {
+      setSelectedCategory(item);
+      updateUrlParams(item);
+    }
+  };
 
-  //   // Process category parameter
-  //   if (item === '전체') {
-  //     params.delete('faqCategoryName');
-  //   } else {
-  //     params.set('faqCategoryName', item);
-  //   }
+  const updateUrlParams = (item: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (item === 'all') {
+      params.delete('categoryCode');
+    } else {
+      params.set('categoryCode', item);
+    }
 
-  //   router.push(`?${params.toString()}`);
-  // };
+    router.push(`?${params.toString()}`);
+  };
 
-  // const handleToggle = (id: string) => {
-  //   if (openItemId === id) {
-  //     setOpenItemId(null);
-  //   } else {
-  //     setOpenItemId(id);
-  //   }
-  // };
+  const handleToggle = (id: string) => {
+    if (openItemId === id) {
+      setOpenItemId(null);
+    } else {
+      setOpenItemId(id);
+    }
+  };
 
   return (
     <div className="flex w-full flex-col px-4">
@@ -106,16 +100,15 @@ export const FaqComponent = () => {
       <div className="mt-8">
         <p className="font-m-1 text-black">자주 묻는 질문</p>
 
-        {/* <div className="mt-2">
-        <div className="flex-1 overflow-hidden">
+        <div className="flex gap-2 overflow-x-auto px-4 py-2">
           <Chips
             items={categoryList}
             variant="single"
             selected={selectedCategory}
             onChange={handleCategory}
+            type="text"
           />
         </div>
-      </div> */}
 
         {/* <div className="flex flex-col gap-1">
           {faqListData?.data.content.map((item, index) => (
