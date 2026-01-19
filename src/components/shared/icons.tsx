@@ -6,6 +6,7 @@ import arrowLeftAlt from '@/public/icons/arrow_left_alt.svg';
 import arrowRightAlt from '@/public/icons/arrow_right_alt.svg';
 import arrowsSort from '@/public/icons/arrows-sort.svg';
 import asterisk from '@/public/icons/asterisk.svg';
+import attachFile from '@/public/icons/attach_file.svg';
 import bell from '@/public/icons/bell.svg';
 import bookmark from '@/public/icons/bookmark.svg';
 import bookmark_fill from '@/public/icons/bookmark_fill.svg';
@@ -41,6 +42,7 @@ import keyboardArrowLeft from '@/public/icons/keyboard_arrow_left.svg';
 import keyboardArrowRight from '@/public/icons/keyboard_arrow_right.svg';
 import keyboardArrowUp from '@/public/icons/keyboard_arrow_up.svg';
 import mail from '@/public/icons/mail.svg';
+import messageCircleQuestion from '@/public/icons/message-circle-question.svg';
 import messageCircle from '@/public/icons/message-circle.svg';
 import moodEmpty from '@/public/icons/mood-empty.svg';
 import moreHoriz from '@/public/icons/more_horiz.svg';
@@ -138,4 +140,6 @@ export const Icons = {
   number07,
   number08,
   number09,
+  messageCircleQuestion,
+  attachFile,
 };

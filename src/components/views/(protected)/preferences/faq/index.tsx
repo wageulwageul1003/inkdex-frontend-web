@@ -80,7 +80,7 @@ export const FaqComponent = () => {
 
       {/* 1:1 문의하기 연결 */}
       <div className="px-4 py-5">
-        <Icons.messageCircle className="size-6 fill-black" />
+        <Icons.messageCircleQuestion className="size-6 fill-black" />
         <p className="font-m-1 mt-2 text-black">
           원하시는 답변을 찾지 못하셨나요?
         </p>
