@@ -110,7 +110,7 @@ export const AccountComponent = () => {
           <Button
             variant="buttonIconTextOnly"
             size="buttonIconMedium"
-            onClick={() => router.push('/preferences/account/password')}
+            onClick={() => router.push('/preferences/account/set-password')}
           >
             <Icons.keyboardArrowRight className="size-6 fill-gray-08" />
           </Button>
