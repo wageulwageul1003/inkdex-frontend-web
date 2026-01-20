@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { TResetPasswordSchema } from '@/components/views/(no-protected)/reset-password/schema';
+import { TResetPasswordSchema } from '@/components/views/(no-protected)/find-password/schema';
 import { resetPasswordKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 

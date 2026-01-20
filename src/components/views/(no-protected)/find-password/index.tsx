@@ -15,7 +15,7 @@ import { Form } from '@/components/ui/form';
 import { usePostResetPassword } from '@/hooks/auth/usePostResetPassword';
 import { ErrorData } from '@/utils/fetch';
 
-const ResetPassword = () => {
+const FindPasswordComponent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { mutateAsync: postResetPassword } = usePostResetPassword();
@@ -127,4 +127,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default FindPasswordComponent;
