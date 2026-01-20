@@ -1,16 +1,22 @@
 'use client';
 
+import Cookies from 'js-cookie';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
+import { CustomAlertDialog } from '@/components/shared/custom-alert-dialog';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
+import { ACCESS_TOKEN, USER_ID } from '@/constants/tokens';
+import { usePostLogout } from '@/hooks/auth/usePostLogout';
 import { cn } from '@/lib/utils';
 
 export const AccountComponent = () => {
   const router = useRouter();
+  const { mutateAsync: postLogout } = usePostLogout();
+  const [logoutAlertOpen, setLogoutAlertOpen] = React.useState(false);
 
   const LoginMethod = [
     {
@@ -32,6 +38,17 @@ export const AccountComponent = () => {
       access: true,
     },
   ];
+
+  const handleLogout = () => {
+    try {
+      postLogout();
+      Cookies.remove(ACCESS_TOKEN);
+      Cookies.remove(USER_ID);
+      router.push('/login');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="flex w-full flex-col px-4">
@@ -107,7 +124,7 @@ export const AccountComponent = () => {
             <Button
               variant="buttonIconTextOnly"
               size="buttonIconMedium"
-              onClick={() => router.push('/preferences/account/logout')}
+              onClick={() => setLogoutAlertOpen(true)}
             >
               <Icons.keyboardArrowRight className="size-6 fill-gray-08" />
             </Button>
@@ -126,6 +143,16 @@ export const AccountComponent = () => {
           </div>
         </div>
       </div>
+
+      <CustomAlertDialog
+        isOpen={logoutAlertOpen}
+        onOpenChange={setLogoutAlertOpen}
+        title="로그아웃 하시겠습니까?"
+        cancelText="아니오"
+        confirmText="예"
+        onConfirm={() => handleLogout()}
+        type="warning"
+      ></CustomAlertDialog>
     </div>
   );
 };
