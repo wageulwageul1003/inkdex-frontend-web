@@ -1,5 +1,5 @@
-import { EditProfileComponent } from '@/components/views/(protected)/mypage/edit-profile';
+import { SetPasswordComponent } from '@/components/views/(protected)/preferences/account/set-password';
 
-export default function EditProfile() {
-  return <EditProfileComponent />;
+export default function SetPasswordPage() {
+  return <SetPasswordComponent />;
 }

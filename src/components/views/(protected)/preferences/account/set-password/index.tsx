@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { usePostSetPassword } from '@/hooks/auth/usePostSetPassword';
 
-export const CurrentPasswordComponent = () => {
+export const SetPasswordComponent = () => {
   const router = useRouter();
 
   const { mutateAsync: setPassword } = usePostSetPassword();
@@ -50,15 +50,34 @@ export const CurrentPasswordComponent = () => {
         title={<span className="font-m-1 text-black">비밀번호 설정</span>}
       />
 
-      <p className="font-l-1 mt-4 text-black">기존 비밀번호를 입력해주세요.</p>
+      <div className="mt-4 flex gap-1 rounded-lg bg-gray-01 px-3 py-2">
+        <Icons.infoFill className="size-4 fill-sand-07" />
+        <p className="font-xs-2 text-gray-07">
+          비밀번호가 설정되어 있지 않습니다. <br />
+          비밀번호 설정 시 이메일을 통해 로그인이 가능합니다.
+        </p>
+      </div>
+
+      <p className="font-l-1 mt-8 text-black">비밀번호를 입력해주세요.</p>
+      <p className="font-xs-2 mt-3 text-gray-06">
+        비밀번호는 8~20자 이내로, <br />
+        영문·숫자·특수문자를 모두 포함해야 합니다.
+      </p>
 
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit, (errors) => {
             console.log('Validation Errors:', errors);
           })}
-          className="mt-[34px] flex flex-1 flex-col"
+          className="mt-[34px] flex flex-1 flex-col gap-2"
         >
+          <FormFields
+            fieldType={FormFieldType.PASSWORD}
+            control={form.control}
+            name="password"
+            placeholder="비밀번호를 입력해주세요"
+          />
+
           <FormFields
             fieldType={FormFieldType.PASSWORD}
             control={form.control}
@@ -75,7 +94,7 @@ export const CurrentPasswordComponent = () => {
           variant="contained"
           className="w-full"
         >
-          다음
+          완료
         </Button>
       </div>
     </div>
