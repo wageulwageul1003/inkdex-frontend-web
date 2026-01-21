@@ -8,6 +8,11 @@ import { RemindTime } from './_components/RemindTime';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Switch } from '@/components/ui/switch';
+import {
+  INotificationSettingResponse,
+  useGetNotificationSetting,
+} from '@/hooks/notification/useGetNotificationSetting';
+import { usePatchNotificationSetting } from '@/hooks/notification/usePatchNotificationSetting';
 import { cn } from '@/lib/utils';
 
 const PUSH_SETTINGS = [
@@ -43,6 +48,13 @@ export const PushSettingComponent = () => {
   const router = useRouter();
   const [selectedRemindTime, setSelectedRemindTime] = useState<string>('09:00');
 
+  const { data: notificationSetting } = useGetNotificationSetting();
+  const { mutate: patchNotificationSetting } = usePatchNotificationSetting();
+
+  const handleSwitchChange = (checked: boolean, name: string) => {
+    patchNotificationSetting({ [name]: checked });
+  };
+
   return (
     <div className="flex flex-1 flex-col bg-white px-4">
       <Header
@@ -74,7 +86,16 @@ export const PushSettingComponent = () => {
                   className="flex items-center justify-between"
                 >
                   <span className="font-s-2 text-black">{item.label}</span>
-                  <Switch />
+                  <Switch
+                    checked={
+                      notificationSetting?.[
+                        item.name as keyof INotificationSettingResponse
+                      ] ?? false
+                    }
+                    onCheckedChange={(checked) => {
+                      handleSwitchChange(checked, item.name);
+                    }}
+                  />
                 </div>
               ))}
             </div>
