@@ -8,6 +8,7 @@ import {
   Path,
 } from 'react-hook-form';
 
+import FileUploader from './file-uploader';
 import Keywords from './keywords';
 
 import Checkbox from '@/components/ui/checkbox';
@@ -145,6 +146,7 @@ interface CustomProps<T extends FieldValues> {
 
   // image uploader props
   maxFiles?: number;
+  maxSizeInMB?: number;
   accept?: string[];
   aspectRatio?: number;
 
@@ -344,6 +346,23 @@ export const InputField = <T extends FieldValues>({
           disabled={props.disabled}
           checked={field.value}
           onCheckedChange={field.onChange}
+        />
+      );
+
+    // FILE UPLOAD INPUT
+    case FormFieldType.FILE:
+      return (
+        <FileUploader
+          field={field}
+          message={props.message!}
+          placeholder={props.placeholder!}
+          label={props.label}
+          accept={props.accept}
+          maxFiles={props.maxFiles}
+          maxSizeInMB={props.maxSizeInMB}
+          id={formItemId}
+          error={error}
+          {...props}
         />
       );
 

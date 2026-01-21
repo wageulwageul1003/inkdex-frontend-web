@@ -65,12 +65,22 @@ export const InquiryComponent = () => {
                 placeholder="내용을 작성해주세요."
                 maxCharacters={1000}
               />
+
+              <FormFields
+                fieldType={FormFieldType.FILE}
+                control={form.control}
+                maxFiles={5}
+                maxSizeInMB={10}
+                name="files"
+                label="첨부 파일"
+                placeholder="첨부 파일을 선택해주세요."
+              />
             </div>
           </form>
         </Form>
       </div>
 
-      <div className="pb-4">
+      <div className="mt-16 pb-4">
         <Button
           onClick={form.handleSubmit(onSubmit)}
           size="lg"
