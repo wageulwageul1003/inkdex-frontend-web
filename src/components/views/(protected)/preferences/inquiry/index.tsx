@@ -53,9 +53,8 @@ export const InquiryComponent = () => {
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
                 name="title"
-                label="제목"
-                placeholder="제목을 입력해주세요."
-                maxCharacters={100}
+                label="답변 받을 이메일"
+                placeholder="이메일을 입력해주세요."
               />
 
               <FormFields
