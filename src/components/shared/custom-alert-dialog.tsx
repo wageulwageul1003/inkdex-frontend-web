@@ -10,7 +10,6 @@ import {
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogFooter,
-  AlertDialogHeader,
 } from '@/components/ui/alert-dialog';
 
 interface CustomAlertDialogProps {
@@ -44,11 +43,9 @@ export const CustomAlertDialog = ({
   return (
     <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
       <AlertDialogContent>
-        <AlertDialogHeader></AlertDialogHeader>
-
         <div className="flex flex-col items-center gap-1">
           {type === 'warning' && (
-            <Icons.emergencyHomeFill className="size-5 fill-gray-05" />
+            <Icons.emergencyHomeFill className="size-6 fill-gray-05" />
           )}
           <p className="font-m-1 text-black">{title}</p>
 
