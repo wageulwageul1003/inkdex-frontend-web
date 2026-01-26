@@ -57,12 +57,16 @@ export const CustomAlertDialog = ({
         </div>
 
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => onOpenChange(false)}>
-            {cancelText}
-          </AlertDialogCancel>
-          <AlertDialogAction onClick={handleConfirm}>
+          <AlertDialogAction onClick={handleConfirm} className="flex-1">
             {confirmText}
           </AlertDialogAction>
+
+          <AlertDialogCancel
+            onClick={() => onOpenChange(false)}
+            className="flex-1"
+          >
+            {cancelText}
+          </AlertDialogCancel>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
