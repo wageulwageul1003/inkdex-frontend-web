@@ -19,7 +19,7 @@ const PUSH_SETTINGS = [
   {
     name: 'remind',
     label: '리마인드 알림',
-    items: [{ name: 'remind', label: '리마인드 알림' }],
+    items: [{ name: 'remindEnabled', label: '리마인드 알림' }],
   },
   {
     name: 'myRecord',
