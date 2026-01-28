@@ -1,7 +1,6 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 
 import { RemindTime } from './_components/RemindTime';
 
@@ -9,7 +8,7 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Switch } from '@/components/ui/switch';
 import {
-  INotificationSettingResponse,
+  BooleanNotificationSettingKey,
   useGetNotificationSetting,
 } from '@/hooks/notification/useGetNotificationSetting';
 import { usePatchNotificationSetting } from '@/hooks/notification/usePatchNotificationSetting';
@@ -46,13 +45,19 @@ const PUSH_SETTINGS = [
 
 export const PushSettingComponent = () => {
   const router = useRouter();
-  const [selectedRemindTime, setSelectedRemindTime] = useState<string>('09:00');
 
   const { data: notificationSetting } = useGetNotificationSetting();
-  const { mutate: patchNotificationSetting } = usePatchNotificationSetting();
+  const { mutateAsync: patchNotificationSetting } =
+    usePatchNotificationSetting();
 
-  const handleSwitchChange = (checked: boolean, name: string) => {
-    patchNotificationSetting({ [name]: checked });
+  const handleSwitchChange = (
+    checked: boolean,
+    name: BooleanNotificationSettingKey,
+  ) => {
+    patchNotificationSetting({
+      slug: name,
+      booleanValue: checked,
+    });
   };
 
   return (
@@ -89,11 +94,14 @@ export const PushSettingComponent = () => {
                   <Switch
                     checked={
                       notificationSetting?.[
-                        item.name as keyof INotificationSettingResponse
+                        item.name as BooleanNotificationSettingKey
                       ] ?? false
                     }
                     onCheckedChange={(checked) => {
-                      handleSwitchChange(checked, item.name);
+                      handleSwitchChange(
+                        checked,
+                        item.name as BooleanNotificationSettingKey,
+                      );
                     }}
                   />
                 </div>
@@ -106,8 +114,7 @@ export const PushSettingComponent = () => {
                   리마인드 알림 시간 설정
                 </span>
                 <RemindTime
-                  selectedRemindTime={selectedRemindTime}
-                  setSelectedRemindTime={setSelectedRemindTime}
+                  selectedRemindTime={notificationSetting?.remindTime}
                 />
               </div>
             )}

@@ -1,11 +1,24 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { notificationSettingKey } from '@/constants/queryKeys';
-import { agent, ErrorData } from '@/utils/fetch';
+import { BooleanNotificationSettingKey } from './useGetNotificationSetting';
 
-interface PatchNotificationSettingParams {
-  [key: string]: boolean;
-}
+import {
+  notificationSettingKey,
+  notificationSettingListKey,
+} from '@/constants/queryKeys';
+import { agent } from '@/utils/fetch';
+
+type PatchNotificationSettingParams =
+  | {
+      slug: BooleanNotificationSettingKey;
+      booleanValue: boolean;
+      timeValue?: never;
+    }
+  | {
+      slug: 'remindTime';
+      timeValue: string;
+      booleanValue?: never;
+    };
 
 export const patchNotificationSetting = async (
   params: PatchNotificationSettingParams,
@@ -27,9 +40,9 @@ export const usePatchNotificationSetting = () => {
       await queryClient.invalidateQueries({
         queryKey: [notificationSettingKey],
       });
-    },
-    onError: (error: ErrorData) => {
-      console.error('알림 설정 업데이트 실패:', error);
+      await queryClient.invalidateQueries({
+        queryKey: [notificationSettingListKey],
+      });
     },
   });
 };

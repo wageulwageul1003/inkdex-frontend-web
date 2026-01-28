@@ -1,9 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { notificationSettingKey } from '@/constants/queryKeys';
+import { notificationSettingListKey } from '@/constants/queryKeys';
 import { agent } from '@/utils/fetch';
 
 export interface INotificationSettingResponse {
+  remindEnabled: boolean;
+  remindTime: string;
   commentEnabled: boolean;
   replyEnabled: boolean;
   postLikeEnabled: boolean;
@@ -12,6 +14,11 @@ export interface INotificationSettingResponse {
   bookmarkEnabled: boolean;
   marketingEnabled: boolean;
 }
+
+export type BooleanNotificationSettingKey = Exclude<
+  keyof INotificationSettingResponse,
+  'remindTime'
+>;
 
 export const GetNotificationSetting =
   async (): Promise<INotificationSettingResponse> => {
@@ -24,7 +31,7 @@ export const GetNotificationSetting =
 
 export const useGetNotificationSetting = () =>
   useQuery({
-    queryKey: [notificationSettingKey],
+    queryKey: [notificationSettingListKey],
     queryFn: () => GetNotificationSetting(),
     enabled: true,
   });
