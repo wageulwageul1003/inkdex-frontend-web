@@ -109,13 +109,19 @@ export const PushSettingComponent = () => {
             </div>
 
             {section.name === 'remind' && (
-              <div className="mt-4 flex items-center justify-between">
-                <span className="font-s-2 text-black">
-                  리마인드 알림 시간 설정
+              <div className="flex flex-col gap-1">
+                <div className="mt-4 flex items-center justify-between">
+                  <span className="font-s-2 text-black">
+                    리마인드 알림 시간 설정
+                  </span>
+                  <RemindTime
+                    selectedRemindTime={notificationSetting?.remindTime}
+                  />
+                </div>
+                <span className="font-s-2 rounded-lg bg-gray-01 px-4 py-2 text-gray-06">
+                  원하는 시간에 리마인드 알림을 설정할 수 있어요! <br />
+                  필사를 꾸준히 이어가는 데 도움이 돼요.
                 </span>
-                <RemindTime
-                  selectedRemindTime={notificationSetting?.remindTime}
-                />
               </div>
             )}
           </div>
