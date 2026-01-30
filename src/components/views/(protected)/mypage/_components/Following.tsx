@@ -34,6 +34,7 @@ export const Following = () => {
           return (
             <div className="flex w-full items-center gap-2" key={item.id}>
               <UserProfile
+                userId={item.id}
                 nickname={item.nickname}
                 nicknameSrc={item.profileImageUrl}
                 bio={item.nickname}

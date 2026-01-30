@@ -40,7 +40,7 @@ const MyPageComponent = ({ uuid }: MyPageProps) => {
       />
 
       <div className="mt-3 flex flex-1 flex-col">
-        <MyProfile isMyProfile={!uuid} />
+        <MyProfile uuid={uuid} />
         <Summary />
 
         <div className="flex flex-col gap-4">

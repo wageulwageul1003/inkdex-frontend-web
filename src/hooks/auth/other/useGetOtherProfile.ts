@@ -5,6 +5,7 @@ import { agent } from '@/utils/fetch';
 
 export interface IOtherProfileResponse {
   id: string;
+  bio: string;
   username: string;
   nickname: string;
   profileImageUrl: string;
@@ -26,4 +27,5 @@ export const useGetOtherProfile = (uuid: string) =>
   useQuery({
     queryKey: [myProfileKey, uuid],
     queryFn: () => GetOtherProfile(uuid),
+    enabled: !!uuid,
   });

@@ -6,14 +6,17 @@ import React from 'react';
 
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
+import { useGetOtherProfile } from '@/hooks/auth/other/useGetOtherProfile';
 import { useGetMyProfile } from '@/hooks/auth/useGetMyProfile';
 
 interface MyProfileProps {
-  isMyProfile?: boolean;
+  uuid?: string;
 }
 
-export const MyProfile = ({ isMyProfile }: MyProfileProps) => {
+export const MyProfile = ({ uuid }: MyProfileProps) => {
+  const isMyProfile = !uuid;
   const { data: myProfile } = useGetMyProfile();
+  const { data: otherProfile } = useGetOtherProfile(uuid || '');
   const router = useRouter();
 
   return (
@@ -29,7 +32,9 @@ export const MyProfile = ({ isMyProfile }: MyProfileProps) => {
         </div>
 
         <div className="flex flex-1 flex-col gap-1">
-          <span className="font-medium">{myProfile?.nickname}</span>
+          <span className="font-medium">
+            {isMyProfile ? myProfile?.nickname : otherProfile?.nickname}
+          </span>
           {isMyProfile && (
             <div className="flex items-center gap-2">
               <p
@@ -62,12 +67,18 @@ export const MyProfile = ({ isMyProfile }: MyProfileProps) => {
 
       {/* bio */}
       <div className="mt-4 px-3 py-2">
-        {myProfile?.bio ? (
-          <span className="font-xs-2 text-gray-08">{myProfile?.bio}</span>
+        {isMyProfile ? (
+          myProfile?.bio ? (
+            <span className="font-xs-2 text-gray-08">{myProfile?.bio}</span>
+          ) : (
+            <span className="font-xs-2 flex items-center gap-1 text-gray-05">
+              <Icons.moodEmpty className="size-4 fill-gray-03" /> 당신의 소개를
+              적어보세요.
+            </span>
+          )
         ) : (
-          <span className="font-xs-2 flex items-center gap-1 text-gray-05">
-            <Icons.moodEmpty className="size-4 fill-gray-03" /> 당신의 소개를
-            적어보세요.
+          <span className="font-xs-2 text-gray-08">
+            {otherProfile?.bio ?? '소개가 없습니다.'}
           </span>
         )}
       </div>

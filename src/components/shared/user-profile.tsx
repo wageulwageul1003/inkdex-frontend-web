@@ -54,7 +54,7 @@ export const UserProfile = ({
             className="relative h-9 w-9 overflow-hidden rounded-full border border-gray-03"
             onClick={() => {
               if (isMyProfile) router.push(`/my`);
-              else router.push(`/my/${publicId}`);
+              else router.push(`/my/${userId}`);
             }}
           >
             <Image

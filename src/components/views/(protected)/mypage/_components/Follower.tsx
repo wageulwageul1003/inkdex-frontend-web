@@ -35,6 +35,7 @@ export const Follower = () => {
             return (
               <div className="flex items-center gap-2" key={item.id}>
                 <UserProfile
+                  userId={item.id}
                   nickname={item.userName}
                   nicknameSrc={item.profileImageUrl}
                   bio={item.userName}
