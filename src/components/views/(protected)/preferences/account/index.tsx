@@ -10,12 +10,14 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { ACCESS_TOKEN, USER_ID } from '@/constants/tokens';
+import { useGetAccountInfo } from '@/hooks/auth/useGetAccountInfo';
 import { usePostLogout } from '@/hooks/auth/usePostLogout';
 import { cn } from '@/lib/utils';
 
 export const AccountComponent = () => {
   const router = useRouter();
   const { mutateAsync: postLogout } = usePostLogout();
+  const { data: accountInfo } = useGetAccountInfo();
   const [logoutAlertOpen, setLogoutAlertOpen] = React.useState(false);
 
   const LoginMethod = [

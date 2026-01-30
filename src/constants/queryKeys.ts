@@ -48,6 +48,7 @@ const deleteReportKey = 'deleteReportKey';
 const reportListKey = 'reportListKey';
 
 const myProfileKey = 'myProfileKey';
+const accountInfoKey = 'accountInfoKey';
 
 const deleteRecentSearchKeywordKey = 'deleteRecentSearchKeywordKey';
 const recentSearchKeywordsKey = 'recentSearchKeywordsKey';
@@ -112,6 +113,7 @@ export {
   deleteReportKey,
   reportListKey,
   myProfileKey,
+  accountInfoKey,
   deleteRecentSearchKeywordKey,
   recentSearchKeywordsKey,
   hotPostsListKey,
