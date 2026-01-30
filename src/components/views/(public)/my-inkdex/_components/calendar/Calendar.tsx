@@ -3,9 +3,6 @@ import dayjs from 'dayjs';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import React from 'react';
 
-import { Card } from '../../../home/_components/Card';
-
-import { Loading } from '@/components/shared/Loading';
 import { Button } from '@/components/ui/button';
 import { DialogTitle } from '@/components/ui/dialog';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
@@ -51,19 +48,12 @@ export const Calendar = () => {
   );
 
   const thumbnailMap = React.useMemo(() => {
-    if (!data?.data.content) return new Map<string, string>();
+    if (!data?.thumbnails) return new Map<string, string>();
 
     return new Map(
-      data.data.content.map((item) => [item.date, item.thumbnailUrl]),
+      data.thumbnails.map((item) => [item.date, item.thumbnailUrl]),
     );
   }, [data]);
-
-  const totalCount = React.useMemo(() => {
-    if (!data?.data.content) return 0;
-    return (
-      count?.data?.content?.reduce((acc, item) => acc + item.count, 0) ?? 0
-    );
-  }, [count]);
 
   return (
     <div className="w-full">
@@ -91,7 +81,7 @@ export const Calendar = () => {
         </div>
 
         <div className="flex items-center gap-1">
-          <span className="font-xs-2 text-gray-06">{totalCount}개</span>
+          <span className="font-xs-2 text-gray-06">{data?.counts ?? 0}개</span>
         </div>
       </div>
 
@@ -169,12 +159,13 @@ export const Calendar = () => {
                   <p>데이터 없음</p>
                 ) : (
                   <div className="mt-4 flex flex-col gap-4">
-                    {detailDatas?.content.map((item) => (
+                    {/* TODO: api 수정 후 구현 */}
+                    {/* {detailDatas?.content.map((item) => (
                       <Card key={item.id} item={item} />
                     ))}
                     <div ref={observerRef} className="flex h-1 justify-center">
                       {isFetchingNextPage && <Loading />}
-                    </div>
+                    </div> */}
                   </div>
                 )}
               </DrawerContent>

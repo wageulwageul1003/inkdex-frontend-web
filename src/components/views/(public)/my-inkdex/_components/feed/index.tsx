@@ -70,6 +70,8 @@ export const Feed = () => {
     { threshold: 0.1 },
   );
 
+  if (!data) return null;
+
   return (
     <div className="w-full">
       <div className="flex items-center gap-2 overflow-x-scroll px-4 py-2">
@@ -113,7 +115,14 @@ export const Feed = () => {
           </div>
         ) : (
           <>
-            {data?.content.map((item) => <Card key={item.id} item={item} />)}
+            {data?.content.map((item) => (
+              <div>
+                {item.yearMonth}
+                {item.posts.map((post) => (
+                  <Card key={post.id} item={post} />
+                ))}
+              </div>
+            ))}
             <div ref={observerRef} className="flex h-1 justify-center">
               {isFetchingNextPage && <Loading />}
             </div>

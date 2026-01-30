@@ -1,12 +1,15 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 import { myInkdexCalendarKey } from '@/constants/queryKeys';
-import { IResponse } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface IMyInkdexCalendarResponse {
-  date: string;
-  thumbnailUrl: string;
+  counts: number; // 전체 데이터 개수
+  thumbnails: {
+    date: string;
+    thumbnailUrl: string;
+    count: number;
+  }[];
 }
 
 type TGetMyInkdexCalendarParams = {
@@ -16,7 +19,7 @@ type TGetMyInkdexCalendarParams = {
 
 export const GetMyInkdexCalendar = async (
   params: TGetMyInkdexCalendarParams,
-): Promise<IResponse<IMyInkdexCalendarResponse>> => {
+): Promise<IMyInkdexCalendarResponse> => {
   const data = await agent(
     `/api/v1/me/posts/calendar?year=${params.year}&month=${params.month}`,
     {
@@ -24,12 +27,12 @@ export const GetMyInkdexCalendar = async (
     },
   );
 
-  return data;
+  return data.data.content;
 };
 
 export const useGetMyInkdexCalendar = (
   params: TGetMyInkdexCalendarParams,
-): UseQueryResult<IResponse<IMyInkdexCalendarResponse>> =>
+): UseQueryResult<IMyInkdexCalendarResponse> =>
   useQuery({
     queryKey: [myInkdexCalendarKey, params],
     queryFn: () => GetMyInkdexCalendar(params),
