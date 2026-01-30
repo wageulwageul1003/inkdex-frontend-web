@@ -11,8 +11,13 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 
-const MyPageComponent = () => {
+interface MyPageProps {
+  uuid?: string;
+}
+
+const MyPageComponent = ({ uuid }: MyPageProps) => {
   const router = useRouter();
+
   return (
     <div className="flex w-full flex-col px-4">
       <Header
@@ -35,7 +40,7 @@ const MyPageComponent = () => {
       />
 
       <div className="mt-3 flex flex-1 flex-col">
-        <MyProfile />
+        <MyProfile isMyProfile={!uuid} />
         <Summary />
 
         <div className="flex flex-col gap-4">

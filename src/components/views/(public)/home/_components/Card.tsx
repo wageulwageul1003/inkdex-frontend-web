@@ -69,6 +69,7 @@ export const Card = ({ item }: { item: IPostListResponse }) => {
       window.removeEventListener('resize', checkOverflow);
     };
   }, [expanded, item.content]);
+
   return (
     <div className="flex flex-col gap-4">
       <UserProfile

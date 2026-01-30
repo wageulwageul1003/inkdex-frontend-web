@@ -116,7 +116,7 @@ export const Feed = () => {
         ) : (
           <>
             {data?.content.map((item) => (
-              <div>
+              <div key={item.yearMonth}>
                 {item.yearMonth}
                 {item.posts.map((post) => (
                   <Card key={post.id} item={post} />

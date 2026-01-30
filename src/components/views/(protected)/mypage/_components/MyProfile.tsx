@@ -8,7 +8,11 @@ import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { useGetMyProfile } from '@/hooks/auth/useGetMyProfile';
 
-export const MyProfile = () => {
+interface MyProfileProps {
+  isMyProfile?: boolean;
+}
+
+export const MyProfile = ({ isMyProfile }: MyProfileProps) => {
   const { data: myProfile } = useGetMyProfile();
   const router = useRouter();
 
@@ -26,30 +30,34 @@ export const MyProfile = () => {
 
         <div className="flex flex-1 flex-col gap-1">
           <span className="font-medium">{myProfile?.nickname}</span>
-          <div className="flex items-center gap-2">
-            <p
-              className="font-s-2 flex items-center gap-1 text-gray-09"
-              onClick={() => router.push('/my/follower')}
-            >
-              팔로워
-              <span className="font-s-1">{myProfile?.followerCount}</span>
-            </p>
-            <p
-              className="font-s-2 flex items-center gap-1 text-gray-09"
-              onClick={() => router.push('/my/following')}
-            >
-              팔로잉
-              <span className="font-s-1">{myProfile?.followingCount}</span>
-            </p>
-          </div>
+          {isMyProfile && (
+            <div className="flex items-center gap-2">
+              <p
+                className="font-s-2 flex items-center gap-1 text-gray-09"
+                onClick={() => router.push('/my/follower')}
+              >
+                팔로워
+                <span className="font-s-1">{myProfile?.followerCount}</span>
+              </p>
+              <p
+                className="font-s-2 flex items-center gap-1 text-gray-09"
+                onClick={() => router.push('/my/following')}
+              >
+                팔로잉
+                <span className="font-s-1">{myProfile?.followingCount}</span>
+              </p>
+            </div>
+          )}
         </div>
-        <Button
-          variant="buttonIconOutline"
-          size="buttonIconMedium"
-          onClick={() => router.push('/edit-profile')}
-        >
-          <Icons.edit className="size-6" />
-        </Button>
+        {isMyProfile && (
+          <Button
+            variant="buttonIconOutline"
+            size="buttonIconMedium"
+            onClick={() => router.push('/edit-profile')}
+          >
+            <Icons.edit className="size-6" />
+          </Button>
+        )}
       </div>
 
       {/* bio */}

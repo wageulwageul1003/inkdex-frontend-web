@@ -2,6 +2,7 @@
 
 import Cookies from 'js-cookie';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { Button } from '../ui/button';
@@ -31,6 +32,7 @@ export const UserProfile = ({
   following,
   isShowMore = true,
 }: UserProfileProps) => {
+  const router = useRouter();
   const isMyProfile = userId === Cookies.get(USER_ID);
   const [moreOpen, setMoreOpen] = useState(false);
   const { mutateAsync: postReport } = usePostReport();
@@ -48,7 +50,13 @@ export const UserProfile = ({
     <div className="flex w-full items-center gap-2">
       <div className="flex-1">
         <div className="flex gap-2">
-          <div className="relative h-9 w-9 overflow-hidden rounded-full border border-gray-03">
+          <div
+            className="relative h-9 w-9 overflow-hidden rounded-full border border-gray-03"
+            onClick={() => {
+              if (isMyProfile) router.push(`/my`);
+              else router.push(`/my/${publicId}`);
+            }}
+          >
             <Image
               src={nicknameSrc || '/default-profile.png'}
               alt="profile"
