@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
-import { CurrentPasswordSchema, TCurrentPasswordSchema } from './schema';
+import { CurrentPasswordSchema, TCurrentPasswordSchema } from '../schema';
 
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
