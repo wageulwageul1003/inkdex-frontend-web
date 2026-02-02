@@ -37,8 +37,8 @@ export const Following = () => {
                 userId={item.id}
                 nickname={item.nickname}
                 nicknameSrc={item.profileImageUrl}
-                bio={item.nickname}
-                following={true}
+                bio={item.bio}
+                following={item.following}
                 isShowMore={false}
               />
             </div>

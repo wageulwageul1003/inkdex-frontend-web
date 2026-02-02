@@ -9,6 +9,8 @@ export interface IFollowerListResponse {
   userName: string;
   nickname: string;
   profileImageUrl: string;
+  following: boolean;
+  bio: string;
 }
 
 // PARAMS TYPE

@@ -36,10 +36,10 @@ export const Follower = () => {
               <div className="flex items-center gap-2" key={item.id}>
                 <UserProfile
                   userId={item.id}
-                  nickname={item.userName}
+                  nickname={item.nickname}
                   nicknameSrc={item.profileImageUrl}
-                  bio={item.userName}
-                  following={true}
+                  bio={item.bio}
+                  following={item.following}
                   isShowMore={true}
                 />
               </div>
