@@ -11,24 +11,24 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { usePostSetPassword } from '@/hooks/auth/usePostSetPassword';
+import { usePostCheckCurrentPassword } from '@/hooks/auth/usePostCheckCurrentPassword';
 
 export const CurrentPasswordComponent = () => {
   const router = useRouter();
 
-  const { mutateAsync: setPassword } = usePostSetPassword();
+  const { mutateAsync: checkCurrentPassword } = usePostCheckCurrentPassword();
 
   const form = useForm({
     resolver: zodResolver(CurrentPasswordSchema),
     mode: 'onChange',
     defaultValues: {
-      password: '',
+      currentPassword: '',
     },
   });
 
   const onSubmit = async (data: TCurrentPasswordSchema) => {
     try {
-      await setPassword({
+      await checkCurrentPassword({
         ...data,
       }).then(() => {
         router.push('/preferences/account/set-password');
@@ -62,7 +62,7 @@ export const CurrentPasswordComponent = () => {
           <FormFields
             fieldType={FormFieldType.PASSWORD}
             control={form.control}
-            name="password"
+            name="currentPassword"
             placeholder="비밀번호를 입력해주세요"
           />
         </form>
