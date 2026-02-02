@@ -142,7 +142,7 @@ export const AccountComponent = () => {
           <div
             className={`flex items-center justify-between border-b border-gray-01 py-2`}
           >
-            <p className="font-m-2 text-gray-09">회원탈퇴</p>
+            <p className="font-m-2 text-gray-09">회원 탈퇴</p>
             <Button
               variant="buttonIconTextOnly"
               size="buttonIconMedium"

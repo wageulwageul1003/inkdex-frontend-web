@@ -11,3 +11,9 @@ export const SetPasswordSchema = z.object({
 });
 
 export type TSetPasswordSchema = z.infer<typeof SetPasswordSchema>;
+
+export const DeleteAccountSchema = z.object({
+  reason: z.string().min(1, '탈퇴 사유를 입력해주세요'),
+});
+
+export type TDeleteAccountSchema = z.infer<typeof DeleteAccountSchema>;

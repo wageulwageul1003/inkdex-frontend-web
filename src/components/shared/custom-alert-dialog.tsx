@@ -19,6 +19,7 @@ interface CustomAlertDialogProps {
   description?: ReactNode;
   cancelText?: string;
   confirmText?: string;
+  onCancel?: () => void;
   onConfirm?: () => void;
   type?: 'warning' | 'error' | 'success';
 }
@@ -30,6 +31,7 @@ export const CustomAlertDialog = ({
   description,
   cancelText = '취소',
   confirmText = '확인',
+  onCancel,
   onConfirm,
   type = 'warning',
 }: CustomAlertDialogProps) => {
@@ -62,7 +64,10 @@ export const CustomAlertDialog = ({
           </AlertDialogAction>
 
           <AlertDialogCancel
-            onClick={() => onOpenChange(false)}
+            onClick={() => {
+              onOpenChange(false);
+              onCancel?.();
+            }}
             className="flex-1"
           >
             {cancelText}

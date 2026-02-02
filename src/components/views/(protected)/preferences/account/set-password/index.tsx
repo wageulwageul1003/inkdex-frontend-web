@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
-import { CurrentPasswordSchema, TCurrentPasswordSchema } from './schema';
+import { SetPasswordSchema, TSetPasswordSchema } from '../schema';
 
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
@@ -19,14 +19,14 @@ export const SetPasswordComponent = () => {
   const { mutateAsync: setPassword } = usePostSetPassword();
 
   const form = useForm({
-    resolver: zodResolver(CurrentPasswordSchema),
+    resolver: zodResolver(SetPasswordSchema),
     mode: 'onChange',
     defaultValues: {
       password: '',
     },
   });
 
-  const onSubmit = async (data: TCurrentPasswordSchema) => {
+  const onSubmit = async (data: TSetPasswordSchema) => {
     try {
       await setPassword({
         ...data,
