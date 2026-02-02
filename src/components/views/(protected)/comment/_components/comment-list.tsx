@@ -9,8 +9,6 @@ import {
 } from '@/hooks/comment/useGetCommentList';
 import { useGetCommentReplyList } from '@/hooks/comment/useGetCommentReplyList';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
-import { useDeleteCommentLike } from '@/hooks/posts/like/useDeleteCommentLike';
-import { usePostCommentLike } from '@/hooks/posts/like/usePostCommentLike';
 
 interface TProps {
   item: ICommentListResponse;
@@ -24,10 +22,6 @@ const CommentList: FC<TProps> = ({
   setSelectedComment,
 }) => {
   const [showMoreReplies, setShowMoreReplies] = useState(false);
-
-  // 좋아요
-  const { mutateAsync: postCommentLike } = usePostCommentLike();
-  const { mutateAsync: deleteCommentLike } = useDeleteCommentLike();
 
   const {
     data: commentReplyData,

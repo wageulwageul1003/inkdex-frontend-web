@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import Cookies from 'js-cookie';
+import Image from 'next/image';
 import { FC, useState } from 'react';
 
 import { Divider } from '@/components/shared/divider';
@@ -52,16 +53,16 @@ const CommentItem: FC<TProps> = ({ item, setSelectedComment, variant }) => {
     <div className="flex flex-col gap-2">
       <div className="flex w-full items-center gap-2">
         <div className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-03">
-          {/* <Image
-                    src={item.nick || '/default-profile.png'}
-                    alt=""
-                    width={16}
-                    height={16}
-                  /> */}
+          <Image
+            src={item.profileImageUrl || '/default-profile.png'}
+            alt=""
+            width={16}
+            height={16}
+          />
         </div>
         <div className="flex flex-1 flex-col gap-1">
           <div className="flex flex-1 gap-1">
-            <p className="font-s-1 text-gray-09">{item.likesCount}</p>
+            <p className="font-s-1 text-gray-09">{item.nickname}</p>
             {isMyComment && (
               <p className="border-gra-03 font-xs-2 h-fit w-fit rounded-sm border px-1 py-[2px] text-gray-05">
                 작성자

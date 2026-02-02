@@ -6,6 +6,8 @@ import { agent } from '@/utils/fetch';
 
 export interface ICommentReplyListResponse {
   id: string;
+  nickname: string;
+  profileImageUrl: string;
   postId: string;
   userId: string;
   content: string;

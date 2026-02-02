@@ -6,6 +6,8 @@ import { agent } from '@/utils/fetch';
 
 export interface ICommentItemResponse {
   id: string;
+  nickname: string;
+  profileImageUrl: string;
   postId: string;
   userId: string;
   content: string;
@@ -18,6 +20,8 @@ export interface ICommentItemResponse {
 
 export interface ICommentListResponse {
   id: string;
+  nickname: string;
+  profileImageUrl: string;
   postId: string;
   userId: string;
   content: string;

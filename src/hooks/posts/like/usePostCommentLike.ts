@@ -1,7 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { commentListKey, likeKey } from '@/constants/queryKeys';
+import {
+  commentListKey,
+  commentReplyListKey,
+  likeKey,
+} from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 
 export const postCommentLike = async (params: { commentId: string }) => {
@@ -17,12 +21,16 @@ export const usePostCommentLike = () => {
   return useMutation({
     mutationFn: postCommentLike,
 
-    onSuccess: async (data) => {
+    onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [likeKey],
       });
+
       await queryClient.invalidateQueries({
-        queryKey: [commentListKey, data.commentId],
+        queryKey: [commentListKey],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: [commentReplyListKey],
       });
     },
     onError: (error: ErrorData) => {},
