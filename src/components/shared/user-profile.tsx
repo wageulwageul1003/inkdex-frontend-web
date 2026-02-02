@@ -65,7 +65,7 @@ export const UserProfile = ({
             />
           </div>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col justify-center">
             <p className="font-s-1 text-gray-09">{nickname}</p>
             {bio && <p className="font-xs-2 text-gray-06">{bio}</p>}
           </div>
