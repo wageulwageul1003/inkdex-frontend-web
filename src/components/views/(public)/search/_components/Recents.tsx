@@ -3,11 +3,13 @@
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { useDeleteSearchKeyword } from '@/hooks/search/useDeleteSearchKeyword';
+import { useDeleteSearchKeywordAll } from '@/hooks/search/useDeleteSearchKeywordAll';
 import { useGetRecentSearchKeywords } from '@/hooks/search/useGetRecentSearchKeywords';
 
 export const Recents = () => {
   const { data: recentItems } = useGetRecentSearchKeywords();
   const { mutateAsync: deleteSearchKeyword } = useDeleteSearchKeyword();
+  const { mutateAsync: deleteSearchKeywordAll } = useDeleteSearchKeywordAll();
 
   return (
     <div className="flex flex-col gap-4">
@@ -19,6 +21,7 @@ export const Recents = () => {
               variant="buttonText"
               size="buttonText"
               className="font-xs-2 text-gray-08"
+              onClick={() => deleteSearchKeywordAll()}
             >
               전체 삭제
             </Button>
