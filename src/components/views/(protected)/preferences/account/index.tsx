@@ -52,6 +52,14 @@ export const AccountComponent = () => {
     }
   };
 
+  const handleSetPassword = () => {
+    if (accountInfo?.hasPassword) {
+      router.push('/preferences/account/current-password');
+    } else {
+      router.push('/preferences/account/set-password');
+    }
+  };
+
   return (
     <div className="flex w-full flex-col px-4">
       <Header
@@ -112,7 +120,7 @@ export const AccountComponent = () => {
           <Button
             variant="buttonIconTextOnly"
             size="buttonIconMedium"
-            onClick={() => router.push('/preferences/account/set-password')}
+            onClick={handleSetPassword}
           >
             <Icons.keyboardArrowRight className="size-6 fill-gray-08" />
           </Button>
