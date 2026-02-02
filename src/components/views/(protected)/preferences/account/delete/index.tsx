@@ -13,18 +13,24 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import { useDeleteAccount } from '@/hooks/auth/useDeleteAccount';
 
 export const AccountDeleteComponent = () => {
   const router = useRouter();
   const [deleteAlertOpen, setDeleteAlertOpen] = React.useState(false);
+  const { mutateAsync: deleteAccount } = useDeleteAccount();
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    deleteAccount().then(() => {
+      router.push('/');
+    });
+  };
 
   const form = useForm({
     resolver: zodResolver(DeleteAccountSchema),
     mode: 'onChange',
     defaultValues: {
-      reason: '1',
+      reason: '',
     },
   });
 
