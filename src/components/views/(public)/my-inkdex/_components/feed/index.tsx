@@ -11,7 +11,10 @@ import { Icons } from '@/components/shared/icons';
 import { useGetCategoryList } from '@/hooks/category/useGetCategoryList';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { IPostListResponse } from '@/hooks/home/useGetPostsList';
-import { useGetMyInkdexFeedList } from '@/hooks/my-inkdex/useGetMyInkdexFeedList';
+import {
+  IMyInkdexFeedListResponse,
+  useGetMyInkdexFeedList,
+} from '@/hooks/my-inkdex/useGetMyInkdexFeedList';
 import { useGetPostsCount } from '@/hooks/my-inkdex/useGetPostsCount';
 import { IConstant } from '@/types/global';
 
@@ -73,6 +76,16 @@ export const Feed = () => {
 
   if (!data) return null;
 
+  const groupedByMonth = data?.content.reduce(
+    (acc, item) => {
+      const key = item.yearMonth;
+      if (!acc[key]) acc[key] = [];
+      acc[key].push(item);
+      return acc;
+    },
+    {} as Record<string, IMyInkdexFeedListResponse[]>,
+  );
+
   return (
     <div className="w-full">
       <div className="flex items-center gap-2 overflow-x-scroll px-4 py-2">
@@ -116,13 +129,22 @@ export const Feed = () => {
           </div>
         ) : (
           <>
-            {data?.content.map((item) => (
-              <Card
-                key={item.id}
-                item={item as IPostListResponse}
-                isMyPost={true}
-              />
-            ))}
+            {groupedByMonth &&
+              Object.entries(groupedByMonth).map(([yearMonth, items]) => (
+                <div key={yearMonth}>
+                  <h2 className="font-l-1 mb-4 text-gray-08">{yearMonth}</h2>
+
+                  <div className="flex flex-col gap-10">
+                    {items.map((item) => (
+                      <Card
+                        key={item.id}
+                        item={item as IPostListResponse}
+                        isMyPost={true}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
             <div ref={observerRef} className="flex h-1 justify-center">
               {isFetchingNextPage && <Loading />}
             </div>

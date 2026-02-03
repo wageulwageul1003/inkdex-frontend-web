@@ -6,7 +6,7 @@ import { agent } from '@/utils/fetch';
 
 export interface IMyInkdexFeedListResponse {
   id: string;
-  yaerMonth: string;
+  yearMonth: string;
   userId: string;
   userNickname: string;
   profileImageUrl: string;
