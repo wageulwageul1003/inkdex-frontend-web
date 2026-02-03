@@ -1,15 +1,35 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { IPostListResponse } from '../home/useGetPostsList';
-
 import { myInkdexFeedListKey } from '@/constants/queryKeys';
 import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface IMyInkdexFeedListResponse {
-  yearMonth: string;
-  count: number;
-  posts: IPostListResponse[];
+  id: string;
+  yaerMonth: string;
+  userId: string;
+  userNickname: string;
+  profileImageUrl: string;
+  userBio: string;
+  following: boolean;
+  categorySlug: string;
+  content: string;
+  imageUrl: string;
+  thumbnailUrl: string;
+  imageMetadata: {
+    width: number;
+    height: number;
+    aspectRatio: number;
+    fileSize: number;
+  };
+  tags: string[];
+  likeCount: number;
+  liked: boolean;
+  bookmarked: boolean;
+  commentCount: number;
+  viewCount: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // PARAMS TYPE

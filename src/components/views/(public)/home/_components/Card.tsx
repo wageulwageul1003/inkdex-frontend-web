@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useLayoutEffect, useRef, useState } from 'react';
 
 import { Icons } from '@/components/shared/icons';
+import { MyProfile } from '@/components/shared/my-profile';
 import BookmarkToggle from '@/components/shared/post-toggle/bookmark-toggle';
 import FavoriteToggle from '@/components/shared/post-toggle/favorite-toggle';
 import { UserProfile } from '@/components/shared/user-profile';
@@ -14,7 +15,12 @@ import { usePostBookmark } from '@/hooks/posts/bookmark/usePostBookmark';
 import { useDeletetLike } from '@/hooks/posts/like/useDeletetLike';
 import { usePostLike } from '@/hooks/posts/like/usePostLike';
 
-export const Card = ({ item }: { item: IPostListResponse }) => {
+interface ICardProps {
+  item: IPostListResponse;
+  isMyPost?: boolean;
+}
+
+export const Card = ({ item, isMyPost = false }: ICardProps) => {
   const router = useRouter();
   const contentRef = useRef<HTMLParagraphElement | null>(null);
   const [expanded, setExpanded] = useState(false);
@@ -72,15 +78,24 @@ export const Card = ({ item }: { item: IPostListResponse }) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <UserProfile
-        userId={item.userId}
-        nickname={item.userNickname}
-        nicknameSrc={item.profileImageUrl}
-        bio={item.userBio}
-        following={item.following}
-        isShowMore={true}
-        publicId={item.id}
-      />
+      {isMyPost ? (
+        <MyProfile
+          publicId={item.id}
+          nickname={item.userNickname}
+          nicknameSrc={item.profileImageUrl}
+          bio={item.userBio}
+        />
+      ) : (
+        <UserProfile
+          userId={item.userId}
+          nickname={item.userNickname}
+          nicknameSrc={item.profileImageUrl}
+          bio={item.userBio}
+          following={item.following}
+          isShowMore={true}
+          publicId={item.id}
+        />
+      )}
 
       <div
         className="relative w-full overflow-hidden rounded-lg border border-gray-03"

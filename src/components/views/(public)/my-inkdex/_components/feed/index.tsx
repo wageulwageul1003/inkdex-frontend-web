@@ -10,6 +10,7 @@ import Chips from '@/components/shared/chips';
 import { Icons } from '@/components/shared/icons';
 import { useGetCategoryList } from '@/hooks/category/useGetCategoryList';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
+import { IPostListResponse } from '@/hooks/home/useGetPostsList';
 import { useGetMyInkdexFeedList } from '@/hooks/my-inkdex/useGetMyInkdexFeedList';
 import { useGetPostsCount } from '@/hooks/my-inkdex/useGetPostsCount';
 import { IConstant } from '@/types/global';
@@ -116,12 +117,11 @@ export const Feed = () => {
         ) : (
           <>
             {data?.content.map((item) => (
-              <div key={item.yearMonth}>
-                {item.yearMonth}
-                {item.posts.map((post) => (
-                  <Card key={post.id} item={post} />
-                ))}
-              </div>
+              <Card
+                key={item.id}
+                item={item as IPostListResponse}
+                isMyPost={true}
+              />
             ))}
             <div ref={observerRef} className="flex h-1 justify-center">
               {isFetchingNextPage && <Loading />}
