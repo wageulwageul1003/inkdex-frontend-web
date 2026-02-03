@@ -21,7 +21,7 @@ import { isApp } from '@/lib/device';
 import { nativeBridge } from '@/lib/native-bridge';
 
 interface TProps {
-  uuid: string;
+  uuid?: string;
 }
 
 export const PostsWrite: FC<TProps> = (props) => {

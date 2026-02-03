@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { Button } from '../ui/button';
@@ -24,6 +25,7 @@ export const MyProfile = ({
   nicknameSrc,
   bio,
 }: MyProfileProps) => {
+  const router = useRouter();
   const [moreOpen, setMoreOpen] = useState(false);
   const [deleteAlertOpen, setDeleteAlertOpen] = useState(false);
   const { mutateAsync: deletePosts } = useDeletePosts({ publicId: publicId });
@@ -59,7 +61,10 @@ export const MyProfile = ({
 
           {moreOpen && (
             <div className="absolute right-0 top-full z-10 mt-1 flex h-[92px] w-[70px] flex-col items-center justify-center gap-1 rounded-lg border border-gray-03 bg-white text-center">
-              <div className="px-3 py-2">
+              <div
+                className="px-3 py-2"
+                onClick={() => router.push(`/posts/write/${publicId}`)}
+              >
                 <p className="font-m-2 text-gray-08">편집</p>
               </div>
               <div
