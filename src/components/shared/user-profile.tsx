@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 import { Button } from '../ui/button';
 
+import { CustomAlertDialog } from './custom-alert-dialog';
 import { FollowingButton } from './following-button';
 import { Icons } from './icons';
 
@@ -34,16 +35,13 @@ export const UserProfile = ({
 }: UserProfileProps) => {
   const router = useRouter();
   const isMyProfile = userId === Cookies.get(USER_ID);
+  const [reportAlertOpen, setReportAlertOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const { mutateAsync: postReport } = usePostReport();
 
   const handleReport = () => {
     setMoreOpen(false);
-    postReport({
-      targetId: publicId || '',
-      targetType: 'POST',
-      reason: 'SPAM',
-    });
+    setReportAlertOpen(false);
   };
 
   return (
@@ -96,6 +94,22 @@ export const UserProfile = ({
           </div>
         )}
       </div>
+
+      <CustomAlertDialog
+        isOpen={reportAlertOpen}
+        onOpenChange={setReportAlertOpen}
+        title="게시물을 신고할까요?"
+        description="신고한 게시물은 운영 정책에 따라 검토됩니다. <br />신고 후에는 취소할 수 없어요."
+        cancelText="닫기"
+        confirmText="신고하기"
+        onConfirm={() => {
+          postReport({
+            targetId: publicId || '',
+            targetType: 'POST',
+            reason: 'SPAM',
+          });
+        }}
+      />
     </div>
   );
 };
