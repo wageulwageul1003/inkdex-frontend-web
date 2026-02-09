@@ -3,10 +3,12 @@ import Cookies from 'js-cookie';
 import Image from 'next/image';
 import { FC, useState } from 'react';
 
+import { CustomAlertDialog } from '@/components/shared/custom-alert-dialog';
 import { Divider } from '@/components/shared/divider';
 import { Icons } from '@/components/shared/icons';
 import FavoriteToggle from '@/components/shared/post-toggle/favorite-toggle';
 import { Button } from '@/components/ui/button';
+import { toast } from '@/components/ui/sonner';
 import { USER_ID } from '@/constants/tokens';
 import { ICommentItemResponse } from '@/hooks/comment/useGetCommentList';
 import { useDeleteCommentLike } from '@/hooks/posts/like/useDeleteCommentLike';
@@ -22,6 +24,7 @@ interface TProps {
 
 const CommentItem: FC<TProps> = ({ item, setSelectedComment, variant }) => {
   const [moreOpen, setMoreOpen] = useState(false);
+  const [reportAlertOpen, setReportAlertOpen] = useState(false);
 
   const isMyComment = item.userId === Cookies.get(USER_ID);
 
@@ -42,11 +45,7 @@ const CommentItem: FC<TProps> = ({ item, setSelectedComment, variant }) => {
 
   const handleReport = () => {
     setMoreOpen((prev) => !prev);
-    postReport({
-      targetId: item.id || '',
-      targetType: 'COMMENT',
-      reason: 'SPAM',
-    });
+    setReportAlertOpen(true);
   };
 
   return (
@@ -118,6 +117,30 @@ const CommentItem: FC<TProps> = ({ item, setSelectedComment, variant }) => {
           )}
         </div>
       </div>
+
+      <CustomAlertDialog
+        isOpen={reportAlertOpen}
+        onOpenChange={setReportAlertOpen}
+        title="게시물을 신고할까요?"
+        description={
+          <p>
+            신고한 게시물은 운영 정책에 따라 검토됩니다. <br />
+            신고 후에는 취소할 수 없어요.
+          </p>
+        }
+        cancelText="닫기"
+        confirmText="신고하기"
+        onConfirm={() => {
+          postReport({
+            targetId: item.id || '',
+            targetType: 'COMMENT',
+            reason: 'SPAM',
+          }).then(() => {
+            setReportAlertOpen(false);
+            toast.success('신고가 접수되었어요!');
+          });
+        }}
+      />
     </div>
   );
 };

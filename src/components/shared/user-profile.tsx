@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { Button } from '../ui/button';
+import { toast } from '../ui/sonner';
 
 import { CustomAlertDialog } from './custom-alert-dialog';
 import { FollowingButton } from './following-button';
@@ -41,7 +42,7 @@ export const UserProfile = ({
 
   const handleReport = () => {
     setMoreOpen(false);
-    setReportAlertOpen(false);
+    setReportAlertOpen(true);
   };
 
   return (
@@ -99,7 +100,12 @@ export const UserProfile = ({
         isOpen={reportAlertOpen}
         onOpenChange={setReportAlertOpen}
         title="게시물을 신고할까요?"
-        description="신고한 게시물은 운영 정책에 따라 검토됩니다. <br />신고 후에는 취소할 수 없어요."
+        description={
+          <p>
+            신고한 게시물은 운영 정책에 따라 검토됩니다. <br />
+            신고 후에는 취소할 수 없어요.
+          </p>
+        }
         cancelText="닫기"
         confirmText="신고하기"
         onConfirm={() => {
@@ -107,6 +113,9 @@ export const UserProfile = ({
             targetId: publicId || '',
             targetType: 'POST',
             reason: 'SPAM',
+          }).then(() => {
+            setReportAlertOpen(false);
+            toast.success('신고가 접수되었어요!');
           });
         }}
       />
