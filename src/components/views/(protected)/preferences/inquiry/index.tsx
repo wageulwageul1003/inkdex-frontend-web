@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { inquirySchema, TInquirySchema } from './scheme';
@@ -11,16 +12,21 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import { useGetMyProfile } from '@/hooks/auth/useGetMyProfile';
 import { usePostInquiry } from '@/hooks/inquiry/usePostInquiry';
+import { useAuth } from '@/providers/auth';
 
-export const InquiryComponent = () => {
+export const InquiryView = () => {
   const router = useRouter();
+  const { isLoggedIn } = useAuth();
   const { mutateAsync: postInquiry } = usePostInquiry();
+  const { data: myProfile } = useGetMyProfile();
 
   const form = useForm({
     resolver: zodResolver(inquirySchema),
     mode: 'onChange',
     defaultValues: {
+      email: '',
       content: '',
     },
   });
@@ -28,6 +34,12 @@ export const InquiryComponent = () => {
   const onSubmit = (data: TInquirySchema) => {
     postInquiry(data);
   };
+
+  useEffect(() => {
+    if (isLoggedIn && myProfile) {
+      form.setValue('email', myProfile.email || '');
+    }
+  }, [isLoggedIn, myProfile]);
 
   return (
     <div className="flex w-full flex-col px-4">
@@ -52,7 +64,7 @@ export const InquiryComponent = () => {
               <FormFields
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
-                name="title"
+                name="email"
                 label="답변 받을 이메일"
                 placeholder="이메일을 입력해주세요."
               />

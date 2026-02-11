@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const inquirySchema = z.object({
+  email: z.string(),
   content: z.string(),
 });
 

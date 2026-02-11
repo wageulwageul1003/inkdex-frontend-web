@@ -1,5 +1,5 @@
-import { InquiryComponent } from '@/components/views/(protected)/preferences/inquiry';
+import { InquiryView } from '@/components/views/(protected)/preferences/inquiry';
 
-export default function Inquiry() {
-  return <InquiryComponent />;
+export default function InquiryPage() {
+  return <InquiryView />;
 }
