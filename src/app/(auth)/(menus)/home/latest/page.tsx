@@ -1,5 +1,5 @@
-import { Home } from '@/components/views/(public)/home';
+import { HomeView } from '@/components/views/(public)/home';
 
 export default function HomePage() {
-  return <Home defaultValue="latest" />;
+  return <HomeView defaultValue="latest" />;
 }

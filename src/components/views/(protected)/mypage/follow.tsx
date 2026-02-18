@@ -15,7 +15,7 @@ interface IFollow {
   type: 'follower' | 'following';
 }
 
-export const Follow = (props: IFollow) => {
+export const FollowView = (props: IFollow) => {
   const router = useRouter();
   const { data: myProfile } = useGetMyProfile();
   const [defaultTab, setDefaultTab] = React.useState(props.type);

@@ -1,10 +1,10 @@
-import MyPageComponent from '@/components/views/(protected)/mypage';
+import { MyPageView } from '@/components/views/(protected)/mypage';
 
-export default async function Page({
+export default async function MyPage({
   params,
 }: {
   params: Promise<{ uuid: string }>;
 }) {
   const { uuid } = await params;
-  return <MyPageComponent uuid={uuid} />;
+  return <MyPageView uuid={uuid} />;
 }

@@ -1,5 +1,5 @@
-import { MyInkdex } from '@/components/views/(public)/my-inkdex';
+import { MyInkdexView } from '@/components/views/(public)/my-inkdex';
 
 export default function MyInkdexPage() {
-  return <MyInkdex defaultValue="feed" />;
+  return <MyInkdexView defaultValue="feed" />;
 }

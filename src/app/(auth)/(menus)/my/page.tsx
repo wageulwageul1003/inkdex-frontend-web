@@ -1,5 +1,5 @@
-import MyPageComponent from '@/components/views/(protected)/mypage';
+import { MyPageView } from '@/components/views/(protected)/mypage';
 
 export default function MyPage() {
-  return <MyPageComponent />;
+  return <MyPageView />;
 }

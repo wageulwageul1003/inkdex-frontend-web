@@ -1,5 +1,5 @@
-import { Search } from '@/components/views/(public)/search';
+import { SearchView } from '@/components/views/(public)/search';
 
 export default function SearchPage() {
-  return <Search />;
+  return <SearchView />;
 }

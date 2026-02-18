@@ -15,7 +15,7 @@ interface MyPageProps {
   uuid?: string;
 }
 
-const MyPageComponent = ({ uuid }: MyPageProps) => {
+export const MyPageView = ({ uuid }: MyPageProps) => {
   const router = useRouter();
 
   return (
@@ -54,5 +54,3 @@ const MyPageComponent = ({ uuid }: MyPageProps) => {
     </div>
   );
 };
-
-export default MyPageComponent;

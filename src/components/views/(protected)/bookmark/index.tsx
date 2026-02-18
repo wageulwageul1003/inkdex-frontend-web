@@ -10,7 +10,7 @@ import { Loading } from '@/components/shared/Loading';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useGetPostsList } from '@/hooks/home/useGetPostsList';
 
-export const Bookmark = () => {
+export const BookmarkView = () => {
   const router = useRouter();
   const [mode, setMode] = React.useState<'list' | 'detail'>('list');
   const [selectedIndex, setSelectedIndex] = React.useState<number>(0);

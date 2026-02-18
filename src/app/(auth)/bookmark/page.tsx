@@ -1,5 +1,5 @@
-import { Bookmark } from '@/components/views/(protected)/bookmark';
+import { BookmarkView } from '@/components/views/(protected)/bookmark';
 
 export default function BookmarkPage() {
-  return <Bookmark />;
+  return <BookmarkView />;
 }

@@ -14,7 +14,7 @@ interface IHomeProps {
   defaultValue: string;
 }
 
-export const Home = ({ defaultValue }: IHomeProps) => {
+export const HomeView = ({ defaultValue }: IHomeProps) => {
   const router = useRouter();
   const handleTabChange = (value: string) => {
     router.push(`/home/${value}`);

@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 interface IMyInkdexProps {
   defaultValue: string;
 }
-export const MyInkdex = ({ defaultValue }: IMyInkdexProps) => {
+export const MyInkdexView = ({ defaultValue }: IMyInkdexProps) => {
   const router = useRouter();
   const handleTabChange = (value: string) => {
     router.push(`/my-inkdex/${value}`);

@@ -11,7 +11,7 @@ import { searchSchema } from './schema';
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Form } from '@/components/ui/form';
 
-export const Search = () => {
+export const SearchView = () => {
   const router = useRouter();
   const form = useForm<z.infer<typeof searchSchema>>({
     resolver: zodResolver(searchSchema),
