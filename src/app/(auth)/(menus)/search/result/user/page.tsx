@@ -1,5 +1,5 @@
-import { SearchResult } from '@/components/views/(public)/search/search';
+import { SearchResultView } from '@/components/views/(public)/search/search';
 
 export default function SearchResultPage() {
-  return <SearchResult defaultValue="user" />;
+  return <SearchResultView defaultValue="user" />;
 }

@@ -19,7 +19,7 @@ interface ISearchResultProps {
   defaultValue: string;
 }
 
-export const SearchResult = ({ defaultValue }: ISearchResultProps) => {
+export const SearchResultView = ({ defaultValue }: ISearchResultProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const form = useForm<z.infer<typeof searchSchema>>({
