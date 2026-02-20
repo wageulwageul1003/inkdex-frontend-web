@@ -39,7 +39,7 @@ const menus = [
   },
 ];
 
-export const PreferencesComponent = () => {
+export const PreferencesView = () => {
   const router = useRouter();
   return (
     <div className="flex w-full flex-col px-4">

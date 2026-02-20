@@ -1,5 +1,5 @@
-import { PreferencesComponent } from '@/components/views/(protected)/preferences';
+import { PreferencesView } from '@/components/views/(protected)/preferences';
 
 export default function Preferences() {
-  return <PreferencesComponent />;
+  return <PreferencesView />;
 }
