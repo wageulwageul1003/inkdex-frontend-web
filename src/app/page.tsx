@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Splash from '@/components/views/(public)/splash';
+import SplashView from '@/components/views/(public)/splash';
 
 const Home = (): JSX.Element => {
-  return <Splash />;
+  return <SplashView />;
 };
 
 export default Home;

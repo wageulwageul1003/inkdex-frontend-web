@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 
 import { PERMISSION_SHOWN } from '@/constants/tokens';
 
-export default function Splash() {
+export default function SplashView() {
   const router = useRouter();
 
   useEffect(() => {
