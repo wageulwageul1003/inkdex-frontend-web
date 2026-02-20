@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { useDeleteAccount } from '@/hooks/auth/useDeleteAccount';
 
-export const AccountDeleteComponent = () => {
+export const AccountDeleteView = () => {
   const router = useRouter();
   const [deleteAlertOpen, setDeleteAlertOpen] = React.useState(false);
   const { mutateAsync: deleteAccount } = useDeleteAccount();

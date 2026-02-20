@@ -14,7 +14,7 @@ import { useGetAccountInfo } from '@/hooks/auth/useGetAccountInfo';
 import { usePostLogout } from '@/hooks/auth/usePostLogout';
 import { cn } from '@/lib/utils';
 
-export const AccountComponent = () => {
+export const AccountView = () => {
   const router = useRouter();
   const { mutateAsync: postLogout } = usePostLogout();
   const { data: accountInfo } = useGetAccountInfo();

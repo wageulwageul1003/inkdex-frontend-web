@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { usePostCheckCurrentPassword } from '@/hooks/auth/usePostCheckCurrentPassword';
 
-export const CurrentPasswordComponent = () => {
+export const CurrentPasswordView = () => {
   const router = useRouter();
 
   const { mutateAsync: checkCurrentPassword } = usePostCheckCurrentPassword();

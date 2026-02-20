@@ -1,5 +1,5 @@
-import { SetPasswordComponent } from '@/components/views/(protected)/preferences/account/set-password';
+import { SetPasswordView } from '@/components/views/(protected)/preferences/account/set-password';
 
 export default function SetPasswordPage() {
-  return <SetPasswordComponent />;
+  return <SetPasswordView />;
 }

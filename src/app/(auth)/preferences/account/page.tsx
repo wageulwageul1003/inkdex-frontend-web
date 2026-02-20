@@ -1,5 +1,5 @@
-import { AccountComponent } from '@/components/views/(protected)/preferences/account';
+import { AccountView } from '@/components/views/(protected)/preferences/account';
 
-export default function Account() {
-  return <AccountComponent />;
+export default function AccountPage() {
+  return <AccountView />;
 }

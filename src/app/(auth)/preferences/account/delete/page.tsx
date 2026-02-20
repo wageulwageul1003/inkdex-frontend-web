@@ -1,5 +1,5 @@
-import { AccountDeleteComponent } from '@/components/views/(protected)/preferences/account/delete';
+import { AccountDeleteView } from '@/components/views/(protected)/preferences/account/delete';
 
-export default function AccountDelete() {
-  return <AccountDeleteComponent />;
+export default function AccountDeletePage() {
+  return <AccountDeleteView />;
 }

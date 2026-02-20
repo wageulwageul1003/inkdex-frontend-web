@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { usePostSetPassword } from '@/hooks/auth/usePostSetPassword';
 
-export const SetPasswordComponent = () => {
+export const SetPasswordView = () => {
   const router = useRouter();
 
   const { mutateAsync: setPassword } = usePostSetPassword();

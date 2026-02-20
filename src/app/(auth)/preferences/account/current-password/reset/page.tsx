@@ -1,5 +1,5 @@
-import { CurrentPasswordResetComponent } from '@/components/views/(protected)/preferences/account/current-password/reset';
+import { CurrentPasswordResetView } from '@/components/views/(protected)/preferences/account/current-password/reset';
 
-export default function CurrentPasswordReset() {
-  return <CurrentPasswordResetComponent />;
+export default function CurrentPasswordResetPage() {
+  return <CurrentPasswordResetView />;
 }
