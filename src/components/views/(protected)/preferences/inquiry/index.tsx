@@ -52,6 +52,10 @@ export const InquiryView = () => {
           />
         }
       />
+      <p className="font-s-1 mt-4 text-gray-08">
+        문의하신 내용은 고객센터에서 확인 후 답변드립니다. <br />
+        답변은 작성하신 이메일로 안내됩니다.
+      </p>
       <div className="flex-1">
         <Form {...form}>
           <form
