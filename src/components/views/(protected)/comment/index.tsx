@@ -23,7 +23,7 @@ interface TProps {
   uuid: string;
 }
 
-const CommentComponent: FC<TProps> = (props) => {
+const CommentView: FC<TProps> = (props) => {
   const { uuid } = props;
   const router = useRouter();
   const [selectedComment, setSelectedComment] = useState<string | null>(null);
@@ -135,4 +135,4 @@ const CommentComponent: FC<TProps> = (props) => {
   );
 };
 
-export default CommentComponent;
+export default CommentView;

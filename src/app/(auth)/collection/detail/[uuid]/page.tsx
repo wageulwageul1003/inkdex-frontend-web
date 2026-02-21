@@ -1,4 +1,4 @@
-import { CollectionDetail } from '@/components/views/(public)/my-inkdex/_components/collection/collection-detail';
+import { CollectionDetailView } from '@/components/views/(public)/my-inkdex/_components/collection/collection-detail';
 
 export default async function Page({
   params,
@@ -6,5 +6,5 @@ export default async function Page({
   params: Promise<{ uuid: string }>;
 }) {
   const { uuid } = await params;
-  return <CollectionDetail uuid={uuid} />;
+  return <CollectionDetailView uuid={uuid} />;
 }

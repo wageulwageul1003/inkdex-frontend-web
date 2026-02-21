@@ -17,7 +17,7 @@ import { usePatchProfile } from '@/hooks/auth/usePatchProfile';
 import { isApp } from '@/lib/device';
 import { nativeBridge } from '@/lib/native-bridge';
 
-export const EditProfileComponent = () => {
+export const EditProfileView = () => {
   const router = useRouter();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const imageFileRef = useRef<File | null>(null);

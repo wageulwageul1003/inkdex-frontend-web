@@ -1,5 +1,5 @@
-import { CollectionWriteComponent } from '@/components/views/(protected)/collection/collection-write';
+import { CollectionWriteView } from '@/components/views/(protected)/collection/collection-write';
 
-export default async function CollectionWriteView() {
-  return <CollectionWriteComponent />;
+export default async function CollectionWritePage() {
+  return <CollectionWriteView />;
 }

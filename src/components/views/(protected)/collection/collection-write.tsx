@@ -21,7 +21,7 @@ interface TProps {
   uuid?: string;
 }
 
-export const CollectionWriteComponent = ({ uuid }: TProps) => {
+export const CollectionWriteView = ({ uuid }: TProps) => {
   const router = useRouter();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const imageFileRef = useRef<File | null>(null);

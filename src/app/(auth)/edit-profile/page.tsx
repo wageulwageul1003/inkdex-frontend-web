@@ -1,5 +1,5 @@
-import { EditProfileComponent } from '@/components/views/(protected)/mypage/edit-profile';
+import { EditProfileView } from '@/components/views/(protected)/mypage/edit-profile';
 
-export default function EditProfile() {
-  return <EditProfileComponent />;
+export default function EditProfilePage() {
+  return <EditProfileView />;
 }

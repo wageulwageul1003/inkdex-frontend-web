@@ -15,7 +15,7 @@ import { useGetCategoryList } from '@/hooks/category/useGetCategoryList';
 import { useGetFavoriteCategoryList } from '@/hooks/category/useGetFavoriteCategoryList';
 import { usePutFavoriteCategory } from '@/hooks/category/usePutFavoriteCategory';
 
-export const FavoriteCategoriesComponent = () => {
+export const FavoriteCategoriesView = () => {
   const router = useRouter();
   const { data: categories } = useGetCategoryList();
   const { data: favoriteCategories } = useGetFavoriteCategoryList();

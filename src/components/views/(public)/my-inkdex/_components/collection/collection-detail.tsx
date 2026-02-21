@@ -18,7 +18,7 @@ interface TProps {
   uuid: string;
 }
 
-export const CollectionDetail = ({ uuid }: TProps) => {
+export const CollectionDetailView = ({ uuid }: TProps) => {
   const router = useRouter();
   const [moreOpen, setMoreOpen] = useState(false);
 
