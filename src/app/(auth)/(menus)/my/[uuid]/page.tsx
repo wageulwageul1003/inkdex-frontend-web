@@ -1,4 +1,4 @@
-import { MyPageView } from '@/components/views/(protected)/mypage';
+import { MyOtherPageView } from '@/components/views/(protected)/mypage/other';
 
 export default async function MyPage({
   params,
@@ -6,5 +6,5 @@ export default async function MyPage({
   params: Promise<{ uuid: string }>;
 }) {
   const { uuid } = await params;
-  return <MyPageView uuid={uuid} />;
+  return <MyOtherPageView uuid={uuid} />;
 }
