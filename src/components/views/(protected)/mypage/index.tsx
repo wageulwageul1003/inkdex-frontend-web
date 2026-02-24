@@ -11,11 +11,7 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 
-interface MyPageProps {
-  uuid?: string;
-}
-
-export const MyPageView = ({ uuid }: MyPageProps) => {
+export const MyPageView = () => {
   const router = useRouter();
 
   return (
@@ -40,7 +36,7 @@ export const MyPageView = ({ uuid }: MyPageProps) => {
       />
 
       <div className="mt-3 flex flex-1 flex-col">
-        <MyProfile uuid={uuid} />
+        <MyProfile />
         <Summary />
 
         <div className="flex flex-col gap-4">

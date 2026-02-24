@@ -32,10 +32,10 @@ export const MyProfile = ({ uuid }: MyProfileProps) => {
         </div>
 
         <div className="flex flex-1 flex-col gap-1">
-          <span className="font-medium">
+          <span className="font-s-1 text-gray-09">
             {isMyProfile ? myProfile?.nickname : otherProfile?.nickname}
           </span>
-          {isMyProfile && (
+          {isMyProfile ? (
             <div className="flex items-center gap-2">
               <p
                 className="font-s-2 flex items-center gap-1 text-gray-09"
@@ -50,6 +50,22 @@ export const MyProfile = ({ uuid }: MyProfileProps) => {
               >
                 팔로잉
                 <span className="font-s-1">{myProfile?.followingCount}</span>
+              </p>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <p className="font-s-2 flex items-center gap-1 text-gray-09">
+                게시물
+                {/* TODO: 게시물 개수 */}
+                <span className="font-s-1">{otherProfile?.followerCount}</span>
+              </p>
+              <p className="font-s-2 flex items-center gap-1 text-gray-09">
+                팔로워
+                <span className="font-s-1">{otherProfile?.followerCount}</span>
+              </p>
+              <p className="font-s-2 flex items-center gap-1 text-gray-09">
+                팔로잉
+                <span className="font-s-1">{otherProfile?.followingCount}</span>
               </p>
             </div>
           )}
@@ -80,6 +96,15 @@ export const MyProfile = ({ uuid }: MyProfileProps) => {
           <span className="font-xs-2 text-gray-08">
             {otherProfile?.bio ?? '소개가 없습니다.'}
           </span>
+        )}
+      </div>
+
+      {/* follow button */}
+      <div className="mt-4 w-full">
+        {!isMyProfile && (
+          <Button variant="outline" size="md" className="w-full">
+            <span className="font-m-2 text-gray-08">팔로잉</span>
+          </Button>
         )}
       </div>
     </div>
