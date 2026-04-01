@@ -22,17 +22,20 @@ export const CurrentPasswordView = () => {
     resolver: zodResolver(CurrentPasswordSchema),
     mode: 'onChange',
     defaultValues: {
-      currentPassword: '',
+      password: '',
     },
   });
 
   const onSubmit = async (data: TCurrentPasswordSchema) => {
     try {
-      await checkCurrentPassword({
+      const response = await checkCurrentPassword({
         ...data,
-      }).then(() => {
-        router.push('/preferences/account/set-password');
       });
+      if (response.data?.isValid) {
+        router.push(
+          `/preferences/account/current-password/reset?currentPassword=${data.password}`,
+        );
+      }
     } catch (error) {
       console.error('컬렉션 등록 오류:', error);
     }
@@ -62,7 +65,7 @@ export const CurrentPasswordView = () => {
           <FormFields
             fieldType={FormFieldType.PASSWORD}
             control={form.control}
-            name="currentPassword"
+            name="password"
             placeholder="비밀번호를 입력해주세요"
           />
         </form>

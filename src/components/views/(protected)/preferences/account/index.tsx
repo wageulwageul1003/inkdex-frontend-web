@@ -53,6 +53,7 @@ export const AccountView = () => {
   };
 
   const handleSetPassword = () => {
+    // TODO: third party 연동 이후 확인 우선 current-password 이걸로만 작업
     if (accountInfo?.hasPassword) {
       router.push('/preferences/account/current-password');
     } else {

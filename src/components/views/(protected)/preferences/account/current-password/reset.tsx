@@ -11,30 +11,36 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { usePostSetPassword } from '@/hooks/auth/usePostSetPassword';
+import { toast } from '@/components/ui/sonner';
+import { usePatchSetPassword } from '@/hooks/auth/usePatchSetPassword';
 
 export const CurrentPasswordResetView = () => {
   const router = useRouter();
+  const searchParams = new URLSearchParams(window.location.search);
+  const currentPassword = searchParams.get('currentPassword');
 
-  const { mutateAsync: setPassword } = usePostSetPassword();
+  const { mutateAsync: patchSetPassword } = usePatchSetPassword();
 
   const form = useForm({
     resolver: zodResolver(SetPasswordSchema),
     mode: 'onChange',
     defaultValues: {
-      password: '',
+      currentPassword: currentPassword || '',
+      newPassword: '',
+      confirmPassword: '',
     },
   });
 
   const onSubmit = async (data: TSetPasswordSchema) => {
     try {
-      await setPassword({
+      await patchSetPassword({
         ...data,
       }).then(() => {
-        router.push('/preferences/account/set-password');
+        router.push('/preferences');
+        toast.success('비밀번호 변경이 완료되었어요.');
       });
     } catch (error) {
-      console.error('컬렉션 등록 오류:', error);
+      console.log(error);
     }
   };
 
@@ -68,14 +74,14 @@ export const CurrentPasswordResetView = () => {
           <FormFields
             fieldType={FormFieldType.PASSWORD}
             control={form.control}
-            name="password"
+            name="newPassword"
             placeholder="비밀번호를 입력해주세요"
           />
 
           <FormFields
             fieldType={FormFieldType.PASSWORD}
             control={form.control}
-            name="password"
+            name="confirmPassword"
             placeholder="비밀번호를 한번 더 입력해주세요"
           />
         </form>

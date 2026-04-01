@@ -11,7 +11,7 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { usePostSetPassword } from '@/hooks/auth/usePostSetPassword';
+import { usePostSetPassword } from '@/hooks/auth/usePatchSetPassword';
 
 export const SetPasswordView = () => {
   const router = useRouter();

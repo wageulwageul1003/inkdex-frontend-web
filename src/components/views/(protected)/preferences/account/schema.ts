@@ -1,13 +1,15 @@
 import { z } from 'zod';
 
 export const CurrentPasswordSchema = z.object({
-  currentPassword: z.string().min(1, '비밀번호를 입력해주세요'),
+  password: z.string().min(1, '비밀번호를 입력해주세요'),
 });
 
 export type TCurrentPasswordSchema = z.infer<typeof CurrentPasswordSchema>;
 
 export const SetPasswordSchema = z.object({
-  password: z.string().min(1, '비밀번호를 입력해주세요'),
+  currentPassword: z.string().min(1, '비밀번호를 입력해주세요'),
+  newPassword: z.string().min(1, '비밀번호를 입력해주세요'),
+  confirmPassword: z.string().min(1, '비밀번호를 입력해주세요'),
 });
 
 export type TSetPasswordSchema = z.infer<typeof SetPasswordSchema>;
