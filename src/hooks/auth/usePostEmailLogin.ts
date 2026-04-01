@@ -1,9 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import { useQueryClient } from '@tanstack/react-query';
 
 import { TEmailLoginSchema } from '@/components/views/(no-protected)/email-login/schema';
-import { emailLoginKey } from '@/constants/queryKeys';
-import { ErrorData, agent } from '@/utils/fetch';
+import { agent } from '@/utils/fetch';
 
 export const postEmailLogin = async (params: TEmailLoginSchema) => {
   const response = await agent(`/api/account/login`, {
@@ -17,15 +15,7 @@ export const postEmailLogin = async (params: TEmailLoginSchema) => {
 };
 
 export const usePostEmailLogin = () => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: postEmailLogin,
-
-    onSuccess: async (response) => {
-      await queryClient.invalidateQueries({
-        queryKey: [emailLoginKey],
-      });
-    },
-    onError: (error: ErrorData) => {},
   });
 };

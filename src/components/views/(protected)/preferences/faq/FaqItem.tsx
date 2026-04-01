@@ -10,7 +10,6 @@ interface FaqItemProps {
   content: string;
   isExpanded: boolean;
   onToggle: () => void;
-  type?: string;
 }
 
 export const FaqItem = ({
@@ -20,12 +19,9 @@ export const FaqItem = ({
   content,
   isExpanded,
   onToggle,
-  type,
 }: FaqItemProps) => {
-  // FAQ 카테고리
-  //   const { constants: faqSupport } = use('const_faq_support');
-
   return (
+    // TODO: ui 수정
     <div className={cn('w-full', isExpanded && 'px-1 pb-4 pt-3')}>
       <div
         className={cn(

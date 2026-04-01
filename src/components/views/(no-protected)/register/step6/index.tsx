@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import Cookies from 'js-cookie';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
 
@@ -10,6 +11,7 @@ import Chips from '@/components/shared/chips';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/sonner';
+import { ACCESS_TOKEN } from '@/constants/tokens';
 import { usePostEmailLogin } from '@/hooks/auth/usePostEmailLogin';
 import { usePostRegister } from '@/hooks/auth/usePostRegister';
 import { useGetCategoryList } from '@/hooks/category/useGetCategoryList';
@@ -54,13 +56,14 @@ const Step6 = () => {
       await register({ ...data });
 
       // 회원가입 성공 하면 자동 로그인 시도
-      await emailLogin({
+      const response = await emailLogin({
         email: data.email,
         password: data.password,
       });
 
       toast.success('회원가입이 완료되었습니다.');
       router.push('/home');
+      Cookies.set(ACCESS_TOKEN, response.data.accessToken);
     } catch (error) {
       console.error('회원가입 오류:', error);
     }

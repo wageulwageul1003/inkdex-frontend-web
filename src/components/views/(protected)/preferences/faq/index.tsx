@@ -3,6 +3,8 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
 
+import { FaqItem } from './FaqItem';
+
 import Chips from '@/components/shared/chips';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
@@ -32,12 +34,12 @@ export const FaqComponent = () => {
     ];
   }, [faqCategory]);
 
-  const initialCategory = searchParams.get('faqCategory') || 'all';
+  const initialCategory = searchParams.get('faqCategoryUuid') || 'all';
   const [selectedCategory, setSelectedCategory] =
     useState<string>(initialCategory);
 
   const { data: faqListData } = useGetFaqList({
-    categoryCode: selectedCategory,
+    faqCategoryUuid: selectedCategory,
   });
 
   const handleCategory = (item: string | string[]) => {
@@ -50,9 +52,9 @@ export const FaqComponent = () => {
   const updateUrlParams = (item: string) => {
     const params = new URLSearchParams(searchParams.toString());
     if (item === 'all') {
-      params.delete('categoryCode');
+      params.delete('faqCategoryUuid');
     } else {
-      params.set('categoryCode', item);
+      params.set('faqCategoryUuid', item);
     }
 
     router.push(`?${params.toString()}`);
@@ -110,19 +112,19 @@ export const FaqComponent = () => {
           />
         </div>
 
-        {/* <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1">
           {faqListData?.data.content.map((item, index) => (
             <FaqItem
               key={item.uuid}
               uuid={item.uuid}
-              category={item.faqCategoryName}
-              title={item.title}
-              content={item.content}
+              category={item.category.name}
+              title={item.question}
+              content={item.answer}
               isExpanded={openItemId === item.uuid}
               onToggle={() => handleToggle(item.uuid)}
             />
           ))}
-        </div> */}
+        </div>
       </div>
     </div>
   );

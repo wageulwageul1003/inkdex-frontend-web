@@ -13,6 +13,7 @@ import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import { toast } from '@/components/ui/sonner';
 import { ACCESS_TOKEN } from '@/constants/tokens';
 import { usePostEmailLogin } from '@/hooks/auth/usePostEmailLogin';
 
@@ -38,6 +39,7 @@ const EmailLogin = () => {
       if (response.code === 200) {
         router.push('/home');
         Cookies.set(ACCESS_TOKEN, response.data.accessToken);
+        toast.success('로그인 되었습니다.');
       } else {
         setAlertMessage(
           '로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.',

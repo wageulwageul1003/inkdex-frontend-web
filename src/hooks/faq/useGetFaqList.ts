@@ -7,29 +7,26 @@ import { agent } from '@/utils/fetch';
 
 export interface IFaqListResponse {
   uuid: string;
-  faqCategoryName: string;
-  title: string;
-  content: string;
-  isShow: string;
-  priority: number;
-  constFaqType: string;
+  question: string;
+  answer: string;
   createdAt: string;
-  updatedAt: string;
+  category: {
+    uuid: string;
+    name: string;
+  };
 }
 
 //  PARAMS TYPE
 type TFaqListParams = {
   page?: string;
   size?: string;
-  searchKeyword?: string;
-  categoryCode?: string;
+  faqCategoryUuid?: string;
 };
 
 export const FaqListScheme = z.object({
   page: z.string().optional(),
   size: z.string().optional(),
-  searchKeyword: z.string().optional(),
-  categoryCode: z.string().optional(),
+  faqCategoryUuid: z.string().optional(),
 });
 
 export const GetFaqList = async (
@@ -38,13 +35,13 @@ export const GetFaqList = async (
   const queryParams = new URLSearchParams();
 
   // Add basic parameters
-  if (params.searchKeyword)
-    queryParams.append('searchKeyword', params.searchKeyword);
+  if (params.faqCategoryUuid && params.faqCategoryUuid !== 'all')
+    queryParams.append('faqCategoryUuid', params.faqCategoryUuid);
   if (params.page) queryParams.append('page', String(Number(params.page) - 1));
   if (params.size) queryParams.append('size', params.size);
 
   // Construct the URL
-  const url = `/api/v1/faqs/${params.categoryCode}?${queryParams.toString()}`;
+  const url = `/api/faqs?${queryParams.toString()}`;
 
   const data = await agent(url, {
     method: 'GET',
