@@ -41,11 +41,11 @@ export const InfoComponent = () => {
         title={<span className="font-m-1 text-black">정보</span>}
       />
       <div className="mt-4 flex flex-1 flex-col">
-        {data?.data?.content
-          ?.filter((item: ITermsListResponse) => item.isExistDetail)
+        {data?.data
+          ?.filter((item: ITermsListResponse) => item.isRequired)
           .map((item, index, arr) => (
             <div
-              key={item.id}
+              key={item.uuid}
               className={`flex items-center justify-between border-b border-gray-01 py-2`}
             >
               <div className="flex items-center gap-2">
@@ -54,7 +54,7 @@ export const InfoComponent = () => {
               <Button
                 variant="buttonIconTextOnly"
                 size="buttonIconMedium"
-                onClick={() => router.push(`/preferences/info/${item.id}`)}
+                onClick={() => router.push(`/preferences/info/${item.uuid}`)}
               >
                 <Icons.keyboardArrowRight className="size-6 fill-gray-08" />
               </Button>

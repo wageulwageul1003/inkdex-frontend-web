@@ -19,7 +19,7 @@ const InfoDetailComponent: FC<TProps> = (props) => {
   return (
     <div className="w-full bg-white px-4">
       <Header
-        title={<span className="font-m-1 text-black">{data?.title}</span>}
+        title={<span className="font-m-1 text-black">{data?.data.title}</span>}
         left={
           <Icons.ArrowBackIos
             className="size-6 stroke-gray-02"
@@ -27,7 +27,7 @@ const InfoDetailComponent: FC<TProps> = (props) => {
           />
         }
       />
-      <div className="font-m-2 mt-4 text-gray-09">{data?.content}</div>
+      <div className="font-m-2 mt-4 text-gray-09">{data?.data.content}</div>
     </div>
   );
 };

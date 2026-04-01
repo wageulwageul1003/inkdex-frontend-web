@@ -11,6 +11,7 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import { toast } from '@/components/ui/sonner';
 import { useGetMyProfile } from '@/hooks/auth/useGetMyProfile';
 import { usePostInquiry } from '@/hooks/inquiry/usePostInquiry';
 import { useAuth } from '@/providers/auth';
@@ -31,8 +32,15 @@ export const InquiryView = () => {
     },
   });
 
-  const onSubmit = (data: TInquirySchema) => {
-    postInquiry(data);
+  const onSubmit = async (data: TInquirySchema) => {
+    try {
+      await postInquiry(data).then(() => {
+        router.back();
+        toast.success('문의 등록이 완료되었습니다.');
+      });
+    } catch (error) {
+      console.error('문의 등록 실패:', error);
+    }
   };
 
   // TODO: 이메일 추가 백엔드 응답
