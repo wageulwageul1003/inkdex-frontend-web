@@ -51,7 +51,9 @@ const reportListKey = 'reportListKey';
 
 const myProfileKey = 'myProfileKey';
 const accountInfoKey = 'accountInfoKey';
-const deleteAccountKey = 'deleteAccountKey';
+
+const withdrawReasonListKey = 'withdrawReasonListKey';
+const withdrawAccountKey = 'withdrawAccountKey';
 
 const deleteRecentSearchKeywordKey = 'deleteRecentSearchKeywordKey';
 const recentSearchKeywordsKey = 'recentSearchKeywordsKey';
@@ -123,7 +125,8 @@ export {
   reportListKey,
   myProfileKey,
   accountInfoKey,
-  deleteAccountKey,
+  withdrawReasonListKey,
+  withdrawAccountKey,
   deleteRecentSearchKeywordKey,
   recentSearchKeywordsKey,
   hotPostsListKey,

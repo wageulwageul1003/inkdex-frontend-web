@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -13,24 +14,32 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { useDeleteAccount } from '@/hooks/auth/useDeleteAccount';
+import { ACCESS_TOKEN, USER_ID } from '@/constants/tokens';
+import { useGetWithdrawReasonList } from '@/hooks/auth/withdraw/useGetWithdrawReasonList';
+import { usePostWithdrawAccount } from '@/hooks/auth/withdraw/usePostWithdrawAccount';
 
 export const AccountDeleteView = () => {
   const router = useRouter();
   const [deleteAlertOpen, setDeleteAlertOpen] = React.useState(false);
-  const { mutateAsync: deleteAccount } = useDeleteAccount();
+  const { mutateAsync: postWithdrawAccount } = usePostWithdrawAccount();
+
+  const { data: withdrawReasonList } = useGetWithdrawReasonList();
 
   const handleDelete = () => {
-    deleteAccount().then(() => {
-      router.push('/');
-    });
+    postWithdrawAccount({ reasonUuid: form.getValues('reasonUuid') }).then(
+      () => {
+        router.push('/');
+        Cookies.remove(ACCESS_TOKEN);
+        Cookies.remove(USER_ID);
+      },
+    );
   };
 
   const form = useForm({
     resolver: zodResolver(DeleteAccountSchema),
     mode: 'onChange',
     defaultValues: {
-      reason: '',
+      reasonUuid: '',
     },
   });
 
@@ -66,9 +75,10 @@ export const AccountDeleteView = () => {
             <FormFields
               fieldType={FormFieldType.SELECT}
               control={form.control}
-              name="reason"
+              name="reasonUuid"
               placeholder="탈퇴 사유 선택"
               className="w-full"
+              options={withdrawReasonList}
             />
           </form>
         </Form>
