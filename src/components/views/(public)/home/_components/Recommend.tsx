@@ -31,8 +31,8 @@ export const Recommend = () => {
         <Chips
           items={[
             { value: '', label: '전체' },
-            ...(categories?.data?.content.map((item) => ({
-              value: item.slug,
+            ...(categories?.data?.map((item) => ({
+              value: item.uuid,
               label: item.name,
             })) || []),
           ]}

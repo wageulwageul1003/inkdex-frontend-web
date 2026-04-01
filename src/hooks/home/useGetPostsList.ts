@@ -51,7 +51,7 @@ export const GetPostsList = async (
   if (params.sort) queryParams.set('sort', String(params.sort));
   if (params.feedType) queryParams.set('feedType', String(params.feedType));
 
-  const url = `/api/v1/posts/list?${queryParams.toString()}`;
+  const url = `/api/posts?${queryParams.toString()}`;
 
   const data = await agent(url, {
     method: 'GET',
