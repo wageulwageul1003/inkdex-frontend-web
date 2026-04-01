@@ -87,7 +87,7 @@ const Step1 = () => {
         setExpireTimestamp(newExpireTimestamp);
         toast.success('인증번호가 전송되었습니다.');
 
-        setButtonText('인증번호 확인');
+        setButtonText('인증 재요청');
         setIsCertNumVisible(true);
       }
     } catch (error) {
@@ -125,12 +125,10 @@ const Step1 = () => {
         code: form.getValues('code'),
       });
 
-      if (result?.data?.content) {
-        setIsValid(true);
-        clearErrors('code');
-        setButtonText('인증 완료');
-        router.push(`/register/step2?email=${form.getValues('email')}`);
-      }
+      setIsValid(true);
+      clearErrors('code');
+      setButtonText('인증 완료');
+      router.push(`/register/step2?email=${form.getValues('email')}`);
     } catch (error) {
       const errorData = error as ErrorData;
       if (errorData?.code === 'error.auth.code_expired_warn') {

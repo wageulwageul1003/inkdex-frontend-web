@@ -25,13 +25,13 @@ export const FavoriteCategoriesView = () => {
     resolver: zodResolver(FavoriteCategoriesSchema),
     mode: 'onChange',
     defaultValues: {
-      preferredCategorySlugs: [],
+      categoryUuids: [],
     },
   });
 
   useEffect(() => {
     form.reset({
-      preferredCategorySlugs:
+      categoryUuids:
         favoriteCategories?.data.content.map((item) => item.slug) || [],
     });
   }, [favoriteCategories]);
@@ -67,7 +67,7 @@ export const FavoriteCategoriesView = () => {
 
         <div className="mt-9 flex flex-wrap gap-x-2 gap-y-4">
           <Controller
-            name="preferredCategorySlugs"
+            name="categoryUuids"
             control={control}
             render={({ field }) => (
               <Chips

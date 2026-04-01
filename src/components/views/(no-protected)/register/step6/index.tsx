@@ -27,10 +27,11 @@ const Step6 = () => {
     defaultValues: {
       email: searchParams.get('email') || '',
       password: searchParams.get('password') || '',
-      fullName: searchParams.get('fullName') || '',
+      confirmPassword: searchParams.get('confirmPassword') || '',
+      name: searchParams.get('name') || '',
       nickname: searchParams.get('nickname') || '',
-      agreedTermIds: searchParams.get('agreedTermIds')?.split(',') || [],
-      preferredCategorySlugs: [],
+      agreedTermUuids: searchParams.get('agreedTermUuids')?.split(',') || [],
+      categoryUuids: [],
     },
   });
 
@@ -50,11 +51,11 @@ const Step6 = () => {
         });
       }
 
-      await register({ ...data, imageFile });
+      await register({ ...data });
 
       // 회원가입 성공 하면 자동 로그인 시도
       await emailLogin({
-        username: data.email,
+        email: data.email,
         password: data.password,
       });
 
@@ -86,13 +87,13 @@ const Step6 = () => {
 
         <div className="mt-9 flex flex-wrap gap-x-2 gap-y-4">
           <Controller
-            name="preferredCategorySlugs"
+            name="categoryUuids"
             control={control}
             render={({ field }) => (
               <Chips
                 items={
-                  categories?.data?.content.map((item) => ({
-                    value: item.slug,
+                  categories?.data?.map((item) => ({
+                    value: item.uuid,
                     label: item.name,
                   })) || []
                 }

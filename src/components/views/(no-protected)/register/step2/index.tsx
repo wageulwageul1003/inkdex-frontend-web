@@ -21,7 +21,7 @@ const Step2 = () => {
     mode: 'onChange',
     defaultValues: {
       password: '',
-      passwordConfirm: '',
+      confirmPassword: '',
     },
   });
 
@@ -29,7 +29,7 @@ const Step2 = () => {
 
   const onSubmit = () => {
     router.push(
-      `/register/step3?email=${searchParams.get('email')}&password=${form.getValues('password')}`,
+      `/register/step3?email=${searchParams.get('email')}&password=${form.getValues('password')}&confirmPassword=${form.getValues('confirmPassword')}`,
     );
   };
 
@@ -67,7 +67,7 @@ const Step2 = () => {
             <FormFields
               fieldType={FormFieldType.PASSWORD}
               control={form.control}
-              name="passwordConfirm"
+              name="confirmPassword"
               placeholder="비밀번호를 한번 더 입력해주세요"
             />
           </form>
@@ -82,7 +82,7 @@ const Step2 = () => {
           disabled={
             !(
               form.watch('password') !== '' &&
-              form.watch('passwordConfirm') !== ''
+              form.watch('confirmPassword') !== ''
             )
           }
           className="w-full"

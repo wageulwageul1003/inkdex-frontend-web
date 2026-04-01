@@ -11,18 +11,14 @@ import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { useGetNicknameDuplicateCheck } from '@/hooks/auth/useGetNicknameDuplicateCheck';
 import { isApp } from '@/lib/device';
 import { nativeBridge } from '@/lib/native-bridge';
-import { ErrorData } from '@/utils/fetch';
 
 const Step5 = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const imageFileRef = useRef<File | null>(null);
-  const { mutateAsync: checkNicknameDuplicate } =
-    useGetNicknameDuplicateCheck();
 
   const form = useForm({
     resolver: zodResolver(registerStep5Schema),
@@ -62,28 +58,15 @@ const Step5 = () => {
   };
 
   const onSubmit = async () => {
-    try {
-      const nickname = form.getValues('nickname');
-      const result = await checkNicknameDuplicate(nickname);
+    const nickname = form.getValues('nickname');
 
-      if (!result?.data?.content) {
-        const profileImage = previewUrl
-          ? encodeURIComponent(previewUrl)
-          : searchParams.get('profileImage') || '';
+    const profileImage = previewUrl
+      ? encodeURIComponent(previewUrl)
+      : searchParams.get('profileImage') || '';
 
-        router.push(
-          `/register/step6?email=${searchParams.get('email')}&password=${searchParams.get('password')}&fullName=${searchParams.get('fullName')}&agreedTermIds=${searchParams.get('agreedTermIds')}&nickname=${nickname}&profileImage=${profileImage}`,
-        );
-      }
-    } catch (error) {
-      const errorData = error as ErrorData;
-      if (errorData?.code === 'error.account.nickname_duplicate') {
-        form.setError('nickname', {
-          type: 'manual',
-          message: '이미 사용 중인 닉네임입니다.',
-        });
-      }
-    }
+    router.push(
+      `/register/step6?email=${searchParams.get('email')}&password=${searchParams.get('password')}&confirmPassword=${searchParams.get('confirmPassword')}&name=${searchParams.get('name')}&agreedTermUuids=${searchParams.get('agreedTermUuids')}&nickname=${nickname}&profileImage=${profileImage}`,
+    );
   };
 
   return (

@@ -1,17 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
-import { useQueryClient } from '@tanstack/react-query';
-import Cookies from 'js-cookie';
 
-import { verifyEmailKey } from '@/constants/queryKeys';
-import { CERTIFICATION_TOKEN } from '@/constants/tokens';
-import { ErrorData, agent } from '@/utils/fetch';
+import { agent } from '@/utils/fetch';
 
 export type TPostVerifyEmailPayload = {
   email: string;
 };
 
 export const postVerifyEmail = async (payload: TPostVerifyEmailPayload) => {
-  const response = await agent(`/api/v1/auth/verify-email`, {
+  const response = await agent(`/api/account/send-code`, {
     method: 'POST',
     body: JSON.stringify({
       ...payload,
@@ -21,19 +17,7 @@ export const postVerifyEmail = async (payload: TPostVerifyEmailPayload) => {
 };
 
 export const usePostVerifyEmail = () => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: postVerifyEmail,
-
-    onSuccess: async (response) => {
-      if (response?.data?.content) {
-        Cookies.set(CERTIFICATION_TOKEN, response.data.content);
-      }
-
-      await queryClient.invalidateQueries({
-        queryKey: [verifyEmailKey],
-      });
-    },
-    onError: (error: ErrorData) => {},
   });
 };

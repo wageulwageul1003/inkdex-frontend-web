@@ -23,25 +23,25 @@ export const registerStep2Schema = z
         message: '영문, 숫자, 특수문자 포함 8자 이상 입력하세요.',
       })
       .optional(), // 비밀번호
-    passwordConfirm: z
+    confirmPassword: z
       .string()
       .min(1, { message: '비밀번호를 한번 더 입력해주세요.' }),
   })
-  .refine((data) => data.password === data.passwordConfirm, {
+  .refine((data) => data.password === data.confirmPassword, {
     message: '비밀번호가 일치하지 않습니다.',
-    path: ['passwordConfirm'],
+    path: ['confirmPassword'],
   });
 
 export type TRegisterStep2Schema = z.infer<typeof registerStep2Schema>;
 
 export const registerStep3Schema = z.object({
-  fullName: z.string().min(1, { message: '이름을 입력해 주세요.' }),
+  name: z.string().min(1, { message: '이름을 입력해 주세요.' }),
 });
 
 export type TRegisterStep3Schema = z.infer<typeof registerStep3Schema>;
 
 export const registerStep4Schema = z.object({
-  agreedTermIds: z.array(z.string()),
+  agreedTermUuids: z.array(z.string()),
 });
 
 export type TRegisterStep4Schema = z.infer<typeof registerStep4Schema>;
@@ -55,10 +55,13 @@ export type TRegisterStep5Schema = z.infer<typeof registerStep5Schema>;
 export const registerSchema = z.object({
   email: z.string().min(1, { message: '이메일을 입력해 주세요.' }),
   password: z.string().min(1, { message: '비밀번호를 입력해 주세요.' }),
-  fullName: z.string().min(1, { message: '이름을 입력해 주세요.' }),
+  confirmPassword: z
+    .string()
+    .min(1, { message: '비밀번호를 한번 더 입력해주세요.' }),
+  name: z.string().min(1, { message: '이름을 입력해 주세요.' }),
   nickname: z.string().min(1, { message: '닉네임을 입력해 주세요.' }),
-  agreedTermIds: z.array(z.string()),
-  preferredCategorySlugs: z.array(z.string()),
+  agreedTermUuids: z.array(z.string()),
+  categoryUuids: z.array(z.string()),
 });
 
 export type TRegisterSchema = z.infer<typeof registerSchema>;

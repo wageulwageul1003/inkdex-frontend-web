@@ -5,16 +5,14 @@ import { IResponse } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface ICategoryListResponse {
-  slug: string;
+  uuid: string;
   name: string;
 }
 
 export const GetCategoryList = async (): Promise<
   IResponse<ICategoryListResponse>
 > => {
-  const url = `/api/v1/categories`;
-
-  const data = await agent(url, {
+  const data = await agent(`/api/categories`, {
     method: 'GET',
   });
 

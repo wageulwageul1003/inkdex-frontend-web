@@ -28,7 +28,8 @@ const Step4 = () => {
   const form = useForm<any>({
     resolver: zodResolver(registerStep4Schema),
     defaultValues: {
-      agreedTermIds: [],
+      agreeAll: false,
+      agreedTermUuids: [],
     },
   });
 
@@ -36,14 +37,14 @@ const Step4 = () => {
 
   // Initialize form fields based on terms data
   useEffect(() => {
-    if (termsList?.data?.content) {
+    if (termsList?.data) {
       const defaultValues: Record<string, boolean> = {
         agreeAll: false,
       };
 
       // Add each term to default values
-      termsList.data.content.forEach((item) => {
-        defaultValues[item.id] = false;
+      termsList.data.forEach((item) => {
+        defaultValues[item.uuid] = false;
       });
 
       form.reset(defaultValues);
@@ -52,13 +53,11 @@ const Step4 = () => {
 
   // Check if all required terms are checked
   const areRequiredTermsChecked = () => {
-    if (!termsList?.data?.content) return false;
+    if (!termsList?.data) return false;
 
-    const requiredTerms = termsList.data.content.filter(
-      (item) => item.isRequired,
-    );
+    const requiredTerms = termsList.data.filter((item) => item.isRequired);
 
-    return requiredTerms.every((term) => Boolean(watch(term.id)));
+    return requiredTerms.every((term) => Boolean(watch(term.uuid)));
   };
 
   // Handle the agreeAll checkbox changes
@@ -66,19 +65,19 @@ const Step4 = () => {
     setValue('agreeAll', checked);
 
     // Set all terms checkboxes to the same value
-    if (termsList?.data?.content) {
-      termsList.data.content.forEach((item) => {
-        setValue(item.id, checked);
+    if (termsList?.data) {
+      termsList.data.forEach((item) => {
+        setValue(item.uuid, checked);
       });
 
-      // Update agreedTermIds array
+      // Update agreedTermUuids array
       if (checked) {
         // Add all term IDs
-        const allTermIds = termsList.data.content.map((item) => item.id);
-        setValue('agreedTermIds', allTermIds);
+        const allTermIds = termsList.data.map((item) => item.uuid);
+        setValue('agreedTermUuids', allTermIds);
       } else {
         // Clear all term IDs
-        setValue('agreedTermIds', []);
+        setValue('agreedTermUuids', []);
       }
     }
   };
@@ -95,7 +94,7 @@ const Step4 = () => {
     console.log(payload);
 
     router.push(
-      `/register/step5?email=${searchParams.get('email')}&password=${searchParams.get('password')}&fullName=${searchParams.get('fullName')}&agreedTermIds=${payload.agreedTermIds.join(',')}`,
+      `/register/step5?email=${searchParams.get('email')}&password=${searchParams.get('password')}&confirmPassword=${searchParams.get('confirmPassword')}&name=${searchParams.get('name')}&agreedTermUuids=${payload.agreedTermUuids.join(',')}`,
     );
   };
 
@@ -131,15 +130,15 @@ const Step4 = () => {
               />
             </div>
 
-            {termsList?.data?.content.map((item) => (
+            {termsList?.data.map((item) => (
               <div
                 className="flex items-center justify-between px-4"
-                key={item.id}
+                key={item.uuid}
               >
                 <FormFields
                   fieldType={FormFieldType.CHECKBOX}
                   control={control}
-                  name={item.id}
+                  name={item.uuid}
                   checkboxLabel={
                     <span className="font-s-1 flex gap-1 text-gray-08">
                       <span className="text-sand-07">
@@ -149,43 +148,43 @@ const Step4 = () => {
                     </span>
                   }
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setValue(item.id, e.target.checked);
+                    setValue(item.uuid, e.target.checked);
 
-                    // Update agreedTermIds array
-                    const currentAgreedTermIds =
-                      form.getValues('agreedTermIds');
+                    // Update agreedTermUuids array
+                    const currentagreedTermUuids =
+                      form.getValues('agreedTermUuids') || [];
                     if (e.target.checked) {
                       // Add item.id if checked and not already in array
-                      if (!currentAgreedTermIds.includes(item.id)) {
-                        setValue('agreedTermIds', [
-                          ...currentAgreedTermIds,
-                          item.id,
+                      if (!currentagreedTermUuids.includes(item.uuid)) {
+                        setValue('agreedTermUuids', [
+                          ...currentagreedTermUuids,
+                          item.uuid,
                         ]);
                       }
                     } else {
                       // Remove item.id if unchecked
                       setValue(
-                        'agreedTermIds',
-                        currentAgreedTermIds.filter(
-                          (id: string) => id !== item.id,
+                        'agreedTermUuids',
+                        currentagreedTermUuids.filter(
+                          (id: string) => id !== item.uuid,
                         ),
                       );
                     }
 
-                    if (termsList?.data?.content) {
-                      const allChecked = termsList.data.content.every((term) =>
-                        Boolean(watch(term.id)),
+                    if (termsList?.data) {
+                      const allChecked = termsList.data.every((term) =>
+                        Boolean(watch(term.uuid)),
                       );
                       setValue('agreeAll', allChecked);
                     }
                   }}
                   required={item.isRequired}
                 />
-                {item.isExistDetail && (
+                {item.isRequired && (
                   <Button
                     variant="buttonIconTextOnly"
                     size="buttonIconMedium"
-                    onClick={() => handleOpenAgreeModal(item.id)}
+                    onClick={() => handleOpenAgreeModal(item.uuid)}
                   >
                     <Icons.keyboardArrowRight className="size-6 fill-gray-08" />
                   </Button>
@@ -211,10 +210,10 @@ const Step4 = () => {
       <CustomModal
         isOpen={isOpen}
         onOpenChange={() => setIsOpen(false)}
-        title={termsContent?.title || ''}
+        title={termsContent?.data.title || ''}
         description={
           <span className="font-m-2 text-gray-08">
-            {termsContent?.content || ''}
+            {termsContent?.data.content || ''}
           </span>
         }
         isCancelButton={false}

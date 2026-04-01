@@ -6,10 +6,11 @@ import { IResponse } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface ITermsListResponse {
-  id: string;
+  uuid: string;
   title: string;
+  content: string;
   isRequired: boolean;
-  isExistDetail: boolean;
+  createdAt: string;
 }
 
 export const TermsListScheme = z.object({});
@@ -17,11 +18,7 @@ export const TermsListScheme = z.object({});
 export const GetTermsList = async (): Promise<
   IResponse<ITermsListResponse>
 > => {
-  const queryParams = new URLSearchParams();
-
-  const url = `/api/v1/terms/active`;
-
-  const data = await agent(url, {
+  const data = await agent(`/api/terms`, {
     method: 'GET',
   });
 

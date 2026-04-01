@@ -10,7 +10,7 @@ export const PutFavoriteCategory = async (
 ) => {
   const response = await agent(`/api/v1/me/preferred-categories`, {
     method: 'PUT',
-    body: JSON.stringify(params.preferredCategorySlugs),
+    body: JSON.stringify(params.categoryUuids),
   });
   return response;
 };

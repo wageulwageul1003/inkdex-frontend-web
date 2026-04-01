@@ -6,7 +6,7 @@ import { emailLoginKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 
 export const postEmailLogin = async (params: TEmailLoginSchema) => {
-  const response = await agent(`/api/v1/auth/login`, {
+  const response = await agent(`/api/account/login`, {
     method: 'POST',
     body: JSON.stringify({
       ...params,

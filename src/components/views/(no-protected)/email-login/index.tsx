@@ -26,7 +26,7 @@ const EmailLogin = () => {
     resolver: zodResolver(emailLoginSchema),
     mode: 'onSubmit',
     defaultValues: {
-      username: '',
+      email: '',
       password: '',
     },
   });
@@ -35,7 +35,7 @@ const EmailLogin = () => {
     try {
       const response = await postEmailLogin(form.getValues());
 
-      if (response.code === 'success.login') {
+      if (response.code === 200) {
         router.push('/home');
         Cookies.set(USER_ID, response.data.content.id);
       } else {
@@ -78,7 +78,7 @@ const EmailLogin = () => {
               <FormFields
                 fieldType={FormFieldType.INPUT}
                 control={form.control}
-                name="username"
+                name="email"
                 placeholder="아이디 입력"
               />
 

@@ -22,9 +22,14 @@ export interface IResponsePaged<T> {
 
 export interface IResponse<T> {
   code: number;
-  data: {
-    content: T[];
-  };
+  data: T[];
+  message: string;
+  error: null | string;
+}
+
+export interface IResponseDetail<T> {
+  code: number;
+  data: T;
   message: string;
   error: null | string;
 }
