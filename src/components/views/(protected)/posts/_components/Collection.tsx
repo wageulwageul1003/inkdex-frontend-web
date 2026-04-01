@@ -53,13 +53,13 @@ export const Collection = (props: TProps) => {
             <div className="flex flex-wrap gap-2">
               {selectedCollections.map((item) => (
                 <div
-                  key={item.collectionId}
+                  key={item.uuid}
                   className="flex items-center gap-2 py-2 pl-2 pr-3"
                 >
                   <div className="h-6 w-6 shrink-0 rounded-md border border-gray-03">
                     <Image
-                      src={item.thumbnailUrl}
-                      alt={item.thumbnailUrl}
+                      src={item.imageUrl}
+                      alt={item.imageUrl}
                       width={24}
                       height={24}
                     />
@@ -102,15 +102,14 @@ export const Collection = (props: TProps) => {
             {data?.content.map((item) =>
               (() => {
                 const isSelected = selectedCollections.some(
-                  (collection) => collection.collectionId === item.collectionId,
+                  (collection) => collection.uuid === item.uuid,
                 );
 
                 const toggle = () => {
                   setSelectedCollections(
                     isSelected
                       ? selectedCollections.filter(
-                          (collection) =>
-                            collection.collectionId !== item.collectionId,
+                          (collection) => collection.uuid !== item.uuid,
                         )
                       : [...selectedCollections, item],
                   );
@@ -118,7 +117,7 @@ export const Collection = (props: TProps) => {
 
                 return (
                   <div
-                    key={item.collectionId}
+                    key={item.uuid}
                     className="flex items-center gap-3 rounded-lg bg-gray-01 py-2 pl-3 pr-4"
                     onClick={toggle}
                     role="button"
@@ -129,7 +128,7 @@ export const Collection = (props: TProps) => {
                   >
                     <div className="h-[40px] w-[40px] shrink-0 rounded-md border border-gray-03">
                       <Image
-                        src={item.thumbnailUrl}
+                        src={item.imageUrl}
                         alt=""
                         width={40}
                         height={40}

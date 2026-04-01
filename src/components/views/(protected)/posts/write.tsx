@@ -38,11 +38,11 @@ export const PostsWrite: FC<TProps> = (props) => {
     resolver: zodResolver(writeSchema),
     mode: 'onChange',
     defaultValues: {
-      image: '',
-      categorySlug: '',
+      imageUrl: '',
+      categoryUuid: '',
       content: '',
       tags: [] as string[],
-      collectionIds: [],
+      collectionUuid: [],
     },
   });
 
@@ -57,7 +57,7 @@ export const PostsWrite: FC<TProps> = (props) => {
           if (previewUrl) URL.revokeObjectURL(previewUrl);
           setPreviewUrl(URL.createObjectURL(file));
           imageFileRef.current = file;
-          form.setValue('image', 'file-selected');
+          form.setValue('imageUrl', 'file-selected');
         }
       };
       input.click();
@@ -72,7 +72,7 @@ export const PostsWrite: FC<TProps> = (props) => {
         imageFileRef.current = new File([blob], 'image.jpg', {
           type: blob.type || 'image/jpeg',
         });
-        form.setValue('image', 'file-selected');
+        form.setValue('imageUrl', 'file-selected');
       }
     }
   };
@@ -85,8 +85,8 @@ export const PostsWrite: FC<TProps> = (props) => {
       }
       await postPosts({
         ...data,
-        collectionIds: selectedCollections.map(
-          (collection) => collection.collectionId,
+        collectionUuid: selectedCollections.map(
+          (collection) => collection.uuid,
         ),
         imageFile: imageFileRef.current,
       });
@@ -144,8 +144,8 @@ export const PostsWrite: FC<TProps> = (props) => {
               label="카테고리"
               placeholder="카테고리를 선택해주세요."
               options={
-                categories?.data?.content.map((item) => ({
-                  value: item.slug,
+                categories?.data?.map((item) => ({
+                  value: item.uuid,
                   label: item.name,
                 })) || []
               }

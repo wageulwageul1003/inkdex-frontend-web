@@ -5,13 +5,12 @@ import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface ICollectionListResponse {
-  collectionId: string;
+  uuid: string;
   name: string;
-  postCount: number;
   imageUrl: string;
-  thumbnailUrl: string;
-  createdBy: number;
+  priority: number;
   createdAt: string;
+  postsCount: number;
 }
 
 // PARAMS TYPE
@@ -28,7 +27,7 @@ export const GetCollectionList = async (
   if (params.page) queryParams.set('page', String(Number(params.page) - 1));
   if (params.size) queryParams.set('size', String(params.size));
 
-  const url = `/api/v1/collections?${queryParams.toString()}`;
+  const url = `/api/collections?${queryParams.toString()}`;
 
   const data = await agent(url, {
     method: 'GET',
