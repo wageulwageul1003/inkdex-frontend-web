@@ -7,10 +7,12 @@ import { useState } from 'react';
 import MyHeader from './MyHeader';
 
 import Chips from '@/components/shared/chips';
+import { useGetPostTopSummary } from '@/hooks/posts/summary/useGetPostTopSummary';
 
 export const Summary = () => {
   const router = useRouter();
   const [mode, setMode] = useState('yearly');
+  const { data: summary } = useGetPostTopSummary();
 
   return (
     <div className="mt-4">
@@ -31,7 +33,7 @@ export const Summary = () => {
       </div>
 
       {/* summary result */}
-      <div className="mt-4"></div>
+      <div className="mt-4">{/* TODO: 활동 요약 진행 */}</div>
     </div>
   );
 };

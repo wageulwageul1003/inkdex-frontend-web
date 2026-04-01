@@ -17,6 +17,7 @@ const favoriteCategoryListKey = 'favoriteCategoryListKey';
 const postsListKey = 'postsListKey';
 const postsDetailKey = 'postsDetailKey';
 const postsKey = 'postsKey';
+const postTopSummaryKey = 'postTopSummaryKey';
 
 const commentListKey = 'commentListKey';
 const commentReplyListKey = 'commentReplyListKey';
@@ -92,6 +93,7 @@ export {
   postsListKey,
   postsDetailKey,
   postsKey,
+  postTopSummaryKey,
   commentListKey,
   commentReplyListKey,
   collectionListKey,
