@@ -8,8 +8,8 @@ import { NoticeItem } from './NoticeItem';
 import Chips from '@/components/shared/chips';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
-import { useGetFaqCategory } from '@/hooks/faq/useGetFaqCategory';
-import { useGetFaqList } from '@/hooks/faq/useGetFaqList';
+import { useGetNoticeCategory } from '@/hooks/notice/useGetNoticeCategory';
+import { useGetNoticeList } from '@/hooks/notice/useGetNoticeList';
 
 export const NoticeView = () => {
   const searchParams = useSearchParams();
@@ -17,28 +17,28 @@ export const NoticeView = () => {
 
   const [openItemId, setOpenItemId] = useState<string | null>(null);
 
-  // FAQ 카테고리
-  const { data: faqCategory } = useGetFaqCategory();
+  // 카테고리
+  const { data: category } = useGetNoticeCategory();
 
   // "전체" 카테고리를 추가한 카테고리 목록
   const categoryList = useMemo(() => {
-    if (!faqCategory) return [];
+    if (!category) return [];
     return [
       {
         label: '전체',
         value: 'all',
         disabled: false,
       },
-      ...faqCategory,
+      ...category,
     ];
-  }, [faqCategory]);
+  }, [category]);
 
-  const initialCategory = searchParams.get('faqCategory') || 'all';
+  const initialCategory = searchParams.get('noticeCategoryUuid') || 'all';
   const [selectedCategory, setSelectedCategory] =
     useState<string>(initialCategory);
 
-  const { data: faqListData } = useGetFaqList({
-    categoryCode: selectedCategory,
+  const { data: noticeListData } = useGetNoticeList({
+    noticeCategoryUuid: selectedCategory,
   });
 
   const handleCategory = (item: string | string[]) => {
@@ -51,9 +51,9 @@ export const NoticeView = () => {
   const updateUrlParams = (item: string) => {
     const params = new URLSearchParams(searchParams.toString());
     if (item === 'all') {
-      params.delete('categoryCode');
+      params.delete('noticeCategoryUuid');
     } else {
-      params.set('categoryCode', item);
+      params.set('noticeCategoryUuid', item);
     }
 
     router.push(`?${params.toString()}`);
@@ -79,8 +79,8 @@ export const NoticeView = () => {
         title={<span className="font-m-1 text-black">공지사항</span>}
       />
 
-      <div className="mt-8">
-        <div className="flex gap-2 overflow-x-auto px-4 py-2">
+      <div className="mt-1">
+        <div className="flex gap-2 overflow-x-auto py-2">
           <Chips
             items={categoryList}
             variant="single"
@@ -91,11 +91,12 @@ export const NoticeView = () => {
         </div>
 
         <div className="flex flex-col gap-1">
-          {faqListData?.data.content.map((item, index) => (
+          {/* TODO: ui 수정 */}
+          {noticeListData?.data.content.map((item, index) => (
             <NoticeItem
               key={item.uuid}
               uuid={item.uuid}
-              category={item.faqCategoryName}
+              category={item.category.name}
               title={item.title}
               content={item.content}
               isExpanded={openItemId === item.uuid}

@@ -69,6 +69,10 @@ const faqListKey = 'faqListKey';
 const faqDetailKey = 'faqDetailKey';
 const faqCategoryKey = 'faqCategoryKey';
 
+const noticeListKey = 'noticeListKey';
+const noticeDetailKey = 'noticeDetailKey';
+const noticeCategoryKey = 'noticeCategoryKey';
+
 const notificationUnReadCountKey = 'notificationUnReadCountKey';
 const notificationListKey = 'notificationListKey';
 const notificationSettingListKey = 'notificationSettingListKey';
@@ -133,6 +137,9 @@ export {
   faqListKey,
   faqDetailKey,
   faqCategoryKey,
+  noticeListKey,
+  noticeDetailKey,
+  noticeCategoryKey,
   notificationUnReadCountKey,
   notificationListKey,
   notificationSettingKey,

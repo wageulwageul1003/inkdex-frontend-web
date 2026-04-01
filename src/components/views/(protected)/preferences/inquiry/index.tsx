@@ -2,7 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { inquirySchema, TInquirySchema } from './scheme';
@@ -28,6 +27,7 @@ export const InquiryView = () => {
     defaultValues: {
       email: '',
       content: '',
+      files: [],
     },
   });
 
@@ -35,11 +35,12 @@ export const InquiryView = () => {
     postInquiry(data);
   };
 
-  useEffect(() => {
-    if (isLoggedIn && myProfile) {
-      form.setValue('email', myProfile.email || '');
-    }
-  }, [isLoggedIn, myProfile]);
+  // TODO: 이메일 추가 백엔드 응답
+  // useEffect(() => {
+  //   if (isLoggedIn && myProfile) {
+  //     form.setValue('email', myProfile.data.email || '');
+  //   }
+  // }, [isLoggedIn, myProfile]);
 
   return (
     <div className="flex w-full flex-col px-4">

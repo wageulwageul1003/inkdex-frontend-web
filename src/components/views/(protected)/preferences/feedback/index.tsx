@@ -11,9 +11,11 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import { usePostFeedback } from '@/hooks/feedback/usePostFeedback';
 
 export const FeedbackComponent = () => {
   const router = useRouter();
+  const { mutateAsync } = usePostFeedback();
 
   const form = useForm({
     resolver: zodResolver(feedbackSchema),
@@ -23,8 +25,8 @@ export const FeedbackComponent = () => {
     },
   });
 
-  const onSubmit = (data: TFeedbackSchema) => {
-    console.log(data);
+  const onSubmit = async (data: TFeedbackSchema) => {
+    await mutateAsync(data).then(() => router.back());
   };
 
   return (

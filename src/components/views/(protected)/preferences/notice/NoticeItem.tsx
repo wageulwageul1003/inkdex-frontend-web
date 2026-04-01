@@ -25,6 +25,8 @@ export const NoticeItem = ({
   // FAQ 카테고리
   //   const { constants: faqSupport } = use('const_faq_support');
 
+  // TODO: ui 수정
+
   return (
     <div className={cn('w-full', isExpanded && 'px-1 pb-4 pt-3')}>
       <div
