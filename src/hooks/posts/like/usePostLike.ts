@@ -4,8 +4,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { likeKey, postsListKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 
-export const postLike = async (params: { postId: string }) => {
-  const response = await agent(`/api/v1/posts/${params.postId}/like`, {
+export const postLike = async (params: { postUuid: string }) => {
+  const response = await agent(`/api/posts/${params.postUuid}/like`, {
     method: 'POST',
   });
 
@@ -21,7 +21,7 @@ export const usePostLike = () => {
       await queryClient.invalidateQueries({
         queryKey: [likeKey],
       });
-      await queryClient.invalidateQueries({
+      await queryClient.refetchQueries({
         queryKey: [postsListKey],
       });
     },

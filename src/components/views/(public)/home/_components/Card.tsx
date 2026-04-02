@@ -11,7 +11,6 @@ import FavoriteToggle from '@/components/shared/post-toggle/favorite-toggle';
 import { UserProfile } from '@/components/shared/user-profile';
 import { IPostListResponse } from '@/hooks/home/useGetPostsList';
 import { usePostBookmark } from '@/hooks/posts/bookmark/usePostBookmark';
-import { useDeletetLike } from '@/hooks/posts/like/useDeletetLike';
 import { usePostLike } from '@/hooks/posts/like/usePostLike';
 
 interface ICardProps {
@@ -30,18 +29,13 @@ export const Card = ({ item, isMyPost = false }: ICardProps) => {
 
   // 좋아요
   const { mutateAsync: postLike } = usePostLike();
-  const { mutateAsync: deleteLike } = useDeletetLike();
 
   const handleBookmark = () => {
-    postBookmark({ postId: item.uuid });
+    postBookmark({ postUuid: item.uuid });
   };
 
   const handleLike = () => {
-    // if (!item.liked) {
-    //   postLike({ postId: item.id });
-    // } else {
-    //   deleteLike({ postId: item.id });
-    // }
+    postLike({ postUuid: item.uuid });
   };
 
   useLayoutEffect(() => {
