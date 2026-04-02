@@ -1,12 +1,12 @@
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { TCommentSchema } from '@/components/views/(protected)/comment/schema';
+import { TCommentDepth1Schema } from '@/components/views/(protected)/comment/schema';
 import { commentListKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 
-export const postComment = async (params: TCommentSchema) => {
-  const response = await agent(`/api/v1/posts/${params.publicId}/comment`, {
+export const postComment = async (params: TCommentDepth1Schema) => {
+  const response = await agent(`/api/posts/${params.postUuid}/comment`, {
     method: 'POST',
     body: JSON.stringify({
       ...params,
@@ -22,7 +22,7 @@ export const usePostComment = () => {
     mutationFn: postComment,
 
     onSuccess: async (response) => {
-      await queryClient.invalidateQueries({
+      await queryClient.refetchQueries({
         queryKey: [commentListKey],
       });
     },

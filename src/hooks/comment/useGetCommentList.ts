@@ -5,40 +5,35 @@ import { IResponsePaged } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface ICommentItemResponse {
-  id: string;
-  nickname: string;
-  profileImageUrl: string;
-  postId: string;
-  userId: string;
+  uuid: string;
   content: string;
   createdAt: string;
-  updatedAt: string;
-  isLiked: boolean;
-  likesCount: number;
-  repliesCount: number;
+  user: {
+    uuid: string;
+    nickname: string;
+    profileImageUrl: null | string;
+  };
 }
 
 export interface ICommentListResponse {
-  id: string;
-  nickname: string;
-  profileImageUrl: string;
-  postId: string;
-  userId: string;
+  uuid: string;
   content: string;
   createdAt: string;
-  updatedAt: string;
-  isLiked: boolean;
-  likesCount: number;
+  user: {
+    uuid: string;
+    nickname: string;
+    profileImageUrl: null | string;
+  };
   repliesCount: number;
-  replies: ICommentItemResponse[];
+  hasMoreReplies: boolean;
+  replies: ICommentItemResponse[] | [];
 }
 
 // PARAMS TYPE
 type TGetCommentListParams = {
-  id: string;
+  postUuid: string;
   page?: string;
   size?: string;
-  sort?: string;
 };
 
 export interface ICommentListApiResponse {
@@ -65,9 +60,8 @@ export const GetCommentList = async (
 
   if (params.page) queryParams.set('page', String(Number(params.page) - 1));
   if (params.size) queryParams.set('size', String(params.size));
-  if (params.sort) queryParams.set('sort', String(params.sort));
 
-  const url = `/api/v1/posts/${params.id}/comments?${queryParams.toString()}`;
+  const url = `/api/posts/${params.postUuid}/comment?${queryParams.toString()}`;
 
   const data = await agent(url, {
     method: 'GET',

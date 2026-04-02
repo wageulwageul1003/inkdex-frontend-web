@@ -5,25 +5,22 @@ import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface ICommentReplyListResponse {
-  id: string;
-  nickname: string;
-  profileImageUrl: string;
-  postId: string;
-  userId: string;
+  uuid: string;
   content: string;
   createdAt: string;
-  updatedAt: string;
-  isLiked: boolean;
-  likesCount: number;
-  repliesCount: number;
+  user: {
+    uuid: string;
+    nickname: string;
+    profileImageUrl: null | string;
+  };
 }
 
 // PARAMS TYPE
 type TGetCommentListParams = {
-  commentId: string;
+  postUuid: string;
+  parentCommentUuid: string;
   page?: string;
   size?: string;
-  sort?: string;
   enable?: boolean;
 };
 
@@ -34,9 +31,8 @@ export const GetCommentReplyList = async (
 
   if (params.page) queryParams.set('page', String(Number(params.page) - 1));
   if (params.size) queryParams.set('size', String(params.size));
-  if (params.sort) queryParams.set('sort', String(params.sort));
 
-  const url = `/api/v1/comments/${params.commentId}/replies?${queryParams.toString()}`;
+  const url = `/api/posts/${params.postUuid}/comment/${params.parentCommentUuid}?${queryParams.toString()}`;
 
   const data = await agent(url, {
     method: 'GET',
@@ -52,6 +48,7 @@ export const useGetCommentReplyList = (params: TGetCommentListParams) => {
     TInfiniteListResult<ICommentReplyListResponse>
   >({
     queryKey: [commentReplyListKey, params],
+    enabled: params.enable && !!params.parentCommentUuid,
     queryFn: ({ pageParam = 1 }) =>
       GetCommentReplyList({ ...params, page: String(pageParam) }),
     initialPageParam: 1,

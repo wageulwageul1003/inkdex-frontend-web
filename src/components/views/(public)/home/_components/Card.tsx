@@ -105,7 +105,7 @@ export const Card = ({ item, isMyPost = false }: ICardProps) => {
           </div>
           <div
             className="flex items-center gap-1 py-1"
-            onClick={() => router.push(`/comment/${item.id}`)}
+            onClick={() => router.push(`/comment/${item.uuid}`)}
           >
             <Icons.messageCircle className="size-6 stroke-gray-05" />
             <p className="font-xs-2 text-gray-08">{item.commentCount}</p>

@@ -17,8 +17,8 @@ import { usePostReport } from '@/hooks/report/usePostReport';
 
 interface TProps {
   item: ICommentItemResponse;
-  selectedComment?: string | null;
-  setSelectedComment?: (commentId: string | null) => void;
+  selectedComment?: string;
+  setSelectedComment?: (commentUuid: string) => void;
   variant: 'reply' | 'post';
 }
 
@@ -26,7 +26,7 @@ const CommentItem: FC<TProps> = ({ item, setSelectedComment, variant }) => {
   const [moreOpen, setMoreOpen] = useState(false);
   const [reportAlertOpen, setReportAlertOpen] = useState(false);
 
-  const isMyComment = item.userId === Cookies.get(USER_ID);
+  const isMyComment = item.user.uuid === Cookies.get(USER_ID);
 
   // 좋아요
   const { mutateAsync: postCommentLike } = usePostCommentLike();
@@ -36,11 +36,11 @@ const CommentItem: FC<TProps> = ({ item, setSelectedComment, variant }) => {
   const { mutateAsync: postReport } = usePostReport();
 
   const handleLike = (currentLike: boolean, id: string) => {
-    if (!currentLike) {
-      postCommentLike({ commentId: id });
-    } else {
-      deleteCommentLike({ commentId: id });
-    }
+    // if (!currentLike) {
+    //   postCommentLike({ commentUuid: id });
+    // } else {
+    //   deleteCommentLike({ commentUuid: id });
+    // }
   };
 
   const handleReport = () => {
@@ -53,7 +53,7 @@ const CommentItem: FC<TProps> = ({ item, setSelectedComment, variant }) => {
       <div className="flex w-full items-center gap-2">
         <div className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-03">
           <Image
-            src={item.profileImageUrl || '/default-profile.png'}
+            src={item.user.profileImageUrl || '/default-profile.png'}
             alt=""
             width={16}
             height={16}
@@ -61,7 +61,7 @@ const CommentItem: FC<TProps> = ({ item, setSelectedComment, variant }) => {
         </div>
         <div className="flex flex-1 flex-col gap-1">
           <div className="flex flex-1 gap-1">
-            <p className="font-s-1 text-gray-09">{item.nickname}</p>
+            <p className="font-s-1 text-gray-09">{item.user.nickname}</p>
             {isMyComment && (
               <p className="border-gra-03 font-xs-2 h-fit w-fit rounded-sm border px-1 py-[2px] text-gray-05">
                 작성자
@@ -109,7 +109,7 @@ const CommentItem: FC<TProps> = ({ item, setSelectedComment, variant }) => {
 
               <p
                 className="font-xs-2 cursor-pointer text-gray-08"
-                onClick={() => setSelectedComment?.(item.id)}
+                onClick={() => setSelectedComment?.(item.uuid)}
               >
                 답글 달기
               </p>

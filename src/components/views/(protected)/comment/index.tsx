@@ -6,7 +6,7 @@ import React, { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import CommentList from './_components/comment-list';
-import { commentSchema } from './schema';
+import { commentDepth1Schema } from './schema';
 
 import { Loading } from '@/components/shared/Loading';
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
@@ -26,15 +26,14 @@ interface TProps {
 const CommentView: FC<TProps> = (props) => {
   const { uuid } = props;
   const router = useRouter();
-  const [selectedComment, setSelectedComment] = useState<string | null>(null);
+  const [selectedComment, setSelectedComment] = useState<string>('');
   const { mutateAsync: postComment } = usePostComment();
   const { mutateAsync: postCommentReply } = usePostCommentReply();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useGetCommentList({
-      id: uuid,
+      postUuid: uuid,
       size: '10',
-      sort: 'createdAt,desc',
     });
 
   const observerRef = useInfiniteScroll(
@@ -43,11 +42,10 @@ const CommentView: FC<TProps> = (props) => {
   );
 
   const form = useForm({
-    resolver: zodResolver(commentSchema),
+    resolver: zodResolver(commentDepth1Schema),
     mode: 'onSubmit',
     defaultValues: {
-      publicId: uuid,
-      commentId: selectedComment || '',
+      postUuid: uuid,
       content: '',
     },
   });
@@ -57,8 +55,8 @@ const CommentView: FC<TProps> = (props) => {
       if (selectedComment) {
         // 대댓글 등록
         const response = await postCommentReply({
-          publicId: uuid,
-          commentId: selectedComment,
+          postUuid: uuid,
+          parentUuid: selectedComment,
           content: form.getValues().content,
         });
       } else {
@@ -69,6 +67,8 @@ const CommentView: FC<TProps> = (props) => {
   };
 
   if (isLoading) return <Loading />;
+
+  // TODO: 댓글 더보기 관련한 것 추가 ui 수정 작업
 
   return (
     <div className="flex w-full flex-col bg-white px-4">
@@ -97,8 +97,9 @@ const CommentView: FC<TProps> = (props) => {
           <div className="flex flex-col gap-3">
             {data?.content.map((item) => (
               <CommentList
-                key={item.id}
+                key={item.uuid}
                 item={item}
+                postUuid={uuid}
                 selectedComment={selectedComment}
                 setSelectedComment={setSelectedComment}
               />

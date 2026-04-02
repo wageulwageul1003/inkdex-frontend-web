@@ -12,12 +12,14 @@ import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 
 interface TProps {
   item: ICommentListResponse;
-  selectedComment: string | null;
-  setSelectedComment: (commentId: string | null) => void;
+  postUuid: string;
+  selectedComment: string;
+  setSelectedComment: (commentUuid: string) => void;
 }
 
 const CommentList: FC<TProps> = ({
   item,
+  postUuid,
   selectedComment,
   setSelectedComment,
 }) => {
@@ -28,12 +30,11 @@ const CommentList: FC<TProps> = ({
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isLoading,
   } = useGetCommentReplyList({
-    enable: item.repliesCount > 2,
-    commentId: item.id,
+    enable: item.hasMoreReplies,
+    postUuid,
+    parentCommentUuid: selectedComment,
     size: '5',
-    sort: 'createdAt,desc',
   });
 
   const observerRef = useInfiniteScroll(
@@ -53,7 +54,7 @@ const CommentList: FC<TProps> = ({
         <div className="ml-10 flex flex-col gap-2">
           {item.replies.map((reply: ICommentItemResponse) => (
             <CommentItem
-              key={reply.id}
+              key={reply.uuid}
               item={reply}
               setSelectedComment={setSelectedComment}
               selectedComment={selectedComment}
@@ -62,11 +63,14 @@ const CommentList: FC<TProps> = ({
           ))}
         </div>
       )}
-      {item.repliesCount > 2 && !showMoreReplies && (
+      {item.hasMoreReplies && (
         <div className="ml-10 flex flex-col gap-2">
           <p
             className="font-s-2 cursor-pointer text-gray-08"
-            onClick={() => setShowMoreReplies(true)}
+            onClick={() => {
+              setShowMoreReplies(true);
+              setSelectedComment(item.uuid);
+            }}
           >
             댓글 더보기
           </p>
@@ -76,7 +80,7 @@ const CommentList: FC<TProps> = ({
         <div className="ml-10 flex flex-col gap-3">
           {commentReplyData?.content.map((replyItem) => (
             <CommentItem
-              key={replyItem.id}
+              key={replyItem.uuid}
               item={replyItem}
               setSelectedComment={setSelectedComment}
               selectedComment={selectedComment}
