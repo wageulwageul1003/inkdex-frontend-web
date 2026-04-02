@@ -10,7 +10,6 @@ import BookmarkToggle from '@/components/shared/post-toggle/bookmark-toggle';
 import FavoriteToggle from '@/components/shared/post-toggle/favorite-toggle';
 import { UserProfile } from '@/components/shared/user-profile';
 import { IPostListResponse } from '@/hooks/home/useGetPostsList';
-import { useDeletetBookmark } from '@/hooks/posts/bookmark/useDeletetBookmark';
 import { usePostBookmark } from '@/hooks/posts/bookmark/usePostBookmark';
 import { useDeletetLike } from '@/hooks/posts/like/useDeletetLike';
 import { usePostLike } from '@/hooks/posts/like/usePostLike';
@@ -28,26 +27,21 @@ export const Card = ({ item, isMyPost = false }: ICardProps) => {
 
   // 북마크
   const { mutateAsync: postBookmark } = usePostBookmark();
-  const { mutateAsync: deleteBookmark } = useDeletetBookmark();
 
   // 좋아요
   const { mutateAsync: postLike } = usePostLike();
   const { mutateAsync: deleteLike } = useDeletetLike();
 
   const handleBookmark = () => {
-    if (!item?.bookmarked) {
-      postBookmark({ postId: item.id });
-    } else {
-      deleteBookmark({ postId: item.id });
-    }
+    postBookmark({ postId: item.uuid });
   };
 
   const handleLike = () => {
-    if (!item.liked) {
-      postLike({ postId: item.id });
-    } else {
-      deleteLike({ postId: item.id });
-    }
+    // if (!item.liked) {
+    //   postLike({ postId: item.id });
+    // } else {
+    //   deleteLike({ postId: item.id });
+    // }
   };
 
   useLayoutEffect(() => {
@@ -97,10 +91,7 @@ export const Card = ({ item, isMyPost = false }: ICardProps) => {
         />
       )}
 
-      <div
-        className="relative w-full overflow-hidden rounded-lg border border-gray-03"
-        style={{ aspectRatio: item.imageMetadata?.aspectRatio ?? '1 / 1' }}
-      >
+      <div className="relative aspect-square w-full overflow-hidden rounded-lg border border-gray-03">
         <Image
           src={item.imageUrl || '/default-image.png'}
           alt={item.content}
@@ -113,7 +104,7 @@ export const Card = ({ item, isMyPost = false }: ICardProps) => {
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1 py-1">
             <FavoriteToggle
-              defaultFavorite={item.liked}
+              defaultFavorite={item.isLiked}
               onToggle={handleLike}
             />
             <p className="font-xs-2 text-gray-08">{item.likeCount}</p>
@@ -128,7 +119,7 @@ export const Card = ({ item, isMyPost = false }: ICardProps) => {
         </div>
 
         <BookmarkToggle
-          defaultBookmark={item.bookmarked}
+          defaultBookmark={item.isBookmarked}
           onToggle={handleBookmark}
         />
       </div>

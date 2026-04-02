@@ -5,30 +5,26 @@ import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface IPostListResponse {
-  id: string;
-  userId: string;
-  userNickname: string;
-  profileImageUrl: string;
-  userBio: string;
-  following: boolean;
-  categorySlug: string;
+  uuid: string;
   content: string;
-  imageUrl: string;
-  thumbnailUrl: string;
-  imageMetadata: {
-    width: number;
-    height: number;
-    aspectRatio: number;
-    fileSize: number;
+  imageUrl: string | null;
+  createdAt: string;
+  category: {
+    uuid: string;
+    name: string;
   };
+  collections: [
+    {
+      uuid: string;
+      name: string;
+    },
+  ];
   tags: string[];
   likeCount: number;
-  liked: boolean;
-  bookmarked: boolean;
+  bookmarkCount: number;
   commentCount: number;
-  viewCount: number;
-  createdAt: string;
-  updatedAt: string;
+  isLiked: boolean;
+  isBookmarked: boolean;
 }
 
 // PARAMS TYPE

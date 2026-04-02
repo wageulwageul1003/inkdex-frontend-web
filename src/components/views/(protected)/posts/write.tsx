@@ -79,16 +79,11 @@ export const PostsWrite: FC<TProps> = (props) => {
 
   const onSubmit = async (data: TWriteSchema) => {
     try {
-      if (!imageFileRef.current) {
-        toast.error('이미지를 선택해주세요.');
-        return;
-      }
       await postPosts({
         ...data,
         collectionUuid: selectedCollections.map(
           (collection) => collection.uuid,
         ),
-        imageFile: imageFileRef.current,
       });
       toast.success('게시물이 성공적으로 등록되었습니다.');
       router.push('/home'); // 게시물 목록 페이지로 이동
@@ -140,7 +135,7 @@ export const PostsWrite: FC<TProps> = (props) => {
             <FormFields
               fieldType={FormFieldType.SELECT}
               control={form.control}
-              name="categorySlug"
+              name="categoryUuid"
               label="카테고리"
               placeholder="카테고리를 선택해주세요."
               options={

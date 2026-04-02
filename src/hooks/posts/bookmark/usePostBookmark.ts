@@ -5,7 +5,7 @@ import { bookmarkKey, postsListKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 
 export const postBookmark = async (params: { postId: string }) => {
-  const response = await agent(`/api/v1/bookmarks/${params.postId}`, {
+  const response = await agent(`/api/posts/${params.postId}/bookmark`, {
     method: 'POST',
   });
 
