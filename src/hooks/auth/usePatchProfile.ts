@@ -5,31 +5,10 @@ import { TEditProfileSchema } from '@/components/views/(protected)/mypage/edit-p
 import { myProfileKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 
-interface EditProfileParams extends TEditProfileSchema {
-  imageFile?: File;
-}
-
-const createFormData = (params: EditProfileParams): FormData => {
-  const formData = new FormData();
-
-  const data = {
-    ...params,
-  };
-
-  formData.append('data', JSON.stringify(data));
-  if (params.imageFile) {
-    formData.append('image', params.imageFile, params.imageFile.name);
-  }
-
-  return formData;
-};
-
-export const patchProfile = async (params: EditProfileParams) => {
-  const formData = createFormData(params);
-
-  const response = await agent(`/api/v1/me/profile`, {
+export const patchProfile = async (payload: TEditProfileSchema) => {
+  const response = await agent(`/api/account/profile`, {
     method: 'PATCH',
-    body: formData,
+    body: JSON.stringify(payload),
   });
 
   return response;

@@ -29,7 +29,7 @@ export const EditProfileView = () => {
     resolver: zodResolver(EditProfileSchema),
     mode: 'onChange',
     defaultValues: {
-      image: '',
+      profileImageUrl: '',
       nickname: '',
       bio: '',
     },
@@ -46,7 +46,7 @@ export const EditProfileView = () => {
           if (previewUrl) URL.revokeObjectURL(previewUrl);
           setPreviewUrl(URL.createObjectURL(file));
           imageFileRef.current = file;
-          form.setValue('image', 'file-selected');
+          form.setValue('profileImageUrl', 'file-selected');
         }
       };
       input.click();
@@ -61,7 +61,7 @@ export const EditProfileView = () => {
         imageFileRef.current = new File([blob], 'image.jpg', {
           type: blob.type || 'image/jpeg',
         });
-        form.setValue('image', 'file-selected');
+        form.setValue('profileImageUrl', 'file-selected');
       }
     }
   };
@@ -82,9 +82,11 @@ export const EditProfileView = () => {
   useEffect(() => {
     if (myProfile) {
       form.reset({
-        ...myProfile,
+        profileImageUrl: myProfile.data.profileImageUrl || '',
+        nickname: myProfile.data.nickname || '',
+        bio: myProfile.data.bio || '',
       });
-      setPreviewUrl(myProfile.profileImageUrl);
+      setPreviewUrl(myProfile.data.profileImageUrl);
     }
   }, [myProfile]);
 
