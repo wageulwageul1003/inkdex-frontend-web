@@ -5,12 +5,12 @@ import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface IFollowingListResponse {
-  id: string;
-  userName: string;
-  nickname: string;
-  profileImageUrl: string;
-  following: boolean;
-  bio: string;
+  createdAt: string;
+  account: {
+    uuid: string;
+    nickname: string;
+    profileImageUrl: null | string;
+  };
 }
 
 // PARAMS TYPE
@@ -27,7 +27,7 @@ export const GetFollowingList = async (
   if (params.page) queryParams.set('page', String(Number(params.page) - 1));
   if (params.size) queryParams.set('size', String(params.size));
 
-  const url = `/api/v1/me/followings?${queryParams.toString()}`;
+  const url = `/api/account/follow/followings?${queryParams.toString()}`;
 
   const data = await agent(url, {
     method: 'GET',

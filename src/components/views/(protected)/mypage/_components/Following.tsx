@@ -32,13 +32,16 @@ export const Following = () => {
       {data?.content.map((item) =>
         (() => {
           return (
-            <div className="flex w-full items-center gap-2" key={item.id}>
+            <div
+              className="flex w-full items-center gap-2"
+              key={item.account.uuid}
+            >
               <UserProfile
-                userId={item.id}
-                nickname={item.nickname}
-                nicknameSrc={item.profileImageUrl}
-                bio={item.bio}
-                following={item.following}
+                userId={item.account.uuid}
+                nickname={item.account.nickname}
+                nicknameSrc={item.account.profileImageUrl}
+                bio={''}
+                following={true}
                 isShowMore={false}
               />
             </div>

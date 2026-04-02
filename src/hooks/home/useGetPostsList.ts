@@ -23,6 +23,11 @@ export interface IPostListResponse {
   likeCount: number;
   bookmarkCount: number;
   commentCount: number;
+  account: {
+    uuid: string;
+    nickname: string;
+    profileImageUrl: null | string;
+  };
   isLiked: boolean;
   isBookmarked: boolean;
 }

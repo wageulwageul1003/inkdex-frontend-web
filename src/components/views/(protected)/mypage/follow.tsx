@@ -43,10 +43,10 @@ export const FollowView = (props: IFollow) => {
         >
           <TabsList className="">
             <TabsTrigger value="follower">
-              팔로워 {myProfile?.followerCount || 0}
+              팔로워 {myProfile?.data.followerCount || 0}
             </TabsTrigger>
             <TabsTrigger value="following">
-              팔로잉 {myProfile?.followingCount || 0}
+              팔로잉 {myProfile?.data.followingCount || 0}
             </TabsTrigger>
           </TabsList>
 

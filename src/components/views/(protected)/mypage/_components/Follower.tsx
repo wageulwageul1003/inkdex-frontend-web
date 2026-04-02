@@ -36,8 +36,8 @@ export const Follower = () => {
               <div className="flex items-center gap-2" key={item.id}>
                 <UserProfile
                   userId={item.id}
-                  nickname={item.nickname}
-                  nicknameSrc={item.profileImageUrl}
+                  nickname={item.account.nickname}
+                  nicknameSrc={item.account.profileImageUrl}
                   bio={item.bio}
                   following={item.following}
                   isShowMore={true}

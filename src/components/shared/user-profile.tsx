@@ -17,7 +17,7 @@ import { usePostReport } from '@/hooks/report/usePostReport';
 
 interface UserProfileProps {
   userId?: string;
-  publicId?: string;
+  accountUuid?: string;
   nickname: string;
   nicknameSrc: string;
   bio?: string;
@@ -27,7 +27,7 @@ interface UserProfileProps {
 
 export const UserProfile = ({
   userId,
-  publicId,
+  accountUuid,
   nickname,
   nicknameSrc,
   bio,
@@ -72,7 +72,10 @@ export const UserProfile = ({
       </div>
       <div className="flex shrink-0 items-center gap-1">
         {!isMyProfile && (
-          <FollowingButton following={!!following} publicId={publicId || ''} />
+          <FollowingButton
+            following={!!following}
+            accountUuid={accountUuid || ''}
+          />
         )}
         {isShowMore && !isMyProfile && (
           <div className="relative">
@@ -110,7 +113,7 @@ export const UserProfile = ({
         confirmText="신고하기"
         onConfirm={() => {
           postReport({
-            targetId: publicId || '',
+            targetId: accountUuid || '',
             targetType: 'POST',
             reason: 'SPAM',
           }).then(() => {

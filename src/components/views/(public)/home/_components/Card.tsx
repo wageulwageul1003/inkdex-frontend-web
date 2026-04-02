@@ -68,20 +68,20 @@ export const Card = ({ item, isMyPost = false }: ICardProps) => {
     <div className="flex flex-col gap-4">
       {isMyPost ? (
         <MyProfile
-          publicId={item.id}
-          nickname={item.userNickname}
-          nicknameSrc={item.profileImageUrl}
-          bio={item.userBio}
+          publicId={item.account.uuid}
+          nickname={item.account.nickname}
+          nicknameSrc={item.account.profileImageUrl}
+          bio={''}
         />
       ) : (
         <UserProfile
-          userId={item.userId}
-          nickname={item.userNickname}
-          nicknameSrc={item.profileImageUrl}
-          bio={item.userBio}
-          following={item.following}
+          userId={item.account.uuid}
+          nickname={item.account.nickname}
+          nicknameSrc={item.account.profileImageUrl}
+          bio={''}
+          following={false}
           isShowMore={true}
-          publicId={item.id}
+          accountUuid={item.account.uuid}
         />
       )}
 

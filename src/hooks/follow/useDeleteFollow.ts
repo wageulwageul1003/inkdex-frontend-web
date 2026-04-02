@@ -4,9 +4,10 @@ import { useQueryClient } from '@tanstack/react-query';
 import { deleteFollowKey, followListKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 
-export const deleteFollow = async (params: { publicId: string }) => {
-  const response = await agent(`/api/v1/users/follows/${params.publicId}`, {
+export const deleteFollow = async (targetUuid: string) => {
+  const response = await agent(`/api/account/follow`, {
     method: 'DELETE',
+    body: JSON.stringify({ targetUuid }),
   });
 
   return response;
