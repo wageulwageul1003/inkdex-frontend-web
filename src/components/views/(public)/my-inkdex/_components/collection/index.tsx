@@ -36,7 +36,11 @@ export const Collection = () => {
           <Button variant="buttonIconOutline" size="buttonIconMedium">
             <Icons.plus className="size-6 fill-black" />
           </Button>
-          <Button variant="buttonIconOutline" size="buttonIconMedium">
+          <Button
+            variant="buttonIconOutline"
+            size="buttonIconMedium"
+            onClick={() => router.push('/collection/reorder')}
+          >
             <Icons.arrowsSort className="size-6 fill-black" />
           </Button>
         </div>
@@ -44,14 +48,12 @@ export const Collection = () => {
       <div className="grid grid-cols-2 gap-x-1 gap-y-7">
         {data?.content.map((item) => (
           <div
-            key={item.collectionId}
-            onClick={() =>
-              router.push(`/collection/detail/${item.collectionId}`)
-            }
+            key={item.uuid}
+            onClick={() => router.push(`/collection/detail/${item.uuid}`)}
           >
             <div className="relative aspect-square w-full overflow-hidden rounded-sm border border-gray-02">
               <Image
-                src={item.thumbnailUrl}
+                src={item.imageUrl}
                 alt={item.name}
                 fill
                 className="object-cover"
@@ -65,7 +67,7 @@ export const Collection = () => {
             <div className="mt-[2px] flex items-center gap-1">
               <Icons.inbox className="size-4 fill-gray-05" />
               <span className="font-xs-2 text-gray-05">
-                {item.postCount.toLocaleString()}개
+                {item.postsCount.toLocaleString()}개
               </span>
             </div>
           </div>

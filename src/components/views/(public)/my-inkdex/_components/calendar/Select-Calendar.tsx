@@ -23,18 +23,18 @@ import { cn } from '@/lib/utils';
 import useCalendar from '@/providers/useCalendar';
 
 interface TProps {
-  selectedStartDate: string | null;
-  setSelectedStartDate: (date: string | null) => void;
-  selectedEndDate: string | null;
-  setSelectedEndDate: (date: string | null) => void;
+  selectedStartAt: string | null;
+  setselectedStartAt: (date: string | null) => void;
+  selectedEndAt: string | null;
+  setselectedEndAt: (date: string | null) => void;
 }
 
 export const SelectCalendar = (props: TProps) => {
   const {
-    selectedStartDate,
-    setSelectedStartDate,
-    selectedEndDate,
-    setSelectedEndDate,
+    selectedStartAt,
+    setselectedStartAt,
+    selectedEndAt,
+    setselectedEndAt,
   } = props;
   const calendar = useCalendar();
   const today = React.useMemo(() => new Date(), []);
@@ -124,8 +124,8 @@ export const SelectCalendar = (props: TProps) => {
 
   const handleSave = () => {
     if (rangeStart === null && rangeEnd === null) {
-      setSelectedStartDate(null);
-      setSelectedEndDate(null);
+      setselectedStartAt(null);
+      setselectedEndAt(null);
       setOpen(false);
       return;
     }
@@ -133,8 +133,8 @@ export const SelectCalendar = (props: TProps) => {
     // 시작일만 있는 경우 → 시작일 = 종료일
     if (rangeStart && !rangeEnd) {
       const dateStr = format(rangeStart, 'yyyy.MM.dd');
-      setSelectedStartDate(dateStr);
-      setSelectedEndDate(dateStr);
+      setselectedStartAt(dateStr);
+      setselectedEndAt(dateStr);
       setOpen(false);
       return;
     }
@@ -142,8 +142,8 @@ export const SelectCalendar = (props: TProps) => {
     // 종료일만 있는 경우 → 시작일 = 종료일
     if (!rangeStart && rangeEnd) {
       const dateStr = format(rangeEnd, 'yyyy.MM.dd');
-      setSelectedStartDate(dateStr);
-      setSelectedEndDate(dateStr);
+      setselectedStartAt(dateStr);
+      setselectedEndAt(dateStr);
       setOpen(false);
       return;
     }
@@ -151,8 +151,8 @@ export const SelectCalendar = (props: TProps) => {
     // 둘 다 있는 경우
     const startStr = format(rangeStart!, 'yyyy.MM.dd');
     const endStr = format(rangeEnd!, 'yyyy.MM.dd');
-    setSelectedStartDate(startStr);
-    setSelectedEndDate(endStr);
+    setselectedStartAt(startStr);
+    setselectedEndAt(endStr);
     setOpen(false);
   };
 
@@ -167,12 +167,12 @@ export const SelectCalendar = (props: TProps) => {
       <DrawerTrigger asChild>
         <Button variant="outline" size="sm" className="flex items-center gap-1">
           <span className="font-s-2 text-gray-08">
-            {selectedStartDate && selectedEndDate
-              ? `${selectedStartDate} ~ ${selectedEndDate}`
-              : selectedStartDate
-                ? `${selectedStartDate} ~`
-                : selectedEndDate
-                  ? `~ ${selectedEndDate}`
+            {selectedStartAt && selectedEndAt
+              ? `${selectedStartAt} ~ ${selectedEndAt}`
+              : selectedStartAt
+                ? `${selectedStartAt} ~`
+                : selectedEndAt
+                  ? `~ ${selectedEndAt}`
                   : '날짜'}
           </span>
           <Icons.keyboardArrowDown className="size-4 fill-gray-06" />

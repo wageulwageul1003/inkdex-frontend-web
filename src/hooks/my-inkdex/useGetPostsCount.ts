@@ -5,26 +5,28 @@ import { IResponse } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface IPostsCountResponse {
-  category: string;
+  categoryUuid: string;
   count: number;
 }
 
 type TGetPostsCountParams = {
-  startDate: string | null;
-  endDate: string | null;
+  startAt?: string | null;
+  endAt?: string | null;
 };
 
 export const GetPostsCount = async (
   params: TGetPostsCountParams,
 ): Promise<IResponse<IPostsCountResponse>> => {
-  const data = await agent(
-    params.startDate || params.endDate
-      ? `/api/v1/me/posts/counts?startDate=${params.startDate}&endDate=${params.endDate}`
-      : `/api/v1/me/posts/counts`,
-    {
-      method: 'GET',
-    },
-  );
+  const queryParams = new URLSearchParams();
+
+  if (params.startAt) queryParams.set('startAt', params.startAt);
+  if (params.endAt) queryParams.set('endAt', params.endAt);
+
+  const url = `/api/mypage/posts/count?${queryParams.toString()}`;
+
+  const data = await agent(url, {
+    method: 'GET',
+  });
 
   return data;
 };
