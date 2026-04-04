@@ -14,7 +14,7 @@ export interface IUserListResponse {
 
 // PARAMS TYPE
 type TGetUserPostsListParams = {
-  query?: string;
+  searchKeyword?: string;
   page?: string;
   size?: string;
 };
@@ -24,11 +24,12 @@ export const GetUserList = async (
 ): Promise<IResponsePaged<IUserListResponse>> => {
   const queryParams = new URLSearchParams();
 
-  if (params.query) queryParams.set('query', params.query);
+  if (params.searchKeyword)
+    queryParams.set('searchKeyword', params.searchKeyword);
   if (params.page) queryParams.set('page', String(Number(params.page) - 1));
   if (params.size) queryParams.set('size', String(params.size));
 
-  const url = `/api/v1/search/users?${queryParams.toString()}`;
+  const url = `/api/search/account?${queryParams.toString()}`;
 
   const data = await agent(url, {
     method: 'GET',
@@ -44,6 +45,7 @@ export const useGetUserList = (params: TGetUserPostsListParams) => {
     TInfiniteListResult<IUserListResponse>
   >({
     queryKey: [userListKey, params],
+    enabled: !!params.searchKeyword,
     queryFn: ({ pageParam = 1 }) =>
       GetUserList({ ...params, page: String(pageParam) }),
     initialPageParam: 1,

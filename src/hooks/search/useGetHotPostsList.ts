@@ -33,7 +33,7 @@ export interface IHotPostListResponse {
 
 // PARAMS TYPE
 type TGetHotPostsListParams = {
-  query?: string;
+  searchKeyword?: string;
   page?: string;
   size?: string;
 };
@@ -43,11 +43,12 @@ export const GetHotPostsList = async (
 ): Promise<IResponsePaged<IHotPostListResponse>> => {
   const queryParams = new URLSearchParams();
 
-  if (params.query) queryParams.set('query', params.query);
+  if (params.searchKeyword)
+    queryParams.set('searchKeyword', params.searchKeyword);
   if (params.page) queryParams.set('page', String(Number(params.page) - 1));
   if (params.size) queryParams.set('size', String(params.size));
 
-  const url = `/api/v1/search/popular-posts?${queryParams.toString()}`;
+  const url = `/api/search/posts?${queryParams.toString()}`;
 
   const data = await agent(url, {
     method: 'GET',
@@ -63,6 +64,7 @@ export const useGetHotPostsList = (params: TGetHotPostsListParams) => {
     TInfiniteListResult<IHotPostListResponse>
   >({
     queryKey: [hotPostsListKey, params],
+    enabled: !!params.searchKeyword,
     queryFn: ({ pageParam = 1 }) =>
       GetHotPostsList({ ...params, page: String(pageParam) }),
     initialPageParam: 1,

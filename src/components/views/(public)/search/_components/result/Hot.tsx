@@ -15,7 +15,7 @@ export const Hot = () => {
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGetHotPostsList({
-      query: searchParams.get('searchKeyword') || undefined,
+      searchKeyword: searchParams.get('searchKeyword') || undefined,
       size: '3',
     });
 

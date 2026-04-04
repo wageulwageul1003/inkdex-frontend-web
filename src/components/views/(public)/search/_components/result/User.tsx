@@ -14,7 +14,7 @@ export const User = () => {
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGetUserList({
-      query: searchParams.get('searchKeyword') || undefined,
+      searchKeyword: searchParams.get('searchKeyword') || undefined,
       size: '3',
     });
 

@@ -5,14 +5,15 @@ import { IResponse } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface IRecentSearchKeywordsResponse {
-  id: string;
-  searchTerm: string;
+  uuid: string;
+  keyword: string;
+  createdAt: string;
 }
 
 export const GetRecentSearchKeywords = async (): Promise<
   IResponse<IRecentSearchKeywordsResponse>
 > => {
-  const data = await agent(`/api/v1/search/me/recent`, {
+  const data = await agent(`/api/search/recents`, {
     method: 'GET',
   });
 
