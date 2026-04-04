@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { Card } from '../../../home/_components/Card';
 
 import { Loading } from '@/components/shared/Loading';
+import { CustomAlertDialog } from '@/components/shared/custom-alert-dialog';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
@@ -24,6 +25,7 @@ interface TProps {
 export const CollectionDetailView = ({ uuid }: TProps) => {
   const router = useRouter();
   const [moreOpen, setMoreOpen] = useState(false);
+  const [deleteAlertOpen, setDeleteAlertOpen] = useState(false);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGetSpecificCollectionList({
@@ -45,7 +47,7 @@ export const CollectionDetailView = ({ uuid }: TProps) => {
   const handleDeleteCollection = () => {
     deleteCollection({ collectionUuid: uuid }).then(() => {
       router.back();
-      toast.success('성공적으로 삭제하였습니다.');
+      toast.success('컬렉션 삭제가 완료되었어요.');
     });
   };
 
@@ -79,7 +81,10 @@ export const CollectionDetailView = ({ uuid }: TProps) => {
                   </p>
                   <p
                     className="font-m-2 flex h-11 items-center px-2 text-red-05"
-                    onClick={handleDeleteCollection}
+                    onClick={() => {
+                      setDeleteAlertOpen(true);
+                      setMoreOpen(false);
+                    }}
                   >
                     삭제
                   </p>
@@ -141,6 +146,16 @@ export const CollectionDetailView = ({ uuid }: TProps) => {
           </div>
         )}
       </div>
+
+      <CustomAlertDialog
+        isOpen={deleteAlertOpen}
+        onOpenChange={setDeleteAlertOpen}
+        title="이 컬렉션을 삭제할까요?"
+        description={<p>게시물은 삭제되지 않습니다.</p>}
+        cancelText="아니오"
+        confirmText="예"
+        onConfirm={handleDeleteCollection}
+      />
     </div>
   );
 };
