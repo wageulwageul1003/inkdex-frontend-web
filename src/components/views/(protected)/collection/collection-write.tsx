@@ -13,6 +13,7 @@ import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { useGetSpecificCollection } from '@/hooks/collection/useGetSpecificCollection';
+import { usePatchCollection } from '@/hooks/collection/usePatchCollection';
 import { usePostCollection } from '@/hooks/collection/usePostCollection';
 import { isApp } from '@/lib/device';
 import { nativeBridge } from '@/lib/native-bridge';
@@ -27,9 +28,10 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
   const imageFileRef = useRef<File | null>(null);
 
   const { mutateAsync: postCollection } = usePostCollection();
+  const { mutateAsync: patchCollection } = usePatchCollection();
 
   const { data: collectionInfo } = useGetSpecificCollection({
-    collectionId: uuid || '',
+    collectionUuid: uuid || '',
   });
 
   const form = useForm({
@@ -44,8 +46,8 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
   useEffect(() => {
     if (collectionInfo) {
       form.reset({
-        imageUrl: '',
-        name: collectionInfo.name,
+        imageUrl: collectionInfo.data.imageUrl || '',
+        name: collectionInfo.data.name,
       });
     }
   }, [collectionInfo]);
@@ -82,14 +84,27 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
   };
 
   const onSubmit = async (data: TCollectionWriteSchema) => {
-    try {
-      await postCollection({
-        ...data,
-      }).then(() => {
-        router.back();
-      });
-    } catch (error) {
-      console.error('컬렉션 등록 오류:', error);
+    if (uuid) {
+      try {
+        await patchCollection({
+          ...data,
+          uuid: uuid,
+        }).then(() => {
+          router.back();
+        });
+      } catch (error) {
+        console.error('컬렉션 수정 오류:', error);
+      }
+    } else {
+      try {
+        await postCollection({
+          ...data,
+        }).then(() => {
+          router.back();
+        });
+      } catch (error) {
+        console.error('컬렉션 등록 오류:', error);
+      }
     }
   };
 

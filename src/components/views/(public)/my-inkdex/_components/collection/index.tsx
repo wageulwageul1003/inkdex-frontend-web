@@ -33,7 +33,11 @@ export const Collection = () => {
           </span>
         </div>
         <div className="flex gap-2">
-          <Button variant="buttonIconOutline" size="buttonIconMedium">
+          <Button
+            variant="buttonIconOutline"
+            size="buttonIconMedium"
+            onClick={() => router.push(`/collection/write`)}
+          >
             <Icons.plus className="size-6 fill-black" />
           </Button>
           <Button

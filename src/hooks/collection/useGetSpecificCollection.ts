@@ -1,35 +1,35 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { specificCollectionKey } from '@/constants/queryKeys';
+import { IResponseDetail } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface ISpecificCollectionResponse {
-  collectionId: string;
+  uuid: string;
   name: string;
-  postCount: number;
-  imageUrl: string;
-  thumbnailUrl: string;
-  createdBy: string;
+  imageUrl: string | null;
+  priority: number;
   createdAt: string;
+  postsCount: number;
 }
 
 export const GetSpecificCollection = async (
-  collectionId: string,
-): Promise<ISpecificCollectionResponse> => {
-  const data = await agent(`/api/v1/collections/${collectionId}`, {
+  collectionUuid: string,
+): Promise<IResponseDetail<ISpecificCollectionResponse>> => {
+  const data = await agent(`/api/collections/${collectionUuid}`, {
     method: 'GET',
   });
 
-  return data.data.content;
+  return data;
 };
 
 export const useGetSpecificCollection = ({
-  collectionId,
+  collectionUuid,
 }: {
-  collectionId: string;
+  collectionUuid: string;
 }) =>
   useQuery({
-    queryKey: [specificCollectionKey, collectionId],
-    queryFn: () => GetSpecificCollection(collectionId),
-    enabled: !!collectionId,
+    queryKey: [specificCollectionKey, collectionUuid],
+    queryFn: () => GetSpecificCollection(collectionUuid),
+    enabled: !!collectionUuid,
   });

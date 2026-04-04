@@ -8,7 +8,7 @@ import { agent } from '@/utils/fetch';
 
 // PARAMS TYPE
 type TGetSpecificCollectionListParams = {
-  collectionId: string;
+  collectionUuid: string;
   page?: string;
   size?: string;
 };
@@ -21,7 +21,7 @@ export const GetSpecificCollectionList = async (
   if (params.page) queryParams.set('page', String(Number(params.page) - 1));
   if (params.size) queryParams.set('size', String(params.size));
 
-  const url = `/api/v1/collections/${params.collectionId}/posts?${queryParams.toString()}`;
+  const url = `/api/collections/${params.collectionUuid}/posts?${queryParams.toString()}`;
 
   const data = await agent(url, {
     method: 'GET',
