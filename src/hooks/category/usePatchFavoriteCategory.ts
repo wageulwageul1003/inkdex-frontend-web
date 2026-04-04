@@ -5,20 +5,20 @@ import { TFavoriteCategoriesSchema } from '@/components/views/(protected)/favori
 import { favoriteCategoryListKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 
-export const PutFavoriteCategory = async (
-  params: TFavoriteCategoriesSchema,
+export const PatchFavoriteCategory = async (
+  payload: TFavoriteCategoriesSchema,
 ) => {
-  const response = await agent(`/api/v1/me/preferred-categories`, {
-    method: 'PUT',
-    body: JSON.stringify(params.categoryUuids),
+  const response = await agent(`/api/account/categories`, {
+    method: 'PATCH',
+    body: JSON.stringify(payload),
   });
   return response;
 };
 
-export const usePutFavoriteCategory = () => {
+export const usePatchFavoriteCategory = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: PutFavoriteCategory,
+    mutationFn: PatchFavoriteCategory,
 
     onSuccess: async (response) => {
       await queryClient.invalidateQueries({

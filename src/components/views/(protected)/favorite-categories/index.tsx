@@ -11,15 +11,16 @@ import Chips from '@/components/shared/chips';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
+import { toast } from '@/components/ui/sonner';
 import { useGetCategoryList } from '@/hooks/category/useGetCategoryList';
 import { useGetFavoriteCategoryList } from '@/hooks/category/useGetFavoriteCategoryList';
-import { usePutFavoriteCategory } from '@/hooks/category/usePutFavoriteCategory';
+import { usePatchFavoriteCategory } from '@/hooks/category/usePatchFavoriteCategory';
 
 export const FavoriteCategoriesView = () => {
   const router = useRouter();
   const { data: categories } = useGetCategoryList();
   const { data: favoriteCategories } = useGetFavoriteCategoryList();
-  const { mutateAsync: putFavoriteCategory } = usePutFavoriteCategory();
+  const { mutateAsync: patchFavoriteCategory } = usePatchFavoriteCategory();
 
   const form = useForm<TFavoriteCategoriesSchema>({
     resolver: zodResolver(FavoriteCategoriesSchema),
@@ -31,15 +32,17 @@ export const FavoriteCategoriesView = () => {
 
   useEffect(() => {
     form.reset({
-      categoryUuids:
-        favoriteCategories?.data.content.map((item) => item.slug) || [],
+      categoryUuids: favoriteCategories?.data.map((item) => item.uuid) || [],
     });
   }, [favoriteCategories]);
 
   const { control, formState } = form;
 
   const onSubmit = (data: TFavoriteCategoriesSchema) => {
-    putFavoriteCategory(data);
+    patchFavoriteCategory(data).then(() => {
+      toast.success('관심 있는 카테고리를 변경하였습니다.');
+      router.back();
+    });
   };
 
   return (
@@ -72,8 +75,8 @@ export const FavoriteCategoriesView = () => {
             render={({ field }) => (
               <Chips
                 items={
-                  categories?.data?.content.map((item) => ({
-                    value: item.slug,
+                  categories?.data?.map((item) => ({
+                    value: item.uuid,
                     label: item.name,
                   })) || []
                 }

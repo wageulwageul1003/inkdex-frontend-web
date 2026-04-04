@@ -5,14 +5,14 @@ import { IResponse } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface IFavoriteCategoryeResponse {
-  slug: string;
+  uuid: string;
   name: string;
 }
 
 export const GetFavoriteCategoryList = async (): Promise<
   IResponse<IFavoriteCategoryeResponse>
 > => {
-  const data = await agent(`/api/v1/me/preferred-categories`, {
+  const data = await agent(`/api/account/categories`, {
     method: 'GET',
   });
 
