@@ -12,7 +12,7 @@ import { CustomAlertDialog } from './custom-alert-dialog';
 import { FollowingButton } from './following-button';
 import { Icons } from './icons';
 
-import { USER_ID } from '@/constants/tokens';
+import { USER_UUID } from '@/constants/tokens';
 import { usePostReport } from '@/hooks/report/usePostReport';
 
 interface UserProfileProps {
@@ -23,6 +23,7 @@ interface UserProfileProps {
   bio?: string;
   following?: boolean;
   isShowMore?: boolean;
+  postUuid?: string;
 }
 
 export const UserProfile = ({
@@ -33,9 +34,10 @@ export const UserProfile = ({
   bio,
   following,
   isShowMore = true,
+  postUuid,
 }: UserProfileProps) => {
   const router = useRouter();
-  const isMyProfile = userId === Cookies.get(USER_ID);
+  const isMyProfile = userId === Cookies.get(USER_UUID);
   const [reportAlertOpen, setReportAlertOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const { mutateAsync: postReport } = usePostReport();
@@ -113,9 +115,8 @@ export const UserProfile = ({
         confirmText="신고하기"
         onConfirm={() => {
           postReport({
-            targetId: accountUuid || '',
-            targetType: 'POST',
-            reason: 'SPAM',
+            targetUuid: postUuid || '',
+            type: 'POST',
           }).then(() => {
             setReportAlertOpen(false);
             toast.success('신고가 접수되었어요!');

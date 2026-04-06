@@ -10,6 +10,8 @@ import FavoriteToggle from '@/components/shared/post-toggle/favorite-toggle';
 import { IPostListResponse } from '@/hooks/home/useGetPostsList';
 import { usePostBookmark } from '@/hooks/posts/bookmark/usePostBookmark';
 import { usePostLike } from '@/hooks/posts/like/usePostLike';
+import { MyProfile } from '@/components/shared/my-profile';
+import { UserProfile } from '@/components/shared/user-profile';
 
 interface ICardProps {
   item: IPostListResponse;
@@ -64,24 +66,25 @@ export const Card = ({ item, isMyPost = false }: ICardProps) => {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* {isMyPost ? (
+      {isMyPost ? (
         <MyProfile
           publicId={item.account.uuid}
           nickname={item.account.nickname}
-          nicknameSrc={item.account.profileImageUrl}
-          bio={''}
+          nicknameSrc={item.account.profileImageUrl || ''}
+          bio={item.account.bio || ''}
         />
       ) : (
         <UserProfile
           userId={item.account.uuid}
           nickname={item.account.nickname}
-          nicknameSrc={item.account.profileImageUrl}
-          bio={''}
-          following={false}
+          nicknameSrc={item.account.profileImageUrl || ''}
+          bio={item.account.bio || ''}
+          following={item.account.isFollowing}
           isShowMore={true}
           accountUuid={item.account.uuid}
+          postUuid={item.uuid}
         />
-      )} */}
+      )}
 
       <div className="relative aspect-square w-full overflow-hidden rounded-lg border border-gray-03">
         <Image

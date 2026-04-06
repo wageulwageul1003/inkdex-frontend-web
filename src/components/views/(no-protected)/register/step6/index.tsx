@@ -11,7 +11,7 @@ import Chips from '@/components/shared/chips';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/sonner';
-import { ACCESS_TOKEN } from '@/constants/tokens';
+import { ACCESS_TOKEN, USER_UUID } from '@/constants/tokens';
 import { usePostEmailLogin } from '@/hooks/auth/usePostEmailLogin';
 import { usePostRegister } from '@/hooks/auth/usePostRegister';
 import { useGetCategoryList } from '@/hooks/category/useGetCategoryList';
@@ -64,6 +64,7 @@ const Step6 = () => {
       toast.success('회원가입이 완료되었습니다.');
       router.push('/home');
       Cookies.set(ACCESS_TOKEN, response.data.accessToken);
+      Cookies.set(USER_UUID, response.data.uuid);
     } catch (error) {
       console.error('회원가입 오류:', error);
     }

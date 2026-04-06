@@ -9,7 +9,7 @@ import { Icons } from '@/components/shared/icons';
 import FavoriteToggle from '@/components/shared/post-toggle/favorite-toggle';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/sonner';
-import { USER_ID } from '@/constants/tokens';
+import { USER_UUID } from '@/constants/tokens';
 import { ICommentItemResponse } from '@/hooks/comment/useGetCommentList';
 import { useDeleteCommentLike } from '@/hooks/posts/like/useDeleteCommentLike';
 import { usePostCommentLike } from '@/hooks/posts/like/usePostCommentLike';
@@ -26,7 +26,7 @@ const CommentItem: FC<TProps> = ({ item, setSelectedComment, variant }) => {
   const [moreOpen, setMoreOpen] = useState(false);
   const [reportAlertOpen, setReportAlertOpen] = useState(false);
 
-  const isMyComment = item.user.uuid === Cookies.get(USER_ID);
+  const isMyComment = item.user.uuid === Cookies.get(USER_UUID);
 
   // 좋아요
   const { mutateAsync: postCommentLike } = usePostCommentLike();
@@ -121,10 +121,10 @@ const CommentItem: FC<TProps> = ({ item, setSelectedComment, variant }) => {
       <CustomAlertDialog
         isOpen={reportAlertOpen}
         onOpenChange={setReportAlertOpen}
-        title="게시물을 신고할까요?"
+        title="댓글을 신고할까요?"
         description={
           <p>
-            신고한 게시물은 운영 정책에 따라 검토됩니다. <br />
+            신고한 댓글은 운영 정책에 따라 검토됩니다. <br />
             신고 후에는 취소할 수 없어요.
           </p>
         }
@@ -132,9 +132,8 @@ const CommentItem: FC<TProps> = ({ item, setSelectedComment, variant }) => {
         confirmText="신고하기"
         onConfirm={() => {
           postReport({
-            targetId: item.id || '',
-            targetType: 'COMMENT',
-            reason: 'SPAM',
+            targetUuid: item.uuid || '',
+            type: 'COMMENT',
           }).then(() => {
             setReportAlertOpen(false);
             toast.success('신고가 접수되었어요!');

@@ -42,7 +42,7 @@ export const Recommend = () => {
       </div>
 
       <div className="mt-4 flex flex-col gap-4">
-        {data?.content.map((item) => <Card key={item.id} item={item} />)}
+        {data?.content.map((item) => <Card key={item.uuid} item={item} />)}
         <div ref={observerRef} className="flex h-1 justify-center">
           {isFetchingNextPage && <Loading />}
         </div>

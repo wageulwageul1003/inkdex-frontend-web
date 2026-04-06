@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import { Button } from '../ui/button';
 
 import { Icons } from './icons';
@@ -19,12 +21,35 @@ export const FollowingButton = ({
   const { mutateAsync: postFollow } = usePostFollow();
   const { mutateAsync: deleteFollow } = useDeleteFollow();
 
-  return following ? (
+  const [isFollowing, setIsFollowing] = useState(following);
+
+  useEffect(() => {
+    setIsFollowing(following);
+  }, [following]);
+
+  const handleToggleFollow = async () => {
+    const prev = isFollowing;
+    const next = !prev;
+
+    setIsFollowing(next);
+
+    try {
+      if (next) {
+        await postFollow(accountUuid);
+      } else {
+        await deleteFollow(accountUuid);
+      }
+    } catch {
+      setIsFollowing(prev);
+    }
+  };
+
+  return isFollowing ? (
     <Button
       variant="outline"
       size="sm"
       className="flex items-center gap-1"
-      onClick={() => deleteFollow(accountUuid)}
+      onClick={handleToggleFollow}
     >
       <Icons.check className="size-4 fill-gray-06" />
       <span className="font-s-2 text-gray-08">팔로잉</span>
@@ -34,7 +59,7 @@ export const FollowingButton = ({
       size="sm"
       variant="outline"
       className="flex items-center gap-1"
-      onClick={() => postFollow(accountUuid)}
+      onClick={handleToggleFollow}
     >
       <Icons.plus className="size-4 fill-gray-06" />
       <span className="font-s-2 text-gray-08">팔로우</span>

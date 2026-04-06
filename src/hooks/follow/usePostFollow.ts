@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { followKey, followListKey } from '@/constants/queryKeys';
+import { followKey, followListKey, postsListKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 
 export const postFollow = async (targetUuid: string) => {
@@ -24,6 +24,9 @@ export const usePostFollow = () => {
       });
       await queryClient.invalidateQueries({
         queryKey: [followListKey],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: [postsListKey],
       });
     },
     onError: (error: ErrorData) => {},

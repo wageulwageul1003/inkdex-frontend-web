@@ -1,7 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { deleteFollowKey, followListKey } from '@/constants/queryKeys';
+import {
+  deleteFollowKey,
+  followListKey,
+  postsListKey,
+} from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 
 export const deleteFollow = async (targetUuid: string) => {
@@ -24,6 +28,9 @@ export const useDeleteFollow = () => {
       });
       await queryClient.invalidateQueries({
         queryKey: [followListKey],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: [postsListKey],
       });
     },
     onError: (error: ErrorData) => {},

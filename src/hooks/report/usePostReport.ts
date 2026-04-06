@@ -5,13 +5,12 @@ import { reportKey, reportListKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 
 export type TReportPayloadType = {
-  targetId: string;
-  targetType: string;
-  reason: string;
+  targetUuid: string;
+  type: string; // POST or COMMENT
 };
 
 export const postReport = async (payload: TReportPayloadType) => {
-  const response = await agent(`/api/v1/reports`, {
+  const response = await agent(`/api/report`, {
     method: 'POST',
     body: JSON.stringify(payload),
   });

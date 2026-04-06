@@ -9,7 +9,7 @@ import { CustomAlertDialog } from '@/components/shared/custom-alert-dialog';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
-import { ACCESS_TOKEN, USER_ID } from '@/constants/tokens';
+import { ACCESS_TOKEN, USER_UUID } from '@/constants/tokens';
 import { useGetAccountInfo } from '@/hooks/auth/useGetAccountInfo';
 import { cn } from '@/lib/utils';
 
@@ -42,7 +42,7 @@ export const AccountView = () => {
   const handleLogout = () => {
     try {
       Cookies.remove(ACCESS_TOKEN);
-      Cookies.remove(USER_ID);
+      Cookies.remove(USER_UUID);
       router.push('/login');
     } catch (error) {
       console.log(error);

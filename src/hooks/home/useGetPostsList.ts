@@ -27,6 +27,8 @@ export interface IPostListResponse {
     uuid: string;
     nickname: string;
     profileImageUrl: null | string;
+    bio: null | string;
+    isFollowing: boolean;
   };
   isLiked: boolean;
   isBookmarked: boolean;

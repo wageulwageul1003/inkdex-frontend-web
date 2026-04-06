@@ -14,7 +14,7 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { ACCESS_TOKEN, USER_ID } from '@/constants/tokens';
+import { ACCESS_TOKEN, USER_UUID } from '@/constants/tokens';
 import { useGetWithdrawReasonList } from '@/hooks/auth/withdraw/useGetWithdrawReasonList';
 import { usePostWithdrawAccount } from '@/hooks/auth/withdraw/usePostWithdrawAccount';
 
@@ -30,7 +30,7 @@ export const AccountDeleteView = () => {
       () => {
         router.push('/');
         Cookies.remove(ACCESS_TOKEN);
-        Cookies.remove(USER_ID);
+        Cookies.remove(USER_UUID);
       },
     );
   };
