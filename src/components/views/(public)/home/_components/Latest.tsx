@@ -31,8 +31,8 @@ export const Latest = () => {
         <Chips
           items={[
             { value: '', label: '전체' },
-            ...(categories?.data?.content.map((item) => ({
-              value: item.slug,
+            ...(categories?.data?.map((item) => ({
+              value: item.uuid,
               label: item.name,
             })) || []),
           ]}
@@ -42,7 +42,7 @@ export const Latest = () => {
       </div>
 
       <div className="mt-4 flex flex-col gap-4">
-        {data?.content.map((item) => <Card key={item.id} item={item} />)}
+        {data?.content.map((item) => <Card key={item.uuid} item={item} />)}
         <div ref={observerRef} className="flex h-1 justify-center">
           {isFetchingNextPage && <Loading />}
         </div>

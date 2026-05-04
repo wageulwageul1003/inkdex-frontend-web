@@ -17,7 +17,7 @@ export const Recommend = () => {
     useGetPostsList({
       category: '',
       size: '3',
-      feedType: 'recommended',
+      feedType: 'recommend',
     });
 
   const observerRef = useInfiniteScroll(

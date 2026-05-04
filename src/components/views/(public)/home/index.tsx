@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-import { Following } from './_components/Following';
+import { Follow } from './_components/Follow';
 import { Latest } from './_components/Latest';
 import { Recommend } from './_components/Recommend';
 
@@ -51,7 +51,7 @@ export const HomeView = ({ defaultValue }: IHomeProps) => {
 
           {/* 팔로우 */}
           <TabsContent value="follow">
-            <Following />
+            <Follow />
           </TabsContent>
         </Tabs>
       </div>
