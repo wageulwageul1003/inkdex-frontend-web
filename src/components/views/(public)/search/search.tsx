@@ -59,7 +59,7 @@ export const SearchResultView = ({ defaultValue }: ISearchResultProps) => {
       <Tabs
         value={defaultValue}
         onValueChange={handleTabChange}
-        className="mt-3 w-full"
+        className="w-full"
       >
         <TabsList className="">
           <TabsTrigger value="hot">인기</TabsTrigger>

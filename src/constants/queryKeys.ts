@@ -57,8 +57,7 @@ const withdrawAccountKey = 'withdrawAccountKey';
 
 const deleteRecentSearchKeywordKey = 'deleteRecentSearchKeywordKey';
 const recentSearchKeywordsKey = 'recentSearchKeywordsKey';
-const hotPostsListKey = 'hotPostsListKey';
-const latestPostsListKey = 'latestPostsListKey';
+const searchPostList = 'searchPostList';
 const userListKey = 'userListKey';
 const recommendSearchKeywordsKey = 'recommendSearchKeywordsKey';
 const hotSearchKeywordsKey = 'hotSearchKeywordsKey';
@@ -129,8 +128,7 @@ export {
   withdrawAccountKey,
   deleteRecentSearchKeywordKey,
   recentSearchKeywordsKey,
-  hotPostsListKey,
-  latestPostsListKey,
+  searchPostList,
   userListKey,
   recommendSearchKeywordsKey,
   hotSearchKeywordsKey,

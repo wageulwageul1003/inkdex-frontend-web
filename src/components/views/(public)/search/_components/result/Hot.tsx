@@ -1,4 +1,4 @@
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import React from 'react';
 
 import { Card } from '../../../home/_components/Card';
@@ -7,16 +7,16 @@ import { NoResult } from './no-result';
 
 import { Loading } from '@/components/shared/Loading';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
-import { useGetHotPostsList } from '@/hooks/search/useGetHotPostsList';
+import { useGetSearchPostsList } from '@/hooks/search/useGetSearchPostsList';
 
 export const Hot = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useGetHotPostsList({
+    useGetSearchPostsList({
       searchKeyword: searchParams.get('searchKeyword') || undefined,
       size: '3',
+      feedType: 'hot',
     });
 
   const observerRef = useInfiniteScroll(
@@ -30,7 +30,7 @@ export const Hot = () => {
         <NoResult />
       ) : (
         <div className="mt-4 flex flex-col gap-4">
-          {data?.content.map((item) => <Card key={item.id} item={item} />)}
+          {data?.content.map((item) => <Card key={item.uuid} item={item} />)}
           <div ref={observerRef} className="flex h-1 justify-center">
             {isFetchingNextPage && <Loading />}
           </div>

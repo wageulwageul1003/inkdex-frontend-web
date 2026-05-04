@@ -1,52 +1,28 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { hotPostsListKey } from '@/constants/queryKeys';
+import { searchPostList } from '@/constants/queryKeys';
 import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
-
-export interface IHotPostListResponse {
-  id: string;
-  userId: string;
-  userNickname: string;
-  profileImageUrl: string;
-  userBio: string;
-  following: boolean;
-  categorySlug: string;
-  content: string;
-  imageUrl: string;
-  thumbnailUrl: string;
-  imageMetadata: {
-    width: number;
-    height: number;
-    aspectRatio: number;
-    fileSize: number;
-  };
-  tags: string[];
-  likeCount: number;
-  liked: boolean;
-  bookmarked: boolean;
-  commentCount: number;
-  viewCount: number;
-  createdAt: string;
-  updatedAt: string;
-}
+import { IPostListResponse } from '../home/useGetPostsList';
 
 // PARAMS TYPE
-type TGetHotPostsListParams = {
+type TGetSearchPostsListParams = {
   searchKeyword?: string;
   page?: string;
   size?: string;
+  feedType: string;
 };
 
-export const GetHotPostsList = async (
-  params: TGetHotPostsListParams,
-): Promise<IResponsePaged<IHotPostListResponse>> => {
+export const GetSearchPostsList = async (
+  params: TGetSearchPostsListParams,
+): Promise<IResponsePaged<IPostListResponse>> => {
   const queryParams = new URLSearchParams();
 
   if (params.searchKeyword)
     queryParams.set('searchKeyword', params.searchKeyword);
   if (params.page) queryParams.set('page', String(Number(params.page) - 1));
   if (params.size) queryParams.set('size', String(params.size));
+  if (params.feedType) queryParams.set('feedType', params.feedType);
 
   const url = `/api/search/posts?${queryParams.toString()}`;
 
@@ -57,16 +33,16 @@ export const GetHotPostsList = async (
   return data;
 };
 
-export const useGetHotPostsList = (params: TGetHotPostsListParams) => {
+export const useGetSearchPostsList = (params: TGetSearchPostsListParams) => {
   return useInfiniteQuery<
-    IResponsePaged<IHotPostListResponse>,
+    IResponsePaged<IPostListResponse>,
     Error,
-    TInfiniteListResult<IHotPostListResponse>
+    TInfiniteListResult<IPostListResponse>
   >({
-    queryKey: [hotPostsListKey, params],
+    queryKey: [searchPostList, params],
     enabled: !!params.searchKeyword,
     queryFn: ({ pageParam = 1 }) =>
-      GetHotPostsList({ ...params, page: String(pageParam) }),
+      GetSearchPostsList({ ...params, page: String(pageParam) }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) =>
       lastPage.data.paging.hasNext
