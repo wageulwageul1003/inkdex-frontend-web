@@ -69,6 +69,11 @@ import speakerphone from '@/public/icons/speakerphone.svg';
 import user from '@/public/icons/user.svg';
 import visibility from '@/public/icons/visibility.svg';
 import visibilityOff from '@/public/icons/visibility_off.svg';
+import compass from '@/public/icons/compass.svg';
+import lock from '@/public/icons/lock.svg';
+import userCancel from '@/public/icons/user_cancel.svg';
+import users from '@/public/icons/users.svg';
+import worldMap from '@/public/icons/world_map.svg';
 
 export const Icons = {
   ArrowBackIos,
@@ -142,4 +147,9 @@ export const Icons = {
   number09,
   messageCircleQuestion,
   attachFile,
+  compass,
+  lock,
+  userCancel,
+  users,
+  worldMap,
 };

@@ -26,12 +26,11 @@ export default function SplashView() {
       <Image
         src={'/logos/inkdex-logo.png'}
         alt="Logo"
-        width={100}
-        height={100}
-        className="aspect-[2/1] w-full"
+        width={182}
+        height={90}
       />
       <span className="font-xs-1 text-center text-gray-05">
-        당신의 잉크가 우리의 인덱스가 되다.
+        나의 필사가 쌓이는 곳, 잉덱스
       </span>
     </div>
   );
