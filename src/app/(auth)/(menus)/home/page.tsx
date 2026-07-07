@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation';
+import { HomeView } from '@/components/views/(public)/home';
 
 export default function HomePage() {
-  return redirect('/home/recommend');
+  return <HomeView />;
 }

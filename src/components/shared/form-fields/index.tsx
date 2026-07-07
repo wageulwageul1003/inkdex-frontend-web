@@ -27,6 +27,7 @@ import SelectComponent from '@/components/ui/select-container';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
+import Chips from '../chips';
 
 export enum FormFieldType {
   // INPUT VARIANTS
@@ -50,7 +51,7 @@ export enum FormFieldType {
 
   // SELECT VARIANTS
   SELECT = 'select',
-  MULTISELECT = 'multi-select',
+  CHIP = 'chip',
 
   // FILE VARIANTS
   FILE = 'file',
@@ -169,7 +170,7 @@ export const InputField = <T extends FieldValues>({
     case FormFieldType.INPUT:
       return (
         <fieldset
-          className={cn('flex flex-col', props.labelSlot ? 'mt-2' : '')}
+          className={cn('flex flex-col', props.labelSlot ? 'mt-0.5' : '')}
         >
           <Input
             placeholder={props.placeholder}
@@ -200,7 +201,8 @@ export const InputField = <T extends FieldValues>({
           />
           {props.maxCharacters && (
             <span className="font-caption mt-2 truncate text-gray-500">
-              ({field.value?.length.toString() || '0'}/{props.maxCharacters})
+              ({field.value?.length.toString() || '0'}/
+              {props.maxCharacters.toLocaleString()})
             </span>
           )}
         </fieldset>
@@ -236,7 +238,8 @@ export const InputField = <T extends FieldValues>({
           />
           {props.maxCharacters && (
             <span className="font-xs-2 absolute bottom-3 right-4 truncate text-gray-04">
-              {field.value?.length.toString() || '0'}/{props.maxCharacters}
+              {field.value?.length.toString() || '0'}/
+              {props.maxCharacters.toLocaleString()}
             </span>
           )}
         </fieldset>
@@ -270,7 +273,7 @@ export const InputField = <T extends FieldValues>({
       );
 
     // **********************************************************************************
-    // SELECTS, MULTI-SELECTS, COMBOBOX, COMBOBOX MULTISELECT
+    // SELECTS, MULTI-SELECTS, COMBOBOX, COMBOBOX
     // **********************************************************************************
 
     // SELECT
@@ -287,6 +290,16 @@ export const InputField = <T extends FieldValues>({
           className={props.fieldClassName}
           noDataMessage={props.noDataMessage}
           error={error}
+        />
+      );
+
+    // CHIP
+    case FormFieldType.CHIP:
+      return (
+        <Chips
+          items={props.options}
+          value={field.value}
+          onValueChange={field.onChange}
         />
       );
 

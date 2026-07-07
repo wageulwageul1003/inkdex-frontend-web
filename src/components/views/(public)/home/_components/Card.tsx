@@ -121,13 +121,13 @@ export const Card = ({ item, isMyPost = false }: ICardProps) => {
 
       <div>
         <div className="relative">
+          ㄴ
           <p
             ref={contentRef}
             className={`font-s-2 whitespace-pre-line text-black ${expanded ? '' : 'line-clamp-2'} ${showMore && !expanded ? 'pr-10' : ''}`}
           >
             {item.content}
           </p>
-
           {showMore && !expanded && (
             <button
               type="button"

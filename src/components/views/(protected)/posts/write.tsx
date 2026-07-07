@@ -19,6 +19,9 @@ import { ICollectionListResponse } from '@/hooks/collection/useGetCollectionList
 import { usePostPosts } from '@/hooks/posts/usePostPosts';
 import { isApp } from '@/lib/device';
 import { nativeBridge } from '@/lib/native-bridge';
+import { useGetEmotionList } from '@/hooks/emotion/useGetEmotionList';
+import { Visibility } from './_components/Visibility';
+import { VISIBILITY, VisibilityType } from '@/constants/enum';
 
 interface TProps {
   uuid?: string;
@@ -29,8 +32,11 @@ export const PostsWrite: FC<TProps> = (props) => {
   const [selectedCollections, setSelectedCollections] = useState<
     ICollectionListResponse[]
   >([]);
+  const [selectedVisibility, setSelectedVisibility] = useState<VisibilityType>(
+    VISIBILITY[0].value,
+  );
   const { mutateAsync: postPosts } = usePostPosts();
-  const { data: categories } = useGetCategoryList();
+  const { data: emotions } = useGetEmotionList();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const imageFileRef = useRef<File | null>(null);
 
@@ -95,7 +101,7 @@ export const PostsWrite: FC<TProps> = (props) => {
   };
 
   return (
-    <div className="flex flex-1 flex-col bg-white px-4">
+    <div className="no-scrollbar flex flex-1 flex-col bg-white px-4">
       <Header
         left={
           <Icons.ArrowBackIos
@@ -120,40 +126,54 @@ export const PostsWrite: FC<TProps> = (props) => {
             />
           ) : (
             <div
-              className="flex h-[240px] w-[240px] flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-gray-04 bg-gray-02"
+              className="flex h-[240px] w-[240px] flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-gray-04 bg-white"
               onClick={() => handleImageSelect()}
             >
-              <Icons.plus className="size-6 fill-gray-06" />
-              <span className="font-xs-2 text-center text-gray-05">
-                여기를 눌러서 <br />
-                당신의 문장을 남겨주세요
+              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-02">
+                <Icons.camera className="size-6 fill-sand-06" />
+              </span>
+              <span className="font-s-2 text-center text-gray-05">
+                필사 사진을 올려주세요
               </span>
             </div>
           )}
 
           <div className="mt-8 flex w-full flex-col gap-8">
             <FormFields
-              fieldType={FormFieldType.SELECT}
+              fieldType={FormFieldType.INPUT}
               control={form.control}
-              name="categoryUuid"
-              label="카테고리"
-              placeholder="카테고리를 선택해주세요."
-              options={
-                categories?.data?.map((item) => ({
-                  value: item.uuid,
-                  label: item.name,
-                })) || []
-              }
+              name="source"
+              label="어디에서 만난 글인가요?"
+              placeholder="책 제목, 작품명, 출처 등을 입력해주세요."
+              required
             />
 
+            {/* TODO: 엔터가 안먹는다.. ㅜ */}
             <FormFields
               fieldType={FormFieldType.TEXTAREA}
               control={form.control}
-              name="content"
-              label="내용"
-              placeholder="내용을 작성해주세요."
-              isVerified={false}
+              name="reflection"
+              label="이 글이 나에게 닿은 이유"
+              placeholder="이 글이 나에게 닿은 이유를 남겨보세요.\n한 줄만 남겨도 좋아요."
               maxCharacters={1000}
+              required
+            />
+
+            <FormFields
+              fieldType={FormFieldType.CHIP}
+              control={form.control}
+              name="source"
+              label="어디에서 만난 글인가요?"
+              placeholder="책 제목, 작품명, 출처 등을 입력해주세요."
+              required
+              options={
+                emotions?.data.map((item) => {
+                  return {
+                    label: item.name,
+                    value: item.uuid,
+                  };
+                }) ?? []
+              }
             />
 
             <FormFields
@@ -161,15 +181,28 @@ export const PostsWrite: FC<TProps> = (props) => {
               control={form.control}
               name="tags"
               label="태그"
+              labelSlot={
+                <span className="font-s-2 text-gray-06">
+                  이 글을 기억할 키워드를 남겨보세요.
+                </span>
+              }
               placeholder="태그(선택)"
             />
           </div>
 
-          <div className="mb-2 mt-12 flex w-full flex-col gap-2 pt-6">
+          <div className="mb-6 mt-6 flex w-full flex-col gap-2 pt-6">
             <FormLabel>컬렉션</FormLabel>
             <Collection
               selectedCollections={selectedCollections}
               setSelectedCollections={setSelectedCollections}
+            />
+          </div>
+
+          <div className="mt-6 flex w-full flex-col gap-2">
+            <FormLabel>공개 범위</FormLabel>
+            <Visibility
+              selectedVisibility={selectedVisibility}
+              setSelectedVisibility={setSelectedVisibility}
             />
           </div>
         </form>

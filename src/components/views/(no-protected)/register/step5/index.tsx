@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { registerStep5Schema } from '../schema';
+import { registerSchema, TRegisterSchema } from '../schema';
 
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
@@ -13,20 +13,36 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { isApp } from '@/lib/device';
 import { nativeBridge } from '@/lib/native-bridge';
+import { usePostRegister } from '@/hooks/auth/usePostRegister';
+import { usePostEmailLogin } from '@/hooks/auth/usePostEmailLogin';
+import { toast } from '@/components/ui/sonner';
+import Cookies from 'js-cookie';
+import { ACCESS_TOKEN, USER_UUID } from '@/constants/tokens';
 
 const Step5 = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const imageFileRef = useRef<File | null>(null);
 
-  const form = useForm({
-    resolver: zodResolver(registerStep5Schema),
+  const { mutateAsync: register } = usePostRegister();
+  const { mutateAsync: emailLogin } = usePostEmailLogin();
+
+  const form = useForm<TRegisterSchema>({
+    resolver: zodResolver(registerSchema),
     mode: 'onChange',
     defaultValues: {
+      email: searchParams.get('email') || '',
+      password: searchParams.get('password') || '',
+      confirmPassword: searchParams.get('confirmPassword') || '',
+      name: searchParams.get('name') || '',
+      agreedTermUuids: searchParams.get('agreedTermUuids')?.split(',') || [],
+      profileImageUrl: '',
       nickname: '',
     },
   });
+
   const { formState } = form;
 
   const handleImageSelect = async () => {
@@ -55,18 +71,23 @@ const Step5 = () => {
         });
       }
     }
+    form.setValue('profileImageUrl', previewUrl);
   };
 
-  const onSubmit = async () => {
-    const nickname = form.getValues('nickname');
+  const onSubmit = async (data: TRegisterSchema) => {
+    // TODO: 프로필 이미지 저장이 안됨 확인
+    await register({ ...data });
 
-    const profileImage = previewUrl
-      ? encodeURIComponent(previewUrl)
-      : searchParams.get('profileImage') || '';
+    // 회원가입 성공 하면 자동 로그인 시도
+    const response = await emailLogin({
+      email: data.email,
+      password: data.password,
+    });
 
-    router.push(
-      `/register/step6?email=${searchParams.get('email')}&password=${searchParams.get('password')}&confirmPassword=${searchParams.get('confirmPassword')}&name=${searchParams.get('name')}&agreedTermUuids=${searchParams.get('agreedTermUuids')}&nickname=${nickname}&profileImage=${profileImage}`,
-    );
+    toast.success('회원가입이 완료되었습니다.');
+    router.push('/home');
+    Cookies.set(ACCESS_TOKEN, response.data.accessToken);
+    Cookies.set(USER_UUID, response.data.uuid);
   };
 
   return (
@@ -125,7 +146,7 @@ const Step5 = () => {
           disabled={!formState.isValid}
           className="w-full"
         >
-          다음
+          완료
         </Button>
       </div>
     </div>

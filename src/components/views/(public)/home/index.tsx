@@ -1,60 +1,71 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import React from 'react';
-
-import { Follow } from './_components/Follow';
-import { Latest } from './_components/Latest';
-import { Recommend } from './_components/Recommend';
+import React, { useState } from 'react';
 
 import { Notification } from '@/components/shared/Notification';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Header } from '@/components/shared/layout/header';
+import { useGetPostsList } from '@/hooks/home/useGetPostsList';
+import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
+import { Card } from './_components/Card';
+import { Loading } from '@/components/shared/Loading';
+import { MyProfile } from '@/components/shared/my-profile';
+import { useGetMyProfile } from '@/hooks/auth/useGetMyProfile';
+import { USER_UUID } from '@/constants/tokens';
+import Cookies from 'js-cookie';
+import { Button } from '@/components/ui/button';
+import { Icons } from '@/components/shared/icons';
+import dayjs from 'dayjs';
+import MainDate from './_components/MainDate';
 
-interface IHomeProps {
-  defaultValue: string;
-}
+const HomeView = () => {
+  const userId = Cookies.get(USER_UUID);
+  const { data: myProfile } = useGetMyProfile();
+  const [selectedYear, setSelectedYear] = useState(
+    dayjs(new Date()).format('YYYY'),
+  );
+  const [selectedMonth, setSelectedMonth] = useState(null);
 
-export const HomeView = ({ defaultValue }: IHomeProps) => {
-  const router = useRouter();
-  const handleTabChange = (value: string) => {
-    router.push(`/home/${value}`);
-  };
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useGetPostsList({
+      category: '',
+      size: '3',
+      feedType: '',
+    });
+
+  const observerRef = useInfiniteScroll(
+    { fetchNextPage, hasNextPage, isFetchingNextPage },
+    { threshold: 0.1 },
+  );
 
   return (
-    <div className="w-full bg-white px-4">
-      <div className="flex justify-between py-3">
-        <span className="font-l-1 text-black">피드</span>
-        <Notification />
-      </div>
+    <div className="w-full bg-gray-02 px-4">
+      <Header
+        left={
+          <MyProfile
+            publicId={userId}
+            nickname={myProfile?.data?.nickname || ''}
+            nicknameSrc={myProfile?.data?.profileImageUrl || ''}
+            bio={myProfile?.data?.bio || ''}
+            isShowMore={false}
+          />
+        }
+        right={<Notification />}
+      />
 
-      <div>
-        <Tabs
-          defaultValue={defaultValue}
-          className="w-full"
-          onValueChange={handleTabChange}
-        >
-          <TabsList className="">
-            <TabsTrigger value="recommend">추천</TabsTrigger>
-            <TabsTrigger value="latest">최신</TabsTrigger>
-            <TabsTrigger value="follow">팔로우</TabsTrigger>
-          </TabsList>
+      <MainDate
+        selectedYear={selectedYear}
+        selectedMonth={selectedMonth}
+        total={data?.paging.totalElements || 0}
+      />
 
-          {/* 추천 */}
-          <TabsContent value="recommend">
-            <Recommend />
-          </TabsContent>
-
-          {/* 최신 */}
-          <TabsContent value="latest">
-            <Latest />
-          </TabsContent>
-
-          {/* 팔로우 */}
-          <TabsContent value="follow">
-            <Follow />
-          </TabsContent>
-        </Tabs>
+      <div className="mt-4 flex flex-col gap-4">
+        {data?.content.map((item) => <Card key={item.uuid} item={item} />)}
+        <div ref={observerRef} className="flex h-1 justify-center">
+          {isFetchingNextPage && <Loading />}
+        </div>
       </div>
     </div>
   );
 };
+
+export { HomeView };

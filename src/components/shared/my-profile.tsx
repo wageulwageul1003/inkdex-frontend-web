@@ -17,6 +17,7 @@ interface MyProfileProps {
   nickname: string;
   nicknameSrc: string;
   bio?: string;
+  isShowMore?: boolean;
 }
 
 export const MyProfile = ({
@@ -24,6 +25,7 @@ export const MyProfile = ({
   nickname,
   nicknameSrc,
   bio,
+  isShowMore = true,
 }: MyProfileProps) => {
   const router = useRouter();
   const [moreOpen, setMoreOpen] = useState(false);
@@ -50,32 +52,34 @@ export const MyProfile = ({
         </div>
       </div>
       <div className="flex shrink-0 items-center gap-1">
-        <div className="relative">
-          <Button
-            variant="buttonIconTextOnly"
-            size="buttonIconMedium"
-            onClick={() => setMoreOpen((prev) => !prev)}
-          >
-            <Icons.moreHoriz className="size-6 fill-gray-08" />
-          </Button>
+        {isShowMore && (
+          <div className="relative">
+            <Button
+              variant="buttonIconTextOnly"
+              size="buttonIconMedium"
+              onClick={() => setMoreOpen((prev) => !prev)}
+            >
+              <Icons.moreHoriz className="size-6 fill-gray-08" />
+            </Button>
 
-          {moreOpen && (
-            <div className="absolute right-0 top-full z-10 mt-1 flex h-[92px] w-[70px] flex-col items-center justify-center gap-1 rounded-lg border border-gray-03 bg-white text-center">
-              <div
-                className="px-3 py-2"
-                onClick={() => router.push(`/posts/write/${publicId}`)}
-              >
-                <p className="font-m-2 text-gray-08">편집</p>
+            {moreOpen && (
+              <div className="absolute right-0 top-full z-10 mt-1 flex h-[92px] w-[70px] flex-col items-center justify-center gap-1 rounded-lg border border-gray-03 bg-white text-center">
+                <div
+                  className="px-3 py-2"
+                  onClick={() => router.push(`/posts/write/${publicId}`)}
+                >
+                  <p className="font-m-2 text-gray-08">편집</p>
+                </div>
+                <div
+                  className="px-3 py-2"
+                  onClick={() => setDeleteAlertOpen(true)}
+                >
+                  <p className="font-m-2 text-red-05">삭제</p>
+                </div>
               </div>
-              <div
-                className="px-3 py-2"
-                onClick={() => setDeleteAlertOpen(true)}
-              >
-                <p className="font-m-2 text-red-05">삭제</p>
-              </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
 
       <CustomAlertDialog

@@ -1,8 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
-import { useQueryClient } from '@tanstack/react-query';
 
 import { TRegisterSchema } from '@/components/views/(no-protected)/register/schema';
-import { registerKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 
 export const postRegister = async (payload: TRegisterSchema) => {
@@ -14,15 +12,10 @@ export const postRegister = async (payload: TRegisterSchema) => {
 };
 
 export const usePostRegister = () => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: postRegister,
 
-    onSuccess: async (response) => {
-      await queryClient.invalidateQueries({
-        queryKey: [registerKey],
-      });
-    },
+    onSuccess: async (response) => {},
     onError: (error: ErrorData) => {},
   });
 };
