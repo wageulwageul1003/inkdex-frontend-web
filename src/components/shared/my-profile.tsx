@@ -10,7 +10,7 @@ import { toast } from '../ui/sonner';
 import { CustomAlertDialog } from './custom-alert-dialog';
 import { Icons } from './icons';
 
-import { useDeletePosts } from '@/hooks/posts/useDeletePosts';
+import { useDeletePost } from '@/hooks/posts/useDeletePost';
 
 interface MyProfileProps {
   publicId?: string;
@@ -30,7 +30,7 @@ export const MyProfile = ({
   const router = useRouter();
   const [moreOpen, setMoreOpen] = useState(false);
   const [deleteAlertOpen, setDeleteAlertOpen] = useState(false);
-  const { mutateAsync: deletePosts } = useDeletePosts({ publicId: publicId });
+  const { mutateAsync: deletePosts } = useDeletePost({ publicId: publicId });
 
   return (
     <div className="flex w-full items-center gap-2">

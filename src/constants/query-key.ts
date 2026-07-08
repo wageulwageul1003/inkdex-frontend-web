@@ -4,6 +4,9 @@ export const queryKeys = createQueryKeyStore({
   emotion: {
     list: null,
   },
+  post: {
+    detail: (uuid: string) => ['post', uuid] as const,
+  },
   mypage: {
     postList: (params: {
       size?: string;

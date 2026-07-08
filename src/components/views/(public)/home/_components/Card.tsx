@@ -8,12 +8,14 @@ import { IMyPostResponse } from '@/hooks/mypage/useGetMyPostList';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/shared/icons';
 import { useGetEmotionList } from '@/hooks/emotion/useGetEmotionList';
+import { useRouter } from 'next/navigation';
 
 interface ICardProps {
   item: IMyPostResponse;
 }
 
 export const Card = ({ item }: ICardProps) => {
+  const router = useRouter();
   const { data: emotions } = useGetEmotionList();
 
   const contentRef = useRef<HTMLParagraphElement>(null);
@@ -39,7 +41,10 @@ export const Card = ({ item }: ICardProps) => {
   }, [item.reflection]);
 
   return (
-    <div className="relative w-full">
+    <div
+      className="relative w-full"
+      onClick={() => router.push(`/posts/${item.uuid}`)}
+    >
       <Icons.folderCard className="absolute inset-0 w-full fill-white" />
 
       <div className="relative z-10 flex h-full flex-col p-5">

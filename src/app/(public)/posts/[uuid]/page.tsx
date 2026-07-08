@@ -1,4 +1,4 @@
-import CommentView from '@/components/views/(protected)/comment';
+import { PostsDetail } from '@/components/views/(protected)/posts/detail';
 
 export default async function Page({
   params,
@@ -6,5 +6,5 @@ export default async function Page({
   params: Promise<{ uuid: string }>;
 }) {
   const { uuid } = await params;
-  return <CommentView uuid={uuid} />;
+  return <PostsDetail postUuid={uuid} />;
 }

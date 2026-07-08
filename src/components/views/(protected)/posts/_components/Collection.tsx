@@ -156,7 +156,7 @@ export const Collection = (props: TProps) => {
 
         <DrawerFooter className="sticky bottom-3 z-10 bg-white px-4">
           <DrawerClose asChild>
-            <Button variant="contained" size="lg">
+            <Button variant="outline" size="lg">
               저장
             </Button>
           </DrawerClose>
