@@ -14,7 +14,6 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form, FormLabel } from '@/components/ui/form';
-import { useGetCategoryList } from '@/hooks/category/useGetCategoryList';
 import { ICollectionListResponse } from '@/hooks/collection/useGetCollectionList';
 import { usePostPosts } from '@/hooks/posts/usePostPosts';
 import { isApp } from '@/lib/device';
@@ -45,12 +44,21 @@ export const PostsWrite: FC<TProps> = (props) => {
     mode: 'onChange',
     defaultValues: {
       imageUrl: '',
-      categoryUuid: '',
-      content: '',
+      source: '',
+      reflection: '',
+      emotionUuid: '',
       tags: [] as string[],
       collectionUuid: [],
+      visibility: selectedVisibility,
     },
   });
+
+  const handleVisibility = (value: VisibilityType) => {
+    setSelectedVisibility(value);
+    form.setValue('visibility', value, {
+      shouldValidate: true,
+    });
+  };
 
   const handleImageSelect = async () => {
     if (!isApp()) {
@@ -84,12 +92,14 @@ export const PostsWrite: FC<TProps> = (props) => {
   };
 
   const onSubmit = async (data: TWriteSchema) => {
+    console.log(data);
     try {
       await postPosts({
         ...data,
         collectionUuid: selectedCollections.map(
           (collection) => collection.uuid,
         ),
+        visibility: selectedVisibility,
       });
       toast.success('게시물이 성공적으로 등록되었습니다.');
       router.push('/home'); // 게시물 목록 페이지로 이동
@@ -162,9 +172,8 @@ export const PostsWrite: FC<TProps> = (props) => {
             <FormFields
               fieldType={FormFieldType.CHIP}
               control={form.control}
-              name="source"
-              label="어디에서 만난 글인가요?"
-              placeholder="책 제목, 작품명, 출처 등을 입력해주세요."
+              name="emotionUuid"
+              label="이 글은 어떤 마음에 가까웠나요??"
               required
               options={
                 emotions?.data.map((item) => {
@@ -202,23 +211,23 @@ export const PostsWrite: FC<TProps> = (props) => {
             <FormLabel>공개 범위</FormLabel>
             <Visibility
               selectedVisibility={selectedVisibility}
-              setSelectedVisibility={setSelectedVisibility}
+              setSelectedVisibility={handleVisibility}
             />
+          </div>
+
+          <div className="mt-[60px] w-full pb-[52px]">
+            <Button
+              size="lg"
+              type="submit"
+              variant="contained"
+              className="w-full"
+              disabled={form.formState.isSubmitting}
+            >
+              완료
+            </Button>
           </div>
         </form>
       </Form>
-
-      <div className="mt-[60px] pb-[52px]">
-        <Button
-          onClick={form.handleSubmit(onSubmit)}
-          size="lg"
-          variant="contained"
-          className="w-full"
-          disabled={form.formState.isSubmitting}
-        >
-          완료
-        </Button>
-      </div>
     </div>
   );
 };

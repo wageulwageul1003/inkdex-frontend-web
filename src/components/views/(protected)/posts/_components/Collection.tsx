@@ -59,7 +59,7 @@ export const Collection = (props: TProps) => {
                   <div className="h-6 w-6 shrink-0 rounded-md border border-gray-03">
                     <Image
                       src={item.imageUrl}
-                      alt={item.imageUrl}
+                      alt={item.name}
                       width={24}
                       height={24}
                     />

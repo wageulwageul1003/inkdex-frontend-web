@@ -63,7 +63,6 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
           if (previewUrl) URL.revokeObjectURL(previewUrl);
           setPreviewUrl(URL.createObjectURL(file));
           imageFileRef.current = file;
-          form.setValue('imageUrl', 'file-selected');
         }
       };
       input.click();
@@ -78,7 +77,6 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
         imageFileRef.current = new File([blob], 'image.jpg', {
           type: blob.type || 'image/jpeg',
         });
-        form.setValue('imageUrl', 'file-selected');
       }
     }
   };
@@ -89,6 +87,7 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
         await patchCollection({
           ...data,
           uuid: uuid,
+          imageUrl: previewUrl,
         }).then(() => {
           router.back();
         });
@@ -99,6 +98,7 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
       try {
         await postCollection({
           ...data,
+          imageUrl: previewUrl,
         }).then(() => {
           router.back();
         });
