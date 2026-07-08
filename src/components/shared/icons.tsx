@@ -74,6 +74,7 @@ import lock from '@/public/icons/lock.svg';
 import userCancel from '@/public/icons/user_cancel.svg';
 import users from '@/public/icons/users.svg';
 import worldMap from '@/public/icons/world_map.svg';
+import folderCard from '@/public/icons/folder-card.svg';
 
 export const Icons = {
   ArrowBackIos,
@@ -152,4 +153,5 @@ export const Icons = {
   userCancel,
   users,
   worldMap,
+  folderCard,
 };

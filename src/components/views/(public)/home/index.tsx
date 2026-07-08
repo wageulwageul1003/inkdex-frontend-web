@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 
 import { Notification } from '@/components/shared/Notification';
 import { Header } from '@/components/shared/layout/header';
-import { useGetPostsList } from '@/hooks/home/useGetPostsList';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { Card } from './_components/Card';
 import { Loading } from '@/components/shared/Loading';
@@ -12,8 +11,6 @@ import { MyProfile } from '@/components/shared/my-profile';
 import { useGetMyProfile } from '@/hooks/auth/useGetMyProfile';
 import { USER_UUID } from '@/constants/tokens';
 import Cookies from 'js-cookie';
-import { Button } from '@/components/ui/button';
-import { Icons } from '@/components/shared/icons';
 import dayjs from 'dayjs';
 import MainDate from './_components/MainDate';
 import { useGetMyPostList } from '@/hooks/mypage/useGetMyPostList';

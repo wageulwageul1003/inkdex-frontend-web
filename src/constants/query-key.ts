@@ -10,6 +10,6 @@ export const queryKeys = createQueryKeyStore({
       page?: string;
       year: string;
       month: string | null;
-    }) => [params],
+    }) => ['mypage', 'postList', params] as const,
   },
 });

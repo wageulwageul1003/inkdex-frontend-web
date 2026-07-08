@@ -1,151 +1,88 @@
 'use client';
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useLayoutEffect, useRef, useState } from 'react';
+import dayjs from 'dayjs';
+import { useEffect, useRef, useState } from 'react';
 
+import { IMyPostResponse } from '@/hooks/mypage/useGetMyPostList';
+import { cn } from '@/lib/utils';
 import { Icons } from '@/components/shared/icons';
-import BookmarkToggle from '@/components/shared/post-toggle/bookmark-toggle';
-import FavoriteToggle from '@/components/shared/post-toggle/favorite-toggle';
-import { IPostListResponse } from '@/hooks/home/useGetPostsList';
-import { usePostBookmark } from '@/hooks/posts/bookmark/usePostBookmark';
-import { usePostLike } from '@/hooks/posts/like/usePostLike';
-import { MyProfile } from '@/components/shared/my-profile';
-import { UserProfile } from '@/components/shared/user-profile';
+import { useGetEmotionList } from '@/hooks/emotion/useGetEmotionList';
 
 interface ICardProps {
-  item: IPostListResponse;
-  isMyPost?: boolean;
+  item: IMyPostResponse;
 }
 
-export const Card = ({ item, isMyPost = false }: ICardProps) => {
-  const router = useRouter();
-  const contentRef = useRef<HTMLParagraphElement | null>(null);
+export const Card = ({ item }: ICardProps) => {
+  const { data: emotions } = useGetEmotionList();
+
+  const contentRef = useRef<HTMLParagraphElement>(null);
+
   const [expanded, setExpanded] = useState(false);
   const [showMore, setShowMore] = useState(false);
 
-  // 북마크
-  const { mutateAsync: postBookmark } = usePostBookmark();
+  useEffect(() => {
+    const element = contentRef.current;
 
-  // 좋아요
-  const { mutateAsync: postLike } = usePostLike();
-
-  const handleBookmark = () => {
-    postBookmark({ postUuid: item.uuid });
-  };
-
-  const handleLike = () => {
-    postLike({ postUuid: item.uuid });
-  };
-
-  useLayoutEffect(() => {
-    const el = contentRef.current;
-    if (!el) return;
+    if (!element) return;
 
     const checkOverflow = () => {
-      if (!contentRef.current) return;
-      if (expanded) return;
-      setShowMore(
-        contentRef.current.scrollHeight > contentRef.current.clientHeight + 1,
-      );
+      setShowMore(element.scrollHeight > element.clientHeight);
     };
 
     checkOverflow();
 
-    const ro = new ResizeObserver(() => {
-      checkOverflow();
-    });
-    ro.observe(el);
+    const observer = new ResizeObserver(checkOverflow);
+    observer.observe(element);
 
-    window.addEventListener('resize', checkOverflow);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener('resize', checkOverflow);
-    };
-  }, [expanded, item.content]);
+    return () => observer.disconnect();
+  }, [item.reflection]);
 
   return (
-    <div className="flex flex-col gap-4">
-      {isMyPost ? (
-        <MyProfile
-          publicId={item.account.uuid}
-          nickname={item.account.nickname}
-          nicknameSrc={item.account.profileImageUrl || ''}
-          bio={item.account.bio || ''}
-        />
-      ) : (
-        <UserProfile
-          userId={item.account.uuid}
-          nickname={item.account.nickname}
-          nicknameSrc={item.account.profileImageUrl || ''}
-          bio={item.account.bio || ''}
-          following={item.account.isFollowing}
-          isShowMore={true}
-          accountUuid={item.account.uuid}
-          postUuid={item.uuid}
-        />
-      )}
+    <div className="relative w-full">
+      <Icons.folderCard className="absolute inset-0 w-full fill-white" />
 
-      <div className="relative aspect-square w-full overflow-hidden rounded-lg border border-gray-03">
-        <Image
-          src={item.imageUrl || '/default-image.png'}
-          alt={item.content}
-          fill
-          className="object-cover"
-        />
-      </div>
+      <div className="relative z-10 flex h-full flex-col p-5">
+        {/* 출처 */}
+        <p className="font-s-1 text-gray-08">{item.source}</p>
 
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1 py-1">
-            <FavoriteToggle
-              defaultFavorite={item.isLiked}
-              onToggle={handleLike}
-            />
-            <p className="font-xs-2 text-gray-08">{item.likeCount}</p>
-          </div>
-          <div
-            className="flex items-center gap-1 py-1"
-            onClick={() => router.push(`/comment/${item.uuid}`)}
-          >
-            <Icons.messageCircle className="size-6 stroke-gray-05" />
-            <p className="font-xs-2 text-gray-08">{item.commentCount}</p>
-          </div>
+        {/* 이미지 */}
+        <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-gray-03">
+          <Image
+            src={item.imageUrl || '/default-image.png'}
+            alt={item.source}
+            fill
+            className="object-cover"
+          />
         </div>
 
-        <BookmarkToggle
-          defaultBookmark={item.isBookmarked}
-          onToggle={handleBookmark}
-        />
-      </div>
-
-      <div>
+        {/* 내용 */}
         <div className="relative">
-          ㄴ
           <p
             ref={contentRef}
-            className={`font-s-2 whitespace-pre-line text-black ${expanded ? '' : 'line-clamp-2'} ${showMore && !expanded ? 'pr-10' : ''}`}
+            className={cn(
+              'font-s-2 whitespace-pre-line text-black',
+              !expanded && 'line-clamp-2 pr-14',
+            )}
           >
-            {item.content}
+            {item.reflection}
           </p>
-          {showMore && !expanded && (
+
+          {showMore && (
             <button
               type="button"
-              className="font-xs-2 absolute bottom-0 right-0 bg-white pl-3 text-gray-05"
               onClick={() => setExpanded((prev) => !prev)}
+              className="font-xs-2 absolute bottom-0 right-0 bg-white pl-2 text-gray-05"
             >
-              ...더보기
+              {expanded ? '접기' : '...더보기'}
             </button>
           )}
         </div>
 
-        <div className="flex items-center gap-[2px]">
-          {item.tags.map((tag) => (
-            <span key={tag} className="font-s-2 text-sand-07">
-              #{tag}
-            </span>
-          ))}
-        </div>
+        {/* 날짜 */}
+        <p className="font-xs-2 text-gray-05">
+          {dayjs(item.createdAt).format('YYYY-MM-DD')}
+        </p>
       </div>
     </div>
   );

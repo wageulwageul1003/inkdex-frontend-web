@@ -1,25 +1,29 @@
-import {
-  useInfiniteQuery,
-  useQuery,
-  UseQueryResult,
-} from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { agent } from '@/utils/fetch';
 import { queryKeys } from '@/constants/query-key';
 import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 
 export interface IMyPostResponse {
-  counts: number; // 전체 데이터 개수
-  thumbnails: {
-    date: string;
-    thumbnailUrl: string;
-    count: number;
-  }[];
+  uuid: string;
+  source: string;
+  reflection: string;
+  imageUrl: string;
+  createdAt: string;
+  collectionUuid: string[];
+  tags: string[];
+  likeCount: number;
+  account: {
+    uuid: string;
+    nickname: string;
+    profileImageUrl: string | null;
+  };
+  isLiked: boolean;
 }
 
 type TGetMyPostParams = {
   year: string;
-  month: number | null;
+  month: string | null;
   page?: string;
   size?: string;
 };
@@ -47,7 +51,7 @@ export const useGetMyPostList = (params: TGetMyPostParams) => {
     Error,
     TInfiniteListResult<IMyPostResponse>
   >({
-    queryKey: queryKeys.mypage.postList(params),
+    queryKey: queryKeys.mypage.postList(params).queryKey,
     queryFn: ({ pageParam = 1 }) =>
       GetPostsList({ ...params, page: String(pageParam) }),
     initialPageParam: 1,
