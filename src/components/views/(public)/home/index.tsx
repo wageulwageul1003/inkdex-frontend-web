@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/shared/icons';
 import dayjs from 'dayjs';
 import MainDate from './_components/MainDate';
+import { useGetMyPostList } from '@/hooks/mypage/useGetMyPostList';
 
 const HomeView = () => {
   const userId = Cookies.get(USER_UUID);
@@ -26,10 +27,10 @@ const HomeView = () => {
   const [selectedMonth, setSelectedMonth] = useState(null);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useGetPostsList({
-      category: '',
+    useGetMyPostList({
       size: '3',
-      feedType: '',
+      year: selectedYear,
+      month: selectedMonth,
     });
 
   const observerRef = useInfiniteScroll(

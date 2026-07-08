@@ -35,6 +35,7 @@ export enum FormFieldType {
   TEXTAREA = 'textarea',
   PASSWORD = 'password',
   NUMBER_INPUT = 'number-input',
+  SEARCH_INPUT = 'search-input',
   EDITOR = 'editor',
   TIMER_INPUT = 'timer-input',
 
@@ -175,6 +176,25 @@ export const InputField = <T extends FieldValues>({
           <Input
             placeholder={props.placeholder}
             error={error}
+            type="text"
+            disabled={props.disabled}
+            className={props.fieldClassName}
+            maxLength={props.maxCharacters}
+            id={formItemId}
+            {...field}
+          />
+        </fieldset>
+      );
+
+    // SEARCH INPUT
+    case FormFieldType.SEARCH_INPUT:
+      return (
+        <fieldset
+          className={cn('flex flex-col', props.labelSlot ? 'mt-0.5' : '')}
+        >
+          <Input
+            placeholder={props.placeholder}
+            error={error}
             type="search"
             disabled={props.disabled}
             className={props.fieldClassName}
@@ -297,7 +317,7 @@ export const InputField = <T extends FieldValues>({
     case FormFieldType.CHIP:
       return (
         <Chips
-          items={props.options}
+          items={props.options ?? []}
           value={field.value}
           onValueChange={field.onChange}
         />

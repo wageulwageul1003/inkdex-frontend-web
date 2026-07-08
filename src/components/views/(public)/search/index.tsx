@@ -26,10 +26,10 @@ export const SearchView = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="pb-3 pt-2">
           <FormFields
-            fieldType={FormFieldType.INPUT}
+            fieldType={FormFieldType.SEARCH_INPUT}
             control={form.control}
             name="searchKeyword"
-            placeholder="검색어를 입력해주세요."
+            placeholder="검색"
             className="w-full"
           />
         </form>
