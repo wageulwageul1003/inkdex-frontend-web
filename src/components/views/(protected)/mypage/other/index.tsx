@@ -26,7 +26,7 @@ export const MyOtherPageView = ({ uuid }: MyPageProps) => {
               onClick={() => router.back()}
             />
             <span className="font-s-1 text-gray-09">
-              {otherProfile?.nickname}
+              {otherProfile?.data.nickname}
             </span>
           </span>
         }

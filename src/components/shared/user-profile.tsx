@@ -75,10 +75,12 @@ export const UserProfile = ({
       </div>
       <div className="flex shrink-0 items-center gap-1">
         {!isMyProfile && (
-          <FollowingButton
-            following={!!following}
-            accountUuid={accountUuid || ''}
-          />
+          <div onClick={(e) => e.stopPropagation()}>
+            <FollowingButton
+              following={!!following}
+              accountUuid={accountUuid || ''}
+            />
+          </div>
         )}
         {isShowMore && !isMyProfile && (
           <div className="relative">

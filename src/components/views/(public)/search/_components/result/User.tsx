@@ -1,4 +1,4 @@
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import React from 'react';
 
 import { NoResult } from './no-result';
@@ -9,7 +9,6 @@ import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useGetUserList } from '@/hooks/search/useGetUserList';
 
 export const User = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
@@ -35,7 +34,7 @@ export const User = () => {
               nickname={item.nickname}
               profileImageUrl={item.profileImageUrl}
               bio={item.bio}
-              following={false}
+              following={item.isFollowing}
               isShowMore={false}
             />
           ))}

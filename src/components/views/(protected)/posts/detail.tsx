@@ -95,7 +95,15 @@ export const PostsDetail: FC<TProps> = ({ postUuid }: TProps) => {
       <div className="flex flex-col px-1">
         <p className="font-s-2 mt-3 text-black">{data?.data.reflection}</p>
         <span className="font-s-2 mt-4 flex flex-wrap gap-0.5 text-sand-07">
-          {data?.data.tags.map((item) => `#${item}`)}
+          {data?.data.tags.map((item) => (
+            <span
+              onClick={() =>
+                router.push(`/search/result/hot?searchKeyword=${item}`)
+              }
+            >
+              {item}
+            </span>
+          ))}
         </span>
         <p className="font-xs-2 mt-3 py-1 text-gray-05">
           {dayjs(data?.data.createdAt).format('YYYY-MM-DD')}

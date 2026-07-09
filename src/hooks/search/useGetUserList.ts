@@ -11,6 +11,7 @@ export interface IUserListResponse {
   profileImageUrl: null | string;
   bio: null | string;
   followerCount: number;
+  isFollowing: boolean;
 }
 
 // PARAMS TYPE

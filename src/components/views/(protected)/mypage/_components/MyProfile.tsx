@@ -2,26 +2,26 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { useGetOtherProfile } from '@/hooks/auth/other/useGetOtherProfile';
 import { useGetMyProfile } from '@/hooks/auth/useGetMyProfile';
 import { usePostFollow } from '@/hooks/follow/usePostFollow';
-import { useDeleteFollow } from '@/hooks/follow/useDeleteFollow';
+import { FollowingCancel } from './FollowingCancel';
 
 interface MyProfileProps {
   uuid?: string;
 }
 
 export const MyProfile = ({ uuid }: MyProfileProps) => {
+  const router = useRouter();
   const isMyProfile = !uuid;
+  const [isShowFollowingCancel, setIsShowFollowingCancel] = useState(false);
   const { data: myProfile } = useGetMyProfile(isMyProfile);
   const { data: otherProfile } = useGetOtherProfile(uuid || '');
   const { mutateAsync: postFollow } = usePostFollow();
-  const { mutateAsync: deleteFollow } = useDeleteFollow();
-  const router = useRouter();
 
   const [isFollowing, setIsFollowing] = useState(
     otherProfile?.data.isFollowing,
@@ -38,7 +38,7 @@ export const MyProfile = ({ uuid }: MyProfileProps) => {
         if (next) {
           await postFollow(uuid);
         } else {
-          await deleteFollow(uuid);
+          setIsShowFollowingCancel(true);
         }
       } catch {
         setIsFollowing(prev);
@@ -135,14 +135,12 @@ export const MyProfile = ({ uuid }: MyProfileProps) => {
       <div className="mt-4 w-full">
         {!isMyProfile &&
           (isFollowing ? (
-            <Button
-              variant="outline"
-              size="md"
-              onClick={handleToggleFollow}
-              className="w-full"
-            >
-              <span className="font-m-2 text-black">팔로잉</span>
-            </Button>
+            <FollowingCancel
+              uuid={uuid!}
+              isShowFollowingCancel={isShowFollowingCancel}
+              setIsShowFollowingCancel={setIsShowFollowingCancel}
+              onSuccess={() => setIsFollowing(false)}
+            />
           ) : (
             <Button
               variant="contained"

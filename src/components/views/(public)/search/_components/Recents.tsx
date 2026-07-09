@@ -5,8 +5,10 @@ import { Button } from '@/components/ui/button';
 import { useDeleteSearchKeyword } from '@/hooks/search/useDeleteSearchKeyword';
 import { useDeleteSearchKeywordAll } from '@/hooks/search/useDeleteSearchKeywordAll';
 import { useGetRecentSearchKeywords } from '@/hooks/search/useGetRecentSearchKeywords';
+import { useRouter } from 'next/navigation';
 
 export const Recents = () => {
+  const router = useRouter();
   const { data: recentItems } = useGetRecentSearchKeywords();
   const { mutateAsync: deleteSearchKeyword } = useDeleteSearchKeyword();
   const { mutateAsync: deleteSearchKeywordAll } = useDeleteSearchKeywordAll();
@@ -29,7 +31,16 @@ export const Recents = () => {
           <div className="flex flex-col gap-2 pb-[120px]">
             {recentItems?.data.map((item) => (
               <div key={item.uuid} className="flex items-center py-2">
-                <p className="font-m-2 flex-1 text-gray-08">{item.keyword}</p>
+                <p
+                  className="font-m-2 flex-1 text-gray-08"
+                  onClick={() =>
+                    router.push(
+                      `/search/result/hot?searchKeyword=${item.keyword}`,
+                    )
+                  }
+                >
+                  {item.keyword}
+                </p>
                 <Icons.closeSmall
                   className="size-6 fill-gray-05"
                   onClick={() =>
