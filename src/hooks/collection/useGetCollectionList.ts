@@ -17,6 +17,7 @@ export interface ICollectionListResponse {
 type TGetCollectionListParams = {
   page?: string;
   size?: string;
+  accountUuid?: string;
 };
 
 export const GetCollectionList = async (
@@ -26,6 +27,7 @@ export const GetCollectionList = async (
 
   if (params.page) queryParams.set('page', String(Number(params.page) - 1));
   if (params.size) queryParams.set('size', String(params.size));
+  if (params.accountUuid) queryParams.set('accountUuid', params.accountUuid);
 
   const url = `/api/collections?${queryParams.toString()}`;
 

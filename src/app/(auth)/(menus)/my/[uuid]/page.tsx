@@ -1,4 +1,4 @@
-import { MyOtherPageView } from '@/components/views/(protected)/mypage/other';
+import { redirect } from 'next/navigation';
 
 export default async function MyPage({
   params,
@@ -6,5 +6,5 @@ export default async function MyPage({
   params: Promise<{ uuid: string }>;
 }) {
   const { uuid } = await params;
-  return <MyOtherPageView uuid={uuid} />;
+  return redirect(`/my/${uuid}/collection`);
 }
