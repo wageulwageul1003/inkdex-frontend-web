@@ -48,6 +48,7 @@ const HomeView = () => {
           />
         }
         right={<Notification />}
+        className="bg-gray-02"
       />
 
       <MainDate

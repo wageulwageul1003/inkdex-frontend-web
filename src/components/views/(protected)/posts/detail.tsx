@@ -87,14 +87,17 @@ export const PostsDetail: FC<TProps> = ({ postUuid }: TProps) => {
         />
       </div>
 
-      <div className="items-center justify-between px-1">
+      <div className="mt-2.5 flex items-center justify-between px-1">
         <p className="font-m-1 text-gray-09">{data?.data.source}</p>
         <FavoriteToggle />
       </div>
 
-      <div className="flex flex-col gap-3 px-1">
-        <p className="font-s-2 text-black- mt-3">{data?.data.reflection}</p>
-        <p className="font-xs-2 py-1 text-gray-05">
+      <div className="flex flex-col px-1">
+        <p className="font-s-2 mt-3 text-black">{data?.data.reflection}</p>
+        <span className="font-s-2 mt-4 flex flex-wrap gap-0.5 text-sand-07">
+          {data?.data.tags.map((item) => `#${item}`)}
+        </span>
+        <p className="font-xs-2 mt-3 py-1 text-gray-05">
           {dayjs(data?.data.createdAt).format('YYYY-MM-DD')}
         </p>
       </div>
