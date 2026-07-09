@@ -19,7 +19,7 @@ import { usePostPosts } from '@/hooks/posts/usePostPosts';
 import { isApp } from '@/lib/device';
 import { nativeBridge } from '@/lib/native-bridge';
 import { useGetEmotionList } from '@/hooks/emotion/useGetEmotionList';
-import { Visibility } from './_components/Visibility';
+import { VisibilityBottomSheet } from './_components/VisibilityBottomSheet';
 import { VISIBILITY, VisibilityType } from '@/constants/enum';
 
 interface TProps {
@@ -209,7 +209,7 @@ export const PostsWrite: FC<TProps> = (props) => {
 
           <div className="mt-6 flex w-full flex-col gap-2">
             <FormLabel>공개 범위</FormLabel>
-            <Visibility
+            <VisibilityBottomSheet
               selectedVisibility={selectedVisibility}
               setSelectedVisibility={handleVisibility}
             />

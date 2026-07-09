@@ -18,7 +18,7 @@ interface TProps {
   setSelectedVisibility: (visibility: VisibilityType) => void;
 }
 
-export const Visibility = ({
+export const VisibilityBottomSheet = ({
   selectedVisibility,
   setSelectedVisibility,
 }: TProps) => {

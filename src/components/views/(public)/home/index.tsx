@@ -21,7 +21,7 @@ const HomeView = () => {
   const [selectedYear, setSelectedYear] = useState(
     dayjs(new Date()).format('YYYY'),
   );
-  const [selectedMonth, setSelectedMonth] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGetMyPostList({
@@ -53,7 +53,9 @@ const HomeView = () => {
 
       <MainDate
         selectedYear={selectedYear}
+        setSelectedYear={setSelectedYear}
         selectedMonth={selectedMonth}
+        setSelectedMonth={setSelectedMonth}
         total={data?.paging.totalElements || 0}
       />
 

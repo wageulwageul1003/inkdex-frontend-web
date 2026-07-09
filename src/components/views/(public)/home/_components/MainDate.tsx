@@ -1,13 +1,20 @@
-import { Icons } from '@/components/shared/icons';
-import { Button } from '@/components/ui/button';
+import { DatePickerBottomSheet } from './DatePickerBottomSheet';
 
 interface IMainDate {
   selectedYear: string;
+  setSelectedYear: (year: string) => void;
   selectedMonth: string | null;
+  setSelectedMonth: (month: string) => void;
   total: number;
 }
 
-const MainDate = ({ selectedYear, selectedMonth, total }: IMainDate) => {
+const MainDate = ({
+  selectedYear,
+  setSelectedYear,
+  selectedMonth,
+  setSelectedMonth,
+  total,
+}: IMainDate) => {
   const displayDate = () => {
     if (selectedMonth) {
       return `${selectedYear}년 ${selectedMonth}월의 기록`;
@@ -26,9 +33,12 @@ const MainDate = ({ selectedYear, selectedMonth, total }: IMainDate) => {
         </p>
       </span>
 
-      <Button className="flex h-7 w-7 items-center justify-center rounded-full border-none bg-white p-0">
-        <Icons.keyboardArrowDown className="size-5 shrink-0 fill-sand-08" />
-      </Button>
+      <DatePickerBottomSheet
+        selectedYear={selectedYear}
+        setSelectedYear={setSelectedYear}
+        selectedMonth={selectedMonth}
+        setSelectedMonth={setSelectedMonth}
+      />
     </span>
   );
 };
