@@ -5,11 +5,12 @@ import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
 
 export interface IUserListResponse {
-  id: string;
-  userName: string;
+  uuid: string;
   nickname: string;
-  profileImageUrl: string;
-  bio: string;
+  email: string;
+  profileImageUrl: null | string;
+  bio: null | string;
+  followerCount: number;
 }
 
 // PARAMS TYPE

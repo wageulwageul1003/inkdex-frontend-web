@@ -25,8 +25,6 @@ const Step1 = () => {
   const { mutateAsync: postVerifyEmail } = usePostVerifyEmail(); // 인증번호 요청
   const { mutateAsync: postConfirmEmail } = usePostConfirmEmail(); // 인증번호 확인
 
-  const searchParams = useSearchParams();
-
   const form = useForm({
     resolver: zodResolver(registerStep1Schema),
     mode: 'onChange',
@@ -36,7 +34,7 @@ const Step1 = () => {
     },
   });
 
-  const { formState, setError, clearErrors } = form;
+  const { setError, clearErrors } = form;
 
   useEffect(() => {
     if (!expireTimestamp || !isCertNumVisible || buttonText === '인증 완료')
@@ -92,13 +90,7 @@ const Step1 = () => {
       }
     } catch (error) {
       const errorData = error as ErrorData;
-      console.log(errorData);
-      if (errorData?.code === 'error.unprocessable_entity') {
-        setError('email', {
-          type: 'manual',
-          message: '올바른 이메일 형식을 입력해주세요.',
-        });
-      } else if (errorData?.code === 'error.user.email_duplicate') {
+      if (errorData?.code === 4001) {
         setError('email', {
           type: 'manual',
           message: '이미 사용 중인 이메일 주소입니다.',

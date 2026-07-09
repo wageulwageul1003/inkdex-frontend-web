@@ -1,31 +1,32 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { myProfileKey } from '@/constants/queryKeys';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
+import { IResponseDetail } from '@/types/global';
 
 export interface IOtherProfileResponse {
-  id: string;
-  bio: string;
-  username: string;
   nickname: string;
-  profileImageUrl: string;
+  bio: null | string;
+  profileImageUrl: null | string;
   followerCount: number;
   followingCount: number;
+  postCount: number;
+  isFollowing: boolean;
 }
 
 export const GetOtherProfile = async (
   uuid: string,
-): Promise<IOtherProfileResponse> => {
-  const data = await agent(`/api/v1/users/${uuid}/profile`, {
+): Promise<IResponseDetail<IOtherProfileResponse>> => {
+  const data = await agent(`/api/other/profile/${uuid}`, {
     method: 'GET',
   });
 
-  return data.data.content;
+  return data;
 };
 
 export const useGetOtherProfile = (uuid: string) =>
   useQuery({
-    queryKey: [myProfileKey, uuid],
+    queryKey: queryKeys.other.profile(uuid).queryKey,
     queryFn: () => GetOtherProfile(uuid),
     enabled: !!uuid,
   });

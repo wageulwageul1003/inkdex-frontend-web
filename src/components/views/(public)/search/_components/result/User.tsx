@@ -31,9 +31,9 @@ export const User = () => {
         <div className="mt-4 flex flex-col gap-4">
           {data?.content.map((item) => (
             <UserProfile
-              userId={item.id}
+              accountUuid={item.uuid}
               nickname={item.nickname}
-              nicknameSrc={item.profileImageUrl}
+              profileImageUrl={item.profileImageUrl}
               bio={item.bio}
               following={false}
               isShowMore={false}

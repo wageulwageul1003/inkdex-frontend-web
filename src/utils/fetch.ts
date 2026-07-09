@@ -4,7 +4,7 @@ import { ACCESS_TOKEN } from '@/constants/tokens';
 
 export interface ErrorData {
   status: number;
-  code: string;
+  code: number;
   message: string;
   description?: string;
   data?: object;
@@ -60,8 +60,7 @@ export const agent = async (url: string, options?: RequestInit) => {
         error: errorData.error,
       };
 
-      // Check for code 4001 and redirect
-      if (errorData.code === 4001 || errorData.code === '4001') {
+      if (errorData.code === 401) {
         alert('권한이 없습니다. 관리자에게 문의하세요.');
         window.location.href = '/';
       }

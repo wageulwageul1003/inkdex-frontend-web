@@ -2,73 +2,34 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { ACCESS_TOKEN } from './constants/tokens';
 
-// Define route patterns
-const noAuthRoutes = [
-  // Routes that should redirect to main page if user is logged in
-  /\/login(\/.*)?$/,
-  /\/register(\/.*)?$/,
-];
-
-const protectedRoutes = [
-  // Add your protected routes here that require authentication
-  /\/my(\/.*)?$/,
-  /\/search(\/.*)?$/,
-  /\/my-inkdex(\/.*)?$/,
-  /\/posts(\/.*)?$/,
-];
+const noAuthRoutes = [/\/login(\/.*)?$/, /\/.*login.*$/, /\/register(\/.*)?$/];
 
 export async function middleware(request: NextRequest) {
-  // Check for authentication cookie
   const isLoggedIn = request.cookies.has(ACCESS_TOKEN);
 
-  // Get the pathname without locale prefix
   const pathname = request.nextUrl.pathname;
 
-  // Extract locale from URL if present
-  const pathnameWithoutLocale = pathname;
+  const isNoAuthRoute = noAuthRoutes.some((pattern) => pattern.test(pathname));
 
-  // Check if the request is for a no-auth route (login/register)
-  const isNoAuthRoute = noAuthRoutes.some((pattern) =>
-    pattern.test(pathnameWithoutLocale),
-  );
-
-  // Check if the request is for a protected route
-  const isProtectedRoute = protectedRoutes.some((pattern) =>
-    pattern.test(pathnameWithoutLocale),
-  );
-
-  // Rule 4: If user accesses a no-auth page (login/register)
+  // 로그인/회원가입 페이지
   if (isNoAuthRoute) {
-    // Rule 4.2: If logged in, redirect to main page
+    // 로그인 상태라면 홈으로 이동
     if (isLoggedIn) {
-      // Extract locale from URL or use default
-      return NextResponse.redirect(new URL(`/home`, request.url));
+      return NextResponse.redirect(new URL('/home', request.url));
     }
-    // Rule 4.1: If not logged in, allow access (handled by intlMiddleware)
-  }
 
-  // Rule 5: If user accesses a protected route
-  if (isProtectedRoute) {
-    // Rule 5.1: If not logged in, redirect to login page
-    if (!isLoggedIn) {
-      return NextResponse.redirect(new URL(`/login`, request.url));
-    }
-    // Rule 5.2: If logged in, allow access (handled by intlMiddleware)
-  }
-
-  // Apply locale middleware, excluding specific paths
-  if (
-    !pathname.startsWith('/api') &&
-    !pathname.startsWith('/_next') &&
-    !pathname.includes('/favicon.ico')
-  ) {
+    // 비로그인은 접근 허용
     return NextResponse.next();
+  }
+
+  // 로그인/회원가입 외 모든 페이지는 인증 필요
+  if (!isLoggedIn) {
+    return NextResponse.redirect(new URL('/login', request.url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  // Skip all paths that should not be internationalized
   matcher: ['/((?!api|_next|_vercel|.*\\..*).*)'],
 };

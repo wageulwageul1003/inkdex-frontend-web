@@ -16,28 +16,26 @@ import { USER_UUID } from '@/constants/tokens';
 import { usePostReport } from '@/hooks/report/usePostReport';
 
 interface UserProfileProps {
-  userId?: string;
   accountUuid?: string;
   nickname: string;
-  nicknameSrc: string;
-  bio?: string;
+  profileImageUrl: string | null;
+  bio?: string | null;
   following?: boolean;
   isShowMore?: boolean;
   postUuid?: string;
 }
 
 export const UserProfile = ({
-  userId,
   accountUuid,
   nickname,
-  nicknameSrc,
+  profileImageUrl,
   bio,
   following,
   isShowMore = true,
   postUuid,
 }: UserProfileProps) => {
   const router = useRouter();
-  const isMyProfile = userId === Cookies.get(USER_UUID);
+  const isMyProfile = accountUuid === Cookies.get(USER_UUID);
   const [reportAlertOpen, setReportAlertOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const { mutateAsync: postReport } = usePostReport();
@@ -48,18 +46,21 @@ export const UserProfile = ({
   };
 
   return (
-    <div className="flex w-full items-center gap-2">
+    <div
+      className="flex w-full items-center gap-2"
+      onClick={() => router.push(`/my/${accountUuid}`)}
+    >
       <div className="flex-1">
         <div className="flex gap-2">
           <div
             className="relative h-9 w-9 overflow-hidden rounded-full border border-gray-03"
             onClick={() => {
               if (isMyProfile) router.push(`/my`);
-              else router.push(`/my/${userId}`);
+              else router.push(`/my/${accountUuid}`);
             }}
           >
             <Image
-              src={nicknameSrc || '/default-profile.png'}
+              src={profileImageUrl || '/default-profile.png'}
               alt="profile"
               fill
               className="object-cover"

@@ -15,4 +15,7 @@ export const queryKeys = createQueryKeyStore({
       month: string | null;
     }) => ['mypage', 'postList', params] as const,
   },
+  other: {
+    profile: (uuid: string) => ['other', 'profile', uuid] as const,
+  },
 });

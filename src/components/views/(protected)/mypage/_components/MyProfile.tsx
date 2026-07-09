@@ -2,12 +2,14 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { useGetOtherProfile } from '@/hooks/auth/other/useGetOtherProfile';
 import { useGetMyProfile } from '@/hooks/auth/useGetMyProfile';
+import { usePostFollow } from '@/hooks/follow/usePostFollow';
+import { useDeleteFollow } from '@/hooks/follow/useDeleteFollow';
 
 interface MyProfileProps {
   uuid?: string;
@@ -15,12 +17,37 @@ interface MyProfileProps {
 
 export const MyProfile = ({ uuid }: MyProfileProps) => {
   const isMyProfile = !uuid;
-  const { data: myProfile } = useGetMyProfile();
+  const { data: myProfile } = useGetMyProfile(isMyProfile);
   const { data: otherProfile } = useGetOtherProfile(uuid || '');
+  const { mutateAsync: postFollow } = usePostFollow();
+  const { mutateAsync: deleteFollow } = useDeleteFollow();
   const router = useRouter();
 
+  const [isFollowing, setIsFollowing] = useState(
+    otherProfile?.data.isFollowing,
+  );
+
+  const handleToggleFollow = async () => {
+    const prev = isFollowing;
+    const next = !prev;
+
+    setIsFollowing(next);
+
+    if (uuid) {
+      try {
+        if (next) {
+          await postFollow(uuid);
+        } else {
+          await deleteFollow(uuid);
+        }
+      } catch {
+        setIsFollowing(prev);
+      }
+    }
+  };
+
   return (
-    <div className="rounded-lg bg-gray-01 p-4">
+    <div className="rounded-lg p-4">
       <div className="flex items-center gap-3">
         <div className="relative h-[56px] w-[56px] overflow-hidden rounded-full border border-gray-03">
           <Image
@@ -33,7 +60,9 @@ export const MyProfile = ({ uuid }: MyProfileProps) => {
 
         <div className="flex flex-1 flex-col gap-1">
           <span className="font-s-1 text-gray-09">
-            {isMyProfile ? myProfile?.data.nickname : otherProfile?.nickname}
+            {isMyProfile
+              ? myProfile?.data.nickname
+              : otherProfile?.data.nickname}
           </span>
           {isMyProfile ? (
             <div className="flex items-center gap-2">
@@ -59,17 +88,16 @@ export const MyProfile = ({ uuid }: MyProfileProps) => {
           ) : (
             <div className="flex items-center gap-2">
               <p className="font-s-2 flex items-center gap-1 text-gray-09">
-                게시물
-                {/* TODO: 게시물 개수 */}
-                <span className="font-s-1">{otherProfile?.followerCount}</span>
-              </p>
-              <p className="font-s-2 flex items-center gap-1 text-gray-09">
                 팔로워
-                <span className="font-s-1">{otherProfile?.followerCount}</span>
+                <span className="font-s-1">
+                  {otherProfile?.data.followerCount}
+                </span>
               </p>
               <p className="font-s-2 flex items-center gap-1 text-gray-09">
                 팔로잉
-                <span className="font-s-1">{otherProfile?.followingCount}</span>
+                <span className="font-s-1">
+                  {otherProfile?.data.followingCount}
+                </span>
               </p>
             </div>
           )}
@@ -85,7 +113,6 @@ export const MyProfile = ({ uuid }: MyProfileProps) => {
         )}
       </div>
 
-      {/* bio */}
       <div className="mt-4 px-3 py-2">
         {isMyProfile ? (
           myProfile?.data.bio ? (
@@ -100,18 +127,32 @@ export const MyProfile = ({ uuid }: MyProfileProps) => {
           )
         ) : (
           <span className="font-xs-2 text-gray-08">
-            {otherProfile?.bio ?? '소개가 없습니다.'}
+            {otherProfile?.data.bio ?? '소개가 없습니다.'}
           </span>
         )}
       </div>
 
-      {/* follow button */}
       <div className="mt-4 w-full">
-        {!isMyProfile && (
-          <Button variant="outline" size="md" className="w-full">
-            <span className="font-m-2 text-gray-08">팔로잉</span>
-          </Button>
-        )}
+        {!isMyProfile &&
+          (isFollowing ? (
+            <Button
+              variant="outline"
+              size="md"
+              onClick={handleToggleFollow}
+              className="w-full"
+            >
+              <span className="font-m-2 text-black">팔로잉</span>
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              size="md"
+              onClick={handleToggleFollow}
+              className="w-full"
+            >
+              <span className="font-m-2 text-white">팔로우</span>
+            </Button>
+          ))}
       </div>
     </div>
   );
