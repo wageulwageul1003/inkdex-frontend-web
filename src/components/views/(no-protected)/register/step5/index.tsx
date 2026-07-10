@@ -85,7 +85,7 @@ const Step5 = () => {
     });
 
     toast.success('회원가입이 완료되었습니다.');
-    router.push('/home');
+    router.replace('/home');
     Cookies.set(ACCESS_TOKEN, response.data.accessToken);
     Cookies.set(USER_UUID, response.data.uuid);
   };

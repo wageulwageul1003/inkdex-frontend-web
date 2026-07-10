@@ -29,17 +29,17 @@ const FindPasswordComponent = () => {
     },
   });
 
-  const { control, formState } = form;
+  const { formState } = form;
 
   const onSubmit = async (data: TResetPasswordSchema) => {
     try {
       const response = await postResetPassword(data);
-      if (response.code === 'success.account.reset_password') {
-        router.push('/reset-password/success');
+      if (response.code === 200) {
+        router.push('/find-password/success');
       }
     } catch (error) {
       const errorData = error as ErrorData;
-      if (errorData?.code === 'error.user.not_found') {
+      if (errorData?.code === 4002) {
         setAlertOpen(true);
       }
     }
@@ -118,9 +118,9 @@ const FindPasswordComponent = () => {
             정확한 이메일로 다시 시도해 주세요.
           </>
         }
-        cancelText="확인"
         confirmText="확인"
         onConfirm={() => setAlertOpen(false)}
+        isCancelShow={false}
         type="warning"
       ></CustomAlertDialog>
     </div>

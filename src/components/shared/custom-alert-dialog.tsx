@@ -21,6 +21,7 @@ interface CustomAlertDialogProps {
   confirmText?: string;
   onCancel?: () => void;
   onConfirm?: () => void;
+  isCancelShow?: boolean;
   type?: 'warning' | 'error' | 'success';
 }
 
@@ -33,6 +34,7 @@ export const CustomAlertDialog = ({
   confirmText = '확인',
   onCancel,
   onConfirm,
+  isCancelShow = true,
   type = 'warning',
 }: CustomAlertDialogProps) => {
   const handleConfirm = () => {
@@ -63,15 +65,17 @@ export const CustomAlertDialog = ({
             {confirmText}
           </AlertDialogAction>
 
-          <AlertDialogCancel
-            onClick={() => {
-              onOpenChange(false);
-              onCancel?.();
-            }}
-            className="flex-1"
-          >
-            {cancelText}
-          </AlertDialogCancel>
+          {isCancelShow && (
+            <AlertDialogCancel
+              onClick={() => {
+                onOpenChange(false);
+                onCancel?.();
+              }}
+              className="flex-1"
+            >
+              {cancelText}
+            </AlertDialogCancel>
+          )}
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

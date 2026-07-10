@@ -14,7 +14,12 @@ import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { toast } from '@/components/ui/sonner';
-import { ACCESS_TOKEN, USER_UUID } from '@/constants/tokens';
+import {
+  ACCESS_TOKEN,
+  IS_TEMP_PASSWORD,
+  TEMP_PASSWORD,
+  USER_UUID,
+} from '@/constants/tokens';
 import { usePostEmailLogin } from '@/hooks/auth/usePostEmailLogin';
 
 const EmailLogin = () => {
@@ -37,10 +42,18 @@ const EmailLogin = () => {
       const response = await postEmailLogin(form.getValues());
 
       if (response.code === 200) {
-        router.push('/home');
+        router.replace(`/home`);
+        if (response.data.isTempPassword === true) {
+          sessionStorage.setItem(
+            IS_TEMP_PASSWORD,
+            response.data.isTempPassword,
+          );
+          sessionStorage.setItem(TEMP_PASSWORD, form.watch('password'));
+        }
+
+        toast.success('로그인 되었습니다.');
         Cookies.set(ACCESS_TOKEN, response.data.accessToken);
         Cookies.set(USER_UUID, response.data.uuid);
-        toast.success('로그인 되었습니다.');
       } else {
         setAlertMessage(
           '로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.',
@@ -52,8 +65,6 @@ const EmailLogin = () => {
       setAlertOpen(true);
     }
   };
-
-  const { formState } = form;
 
   return (
     <div className="flex flex-1 flex-col bg-gray-01 px-4">

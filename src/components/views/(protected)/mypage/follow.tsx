@@ -32,7 +32,7 @@ export const FollowView = (props: IFollow) => {
             <Icons.ArrowBackIos className="size-6 fill-gray-06" />
           </span>
         }
-        title={myProfile?.nickname}
+        title={myProfile?.data.nickname}
       />
 
       <div className="mt-5">

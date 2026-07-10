@@ -2,7 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { ACCESS_TOKEN } from './constants/tokens';
 
-const noAuthRoutes = [/\/login(\/.*)?$/, /\/.*login.*$/, /\/register(\/.*)?$/];
+const noAuthRoutes = [
+  /\/login(\/.*)?$/,
+  /\/.*login.*$/,
+  /\/register(\/.*)?$/,
+  /\/find-password(\/.*)?$/,
+];
 
 export async function middleware(request: NextRequest) {
   const isLoggedIn = request.cookies.has(ACCESS_TOKEN);

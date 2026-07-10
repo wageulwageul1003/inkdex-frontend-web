@@ -48,14 +48,7 @@ export default function Login() {
 
   return (
     <div className="flex flex-1 flex-col bg-gray-01 px-4">
-      <Header
-        left={
-          <Icons.close
-            className="size-6 fill-gray-06"
-            onClick={() => router.push('/home')}
-          />
-        }
-      />
+      <Header className="bg-gray-01" />
 
       <div className="mt-[58px] flex justify-center">
         <Image

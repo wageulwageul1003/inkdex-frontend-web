@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { myProfileKey } from '@/constants/queryKeys';
 import { IResponseDetail } from '@/types/global';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export interface IMyProfileResponse {
   nickname: string;
@@ -10,6 +11,7 @@ export interface IMyProfileResponse {
   profileImageUrl: null | string;
   followerCount: number;
   followingCount: number;
+  hasPassword: boolean;
 }
 
 export const GetMyProfile = async (): Promise<
@@ -24,7 +26,7 @@ export const GetMyProfile = async (): Promise<
 
 export const useGetMyProfile = (disabled?: boolean) =>
   useQuery({
-    queryKey: [myProfileKey],
+    queryKey: queryKeys.mypage.profile.queryKey,
     queryFn: () => GetMyProfile(),
     enabled: disabled,
   });

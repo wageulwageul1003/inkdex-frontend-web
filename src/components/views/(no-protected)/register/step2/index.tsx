@@ -25,8 +25,6 @@ const Step2 = () => {
     },
   });
 
-  const { formState } = form;
-
   const onSubmit = () => {
     router.push(
       `/register/step3?email=${searchParams.get('email')}&password=${form.getValues('password')}&confirmPassword=${form.getValues('confirmPassword')}`,

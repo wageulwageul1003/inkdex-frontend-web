@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 import { SetPasswordSchema, TSetPasswordSchema } from '../schema';
@@ -13,10 +13,11 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { toast } from '@/components/ui/sonner';
 import { usePatchSetPassword } from '@/hooks/auth/usePatchSetPassword';
+import { TEMP_PASSWORD } from '@/constants/tokens';
 
 export const CurrentPasswordResetView = () => {
   const router = useRouter();
-  const searchParams = new URLSearchParams(window.location.search);
+  const searchParams = useSearchParams();
   const currentPassword = searchParams.get('currentPassword');
 
   const { mutateAsync: patchSetPassword } = usePatchSetPassword();
@@ -38,6 +39,7 @@ export const CurrentPasswordResetView = () => {
       }).then(() => {
         router.push('/preferences');
         toast.success('비밀번호 변경이 완료되었어요.');
+        sessionStorage.removeItem(TEMP_PASSWORD);
       });
     } catch (error) {
       console.log(error);

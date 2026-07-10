@@ -10,12 +10,12 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { ACCESS_TOKEN, USER_UUID } from '@/constants/tokens';
-import { useGetAccountInfo } from '@/hooks/auth/useGetAccountInfo';
 import { cn } from '@/lib/utils';
+import { useGetMyProfile } from '@/hooks/auth/useGetMyProfile';
 
 export const AccountView = () => {
   const router = useRouter();
-  const { data: accountInfo } = useGetAccountInfo();
+  const { data: myProfile } = useGetMyProfile();
   const [logoutAlertOpen, setLogoutAlertOpen] = React.useState(false);
 
   const LoginMethod = [
@@ -51,7 +51,7 @@ export const AccountView = () => {
 
   const handleSetPassword = () => {
     // TODO: third party 연동 이후 확인 우선 current-password 이걸로만 작업
-    if (accountInfo?.hasPassword) {
+    if (myProfile?.data.hasPassword) {
       router.push('/preferences/account/current-password');
     } else {
       router.push('/preferences/account/set-password');
