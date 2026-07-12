@@ -61,7 +61,7 @@ export const VisibilityBottomSheet = ({
               key={item.value}
               type="button"
               onClick={() => setTempVisibility(item.value)}
-              className="flex h-14 w-full items-center justify-between rounded-lg px-3 py-4"
+              className="flex h-14 w-full items-center justify-between rounded-lg bg-gray-01 px-3 py-4"
             >
               <div className="flex items-center gap-3">
                 {item.icon}

@@ -17,6 +17,7 @@ import { usePatchCollection } from '@/hooks/collection/usePatchCollection';
 import { usePostCollection } from '@/hooks/collection/usePostCollection';
 import { isApp } from '@/lib/device';
 import { nativeBridge } from '@/lib/native-bridge';
+import { VISIBILITY, VisibilityType } from '@/constants/enum';
 
 interface TProps {
   uuid?: string;
@@ -26,6 +27,9 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
   const router = useRouter();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const imageFileRef = useRef<File | null>(null);
+  const [visibility, setVisibility] = useState<VisibilityType>(
+    VISIBILITY[0].value,
+  );
 
   const { mutateAsync: postCollection } = usePostCollection();
   const { mutateAsync: patchCollection } = usePatchCollection();
@@ -40,6 +44,7 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
     defaultValues: {
       imageUrl: '',
       name: '',
+      visibility: visibility,
     },
   });
 
@@ -88,6 +93,7 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
           ...data,
           uuid: uuid,
           imageUrl: previewUrl,
+          visibility: visibility,
         }).then(() => {
           router.back();
         });
@@ -154,6 +160,27 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
               maxCharacters={20}
             />
           </div>
+
+          {/* TODO: ui 피그마 보고 재구성 */}
+          {VISIBILITY.map((item) => (
+            <button
+              key={item.value}
+              type="button"
+              onClick={() => setVisibility(item.value)}
+              className="flex h-14 w-full items-center justify-between rounded-lg bg-gray-01 px-3 py-4"
+            >
+              <div className="flex items-center gap-3">
+                {item.icon}
+                <span className="font-m-2 text-gray-08">{item.label}</span>
+              </div>
+
+              {visibility === item.value ? (
+                <Icons.radioButtonChecked className="fill-primary-01 size-6" />
+              ) : (
+                <Icons.radioButtonUnchecked className="size-6 fill-gray-04" />
+              )}
+            </button>
+          ))}
         </form>
       </Form>
 

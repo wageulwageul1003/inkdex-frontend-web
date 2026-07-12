@@ -21,12 +21,12 @@ import {
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { cn } from '@/lib/utils';
 
-interface TProps {
+interface ICollectionBottomSheet {
   selectedCollections: ICollectionListResponse[];
   setSelectedCollections: (collections: ICollectionListResponse[]) => void;
 }
 
-export const Collection = (props: TProps) => {
+export const CollectionBottomSheet = (props: ICollectionBottomSheet) => {
   const { selectedCollections, setSelectedCollections } = props;
   const router = useRouter();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =

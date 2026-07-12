@@ -4,6 +4,7 @@ export const CollectionWriteSchema = z.object({
   uuid: z.string().optional(),
   imageUrl: z.string().optional().nullable(),
   name: z.string(),
+  visibility: z.string(),
 });
 
 export type TCollectionWriteSchema = z.infer<typeof CollectionWriteSchema>;

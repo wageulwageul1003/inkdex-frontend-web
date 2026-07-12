@@ -6,7 +6,7 @@ import { FC, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { Collection } from './_components/Collection';
+import { CollectionBottomSheet } from './_components/CollectionBottomSheet';
 import { TWriteSchema, writeSchema } from './schema';
 
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
@@ -201,7 +201,7 @@ export const PostsWrite: FC<TProps> = (props) => {
 
           <div className="mb-6 mt-6 flex w-full flex-col gap-2 pt-6">
             <FormLabel>컬렉션</FormLabel>
-            <Collection
+            <CollectionBottomSheet
               selectedCollections={selectedCollections}
               setSelectedCollections={setSelectedCollections}
             />
