@@ -2,8 +2,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { TEditProfileSchema } from '@/components/views/(protected)/mypage/edit-profile/schema';
-import { myProfileKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export const patchProfile = async (payload: TEditProfileSchema) => {
   const response = await agent(`/api/account/profile`, {
@@ -21,7 +21,7 @@ export const usePatchProfile = () => {
 
     onSuccess: async (response) => {
       await queryClient.invalidateQueries({
-        queryKey: [myProfileKey],
+        queryKey: queryKeys.mypage.profile.queryKey,
       });
 
       return response;

@@ -70,12 +70,12 @@ export const EditProfileView = () => {
     try {
       await patchProfile({
         ...data,
-        imageFile: imageFileRef.current || undefined,
+        profileImageUrl: previewUrl,
       }).then(() => {
         router.back();
       });
     } catch (error) {
-      console.error('컬렉션 등록 오류:', error);
+      console.error('프로필 수정 오류:', error);
     }
   };
 
