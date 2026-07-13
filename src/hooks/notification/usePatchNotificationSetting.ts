@@ -1,29 +1,18 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { BooleanNotificationSettingKey } from './useGetNotificationSetting';
-
-import {
-  notificationSettingKey,
-  notificationSettingListKey,
-} from '@/constants/queryKeys';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
-type PatchNotificationSettingParams =
-  | {
-      slug: BooleanNotificationSettingKey;
-      booleanValue: boolean;
-      timeValue?: never;
-    }
-  | {
-      slug: 'remindTime';
-      timeValue: string;
-      booleanValue?: never;
-    };
+type PatchNotificationSettingParams = {
+  key: string;
+  enabled: boolean;
+  value?: string | null;
+};
 
 export const patchNotificationSetting = async (
   params: PatchNotificationSettingParams,
 ) => {
-  const response = await agent(`/api/v1/notifications/settings`, {
+  const response = await agent(`/api/account/notification-settings`, {
     method: 'PATCH',
     body: JSON.stringify(params),
   });
@@ -38,10 +27,7 @@ export const usePatchNotificationSetting = () => {
     mutationFn: patchNotificationSetting,
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: [notificationSettingKey],
-      });
-      await queryClient.invalidateQueries({
-        queryKey: [notificationSettingListKey],
+        queryKey: queryKeys.notificationSetting._def,
       });
     },
   });

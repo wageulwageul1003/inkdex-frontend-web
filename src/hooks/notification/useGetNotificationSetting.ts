@@ -1,37 +1,28 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { notificationSettingListKey } from '@/constants/queryKeys';
 import { agent } from '@/utils/fetch';
+import { IResponse } from '@/types/global';
+import { queryKeys } from '@/constants/query-key';
 
 export interface INotificationSettingResponse {
-  remindEnabled: boolean;
-  remindTime: string;
-  commentEnabled: boolean;
-  replyEnabled: boolean;
-  postLikeEnabled: boolean;
-  commentLikeEnabled: boolean;
-  followEnabled: boolean;
-  bookmarkEnabled: boolean;
-  marketingEnabled: boolean;
+  key: string;
+  enabled: boolean;
+  value: string | null;
 }
 
-export type BooleanNotificationSettingKey = Exclude<
-  keyof INotificationSettingResponse,
-  'remindTime'
->;
+export const GetNotificationSetting = async (): Promise<
+  IResponse<INotificationSettingResponse>
+> => {
+  const data = await agent(`/api/account/notification-settings`, {
+    method: 'GET',
+  });
 
-export const GetNotificationSetting =
-  async (): Promise<INotificationSettingResponse> => {
-    const data = await agent(`/api/v1/notifications/settings`, {
-      method: 'GET',
-    });
-
-    return data.data.content;
-  };
+  return data;
+};
 
 export const useGetNotificationSetting = () =>
   useQuery({
-    queryKey: [notificationSettingListKey],
+    queryKey: queryKeys.notificationSetting._def,
     queryFn: () => GetNotificationSetting(),
     enabled: true,
   });

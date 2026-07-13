@@ -19,4 +19,5 @@ export const queryKeys = createQueryKeyStore({
   other: {
     profile: (uuid: string) => ['other', 'profile', uuid] as const,
   },
+  notificationSetting: {},
 });
