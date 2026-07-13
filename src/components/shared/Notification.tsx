@@ -1,16 +1,17 @@
+import { useGetNotificationReadStatus } from '@/hooks/notification/useGetNotificationUnReadCount';
 import { Icons } from './icons';
 
 import { cn } from '@/lib/utils';
 
 export const Notification = () => {
-  // const { data: unReadCount } = useGetNotificationUnReadCount();
+  const { data: readStatus } = useGetNotificationReadStatus();
 
   return (
     <div className="relative h-7 w-7 shrink-0">
       <Icons.bell className={cn('size-6 fill-gray-06')} />
-      {/* {unReadCount && unReadCount?.content > 0 && ( */}
-      <span className="absolute right-0 top-0 h-1 w-1 rounded-full bg-red-05"></span>
-      {/* )} */}
+      {!readStatus?.data.isAllRead && (
+        <span className="absolute right-0 top-0 h-1 w-1 rounded-full bg-red-05"></span>
+      )}
     </div>
   );
 };

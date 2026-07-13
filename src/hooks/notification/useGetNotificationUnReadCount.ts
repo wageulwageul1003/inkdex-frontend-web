@@ -1,23 +1,25 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { notificationUnReadCountKey } from '@/constants/queryKeys';
 import { agent } from '@/utils/fetch';
+import { IResponseDetail } from '@/types/global';
+import { queryKeys } from '@/constants/query-key';
 
-export interface INotificationUnReadCountResponse {
-  content: number;
+export interface INotificationReadStatusResponse {
+  isAllRead: boolean;
 }
 
-export const GetNotificationUnReadCount =
-  async (): Promise<INotificationUnReadCountResponse> => {
-    const data = await agent(`/api/v1/notifications/unread-count`, {
-      method: 'GET',
-    });
+export const GetNotificationReadStatus = async (): Promise<
+  IResponseDetail<INotificationReadStatusResponse>
+> => {
+  const data = await agent(`/api/account/notifications/read-status`, {
+    method: 'GET',
+  });
 
-    return data.data;
-  };
+  return data;
+};
 
-export const useGetNotificationUnReadCount = () =>
+export const useGetNotificationReadStatus = () =>
   useQuery({
-    queryKey: [notificationUnReadCountKey],
-    queryFn: () => GetNotificationUnReadCount(),
+    queryKey: queryKeys.notification.readStatus.queryKey,
+    queryFn: () => GetNotificationReadStatus(),
   });
