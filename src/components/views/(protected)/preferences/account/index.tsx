@@ -21,21 +21,21 @@ export const AccountView = () => {
   const LoginMethod = [
     {
       title: '카카오',
+      provider: 'KAKAO',
       iconSrc: '/thrid-party-logo/Kakao.png',
       bgColor: 'bg-[#FEE500]',
-      access: true,
     },
     {
       title: 'Apple',
+      provider: 'APPLE',
       iconSrc: '/thrid-party-logo/Apple.png',
       bgColor: 'bg-black',
-      access: false,
     },
     {
       title: '구글',
+      provider: 'GOOGLE',
       iconSrc: '/thrid-party-logo/Google.png',
       bgColor: 'bg-white',
-      access: true,
     },
   ];
 
@@ -50,7 +50,6 @@ export const AccountView = () => {
   };
 
   const handleSetPassword = () => {
-    // TODO: third party 연동 이후 확인 우선 current-password 이걸로만 작업
     if (myProfile?.data.hasPassword) {
       router.push('/preferences/account/current-password');
     } else {
@@ -71,7 +70,7 @@ export const AccountView = () => {
       />
       <div className="mt-4 flex flex-1 flex-col">
         <span className="font-m-2 text-gray-1 flex h-10 items-center">
-          sdfnkdsf@naver.com
+          {myProfile?.data.email}
         </span>
 
         <div className="mt-12 flex flex-col items-center justify-center gap-4">
@@ -79,35 +78,39 @@ export const AccountView = () => {
             SNS 계정을 연동하여 간편하게 로그인할 수 있습니다.
           </span>
           <div className="flex items-center gap-4">
-            {LoginMethod.map((item) => (
-              <div
-                key={item.title}
-                className="flex flex-col items-center gap-2"
-              >
+            {LoginMethod.map((item) => {
+              const connected =
+                myProfile?.data.provider?.includes(item.provider) ?? false;
+              return (
                 <div
-                  className={cn(
-                    item.access ? item.bgColor : 'bg-gray-3',
-                    'flex h-11 w-11 items-center justify-center rounded-lg',
-                  )}
+                  key={item.title}
+                  className="flex flex-col items-center gap-2"
                 >
-                  <Image
-                    src={item.iconSrc}
-                    alt={item.title}
-                    width={18}
-                    height={18}
-                    className="size-[18px]"
-                  />
+                  <div
+                    className={cn(
+                      connected ? item.bgColor : 'bg-gray-3',
+                      'flex h-11 w-11 items-center justify-center rounded-lg',
+                    )}
+                  >
+                    <Image
+                      src={item.iconSrc}
+                      alt={item.title}
+                      width={18}
+                      height={18}
+                      className="size-[18px]"
+                    />
+                  </div>
+                  <span
+                    className={cn(
+                      connected ? 'text-gray-08' : 'text-gray-05',
+                      'font-xs-2',
+                    )}
+                  >
+                    {connected ? '연결 완료' : '연결하기'}
+                  </span>
                 </div>
-                <span
-                  className={cn(
-                    item.access ? 'text-gray-08' : 'text-gray-05',
-                    'font-xs-2',
-                  )}
-                >
-                  {item.access ? '연결 완료' : '연결하기'}
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 

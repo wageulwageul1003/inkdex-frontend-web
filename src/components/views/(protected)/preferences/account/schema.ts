@@ -16,6 +16,7 @@ export type TResetPasswordSchema = z.infer<typeof ResetPasswordSchema>;
 
 export const SetPasswordSchema = z.object({
   password: z.string().min(1, '비밀번호를 입력해주세요'),
+  confirmPassword: z.string().min(1, '비밀번호를 입력해주세요'),
 });
 
 export type TSetPasswordSchema = z.infer<typeof SetPasswordSchema>;

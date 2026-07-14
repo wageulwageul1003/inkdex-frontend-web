@@ -6,12 +6,13 @@ import { queryKeys } from '@/constants/query-key';
 
 export interface IMyProfileResponse {
   nickname: string;
+  email: string;
   bio: null | string;
   profileImageUrl: null | string;
   followerCount: number;
   followingCount: number;
+  provider: string[];
   hasPassword: boolean;
-  email: string;
 }
 
 export const GetMyProfile = async (): Promise<

@@ -12,6 +12,7 @@ import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { usePatchSetPassword } from '@/hooks/auth/usePatchSetPassword';
+import { toast } from '@/components/ui/sonner';
 
 export const SetPasswordView = () => {
   const router = useRouter();
@@ -23,6 +24,7 @@ export const SetPasswordView = () => {
     mode: 'onChange',
     defaultValues: {
       password: '',
+      confirmPassword: '',
     },
   });
 
@@ -31,7 +33,8 @@ export const SetPasswordView = () => {
       await patchSetPassword({
         ...data,
       }).then(() => {
-        router.push('/preferences/account/set-password');
+        router.back();
+        toast.success('비밀번호를 설정하였습니다.');
       });
     } catch (error) {
       console.error('비밀번호 재설정 오류:', error);
@@ -81,7 +84,7 @@ export const SetPasswordView = () => {
           <FormFields
             fieldType={FormFieldType.PASSWORD}
             control={form.control}
-            name="password"
+            name="confirmPassword"
             placeholder="비밀번호를 입력해주세요"
           />
         </form>
