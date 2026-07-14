@@ -5,8 +5,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { resetPasswordSchema, TResetPasswordSchema } from './schema';
-
 import { CustomAlertDialog } from '@/components/shared/custom-alert-dialog';
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
@@ -14,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { usePostResetPassword } from '@/hooks/auth/usePostResetPassword';
 import { ErrorData } from '@/utils/fetch';
+import { findPasswordSchema, TFindPasswordSchema } from './schema';
 
 const FindPasswordComponent = () => {
   const router = useRouter();
@@ -21,8 +20,8 @@ const FindPasswordComponent = () => {
   const { mutateAsync: postResetPassword } = usePostResetPassword();
   const [alertOpen, setAlertOpen] = useState(false);
 
-  const form = useForm<TResetPasswordSchema>({
-    resolver: zodResolver(resetPasswordSchema),
+  const form = useForm<TFindPasswordSchema>({
+    resolver: zodResolver(findPasswordSchema),
     mode: 'onChange',
     defaultValues: {
       email: searchParams.get('email') || '',
@@ -31,7 +30,7 @@ const FindPasswordComponent = () => {
 
   const { formState } = form;
 
-  const onSubmit = async (data: TResetPasswordSchema) => {
+  const onSubmit = async (data: TFindPasswordSchema) => {
     try {
       const response = await postResetPassword(data);
       if (response.code === 200) {

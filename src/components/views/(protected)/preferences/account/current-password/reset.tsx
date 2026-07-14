@@ -4,26 +4,25 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
-import { SetPasswordSchema, TSetPasswordSchema } from '../schema';
-
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { toast } from '@/components/ui/sonner';
-import { usePatchSetPassword } from '@/hooks/auth/usePatchSetPassword';
 import { TEMP_PASSWORD } from '@/constants/tokens';
+import { ResetPasswordSchema, TResetPasswordSchema } from '../schema';
+import { usePatchResetPassword } from '@/hooks/auth/usePatchResetPassword';
 
 export const CurrentPasswordResetView = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentPassword = searchParams.get('currentPassword');
 
-  const { mutateAsync: patchSetPassword } = usePatchSetPassword();
+  const { mutateAsync: patchResetPassword } = usePatchResetPassword();
 
   const form = useForm({
-    resolver: zodResolver(SetPasswordSchema),
+    resolver: zodResolver(ResetPasswordSchema),
     mode: 'onChange',
     defaultValues: {
       currentPassword: currentPassword || '',
@@ -32,9 +31,9 @@ export const CurrentPasswordResetView = () => {
     },
   });
 
-  const onSubmit = async (data: TSetPasswordSchema) => {
+  const onSubmit = async (data: TResetPasswordSchema) => {
     try {
-      await patchSetPassword({
+      await patchResetPassword({
         ...data,
       }).then(() => {
         router.push('/preferences');

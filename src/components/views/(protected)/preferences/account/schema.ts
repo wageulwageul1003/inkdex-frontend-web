@@ -6,10 +6,16 @@ export const CurrentPasswordSchema = z.object({
 
 export type TCurrentPasswordSchema = z.infer<typeof CurrentPasswordSchema>;
 
-export const SetPasswordSchema = z.object({
+export const ResetPasswordSchema = z.object({
   currentPassword: z.string().min(1, '비밀번호를 입력해주세요'),
   newPassword: z.string().min(1, '비밀번호를 입력해주세요'),
   confirmPassword: z.string().min(1, '비밀번호를 입력해주세요'),
+});
+
+export type TResetPasswordSchema = z.infer<typeof ResetPasswordSchema>;
+
+export const SetPasswordSchema = z.object({
+  password: z.string().min(1, '비밀번호를 입력해주세요'),
 });
 
 export type TSetPasswordSchema = z.infer<typeof SetPasswordSchema>;

@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { TResetPasswordSchema } from '@/components/views/(no-protected)/find-password/schema';
 import { ErrorData, agent } from '@/utils/fetch';
+import { TFindPasswordSchema } from '@/components/views/(no-protected)/find-password/schema';
 
-export const postResetPassword = async (params: TResetPasswordSchema) => {
+export const postResetPassword = async (params: TFindPasswordSchema) => {
   const response = await agent(`/api/account/find-password`, {
     method: 'POST',
     body: JSON.stringify({

@@ -11,12 +11,12 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { usePostSetPassword } from '@/hooks/auth/usePatchSetPassword';
+import { usePatchSetPassword } from '@/hooks/auth/usePatchSetPassword';
 
 export const SetPasswordView = () => {
   const router = useRouter();
 
-  const { mutateAsync: setPassword } = usePostSetPassword();
+  const { mutateAsync: patchSetPassword } = usePatchSetPassword();
 
   const form = useForm({
     resolver: zodResolver(SetPasswordSchema),
@@ -28,13 +28,13 @@ export const SetPasswordView = () => {
 
   const onSubmit = async (data: TSetPasswordSchema) => {
     try {
-      await setPassword({
+      await patchSetPassword({
         ...data,
       }).then(() => {
         router.push('/preferences/account/set-password');
       });
     } catch (error) {
-      console.error('컬렉션 등록 오류:', error);
+      console.error('비밀번호 재설정 오류:', error);
     }
   };
 

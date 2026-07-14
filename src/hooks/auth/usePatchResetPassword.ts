@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { agent } from '@/utils/fetch';
-import { TSetPasswordSchema } from '@/components/views/(protected)/preferences/account/schema';
+import { TResetPasswordSchema } from '@/components/views/(protected)/preferences/account/schema';
 
-export const patchResetPassword = async (payload: TSetPasswordSchema) => {
+export const patchResetPassword = async (payload: TResetPasswordSchema) => {
   const response = await agent(`/api/account/reset-password`, {
     method: 'PATCH',
     body: JSON.stringify(payload),
@@ -12,7 +12,7 @@ export const patchResetPassword = async (payload: TSetPasswordSchema) => {
   return response;
 };
 
-export const usePatchSetPassword = () => {
+export const usePatchResetPassword = () => {
   return useMutation({
     mutationFn: patchResetPassword,
   });
