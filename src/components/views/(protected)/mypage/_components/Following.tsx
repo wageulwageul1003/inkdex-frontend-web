@@ -37,9 +37,9 @@ export const Following = () => {
               key={item.account.uuid}
             >
               <UserProfile
-                userId={item.account.uuid}
+                accountUuid={item.account.uuid}
                 nickname={item.account.nickname}
-                nicknameSrc={item.account.profileImageUrl}
+                profileImageUrl={item.account.profileImageUrl}
                 bio={''}
                 following={true}
                 isShowMore={false}

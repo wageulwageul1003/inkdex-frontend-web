@@ -25,8 +25,8 @@ export const Calendar = () => {
   });
 
   const { data } = useGetMyInkdexCalendar({
-    year: calendar.currentDate.getFullYear(),
-    month: calendar.currentDate.getMonth() + 1,
+    year: String(calendar.currentDate.getFullYear()),
+    month: String(calendar.currentDate.getMonth() + 1),
   });
 
   const { data: detailDatas } = useGetMyInkdexFeedList({

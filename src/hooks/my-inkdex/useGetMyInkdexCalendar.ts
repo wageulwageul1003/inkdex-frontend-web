@@ -13,8 +13,8 @@ export interface IMyInkdexCalendarResponse {
 }
 
 type TGetMyInkdexCalendarParams = {
-  year: number;
-  month: number;
+  year: string;
+  month: string;
 };
 
 export const GetMyInkdexCalendar = async (

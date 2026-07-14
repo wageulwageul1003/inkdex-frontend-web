@@ -27,8 +27,10 @@ export const queryKeys = createQueryKeyStore({
     postList: (params: {
       size?: string;
       page?: string;
-      year: string;
-      month: string | null;
+      year?: string;
+      month?: string | null;
+      startAt?: string | null;
+      endAt?: string | null;
     }) => ['mypage', 'post-list', params] as const,
     profile: null,
     followerList: (params: { size?: string; page?: string }) =>

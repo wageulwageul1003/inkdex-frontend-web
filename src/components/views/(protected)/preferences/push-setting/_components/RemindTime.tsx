@@ -124,8 +124,9 @@ export const RemindTime = (props: TRemindTimeProps) => {
                 const timeValue = `${pad2(hh)}:${pad2(minute)}`;
 
                 patchNotificationSetting({
-                  slug: 'remindTime',
-                  timeValue,
+                  key: 'remindTime',
+                  enabled: true,
+                  value: timeValue,
                 });
               }}
             >

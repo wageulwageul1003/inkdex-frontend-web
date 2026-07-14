@@ -7,7 +7,7 @@ import Chips from '@/components/shared/chips';
 import { Calendar } from '@/components/ui/calendar';
 
 export const StatisticsComponent = () => {
-  const [mode, setMode] = useState('weekely');
+  const [mode, setMode] = useState<string>('weekely');
   const [date, setDate] = useState<DateRange | undefined>({
     from: new Date(),
     to: new Date(),
@@ -23,7 +23,7 @@ export const StatisticsComponent = () => {
           { value: 'monthly', label: '월간' },
         ]}
         variant="single"
-        onChange={(item) => setMode(item as string)}
+        onValueChange={(value) => setMode(value as string)}
       />
       <Calendar
         mode="range"

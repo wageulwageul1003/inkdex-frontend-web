@@ -5,8 +5,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
-import { Card } from '../../../home/_components/Card';
-
 import { Loading } from '@/components/shared/Loading';
 import { CustomAlertDialog } from '@/components/shared/custom-alert-dialog';
 import { Icons } from '@/components/shared/icons';
@@ -15,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/sonner';
 import { useDeleteCollection } from '@/hooks/collection/useDeleteCollection';
 import { useGetSpecificCollection } from '@/hooks/collection/useGetSpecificCollection';
-import { GetSpecificCollectionPostList } from '@/hooks/collection/GetSpecificCollectionPostList';
+import { useGetSpecificCollectionPostList } from '@/hooks/collection/GetSpecificCollectionPostList';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 
 interface TProps {
@@ -28,7 +26,7 @@ export const CollectionDetailView = ({ uuid }: TProps) => {
   const [deleteAlertOpen, setDeleteAlertOpen] = useState(false);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    GetSpecificCollectionPostList({
+    useGetSpecificCollectionPostList({
       size: '10',
       collectionUuid: uuid,
     });
@@ -130,7 +128,7 @@ export const CollectionDetailView = ({ uuid }: TProps) => {
       {/* collection의 post list */}
       {/* TODO: ui 수정 */}
       <div className="flex flex-col">
-        {data?.content.map((item) => <Card key={item.uuid} item={item} />)}
+        {data?.content.map((item) => <p>{item.account.bio}</p>)}
         <div ref={observerRef} className="flex h-1 justify-center">
           {isFetchingNextPage && <Loading />}
         </div>
