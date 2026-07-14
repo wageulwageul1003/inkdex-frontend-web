@@ -3,6 +3,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { postsListKey } from '@/constants/queryKeys';
 import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export interface IPostListResponse {
   uuid: string;
@@ -36,23 +37,19 @@ export interface IPostListResponse {
 
 // PARAMS TYPE
 type TGetPostsListParams = {
-  category?: string;
   page?: string;
   size?: string;
   sort?: string;
   feedType?: string;
 };
 
-export const GetPostsList = async (
+export const GetPostist = async (
   params: TGetPostsListParams,
 ): Promise<IResponsePaged<IPostListResponse>> => {
   const queryParams = new URLSearchParams();
 
-  if (params.category) queryParams.set('category', params.category);
-  if (params.page) queryParams.set('page', String(Number(params.page) - 1));
+  if (params.page) queryParams.set('page', String(params.page));
   if (params.size) queryParams.set('size', String(params.size));
-  if (params.sort) queryParams.set('sort', String(params.sort));
-  if (params.feedType) queryParams.set('feedType', String(params.feedType));
 
   const url = `/api/posts?${queryParams.toString()}`;
 
@@ -69,18 +66,26 @@ export const useGetPostsList = (params: TGetPostsListParams) => {
     Error,
     TInfiniteListResult<IPostListResponse>
   >({
-    queryKey: [postsListKey, params],
-    queryFn: ({ pageParam = 1 }) =>
-      GetPostsList({ ...params, page: String(pageParam) }),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.data.paging.hasNext
-        ? lastPage.data.paging.currentPage + 1
-        : undefined,
+    queryKey: queryKeys.post.list(params).queryKey,
+
+    queryFn: ({ pageParam }) => {
+      return GetPostist({
+        ...params,
+        page: String(pageParam),
+      });
+    },
+
+    initialPageParam: 0,
+
+    getNextPageParam: (lastPage) => {
+      const { page, number } = lastPage.data.paging;
+
+      return page + 1 < number ? page + 1 : undefined;
+    },
 
     select: (data) => ({
       content: data.pages.flatMap((p) => p.data.content),
-      paging: data.pages[0].data.paging,
+      paging: data.pages[data.pages.length - 1].data.paging,
     }),
   });
 };

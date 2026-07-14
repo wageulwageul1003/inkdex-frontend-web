@@ -1,8 +1,8 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { userListKey } from '@/constants/queryKeys';
 import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export interface IUserListResponse {
   uuid: string;
@@ -16,9 +16,9 @@ export interface IUserListResponse {
 
 // PARAMS TYPE
 type TGetUserPostsListParams = {
-  searchKeyword?: string;
   page?: string;
   size?: string;
+  searchKeyword?: string;
 };
 
 export const GetUserList = async (
@@ -46,19 +46,26 @@ export const useGetUserList = (params: TGetUserPostsListParams) => {
     Error,
     TInfiniteListResult<IUserListResponse>
   >({
-    queryKey: [userListKey, params],
-    enabled: !!params.searchKeyword,
-    queryFn: ({ pageParam = 1 }) =>
-      GetUserList({ ...params, page: String(pageParam) }),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.data.paging.hasNext
-        ? lastPage.data.paging.currentPage + 1
-        : undefined,
+    queryKey: queryKeys.search.userList(params).queryKey,
+
+    queryFn: ({ pageParam }) => {
+      return GetUserList({
+        ...params,
+        page: String(pageParam),
+      });
+    },
+
+    initialPageParam: 0,
+
+    getNextPageParam: (lastPage) => {
+      const { page, number } = lastPage.data.paging;
+
+      return page + 1 < number ? page + 1 : undefined;
+    },
 
     select: (data) => ({
       content: data.pages.flatMap((p) => p.data.content),
-      paging: data.pages[0].data.paging,
+      paging: data.pages[data.pages.length - 1].data.paging,
     }),
   });
 };

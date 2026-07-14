@@ -8,12 +8,10 @@ export interface IResponsePaged<T> {
   data: {
     content: T[];
     paging: {
-      currentPage: number;
-      pageSize: number;
-      totalElements: number;
-      totalPages: number;
-      hasNext: boolean;
-      hasPrevious: boolean;
+      number: number; // 전체 페이지
+      page: number; // 현재 페이지
+      size: number;
+      totalElements: number; // 전체 data 개수
     };
   };
   message: string;

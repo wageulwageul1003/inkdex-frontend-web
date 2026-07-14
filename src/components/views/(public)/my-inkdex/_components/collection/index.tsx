@@ -23,6 +23,8 @@ export const Collection = () => {
     { threshold: 0.1 },
   );
 
+  console.log(isFetchingNextPage);
+
   return (
     <div className="w-full">
       <div className="flex items-center justify-between py-3">

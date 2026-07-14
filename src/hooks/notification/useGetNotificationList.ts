@@ -1,10 +1,10 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { notificationListKey } from '@/constants/queryKeys';
 import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
-export interface IPostListResponse {
+export interface INotificationListResponse {
   id: string;
   userId: string;
   userNickname: string;
@@ -35,17 +35,15 @@ export interface IPostListResponse {
 type TGetNotificationListParams = {
   page?: string;
   size?: string;
-  sort?: string;
 };
 
 export const GetNotificationList = async (
   params: TGetNotificationListParams,
-): Promise<IResponsePaged<IPostListResponse>> => {
+): Promise<IResponsePaged<INotificationListResponse>> => {
   const queryParams = new URLSearchParams();
 
   if (params.page) queryParams.set('page', String(Number(params.page) - 1));
   if (params.size) queryParams.set('size', String(params.size));
-  if (params.sort) queryParams.set('sort', String(params.sort));
 
   const url = `/api/v1/notifications?${queryParams.toString()}`;
 
@@ -58,22 +56,30 @@ export const GetNotificationList = async (
 
 export const useGetNotificationList = (params: TGetNotificationListParams) => {
   return useInfiniteQuery<
-    IResponsePaged<IPostListResponse>,
+    IResponsePaged<INotificationListResponse>,
     Error,
-    TInfiniteListResult<IPostListResponse>
+    TInfiniteListResult<INotificationListResponse>
   >({
-    queryKey: [notificationListKey, params],
-    queryFn: ({ pageParam = 1 }) =>
-      GetNotificationList({ ...params, page: String(pageParam) }),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.data.paging.hasNext
-        ? lastPage.data.paging.currentPage + 1
-        : undefined,
+    queryKey: queryKeys.notification.list(params).queryKey,
+
+    queryFn: ({ pageParam }) => {
+      return GetNotificationList({
+        ...params,
+        page: String(pageParam),
+      });
+    },
+
+    initialPageParam: 0,
+
+    getNextPageParam: (lastPage) => {
+      const { page, number } = lastPage.data.paging;
+
+      return page + 1 < number ? page + 1 : undefined;
+    },
 
     select: (data) => ({
       content: data.pages.flatMap((p) => p.data.content),
-      paging: data.pages[0].data.paging,
+      paging: data.pages[data.pages.length - 1].data.paging,
     }),
   });
 };

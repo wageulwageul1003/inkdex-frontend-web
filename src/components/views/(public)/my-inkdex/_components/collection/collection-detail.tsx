@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/sonner';
 import { useDeleteCollection } from '@/hooks/collection/useDeleteCollection';
 import { useGetSpecificCollection } from '@/hooks/collection/useGetSpecificCollection';
-import { useGetSpecificCollectionList } from '@/hooks/collection/useGetSpecificCollectionList';
+import { GetSpecificCollectionPostList } from '@/hooks/collection/GetSpecificCollectionPostList';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 
 interface TProps {
@@ -28,7 +28,7 @@ export const CollectionDetailView = ({ uuid }: TProps) => {
   const [deleteAlertOpen, setDeleteAlertOpen] = useState(false);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useGetSpecificCollectionList({
+    GetSpecificCollectionPostList({
       size: '10',
       collectionUuid: uuid,
     });

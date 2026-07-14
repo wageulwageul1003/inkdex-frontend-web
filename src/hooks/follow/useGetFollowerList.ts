@@ -3,6 +3,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { followListKey } from '@/constants/queryKeys';
 import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export interface IFollowerListResponse {
   createdAt: string;
@@ -24,7 +25,7 @@ export const GetFollowerList = async (
 ): Promise<IResponsePaged<IFollowerListResponse>> => {
   const queryParams = new URLSearchParams();
 
-  if (params.page) queryParams.set('page', String(Number(params.page) - 1));
+  if (params.page) queryParams.set('page', String(params.page));
   if (params.size) queryParams.set('size', String(params.size));
 
   const url = `/api/account/follow/followers?${queryParams.toString()}`;
@@ -42,14 +43,22 @@ export const useGetFollowerList = (params: TFollowerListParams) => {
     Error,
     TInfiniteListResult<IFollowerListResponse>
   >({
-    queryKey: [followListKey, params],
-    queryFn: ({ pageParam = 1 }) =>
-      GetFollowerList({ ...params, page: String(pageParam) }),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.data.paging.hasNext
-        ? lastPage.data.paging.currentPage + 1
-        : undefined,
+    queryKey: queryKeys.mypage.followerList(params).queryKey,
+
+    queryFn: ({ pageParam }) => {
+      return GetFollowerList({
+        ...params,
+        page: String(pageParam),
+      });
+    },
+
+    initialPageParam: 0,
+
+    getNextPageParam: (lastPage) => {
+      const { page, number } = lastPage.data.paging;
+
+      return page + 1 < number ? page + 1 : undefined;
+    },
 
     select: (data) => ({
       content: data.pages.flatMap((p) => p.data.content),

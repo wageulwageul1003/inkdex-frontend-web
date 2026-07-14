@@ -2,23 +2,23 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { IPostListResponse } from '../home/useGetPostsList';
 
-import { specificCollectionListKey } from '@/constants/queryKeys';
 import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 // PARAMS TYPE
-type TGetSpecificCollectionListParams = {
+type TGetSpecificCollectionPostListParams = {
   collectionUuid: string;
   page?: string;
   size?: string;
 };
 
-export const GetSpecificCollectionList = async (
-  params: TGetSpecificCollectionListParams,
+export const GetSpecificCollectionPostList = async (
+  params: TGetSpecificCollectionPostListParams,
 ): Promise<IResponsePaged<IPostListResponse>> => {
   const queryParams = new URLSearchParams();
 
-  if (params.page) queryParams.set('page', String(Number(params.page) - 1));
+  if (params.page) queryParams.set('page', String(params.page));
   if (params.size) queryParams.set('size', String(params.size));
 
   const url = `/api/collections/${params.collectionUuid}/posts?${queryParams.toString()}`;
@@ -30,22 +30,30 @@ export const GetSpecificCollectionList = async (
   return data;
 };
 
-export const useGetSpecificCollectionList = (
-  params: TGetSpecificCollectionListParams,
+export const useGetSpecificCollectionPostList = (
+  params: TGetSpecificCollectionPostListParams,
 ) => {
   return useInfiniteQuery<
     IResponsePaged<IPostListResponse>,
     Error,
     TInfiniteListResult<IPostListResponse>
   >({
-    queryKey: [specificCollectionListKey, params],
-    queryFn: ({ pageParam = 1 }) =>
-      GetSpecificCollectionList({ ...params, page: String(pageParam) }),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.data.paging.hasNext
-        ? lastPage.data.paging.currentPage + 1
-        : undefined,
+    queryKey: queryKeys.collection.postList(params).queryKey,
+
+    queryFn: ({ pageParam }) => {
+      return GetSpecificCollectionPostList({
+        ...params,
+        page: String(pageParam),
+      });
+    },
+
+    initialPageParam: 0,
+
+    getNextPageParam: (lastPage) => {
+      const { page, number } = lastPage.data.paging;
+
+      return page + 1 < number ? page + 1 : undefined;
+    },
 
     select: (data) => ({
       content: data.pages.flatMap((p) => p.data.content),

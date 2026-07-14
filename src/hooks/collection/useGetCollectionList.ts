@@ -1,8 +1,8 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { collectionListKey } from '@/constants/queryKeys';
 import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export interface ICollectionListResponse {
   uuid: string;
@@ -25,7 +25,7 @@ export const GetCollectionList = async (
 ): Promise<IResponsePaged<ICollectionListResponse>> => {
   const queryParams = new URLSearchParams();
 
-  if (params.page) queryParams.set('page', String(Number(params.page) - 1));
+  if (params.page) queryParams.set('page', String(params.page));
   if (params.size) queryParams.set('size', String(params.size));
   if (params.accountUuid) queryParams.set('accountUuid', params.accountUuid);
 
@@ -44,14 +44,22 @@ export const useGetCollectionList = (params: TGetCollectionListParams) => {
     Error,
     TInfiniteListResult<ICollectionListResponse>
   >({
-    queryKey: [collectionListKey, params],
-    queryFn: ({ pageParam = 1 }) =>
-      GetCollectionList({ ...params, page: String(pageParam) }),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.data.paging.hasNext
-        ? lastPage.data.paging.currentPage + 1
-        : undefined,
+    queryKey: queryKeys.collection.list(params).queryKey,
+
+    queryFn: ({ pageParam }) => {
+      return GetCollectionList({
+        ...params,
+        page: String(pageParam),
+      });
+    },
+
+    initialPageParam: 0,
+
+    getNextPageParam: (lastPage) => {
+      const { page, number } = lastPage.data.paging;
+
+      return page + 1 < number ? page + 1 : undefined;
+    },
 
     select: (data) => ({
       content: data.pages.flatMap((p) => p.data.content),

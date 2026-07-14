@@ -1,8 +1,8 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { followingListKey } from '@/constants/queryKeys';
 import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export interface IFollowingListResponse {
   createdAt: string;
@@ -42,14 +42,22 @@ export const useGetFollowingList = (params: TFollowingListParams) => {
     Error,
     TInfiniteListResult<IFollowingListResponse>
   >({
-    queryKey: [followingListKey, params],
-    queryFn: ({ pageParam = 1 }) =>
-      GetFollowingList({ ...params, page: String(pageParam) }),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.data.paging.hasNext
-        ? lastPage.data.paging.currentPage + 1
-        : undefined,
+    queryKey: queryKeys.mypage.followingList(params).queryKey,
+
+    queryFn: ({ pageParam }) => {
+      return GetFollowingList({
+        ...params,
+        page: String(pageParam),
+      });
+    },
+
+    initialPageParam: 0,
+
+    getNextPageParam: (lastPage) => {
+      const { page, number } = lastPage.data.paging;
+
+      return page + 1 < number ? page + 1 : undefined;
+    },
 
     select: (data) => ({
       content: data.pages.flatMap((p) => p.data.content),

@@ -1,15 +1,15 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { searchPostList } from '@/constants/queryKeys';
 import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
 import { IPostListResponse } from '../home/useGetPostsList';
+import { queryKeys } from '@/constants/query-key';
 
 // PARAMS TYPE
 type TGetSearchPostsListParams = {
-  searchKeyword?: string;
   page?: string;
   size?: string;
+  searchKeyword?: string;
   feedType: string;
 };
 
@@ -39,19 +39,26 @@ export const useGetSearchPostsList = (params: TGetSearchPostsListParams) => {
     Error,
     TInfiniteListResult<IPostListResponse>
   >({
-    queryKey: [searchPostList, params],
-    enabled: !!params.searchKeyword,
-    queryFn: ({ pageParam = 1 }) =>
-      GetSearchPostsList({ ...params, page: String(pageParam) }),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.data.paging.hasNext
-        ? lastPage.data.paging.currentPage + 1
-        : undefined,
+    queryKey: queryKeys.search.postList(params).queryKey,
+
+    queryFn: ({ pageParam }) => {
+      return GetSearchPostsList({
+        ...params,
+        page: String(pageParam),
+      });
+    },
+
+    initialPageParam: 0,
+
+    getNextPageParam: (lastPage) => {
+      const { page, number } = lastPage.data.paging;
+
+      return page + 1 < number ? page + 1 : undefined;
+    },
 
     select: (data) => ({
       content: data.pages.flatMap((p) => p.data.content),
-      paging: data.pages[0].data.paging,
+      paging: data.pages[data.pages.length - 1].data.paging,
     }),
   });
 };
