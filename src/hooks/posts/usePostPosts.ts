@@ -2,8 +2,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { TWriteSchema } from '@/components/views/(protected)/posts/schema';
-import { postsKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export const postRegister = async (paylaod: TWriteSchema) => {
   const response = await agent(`/api/posts`, {
@@ -21,7 +21,7 @@ export const usePostPosts = () => {
 
     onSuccess: async (response) => {
       await queryClient.invalidateQueries({
-        queryKey: [postsKey],
+        queryKey: queryKeys.mypage.postList._def,
       });
 
       return response;

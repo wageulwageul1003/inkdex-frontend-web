@@ -1,8 +1,8 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
-import { recentSearchKeywordsKey } from '@/constants/queryKeys';
 import { IResponse } from '@/types/global';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export interface IRecentSearchKeywordsResponse {
   uuid: string;
@@ -24,6 +24,6 @@ export const useGetRecentSearchKeywords = (): UseQueryResult<
   IResponse<IRecentSearchKeywordsResponse>
 > =>
   useQuery({
-    queryKey: [recentSearchKeywordsKey],
+    queryKey: queryKeys.search.recentSearchKeywordList.queryKey,
     queryFn: () => GetRecentSearchKeywords(),
   });

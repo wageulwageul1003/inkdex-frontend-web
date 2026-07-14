@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { specificCollectionKey } from '@/constants/queryKeys';
 import { IResponseDetail } from '@/types/global';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export interface ISpecificCollectionResponse {
   uuid: string;
@@ -29,7 +29,7 @@ export const useGetSpecificCollection = ({
   collectionUuid: string;
 }) =>
   useQuery({
-    queryKey: [specificCollectionKey, collectionUuid],
+    queryKey: queryKeys.collection.detail(collectionUuid).queryKey,
     queryFn: () => GetSpecificCollection(collectionUuid),
     enabled: !!collectionUuid,
   });

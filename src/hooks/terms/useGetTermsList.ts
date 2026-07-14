@@ -1,9 +1,9 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { z } from 'zod';
 
-import { termsListKey } from '@/constants/queryKeys';
 import { IResponse } from '@/types/global';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export interface ITermsListResponse {
   uuid: string;
@@ -29,6 +29,6 @@ export const useGetTermsList = (): UseQueryResult<
   IResponse<ITermsListResponse>
 > =>
   useQuery({
-    queryKey: [termsListKey],
+    queryKey: queryKeys.term.list.queryKey,
     queryFn: () => GetTermsList(),
   });

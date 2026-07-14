@@ -1,9 +1,9 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { z } from 'zod';
 
-import { faqListKey } from '@/constants/queryKeys';
 import { IResponsePaged } from '@/types/global';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export interface IFaqListResponse {
   uuid: string;
@@ -37,7 +37,7 @@ export const GetFaqList = async (
   // Add basic parameters
   if (params.faqCategoryUuid && params.faqCategoryUuid !== 'all')
     queryParams.append('faqCategoryUuid', params.faqCategoryUuid);
-  if (params.page) queryParams.append('page', String(Number(params.page) - 1));
+  if (params.page) queryParams.append('page', String(params.page));
   if (params.size) queryParams.append('size', params.size);
 
   // Construct the URL
@@ -54,6 +54,6 @@ export const useGetFaqList = (
   params: TFaqListParams,
 ): UseQueryResult<IResponsePaged<IFaqListResponse>> =>
   useQuery({
-    queryKey: [faqListKey, params],
+    queryKey: queryKeys.faq.list(params).queryKey,
     queryFn: () => GetFaqList(params),
   });

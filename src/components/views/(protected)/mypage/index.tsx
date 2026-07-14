@@ -41,10 +41,6 @@ export const MyPageView = () => {
 
         <div className="flex flex-col gap-4">
           <MyHeader title="북마크" onClick={() => router.push('/bookmark')} />
-          <MyHeader
-            title="관심 있는 카테고리"
-            onClick={() => router.push('/favorite-categories')}
-          />
         </div>
       </div>
     </div>

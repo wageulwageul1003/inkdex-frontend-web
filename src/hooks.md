@@ -9,7 +9,7 @@
 ## 공통 규칙
 
 1. 기존 파일 패턴을 우선 유지한다.
-2. `react-query` 훅의 `queryKey`는 `@/constants/queryKeys` 상수를 사용한다.
+2. `react-query` 훅의 `queryKey`는 `@/constants/query-key.ts` 상수를 사용한다.
 3. mutation 성공 시, 실제 화면에서 사용하는 쿼리까지 함께 invalidate 한다.
 4. API 함수는 훅 외부에 분리하고, 훅에서는 `useQuery`/`useMutation`만 구성한다.
 5. 파라미터/응답 타입은 명시적으로 선언한다.
@@ -36,7 +36,7 @@
 ## 네이밍
 
 - 파일명: `useGetXxx`, `usePostXxx`, `useDeleteXxx` 패턴 유지
-- API 함수명: 훅명에서 `use` 제거한 동사형(`GetXxx`, `postXxx`, `deleteXxx`) 유지
+- API 함수명: 훅명에서 `use` 제거한 동사형(`getXxx`, `postXxx`, `deleteXxx`) 유지
 
 ## 변경 범위
 

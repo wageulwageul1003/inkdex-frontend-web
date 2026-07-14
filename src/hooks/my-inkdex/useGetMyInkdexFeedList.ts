@@ -2,9 +2,9 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 import { IPostListResponse } from '../home/useGetPostsList';
 
-import { myInkdexFeedListKey } from '@/constants/queryKeys';
 import { IResponse, IResponsePaged } from '@/types/global';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export interface IMyInkdexFeedListResponse {
   year: string;
@@ -39,6 +39,6 @@ export const useGetMyInkdexFeedList = (
   params: TGetMyInkdexFeedListParams,
 ): UseQueryResult<IResponse<IMyInkdexFeedListResponse>> =>
   useQuery({
-    queryKey: [myInkdexFeedListKey, params],
+    queryKey: queryKeys.mypage.postList(params).queryKey,
     queryFn: () => GetMyInkdexFeedList(params),
   });

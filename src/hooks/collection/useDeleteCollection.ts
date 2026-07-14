@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { collectionListKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export const deleteCollection = async (params: { collectionUuid: string }) => {
   const response = await agent(`/api/collections/${params.collectionUuid}`, {
@@ -19,7 +19,7 @@ export const useDeleteCollection = () => {
 
     onSuccess: async () => {
       await queryClient.refetchQueries({
-        queryKey: [collectionListKey],
+        queryKey: queryKeys.collection.list._def,
       });
     },
     onError: (error: ErrorData) => {},

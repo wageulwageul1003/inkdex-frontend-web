@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { myProfileKey } from '@/constants/queryKeys';
 import { IResponseDetail } from '@/types/global';
 import { agent } from '@/utils/fetch';
 import { queryKeys } from '@/constants/query-key';

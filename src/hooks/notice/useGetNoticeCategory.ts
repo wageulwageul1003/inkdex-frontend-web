@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { noticeCategoryKey } from '@/constants/queryKeys';
-import { IConstant } from '@/types/global';
+import { IResponse } from '@/types/global';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export interface INoticeCategoryResponse {
   uuid: string;
@@ -10,21 +10,18 @@ export interface INoticeCategoryResponse {
   createdAt: string;
 }
 
-export const GetNoticeCategory = async (): Promise<IConstant[]> => {
+export const GetNoticeCategory = async (): Promise<
+  IResponse<INoticeCategoryResponse>
+> => {
   const data = await agent(`/api/notices/categories`, {
     method: 'GET',
   });
 
-  // Transform the data to the required format
-  return data.data.map((item: INoticeCategoryResponse) => ({
-    label: item.name,
-    value: item.uuid,
-    disabled: false,
-  }));
+  return data;
 };
 
 export const useGetNoticeCategory = () =>
   useQuery({
-    queryKey: [noticeCategoryKey],
+    queryKey: queryKeys.notice.categoryList.queryKey,
     queryFn: () => GetNoticeCategory(),
   });

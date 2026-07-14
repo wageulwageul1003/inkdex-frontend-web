@@ -1,8 +1,8 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
-import { myInkdexPostsCountKey } from '@/constants/queryKeys';
 import { IResponse } from '@/types/global';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export interface IPostsCountResponse {
   categoryUuid: string;
@@ -35,6 +35,6 @@ export const useGetPostsCount = (
   params: TGetPostsCountParams,
 ): UseQueryResult<IResponse<IPostsCountResponse>> =>
   useQuery({
-    queryKey: [myInkdexPostsCountKey, params],
+    queryKey: queryKeys.mypage.postList(params).queryKey,
     queryFn: () => GetPostsCount(params),
   });

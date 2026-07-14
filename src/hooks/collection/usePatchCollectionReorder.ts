@@ -2,8 +2,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { TCollectionReorderSchema } from '@/components/views/(public)/my-inkdex/_components/collection/schema';
-import { collectionListKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export const patchCollectionReorder = async (
   payload: TCollectionReorderSchema,
@@ -23,7 +23,7 @@ export const usePatchCollectionReorder = () => {
 
     onSuccess: async (response) => {
       await queryClient.refetchQueries({
-        queryKey: [collectionListKey],
+        queryKey: queryKeys.collection.list._def,
       });
 
       return response;

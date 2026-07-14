@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { termsDetailKey } from '@/constants/queryKeys';
 import { IResponseDetail } from '@/types/global';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export interface ITermsDetailResponse {
   title: string;
@@ -21,7 +21,7 @@ export const GetTermsDetail = async (
 
 export const useGetTermsDetail = (uuid: string) =>
   useQuery({
-    queryKey: [termsDetailKey, uuid],
+    queryKey: queryKeys.term.detail(uuid).queryKey,
     queryFn: () => GetTermsDetail(uuid),
     enabled: !!uuid,
   });

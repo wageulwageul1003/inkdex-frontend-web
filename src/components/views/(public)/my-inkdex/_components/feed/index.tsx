@@ -1,23 +1,17 @@
-import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import { SelectCalendar } from '../calendar/Select-Calendar';
 
-import Chips from '@/components/shared/chips';
 import { Icons } from '@/components/shared/icons';
-import { useGetCategoryList } from '@/hooks/category/useGetCategoryList';
 import { useGetMyInkdexFeedList } from '@/hooks/my-inkdex/useGetMyInkdexFeedList';
 import { useGetPostsCount } from '@/hooks/my-inkdex/useGetPostsCount';
-import { IConstant } from '@/types/global';
 
 export const Feed = () => {
-  const router = useRouter();
   const [selectedStartAt, setselectedStartAt] = React.useState<string | null>(
     null,
   );
   const [selectedEndAt, setselectedEndAt] = React.useState<string | null>(null);
-  const [selectedCategory, setSelectedCategory] = React.useState<string>('all');
-  const { data: categories } = useGetCategoryList();
+
   const { data: count } = useGetPostsCount({
     startAt: selectedStartAt,
     endAt: selectedEndAt,
@@ -27,51 +21,9 @@ export const Feed = () => {
     endAt: selectedEndAt,
   });
 
-  const categoryList = categories?.data ?? [];
-  const countList = count?.data ?? [];
-
-  const totalCount = countList.reduce((sum, cur) => {
-    return sum + cur.count;
-  }, 0);
-
-  const countMap = countList.reduce<Record<string, number>>((acc, cur) => {
-    acc[cur.categoryUuid] = cur.count;
-    return acc;
-  }, {});
-
-  const chipItems = countList
-    .filter((c) => c.categoryUuid !== 'all')
-    .map((c) => {
-      const matchedCategory = categoryList.find(
-        (item) => item.uuid === c.categoryUuid,
-      );
-
-      if (!matchedCategory) return null;
-
-      return {
-        value: matchedCategory.uuid,
-        label: `${matchedCategory.name} ${c.count}`,
-      };
-    })
-    .filter(Boolean);
-
   return (
     <div className="w-full">
-      <div className="flex items-center gap-2 overflow-x-scroll px-4 py-2">
-        <Chips
-          items={[
-            {
-              value: 'all',
-              label: `전체 ${totalCount}`,
-            },
-            ...(chipItems as IConstant[]),
-          ]}
-          variant="single"
-          type="text"
-          selected={selectedCategory}
-          onChange={(item) => setSelectedCategory(item as string)}
-        />
-      </div>
+      <div className="flex items-center gap-2 overflow-x-scroll px-4 py-2"></div>
 
       {/* 날짜 필터 + 카테고리 개수 */}
       <div className="flex items-center gap-3 px-4 py-2">

@@ -33,7 +33,7 @@ export const GetPostsList = async (
 ): Promise<IResponsePaged<IMyPostResponse>> => {
   const queryParams = new URLSearchParams();
 
-  if (params.page) queryParams.set('page', String(Number(params.page) - 1));
+  if (params.page) queryParams.set('page', String(params.page));
   if (params.size) queryParams.set('size', String(params.size));
   if (params.year) queryParams.set('year', params.year);
   if (params.month) queryParams.set('month', params.month);
@@ -47,7 +47,7 @@ export const GetPostsList = async (
   return data;
 };
 
-export const useMyGetCollectionList = (params: TGetMyPostParams) => {
+export const useGetMyPostList = (params: TGetMyPostParams) => {
   return useInfiniteQuery<
     IResponsePaged<IMyPostResponse>,
     Error,

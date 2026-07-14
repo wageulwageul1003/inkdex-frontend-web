@@ -1,6 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { postsListKey } from '@/constants/queryKeys';
 import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
 import { queryKeys } from '@/constants/query-key';

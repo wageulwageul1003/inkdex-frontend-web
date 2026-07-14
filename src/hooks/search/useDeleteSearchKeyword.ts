@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { recentSearchKeywordsKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export const deleteSearchKeyword = async (payload: { keywordUuid: string }) => {
   const response = await agent(`/api/search/recents`, {
@@ -20,7 +20,7 @@ export const useDeleteSearchKeyword = () => {
 
     onSuccess: async () => {
       await queryClient.refetchQueries({
-        queryKey: [recentSearchKeywordsKey],
+        queryKey: queryKeys.search.recentSearchKeywordList.queryKey,
       });
     },
     onError: (error: ErrorData) => {},

@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
-import { myInkdexCalendarKey } from '@/constants/queryKeys';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export interface IMyInkdexCalendarResponse {
   counts: number; // 전체 데이터 개수
@@ -34,7 +34,7 @@ export const useGetMyInkdexCalendar = (
   params: TGetMyInkdexCalendarParams,
 ): UseQueryResult<IMyInkdexCalendarResponse> =>
   useQuery({
-    queryKey: [myInkdexCalendarKey, params],
+    queryKey: queryKeys.mypage.postList(params).queryKey,
     queryFn: () => GetMyInkdexCalendar(params),
     enabled: !!params.year && !!params.month,
   });

@@ -23,13 +23,16 @@ export const NoticeView = () => {
   // "전체" 카테고리를 추가한 카테고리 목록
   const categoryList = useMemo(() => {
     if (!category) return [];
+
     return [
       {
         label: '전체',
         value: 'all',
-        disabled: false,
       },
-      ...category,
+      ...category.data.map(({ name, uuid }) => ({
+        label: name,
+        value: uuid,
+      })),
     ];
   }, [category]);
 
@@ -81,13 +84,13 @@ export const NoticeView = () => {
 
       <div className="mt-1">
         <div className="flex gap-2 overflow-x-auto py-2">
-          <Chips
+          {/* <Chips
             items={categoryList}
             variant="single"
             selected={selectedCategory}
             onChange={handleCategory}
             type="text"
-          />
+          /> */}
         </div>
 
         <div className="flex flex-col gap-1">

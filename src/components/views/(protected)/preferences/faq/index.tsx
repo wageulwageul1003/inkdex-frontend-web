@@ -19,20 +19,23 @@ export const FaqComponent = () => {
   const [openItemId, setOpenItemId] = useState<string | null>(null);
 
   // FAQ 카테고리
-  const { data: faqCategory } = useGetFaqCategory();
+  const { data: category } = useGetFaqCategory();
 
   // "전체" 카테고리를 추가한 카테고리 목록
   const categoryList = useMemo(() => {
-    if (!faqCategory) return [];
+    if (!category) return [];
+
     return [
       {
         label: '전체',
         value: 'all',
-        disabled: false,
       },
-      ...faqCategory,
+      ...category.data.map(({ name, uuid }) => ({
+        label: name,
+        value: uuid,
+      })),
     ];
-  }, [faqCategory]);
+  }, [category]);
 
   const initialCategory = searchParams.get('faqCategoryUuid') || 'all';
   const [selectedCategory, setSelectedCategory] =
@@ -103,13 +106,13 @@ export const FaqComponent = () => {
         <p className="font-m-1 text-black">자주 묻는 질문</p>
 
         <div className="flex gap-2 overflow-x-auto px-4 py-2">
-          <Chips
+          {/* <Chips
             items={categoryList}
             variant="single"
-            selected={selectedCategory}
+            selected={selectedCategory ??}
             onChange={handleCategory}
             type="text"
-          />
+          /> */}
         </div>
 
         <div className="flex flex-col gap-1">

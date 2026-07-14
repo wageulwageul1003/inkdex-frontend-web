@@ -1,7 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { useQueryClient } from '@tanstack/react-query';
 
-import { reportKey, reportListKey } from '@/constants/queryKeys';
 import { ErrorData, agent } from '@/utils/fetch';
 
 export type TReportPayloadType = {
@@ -19,18 +17,10 @@ export const postReport = async (payload: TReportPayloadType) => {
 };
 
 export const usePostReport = () => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: postReport,
 
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [reportKey],
-      });
-      await queryClient.invalidateQueries({
-        queryKey: [reportListKey],
-      });
-    },
+    onSuccess: async () => {},
     onError: (error: ErrorData) => {},
   });
 };

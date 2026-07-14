@@ -112,7 +112,6 @@ interface CustomProps<T extends FieldValues> {
   required?: boolean;
   isVerified?: boolean;
   expire?: string | number;
-  isSearchIcon?: boolean;
   multiple?: boolean;
 
   // Layout and styling
@@ -238,7 +237,6 @@ export const InputField = <T extends FieldValues>({
           className={props.fieldClassName}
           expire={props.expire}
           isVerified={props.isVerified}
-          isSearchIcon={props.isSearchIcon}
           id={formItemId}
           {...field}
         />

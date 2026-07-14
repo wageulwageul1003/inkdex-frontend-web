@@ -42,7 +42,7 @@ export const GetNotificationList = async (
 ): Promise<IResponsePaged<INotificationListResponse>> => {
   const queryParams = new URLSearchParams();
 
-  if (params.page) queryParams.set('page', String(Number(params.page) - 1));
+  if (params.page) queryParams.set('page', String(params.page));
   if (params.size) queryParams.set('size', String(params.size));
 
   const url = `/api/v1/notifications?${queryParams.toString()}`;

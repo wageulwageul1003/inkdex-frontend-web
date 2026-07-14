@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { faqCategoryKey } from '@/constants/queryKeys';
-import { IConstant } from '@/types/global';
+import { IResponse } from '@/types/global';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export interface IFaqCategoryResponse {
   uuid: string;
@@ -10,21 +10,18 @@ export interface IFaqCategoryResponse {
   createdAt: string;
 }
 
-export const GetFaqCategory = async (): Promise<IConstant[]> => {
+export const GetFaqCategory = async (): Promise<
+  IResponse<IFaqCategoryResponse>
+> => {
   const data = await agent(`/api/faqs/categories`, {
     method: 'GET',
   });
 
-  // Transform the data to the required format
-  return data.data.map((item: IFaqCategoryResponse) => ({
-    label: item.name,
-    value: item.uuid,
-    disabled: false,
-  }));
+  return data;
 };
 
 export const useGetFaqCategory = () =>
   useQuery({
-    queryKey: [faqCategoryKey],
+    queryKey: queryKeys.faq.categoryList.queryKey,
     queryFn: () => GetFaqCategory(),
   });

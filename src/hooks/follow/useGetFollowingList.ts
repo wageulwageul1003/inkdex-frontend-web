@@ -24,7 +24,7 @@ export const GetFollowingList = async (
 ): Promise<IResponsePaged<IFollowingListResponse>> => {
   const queryParams = new URLSearchParams();
 
-  if (params.page) queryParams.set('page', String(Number(params.page) - 1));
+  if (params.page) queryParams.set('page', String(params.page));
   if (params.size) queryParams.set('size', String(params.size));
 
   const url = `/api/account/follow/followings?${queryParams.toString()}`;

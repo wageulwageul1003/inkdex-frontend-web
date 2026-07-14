@@ -20,7 +20,7 @@ export const GetSearchPostsList = async (
 
   if (params.searchKeyword)
     queryParams.set('searchKeyword', params.searchKeyword);
-  if (params.page) queryParams.set('page', String(Number(params.page) - 1));
+  if (params.page) queryParams.set('page', String(params.page));
   if (params.size) queryParams.set('size', String(params.size));
   if (params.feedType) queryParams.set('feedType', params.feedType);
 

@@ -1,29 +1,26 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { withdrawReasonListKey } from '@/constants/queryKeys';
-import { IConstant } from '@/types/global';
+import { IResponse } from '@/types/global';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export interface IWithdrawReasonListResponse {
   uuid: string;
   name: string;
 }
 
-export const GetWithdrawReasonList = async (): Promise<IConstant[]> => {
+export const GetWithdrawReasonList = async (): Promise<
+  IResponse<IWithdrawReasonListResponse>
+> => {
   const data = await agent(`/api/account/withdraw/reason`, {
     method: 'GET',
   });
 
-  // Transform the data to the required format
-  return data.data.map((item: IWithdrawReasonListResponse) => ({
-    label: item.name,
-    value: item.uuid,
-    disabled: false,
-  }));
+  return data;
 };
 
 export const useGetWithdrawReasonList = () =>
   useQuery({
-    queryKey: [withdrawReasonListKey],
+    queryKey: queryKeys.withdraw.reasonList.queryKey,
     queryFn: () => GetWithdrawReasonList(),
   });

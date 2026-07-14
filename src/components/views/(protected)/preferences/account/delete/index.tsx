@@ -23,7 +23,7 @@ export const AccountDeleteView = () => {
   const [deleteAlertOpen, setDeleteAlertOpen] = React.useState(false);
   const { mutateAsync: postWithdrawAccount } = usePostWithdrawAccount();
 
-  const { data: withdrawReasonList } = useGetWithdrawReasonList();
+  const { data: withdrawReason } = useGetWithdrawReasonList();
 
   const handleDelete = () => {
     postWithdrawAccount({ reasonUuid: form.getValues('reasonUuid') }).then(
@@ -78,7 +78,10 @@ export const AccountDeleteView = () => {
               name="reasonUuid"
               placeholder="탈퇴 사유 선택"
               className="w-full"
-              options={withdrawReasonList}
+              options={withdrawReason?.data.map((item) => ({
+                label: item.name,
+                value: item.uuid,
+              }))}
             />
           </form>
         </Form>

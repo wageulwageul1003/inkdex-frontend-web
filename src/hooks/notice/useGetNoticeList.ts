@@ -1,9 +1,9 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { z } from 'zod';
 
-import { noticeListKey } from '@/constants/queryKeys';
 import { IResponsePaged } from '@/types/global';
 import { agent } from '@/utils/fetch';
+import { queryKeys } from '@/constants/query-key';
 
 export interface INoticeListResponse {
   uuid: string;
@@ -38,7 +38,7 @@ export const GetNoticeList = async (
   const queryParams = new URLSearchParams();
 
   // Add basic parameters
-  if (params.page) queryParams.append('page', String(Number(params.page) - 1));
+  if (params.page) queryParams.append('page', String(params.page));
   if (params.size) queryParams.append('size', params.size);
 
   // Construct the URL
@@ -55,6 +55,6 @@ export const useGetNoticeList = (
   params: TNoticeListParams,
 ): UseQueryResult<IResponsePaged<INoticeListResponse>> =>
   useQuery({
-    queryKey: [noticeListKey, params],
+    queryKey: queryKeys.notice.list(params).queryKey,
     queryFn: () => GetNoticeList(params),
   });
