@@ -103,9 +103,15 @@ const Step4 = () => {
   const onSubmit = () => {
     const payload = form.getValues();
 
-    router.push(
-      `/register/step5?email=${searchParams.get('email')}&password=${searchParams.get('password')}&confirmPassword=${searchParams.get('confirmPassword')}&name=${searchParams.get('name')}&agreedTermUuids=${payload.agreedTermUuids.join(',')}`,
-    );
+    if (searchParams.get('provider') === 'EMAIL') {
+      router.push(
+        `/register/step5?email=${searchParams.get('email')}&password=${searchParams.get('password')}&confirmPassword=${searchParams.get('confirmPassword')}&name=${searchParams.get('name')}&agreedTermUuids=${payload.agreedTermUuids.join(',')}&provider=${searchParams.get('provider')}`,
+      );
+    } else {
+      router.push(
+        `/register/step5?email=${searchParams.get('email')}&name=${searchParams.get('name')}&agreedTermUuids=${payload.agreedTermUuids.join(',')}&provider=${searchParams.get('provider')}`,
+      );
+    }
   };
 
   return (

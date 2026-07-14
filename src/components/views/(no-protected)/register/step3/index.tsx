@@ -27,9 +27,15 @@ const Step3 = () => {
   const { formState } = form;
 
   const onSubmit = () => {
-    router.push(
-      `/register/step4?email=${searchParams.get('email')}&password=${searchParams.get('password')}&confirmPassword=${searchParams.get('confirmPassword')}&name=${form.getValues('name')}`,
-    );
+    if (searchParams.get('provider') === 'EMAIL') {
+      router.push(
+        `/register/step4?email=${searchParams.get('email')}&password=${searchParams.get('password')}&confirmPassword=${searchParams.get('confirmPassword')}&name=${form.getValues('name')}&provider=${searchParams.get('provider')}`,
+      );
+    } else {
+      router.push(
+        `/register/step4?email=${searchParams.get('email')}&name=${form.getValues('name')}&provider=${searchParams.get('provider')}`,
+      );
+    }
   };
 
   return (

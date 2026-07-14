@@ -117,7 +117,9 @@ const Step1 = () => {
 
       clearErrors('code');
       setButtonText('인증 완료');
-      router.push(`/register/step2?email=${form.getValues('email')}`);
+      router.push(
+        `/register/step2?email=${form.getValues('email')}&provider=${'EMAIL'}`,
+      );
     } catch (error) {
       const errorData = error as ErrorData;
       if (errorData?.code === 4004) {

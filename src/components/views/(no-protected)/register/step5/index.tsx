@@ -18,6 +18,7 @@ import { usePostEmailLogin } from '@/hooks/auth/usePostEmailLogin';
 import { toast } from '@/components/ui/sonner';
 import Cookies from 'js-cookie';
 import { ACCESS_TOKEN, USER_UUID } from '@/constants/tokens';
+import { ErrorData } from '@/utils/fetch';
 
 const Step5 = () => {
   const router = useRouter();
@@ -38,6 +39,7 @@ const Step5 = () => {
       confirmPassword: searchParams.get('confirmPassword') || '',
       name: searchParams.get('name') || '',
       agreedTermUuids: searchParams.get('agreedTermUuids')?.split(',') || [],
+      provider: searchParams.get('provider') || 'EMAIL',
       profileImageUrl: '',
       nickname: '',
     },
@@ -76,18 +78,28 @@ const Step5 = () => {
 
   const onSubmit = async (data: TRegisterSchema) => {
     // TODO: 프로필 이미지 저장이 안됨 확인
-    await register({ ...data });
+    try {
+      await register({ ...data });
 
-    // 회원가입 성공 하면 자동 로그인 시도
-    const response = await emailLogin({
-      email: data.email,
-      password: data.password,
-    });
+      if (data.provider === 'EMAIL') {
+        // 회원가입 성공 하면 자동 로그인 시도
+        const response = await emailLogin({
+          email: data.email,
+          password: data.password ?? '',
+        });
 
-    toast.success('회원가입이 완료되었습니다.');
-    router.replace('/home');
-    Cookies.set(ACCESS_TOKEN, response.data.accessToken);
-    Cookies.set(USER_UUID, response.data.uuid);
+        Cookies.set(ACCESS_TOKEN, response.data.accessToken);
+        Cookies.set(USER_UUID, response.data.uuid);
+      }
+
+      toast.success('가입이 완료되었습니다.');
+      router.replace('/home');
+    } catch (error) {
+      const errorData = error as ErrorData;
+      if (errorData.code === 4001) {
+        toast.error('이미 회원가입을 한 이메일입니다.');
+      }
+    }
   };
 
   return (

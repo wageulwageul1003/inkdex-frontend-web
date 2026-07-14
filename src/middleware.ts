@@ -7,6 +7,7 @@ const noAuthRoutes = [
   /\/.*login.*$/,
   /\/register(\/.*)?$/,
   /\/find-password(\/.*)?$/,
+  /\/.*oauth.*$/,
 ];
 
 export async function middleware(request: NextRequest) {

@@ -2,8 +2,8 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Cookies from 'js-cookie';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { emailLoginSchema } from './schema';
@@ -25,6 +25,7 @@ import { usePostEmailLogin } from '@/hooks/auth/usePostEmailLogin';
 const EmailLogin = () => {
   const router = useRouter();
   const { mutateAsync: postEmailLogin } = usePostEmailLogin();
+  const searchParams = useSearchParams();
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
 
@@ -35,6 +36,12 @@ const EmailLogin = () => {
       email: '',
       password: '',
     },
+  });
+
+  useEffect(() => {
+    if (searchParams.get('reason') === String(4001)) {
+      console.log('이메일 로그인을 이용해주세요.');
+    }
   });
 
   const onSubmit = async () => {
@@ -144,7 +151,7 @@ const EmailLogin = () => {
         onOpenChange={setAlertOpen}
         title="로그인 실패"
         description={alertMessage}
-        cancelText="확인"
+        isCancelShow={false}
         confirmText="확인"
         onConfirm={() => setAlertOpen(false)}
       />

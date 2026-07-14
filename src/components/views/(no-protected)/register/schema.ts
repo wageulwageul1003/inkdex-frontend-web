@@ -47,16 +47,47 @@ export const registerStep4Schema = z.object({
 
 export type TRegisterStep4Schema = z.infer<typeof registerStep4Schema>;
 
-export const registerSchema = z.object({
-  email: z.string().min(1, { message: '이메일을 입력해 주세요.' }),
-  password: z.string().min(1, { message: '비밀번호를 입력해 주세요.' }),
-  confirmPassword: z
-    .string()
-    .min(1, { message: '비밀번호를 한번 더 입력해주세요.' }),
-  name: z.string().min(1, { message: '이름을 입력해 주세요.' }),
-  agreedTermUuids: z.array(z.string()),
-  nickname: z.string().min(1, { message: '닉네임을 입력해 주세요.' }),
-  profileImageUrl: z.string().nullable(),
-});
+export const registerSchema = z
+  .object({
+    email: z.string().min(1, { message: '이메일을 입력해 주세요.' }),
+    password: z.string().optional(),
+    confirmPassword: z.string().optional(),
+    name: z.string().min(1, { message: '이름을 입력해 주세요.' }),
+    agreedTermUuids: z.array(z.string()),
+    nickname: z.string().min(1, { message: '닉네임을 입력해 주세요.' }),
+    profileImageUrl: z.string().nullable(),
+    provider: z.string(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.provider === 'EMAIL') {
+      if (!data.password) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['password'],
+          message: '비밀번호를 입력해 주세요.',
+        });
+      }
+
+      if (!data.confirmPassword) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['confirmPassword'],
+          message: '비밀번호를 한번 더 입력해주세요.',
+        });
+      }
+
+      if (
+        data.password &&
+        data.confirmPassword &&
+        data.password !== data.confirmPassword
+      ) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['confirmPassword'],
+          message: '비밀번호가 일치하지 않습니다.',
+        });
+      }
+    }
+  });
 
 export type TRegisterSchema = z.infer<typeof registerSchema>;

@@ -41,6 +41,15 @@ export default function Login() {
   const router = useRouter();
 
   const handleMethodClick = (method: (typeof LOGIN_METHODS)[number]) => {
+    if (method.title == '카카오') {
+      const params = new URLSearchParams({
+        client_id: process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY!,
+        redirect_uri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI!,
+        response_type: 'code',
+      });
+
+      location.href = `https://kauth.kakao.com/oauth/authorize?${params}`;
+    }
     if (method.title === '이메일') {
       router.push('/email-login');
     }
