@@ -33,7 +33,7 @@ const Step3 = () => {
       );
     } else {
       router.push(
-        `/register/step4?email=${searchParams.get('email')}&name=${form.getValues('name')}&provider=${searchParams.get('provider')}`,
+        `/register/step4?email=${searchParams.get('email')}&name=${form.getValues('name')}&provider=${searchParams.get('provider')}&providerId=${searchParams.get('providerId')}`,
       );
     }
   };

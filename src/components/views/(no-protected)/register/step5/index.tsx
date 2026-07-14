@@ -40,6 +40,7 @@ const Step5 = () => {
       name: searchParams.get('name') || '',
       agreedTermUuids: searchParams.get('agreedTermUuids')?.split(',') || [],
       provider: searchParams.get('provider') || 'EMAIL',
+      providerId: searchParams.get('providerId') || '',
       profileImageUrl: '',
       nickname: '',
     },

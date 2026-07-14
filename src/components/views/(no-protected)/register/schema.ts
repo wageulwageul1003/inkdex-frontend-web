@@ -57,6 +57,7 @@ export const registerSchema = z
     nickname: z.string().min(1, { message: '닉네임을 입력해 주세요.' }),
     profileImageUrl: z.string().nullable(),
     provider: z.string(),
+    providerId: z.string(),
   })
   .superRefine((data, ctx) => {
     if (data.provider === 'EMAIL') {

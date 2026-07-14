@@ -109,7 +109,7 @@ const Step4 = () => {
       );
     } else {
       router.push(
-        `/register/step5?email=${searchParams.get('email')}&name=${searchParams.get('name')}&agreedTermUuids=${payload.agreedTermUuids.join(',')}&provider=${searchParams.get('provider')}`,
+        `/register/step5?email=${searchParams.get('email')}&name=${searchParams.get('name')}&agreedTermUuids=${payload.agreedTermUuids.join(',')}&provider=${searchParams.get('provider')}&providerId=${searchParams.get('providerId')}`,
       );
     }
   };
