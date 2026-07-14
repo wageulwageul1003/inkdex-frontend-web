@@ -9,13 +9,13 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { useGetCollectionList } from '@/hooks/collection/useGetCollectionList';
-import { usePatchCollectionReorder } from '@/hooks/collection/usePatchCollectionReorder';
+// import { usePatchCollectionReorder } from '@/hooks/collection/usePatchCollectionReorder';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 
 export const CollectionReorderView = () => {
   const router = useRouter();
 
-  const { mutateAsync: patchCollectionReorder } = usePatchCollectionReorder();
+  // const { mutateAsync: patchCollectionReorder } = usePatchCollectionReorder();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGetCollectionList({
@@ -29,9 +29,9 @@ export const CollectionReorderView = () => {
 
   const onSubmit = async () => {
     try {
-      const response = await patchCollectionReorder({
-        collectionUuids: data?.content.map((item) => item.uuid) || [],
-      });
+      // const response = await patchCollectionReorder({
+      //   collectionUuids: data?.content.map((item) => item.uuid) || [],
+      // });
     } catch (error) {
       console.error(error);
     }

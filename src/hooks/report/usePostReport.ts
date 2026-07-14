@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { ErrorData, agent } from '@/utils/fetch';
+import { agent } from '@/utils/fetch';
 
 export type TReportPayloadType = {
   targetUuid: string;
@@ -21,6 +21,5 @@ export const usePostReport = () => {
     mutationFn: postReport,
 
     onSuccess: async () => {},
-    onError: (error: ErrorData) => {},
   });
 };

@@ -13,7 +13,6 @@ const Checkbox: FC<TProps> = (props) => {
   const {
     className,
     label,
-    checkboxStyle,
     labelStyle,
     checked,
     onChange,

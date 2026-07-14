@@ -11,6 +11,7 @@ export interface IMyProfileResponse {
   followerCount: number;
   followingCount: number;
   hasPassword: boolean;
+  email: string;
 }
 
 export const GetMyProfile = async (): Promise<

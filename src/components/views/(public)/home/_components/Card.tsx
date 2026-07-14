@@ -51,6 +51,8 @@ export const Card = ({ item }: ICardProps) => {
         {/* 출처 */}
         <p className="font-s-1 text-gray-08">{item.source}</p>
 
+        <p>{emotions?.data[0].name} ?? TODO 이거 해야함</p>
+
         {/* 이미지 */}
         <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-gray-03">
           <Image

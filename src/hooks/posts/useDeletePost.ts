@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { ErrorData, agent } from '@/utils/fetch';
+import { agent } from '@/utils/fetch';
 
 export const DeletePost = async (postUuid: string) => {
   const response = await agent(`/api/posts/${postUuid}`, {
@@ -15,6 +15,5 @@ export const useDeletePost = () => {
     mutationFn: DeletePost,
 
     onSuccess: async () => {},
-    onError: (error: ErrorData) => {},
   });
 };

@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useGetMyProfile } from '@/hooks/auth/useGetMyProfile';
 
 interface IFollow {
-  type: 'follower' | 'following';
+  type: string;
 }
 
 export const FollowView = (props: IFollow) => {
@@ -21,6 +21,7 @@ export const FollowView = (props: IFollow) => {
   const [defaultTab, setDefaultTab] = React.useState(props.type);
 
   const handleTabChange = (value: string) => {
+    setDefaultTab(value);
     router.push(`/my/${value}`);
   };
 

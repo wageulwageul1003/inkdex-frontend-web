@@ -31,7 +31,6 @@ export const CustomModal = ({
   cancelText = '취소',
   confirmText = '확인',
   onConfirm,
-  type = 'warning',
 }: CustomModalProps) => {
   const handleConfirm = () => {
     if (onConfirm) {

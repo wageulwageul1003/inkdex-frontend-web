@@ -9,7 +9,7 @@ export const validatePassword = (value: string): boolean => {
   if (
     value === '' ||
     value.match(
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{}\[\]:;"'<>,.?/\\|]).{8,}$/,
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{}[\]:;"'<>,.?/\\|]).{8,}$/,
     )
   ) {
     return true;

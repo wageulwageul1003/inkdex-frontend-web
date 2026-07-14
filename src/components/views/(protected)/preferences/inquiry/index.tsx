@@ -15,6 +15,7 @@ import { toast } from '@/components/ui/sonner';
 import { useGetMyProfile } from '@/hooks/auth/useGetMyProfile';
 import { usePostInquiry } from '@/hooks/inquiry/usePostInquiry';
 import { useAuth } from '@/providers/auth';
+import { useEffect } from 'react';
 
 export const InquiryView = () => {
   const router = useRouter();
@@ -43,12 +44,11 @@ export const InquiryView = () => {
     }
   };
 
-  // TODO: 이메일 추가 백엔드 응답
-  // useEffect(() => {
-  //   if (isLoggedIn && myProfile) {
-  //     form.setValue('email', myProfile.data.email || '');
-  //   }
-  // }, [isLoggedIn, myProfile]);
+  useEffect(() => {
+    if (isLoggedIn && myProfile) {
+      form.setValue('email', myProfile.data.email || '');
+    }
+  }, [isLoggedIn, myProfile]);
 
   return (
     <div className="flex w-full flex-col px-4">

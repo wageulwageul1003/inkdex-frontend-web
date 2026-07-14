@@ -4,7 +4,7 @@ import { SelectCalendar } from '../calendar/Select-Calendar';
 
 import { Icons } from '@/components/shared/icons';
 import { useGetMyInkdexFeedList } from '@/hooks/my-inkdex/useGetMyInkdexFeedList';
-import { useGetPostsCount } from '@/hooks/my-inkdex/useGetPostsCount';
+// import { useGetPostsCount } from '@/hooks/my-inkdex/useGetPostsCount';
 
 export const Feed = () => {
   const [selectedStartAt, setselectedStartAt] = React.useState<string | null>(
@@ -12,10 +12,10 @@ export const Feed = () => {
   );
   const [selectedEndAt, setselectedEndAt] = React.useState<string | null>(null);
 
-  const { data: count } = useGetPostsCount({
-    startAt: selectedStartAt,
-    endAt: selectedEndAt,
-  });
+  // const { data: count } = useGetPostsCount({
+  //   startAt: selectedStartAt,
+  //   endAt: selectedEndAt,
+  // });
   const { data } = useGetMyInkdexFeedList({
     startAt: selectedStartAt,
     endAt: selectedEndAt,

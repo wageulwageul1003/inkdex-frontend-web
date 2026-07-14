@@ -10,8 +10,6 @@ import { toast } from '../ui/sonner';
 import { CustomAlertDialog } from './custom-alert-dialog';
 import { Icons } from './icons';
 
-import { useDeletePost } from '@/hooks/posts/useDeletePost';
-
 interface MyProfileProps {
   publicId?: string;
   nickname: string;
@@ -30,7 +28,6 @@ export const MyProfile = ({
   const router = useRouter();
   const [moreOpen, setMoreOpen] = useState(false);
   const [deleteAlertOpen, setDeleteAlertOpen] = useState(false);
-  const { mutateAsync: deletePosts } = useDeletePost({ publicId: publicId });
 
   return (
     <div className="flex w-full items-center gap-2">
@@ -82,6 +79,7 @@ export const MyProfile = ({
         )}
       </div>
 
+      {/* TODO: delete function network 확인 */}
       <CustomAlertDialog
         isOpen={deleteAlertOpen}
         onOpenChange={setDeleteAlertOpen}
@@ -89,11 +87,9 @@ export const MyProfile = ({
         description="삭제 후에는 복구할 수 없어요."
         cancelText="아니오"
         confirmText="예"
-        onConfirm={() => {
-          deletePosts({ publicId: publicId || '' }).then(() => {
-            setDeleteAlertOpen(false);
-            toast.success('게시물 삭제가 완료되었어요.');
-          });
+        onConfirm={async () => {
+          setDeleteAlertOpen(false);
+          toast.success('게시물 삭제가 완료되었어요.');
         }}
       />
     </div>

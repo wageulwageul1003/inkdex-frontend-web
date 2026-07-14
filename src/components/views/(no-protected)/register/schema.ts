@@ -41,6 +41,7 @@ export const registerStep3Schema = z.object({
 export type TRegisterStep3Schema = z.infer<typeof registerStep3Schema>;
 
 export const registerStep4Schema = z.object({
+  agreeAll: z.boolean(),
   agreedTermUuids: z.array(z.string()),
 });
 

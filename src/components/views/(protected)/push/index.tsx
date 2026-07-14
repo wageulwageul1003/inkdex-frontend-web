@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import React, { useRef } from 'react';
 
 import { Loading } from '@/components/shared/Loading';
@@ -8,10 +7,6 @@ import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useGetNotificationList } from '@/hooks/notification/useGetNotificationList';
 
 export const Notification = () => {
-  const router = useRouter();
-  const [mode, setMode] = React.useState<'list' | 'detail'>('list');
-  const [selectedIndex, setSelectedIndex] = React.useState<number>(0);
-  const detailRefs = useRef<(HTMLDivElement | null)[]>([]);
   const listRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =

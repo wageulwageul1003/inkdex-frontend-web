@@ -33,14 +33,11 @@ export const Follower = () => {
         {data?.content.map((item) =>
           (() => {
             return (
-              <div className="flex items-center gap-2" key={item.id}>
+              <div className="flex items-center gap-2" key={item.account.uuid}>
                 <UserProfile
-                  userId={item.id}
-                  nickname={item.account.nickname}
-                  nicknameSrc={item.account.profileImageUrl}
-                  bio={item.bio}
-                  following={item.following}
-                  isShowMore={true}
+                  accountUuid={item.account.uuid}
+                  nickname="123"
+                  profileImageUrl={null}
                 />
               </div>
             );

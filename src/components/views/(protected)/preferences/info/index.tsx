@@ -43,7 +43,7 @@ export const InfoComponent = () => {
       <div className="mt-4 flex flex-1 flex-col">
         {data?.data
           ?.filter((item: ITermsListResponse) => item.isRequired)
-          .map((item, index, arr) => (
+          .map((item) => (
             <div
               key={item.uuid}
               className={`flex items-center justify-between border-b border-gray-01 py-2`}

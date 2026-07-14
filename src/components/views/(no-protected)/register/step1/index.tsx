@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -18,7 +18,6 @@ import { ErrorData } from '@/utils/fetch';
 
 const Step1 = () => {
   const router = useRouter();
-  const [isValid, setIsValid] = useState(false); // 인증번호의 유효성
   const [buttonText, setButtonText] = useState('인증 요청');
   const [isCertNumVisible, setIsCertNumVisible] = useState(false); // 인증번호 입력 필드 표시 여부
   const [expireTimestamp, setExpireTimestamp] = useState<number | null>(null); // 타이머 만료 타임스탬프
@@ -50,7 +49,6 @@ const Step1 = () => {
           message: '인증번호가 만료됐어요. 재전송해주세요.',
         });
         setButtonText('인증 재요청');
-        setIsValid(false);
       }
     }, 1000);
 
@@ -112,23 +110,22 @@ const Step1 = () => {
 
     try {
       // 인증번호 확인 요청
-      const result = await postConfirmEmail({
+      await postConfirmEmail({
         email: form.getValues('email'),
         code: form.getValues('code'),
       });
 
-      setIsValid(true);
       clearErrors('code');
       setButtonText('인증 완료');
       router.push(`/register/step2?email=${form.getValues('email')}`);
     } catch (error) {
       const errorData = error as ErrorData;
-      if (errorData?.code === 'error.auth.code_expired_warn') {
+      if (errorData?.code === 4004) {
         setError('code', {
           type: 'manual',
           message: '인증번호가 만료됐어요. 재전송해주세요.',
         });
-      } else if (errorData?.code === 'error.auth.code_mismatch') {
+      } else if (errorData?.code === 4003) {
         setError('code', {
           type: 'manual',
           message: '인증번호가 일치하지 않습니다.',

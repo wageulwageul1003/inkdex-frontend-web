@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { ErrorData, agent } from '@/utils/fetch';
+import { agent } from '@/utils/fetch';
 import { queryKeys } from '@/constants/query-key';
 
 export const deleteFollow = async (targetUuid: string) => {
@@ -23,6 +23,5 @@ export const useDeleteFollow = () => {
         queryKey: queryKeys.other._def,
       });
     },
-    onError: (error: ErrorData) => {},
   });
 };

@@ -1,12 +1,9 @@
-import { useRouter } from 'next/navigation';
 import React from 'react';
 
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 
 export const Yearly = () => {
-  const router = useRouter();
-
   return (
     <div className="w-full">
       {/* 년도 헤더 영역 */}

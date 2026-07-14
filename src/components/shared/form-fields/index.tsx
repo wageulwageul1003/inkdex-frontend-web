@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import {
   Control,
   ControllerRenderProps,
@@ -156,7 +156,7 @@ interface CustomProps<T extends FieldValues> {
   maxCount?: number;
 
   // event handlers
-  onChange?: (e: any) => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const InputField = <T extends FieldValues>({
@@ -268,7 +268,6 @@ export const InputField = <T extends FieldValues>({
       return (
         <Keywords
           field={field}
-          message={props.message!}
           placeholder={props.placeholder!}
           maxCount={props.maxCount}
           {...props}

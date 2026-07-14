@@ -35,34 +35,12 @@ export const SelectComponent: React.FC<SelectProps> = ({
   value,
   placeholder = 'Select an option',
   disabled = false,
-  searchable = false,
   className,
-  noDataMessage = '항목이 없습니다.',
-  error,
 }) => {
-  // State for search input and debounce
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const [debouncedSearch, setDebouncedSearch] = React.useState('');
-
-  // Debounce effect (0.5 seconds)
-  React.useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearch(searchTerm);
-    }, 500);
-    return () => clearTimeout(handler);
-  }, [searchTerm]);
-
   // Filter options based on the search term
   const filteredOptions = React.useMemo(() => {
-    return (
-      options &&
-      options?.filter(
-        (option) =>
-          option.label &&
-          option.label?.toLowerCase().includes(debouncedSearch.toLowerCase()),
-      )
-    );
-  }, [debouncedSearch, options]);
+    return options && options?.filter((option) => option.label);
+  }, [options]);
 
   // Use value prop if provided, otherwise fall back to defaultValue
   const selectValue = value !== undefined ? value : defaultValue;

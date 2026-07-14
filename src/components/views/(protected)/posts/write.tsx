@@ -26,7 +26,7 @@ interface TProps {
   uuid?: string;
 }
 
-export const PostsWrite: FC<TProps> = (props) => {
+export const PostsWrite: FC<TProps> = () => {
   const router = useRouter();
   const [selectedCollections, setSelectedCollections] = useState<
     ICollectionListResponse[]
@@ -106,7 +106,6 @@ export const PostsWrite: FC<TProps> = (props) => {
     } catch (error) {
       console.error('게시물 등록 오류:', error);
       toast.error('게시물 등록에 실패했습니다. 다시 시도해주세요.');
-    } finally {
     }
   };
 

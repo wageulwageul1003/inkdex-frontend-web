@@ -6,7 +6,6 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { DialogTitle } from '@/components/ui/dialog';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
-import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useGetMyInkdexCalendar } from '@/hooks/my-inkdex/useGetMyInkdexCalendar';
 import { useGetMyInkdexFeedList } from '@/hooks/my-inkdex/useGetMyInkdexFeedList';
 import { useGetPostsCount } from '@/hooks/my-inkdex/useGetPostsCount';
@@ -21,10 +20,8 @@ export const Calendar = () => {
   const monthLabel = format(calendar.currentDate, 'yyyy년 M월');
 
   const { data: count } = useGetPostsCount({
-    startDate: dayjs(calendar.currentDate)
-      .startOf('month')
-      .format('YYYY-MM-DD'),
-    endDate: dayjs(calendar.currentDate).endOf('month').format('YYYY-MM-DD'),
+    startAt: dayjs(calendar.currentDate).startOf('month').format('YYYY-MM-DD'),
+    endAt: dayjs(calendar.currentDate).endOf('month').format('YYYY-MM-DD'),
   });
 
   const { data } = useGetMyInkdexCalendar({
@@ -32,20 +29,10 @@ export const Calendar = () => {
     month: calendar.currentDate.getMonth() + 1,
   });
 
-  const {
-    data: detailDatas,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useGetMyInkdexFeedList({
-    size: '3',
-    date: selectedDay ? dayjs(selectedDay).format('YYYY-MM-DD') : undefined,
+  const { data: detailDatas } = useGetMyInkdexFeedList({
+    startAt: dayjs(calendar.currentDate).startOf('month').format('YYYY-MM-DD'),
+    endAt: dayjs(calendar.currentDate).endOf('month').format('YYYY-MM-DD'),
   });
-
-  const observerRef = useInfiniteScroll(
-    { fetchNextPage, hasNextPage, isFetchingNextPage },
-    { threshold: 0.1 },
-  );
 
   const thumbnailMap = React.useMemo(() => {
     if (!data?.thumbnails) return new Map<string, string>();
@@ -155,7 +142,9 @@ export const Calendar = () => {
                 <DialogTitle>
                   {selectedDay ? format(selectedDay, 'yyyy-MM-dd') : ''}
                 </DialogTitle>
-                {detailDatas?.paging.totalElements === 0 ? (
+                {/* TODO */}
+                {detailDatas?.data[0].month}
+                {count?.data[0].categoryUuid === '' ? (
                   <p>데이터 없음</p>
                 ) : (
                   <div className="mt-4 flex flex-col gap-4">

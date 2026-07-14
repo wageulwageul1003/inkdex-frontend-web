@@ -1,5 +1,10 @@
 import React, { useRef, useState } from 'react';
-import { FieldError } from 'react-hook-form';
+import {
+  ControllerRenderProps,
+  FieldError,
+  FieldValues,
+  Path,
+} from 'react-hook-form';
 
 import { Icons } from '../icons';
 
@@ -13,8 +18,8 @@ export interface FileInfo {
   file: File;
 }
 
-interface Props {
-  field: any;
+interface Props<T extends FieldValues> {
+  field: ControllerRenderProps<T, Path<T>>;
   disabled?: boolean;
   label?: string;
   maxSizeInMB?: number;
@@ -27,7 +32,7 @@ interface Props {
   error?: FieldError;
 }
 
-const FileUploader: React.FC<Props> = (props) => {
+const FileUploader = <T extends FieldValues>(props: Props<T>) => {
   const {
     field,
     disabled,
@@ -39,20 +44,24 @@ const FileUploader: React.FC<Props> = (props) => {
   } = props;
 
   const inputRef = useRef<HTMLInputElement>(null);
+
   const [files, setFiles] = useState<FileInfo[]>([]);
   const [fileError, setFileError] = useState<string>('');
 
   const getAcceptedTypesLabel = (): string => {
     const types = acceptedFileTypes.length > 0 ? acceptedFileTypes : accept;
+
     return types.map((t) => t.toUpperCase().replace('.', '')).join(',');
   };
 
   const validateFile = (file: File): boolean => {
     const fileSizeInMB = file.size / (1024 * 1024);
+
     if (maxSizeInMB && fileSizeInMB > maxSizeInMB) {
       setFileError(
         `파일 크기가 너무 큽니다. 최대 ${maxSizeInMB}MB까지 가능합니다.`,
       );
+
       return false;
     }
 
@@ -61,79 +70,105 @@ const FileUploader: React.FC<Props> = (props) => {
 
       const isTypeAccepted = acceptedFileTypes.some((type) => {
         const cleanType = type.startsWith('.') ? type.substring(1) : type;
+
         return fileExtension === cleanType.toLowerCase();
       });
 
       if (!isTypeAccepted) {
         setFileError('허용되지 않는 파일 형식입니다.');
+
         return false;
       }
     }
 
     setFileError('');
+
     return true;
   };
 
-  const handleFileUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
-    if (fileList && fileList.length > 0) {
-      const file = fileList[0];
 
-      if (files.length >= maxFiles) {
-        setFileError(`파일은 최대 ${maxFiles}개까지 첨부할 수 있습니다.`);
-        event.target.value = '';
-        return;
-      }
+    if (!fileList || fileList.length === 0) {
+      return;
+    }
 
-      if (!validateFile(file)) {
-        event.target.value = '';
-        return;
-      }
+    const file = fileList[0];
 
-      const newFile: FileInfo = {
-        name: file.name,
-        url: URL.createObjectURL(file),
-        size: file.size,
-        file: file,
-      };
-      const updatedFiles = [...files, newFile];
-      setFiles(updatedFiles);
-
-      field.onChange(updatedFiles.map((f) => f.file));
+    if (files.length >= maxFiles) {
+      setFileError(`파일은 최대 ${maxFiles}개까지 첨부할 수 있습니다.`);
 
       event.target.value = '';
+
+      return;
     }
+
+    if (!validateFile(file)) {
+      event.target.value = '';
+
+      return;
+    }
+
+    const newFile: FileInfo = {
+      name: file.name,
+      url: URL.createObjectURL(file),
+      size: file.size,
+      file,
+    };
+
+    const updatedFiles = [...files, newFile];
+
+    setFiles(updatedFiles);
+
+    field.onChange(updatedFiles.map((item) => item.file));
+
+    event.target.value = '';
   };
 
   const removeFile = (index: number) => {
     const updatedFiles = [...files];
+
     URL.revokeObjectURL(updatedFiles[index].url);
+
     updatedFiles.splice(index, 1);
+
     setFiles(updatedFiles);
 
     field.onChange(
-      updatedFiles.length > 0 ? updatedFiles.map((f) => f.file) : undefined,
+      updatedFiles.length > 0
+        ? updatedFiles.map((item) => item.file)
+        : undefined,
     );
   };
 
   const getAcceptString = (): string => {
     const types = acceptedFileTypes.length > 0 ? acceptedFileTypes : accept;
-    if (types.length === 0) return '';
+
+    if (types.length === 0) {
+      return '';
+    }
 
     return types
       .map((type) => {
-        if (type.includes('/')) return type;
+        if (type.includes('/')) {
+          return type;
+        }
+
         return type.startsWith('.') ? type : `.${type}`;
       })
       .join(',');
   };
 
   const formatFileSize = (bytes: number): string => {
-    if (bytes < 1024) return bytes + ' B';
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
-    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+    if (bytes < 1024) {
+      return `${bytes} B`;
+    }
+
+    if (bytes < 1024 * 1024) {
+      return `${(bytes / 1024).toFixed(2)} KB`;
+    }
+
+    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
   };
 
   const handleAddMoreClick = () => {
@@ -142,21 +177,20 @@ const FileUploader: React.FC<Props> = (props) => {
 
   return (
     <div className="flex w-full flex-col">
-      {/* 안내 메시지 */}
       <div className="flex items-start gap-1 bg-gray-01 px-3 py-2">
         <Icons.infoFill className="size-4 shrink-0 fill-sand-07" />
+
         <p className="font-xs-2 text-gray-05">
           이미지 파일 ({getAcceptedTypesLabel()}) 기준으로 최대 {maxFiles}개{' '}
           {maxSizeInMB}MB 이하까지 첨부 가능합니다.
         </p>
       </div>
 
-      {/* 파일이 없을 때: 파일 선택 버튼 */}
       {files.length === 0 && (
         <label className="mt-4 w-full cursor-pointer">
           <div
             className={cn(
-              'flex h-[60px] w-full items-center justify-center rounded-lg border border-gray-02 bg-white transition-colors',
+              'flex h-[60px] w-full items-center justify-center rounded-lg border border-gray-02 bg-white',
               error && 'border-red-500',
               disabled && 'cursor-not-allowed opacity-50',
             )}
@@ -169,24 +203,26 @@ const FileUploader: React.FC<Props> = (props) => {
               disabled={disabled}
               accept={getAcceptString()}
             />
+
             <span className="font-s-2 text-gray-08">파일 선택</span>
           </div>
         </label>
       )}
 
-      {/* 파일 목록 */}
       {files.length > 0 && (
         <div className="mt-4 flex flex-col gap-2">
           {files.map((file, index) => (
             <div
-              key={index}
+              key={`${file.name}-${index}`}
               className="flex h-[60px] items-center justify-between gap-1 rounded-lg border border-gray-02 p-3"
             >
               <Icons.attachFile className="size-6 shrink-0 fill-gray-06" />
+
               <div className="flex min-w-0 flex-1 flex-col">
                 <span className="font-s-1 line-clamp-1 text-left text-gray-08">
                   {file.name}
                 </span>
+
                 <span className="font-xs-2 text-left text-gray-05">
                   {formatFileSize(file.size)}
                 </span>
@@ -199,7 +235,6 @@ const FileUploader: React.FC<Props> = (props) => {
             </div>
           ))}
 
-          {/* 추가 업로드 버튼 */}
           {files.length < maxFiles && (
             <Button
               type="button"
@@ -210,6 +245,7 @@ const FileUploader: React.FC<Props> = (props) => {
               variant="outline"
             >
               <Icons.plus className="size-4 fill-gray-06" />
+
               <span className="font-s-2 text-gray-08">추가 업로드</span>
             </Button>
           )}
@@ -225,7 +261,6 @@ const FileUploader: React.FC<Props> = (props) => {
         </div>
       )}
 
-      {/* 에러 메시지 */}
       {(fileError || error) && (
         <p className="font-xs-2 text-red-500">{fileError || error?.message}</p>
       )}

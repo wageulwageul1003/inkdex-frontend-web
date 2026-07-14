@@ -36,7 +36,8 @@ export const Notification = () => {
             // await saveFCMTokenToServer(tokenResult.token);
           } else {
             const errorMsg =
-              (tokenResult as any).error || 'FCM 토큰을 가져올 수 없습니다.';
+              (tokenResult as { token: string }) ||
+              'FCM 토큰을 가져올 수 없습니다.';
             alert(errorMsg);
             console.error('Token error:', tokenResult);
           }

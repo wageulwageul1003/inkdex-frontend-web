@@ -52,7 +52,7 @@ const meta: Meta<typeof Button> = {
     variant: 'default',
     size: 'default',
   },
-};
+} satisfies Meta<typeof Button>;
 
 export default meta;
 

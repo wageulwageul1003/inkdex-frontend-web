@@ -106,17 +106,17 @@ export const FaqComponent = () => {
         <p className="font-m-1 text-black">자주 묻는 질문</p>
 
         <div className="flex gap-2 overflow-x-auto px-4 py-2">
-          {/* <Chips
+          <Chips
             items={categoryList}
             variant="single"
-            selected={selectedCategory ??}
-            onChange={handleCategory}
+            value={selectedCategory}
+            onValueChange={handleCategory}
             type="text"
-          /> */}
+          />
         </div>
 
         <div className="flex flex-col gap-1">
-          {faqListData?.data.content.map((item, index) => (
+          {faqListData?.data.content.map((item) => (
             <FaqItem
               key={item.uuid}
               uuid={item.uuid}

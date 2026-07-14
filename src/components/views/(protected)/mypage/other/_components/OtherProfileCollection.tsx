@@ -6,7 +6,6 @@ import React from 'react';
 
 import { Loading } from '@/components/shared/Loading';
 import { Icons } from '@/components/shared/icons';
-import { Button } from '@/components/ui/button';
 import { useGetCollectionList } from '@/hooks/collection/useGetCollectionList';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 

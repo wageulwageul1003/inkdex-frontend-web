@@ -13,7 +13,6 @@ interface FaqItemProps {
 }
 
 export const FaqItem = ({
-  uuid,
   title,
   category,
   content,
@@ -32,7 +31,7 @@ export const FaqItem = ({
         onClick={onToggle}
       >
         <div className={cn(`flex-items flex flex-col`)}>
-          <span className="font-body2 text-gray-04">[ 111 ]</span>
+          <span className="font-body2 text-gray-04">{category}</span>
           <p className="font-m-1 text-gray-08">{title}</p>
         </div>
         {isExpanded ? (

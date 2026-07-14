@@ -8,6 +8,7 @@ type NativeMessageType =
 
 class NativeBridge {
   private isNative: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   private listeners: Map<string, Function[]>;
 
   constructor() {
@@ -25,6 +26,7 @@ class NativeBridge {
 
     const originalError = console.error;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     console.error = (...args: any[]) => {
       originalError(...args);
       window.ReactNativeWebView?.postMessage(
@@ -61,11 +63,13 @@ class NativeBridge {
       }
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     document.addEventListener('message', handleMessage as any);
     window.addEventListener('message', handleMessage);
   }
 
   // 네이티브로 메시지 보내기
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sendMessage(type: NativeMessageType, data?: any) {
     if (!this.isNative) {
       console.warn('Not running in native app');
@@ -76,6 +80,7 @@ class NativeBridge {
   }
 
   // 네이티브에서 메시지 받기
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   onMessage(type: string, callback: Function) {
     this.listeners.set(type, [callback]);
   }
@@ -95,11 +100,13 @@ class NativeBridge {
         reject(new Error(`${type} timeout`));
       }, timeoutMs);
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.onMessage('IMAGE_RESULT', (data: any) => {
         clearTimeout(timeout);
         resolve(data);
       });
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.onMessage('IMAGE_ERROR', (data: any) => {
         clearTimeout(timeout);
         reject(new Error(data.message || 'Image error'));
@@ -127,6 +134,7 @@ class NativeBridge {
         return;
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.onMessage('NOTIFICATION_PERMISSION', (data: any) => {
         resolve(data);
       });
@@ -143,6 +151,7 @@ class NativeBridge {
         return;
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.onMessage('FCM_TOKEN', (data: any) => {
         resolve(data);
       });
@@ -159,6 +168,7 @@ class NativeBridge {
         return;
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.onMessage('BIOMETRIC_RESULT', (data: any) => {
         resolve(data);
       });
@@ -179,6 +189,7 @@ class NativeBridge {
         reject(new Error('Get app version timeout'));
       }, 5000);
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.onMessage('APP_VERSION', (data: any) => {
         clearTimeout(timeout);
         resolve(data);

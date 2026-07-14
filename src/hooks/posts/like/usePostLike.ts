@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { ErrorData, agent } from '@/utils/fetch';
+import { agent } from '@/utils/fetch';
 import { queryKeys } from '@/constants/query-key';
 
 export const postLike = async (params: { postUuid: string }) => {
@@ -22,6 +22,5 @@ export const usePostLike = () => {
         queryKey: queryKeys.mypage.postList._def,
       });
     },
-    onError: (error: ErrorData) => {},
   });
 };

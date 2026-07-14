@@ -2,17 +2,17 @@
 
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useState } from 'react';
+// import { useState } from 'react';
 
 import MyHeader from './MyHeader';
 
-import Chips from '@/components/shared/chips';
-import { useGetPostTopSummary } from '@/hooks/posts/summary/useGetPostTopSummary';
+// import Chips from '@/components/shared/chips';
+// import { useGetPostTopSummary } from '@/hooks/posts/summary/useGetPostTopSummary';
 
 export const Summary = () => {
   const router = useRouter();
-  const [mode, setMode] = useState('yearly');
-  const { data: summary } = useGetPostTopSummary();
+  // const [mode, setMode] = useState('yearly');
+  // const { data: summary } = useGetPostTopSummary();
 
   return (
     <div className="mt-4">
@@ -20,7 +20,7 @@ export const Summary = () => {
 
       {/* chip */}
       <div className="mt-2 flex items-center gap-2">
-        <Chips
+        {/* <Chips
           items={[
             { value: 'yearly', label: '올해의 기록' },
             { value: 'monthly', label: '이번 달의 기록' },
@@ -29,7 +29,7 @@ export const Summary = () => {
           type="text"
           selected={mode}
           onChange={(item) => setMode(item as string)}
-        />
+        /> */}
       </div>
 
       {/* summary result */}

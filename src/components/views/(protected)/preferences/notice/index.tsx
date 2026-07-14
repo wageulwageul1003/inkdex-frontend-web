@@ -15,8 +15,6 @@ export const NoticeView = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const [openItemId, setOpenItemId] = useState<string | null>(null);
-
   // 카테고리
   const { data: category } = useGetNoticeCategory();
 
@@ -62,14 +60,6 @@ export const NoticeView = () => {
     router.push(`?${params.toString()}`);
   };
 
-  const handleToggle = (id: string) => {
-    if (openItemId === id) {
-      setOpenItemId(null);
-    } else {
-      setOpenItemId(id);
-    }
-  };
-
   return (
     <div className="flex w-full flex-col px-4">
       <Header
@@ -84,26 +74,24 @@ export const NoticeView = () => {
 
       <div className="mt-1">
         <div className="flex gap-2 overflow-x-auto py-2">
-          {/* <Chips
+          <Chips
             items={categoryList}
             variant="single"
-            selected={selectedCategory}
-            onChange={handleCategory}
+            value={selectedCategory}
+            onValueChange={handleCategory}
             type="text"
-          /> */}
+          />
         </div>
 
         <div className="flex flex-col gap-1">
           {/* TODO: ui 수정 */}
-          {noticeListData?.data.content.map((item, index) => (
+          {noticeListData?.data.content.map((item) => (
             <NoticeItem
               key={item.uuid}
               uuid={item.uuid}
               category={item.category.name}
               title={item.title}
               content={item.content}
-              isExpanded={openItemId === item.uuid}
-              onToggle={() => handleToggle(item.uuid)}
             />
           ))}
         </div>
