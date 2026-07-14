@@ -62,6 +62,19 @@ export default function Login() {
 
       location.href = `https://accounts.google.com/o/oauth2/v2/auth?${params}`;
     }
+
+    if (method.title === 'Apple') {
+      const params = new URLSearchParams({
+        client_id: process.env.NEXT_PUBLIC_APPLE_CLIENT_ID!,
+        redirect_uri: process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI!,
+        response_type: 'code',
+        response_mode: 'form_post',
+        scope: 'name email',
+      });
+
+      location.href = `https://appleid.apple.com/auth/authorize?${params}`;
+    }
+
     if (method.title === '이메일') {
       router.push('/email-login');
     }
