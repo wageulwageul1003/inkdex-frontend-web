@@ -9,6 +9,7 @@ import { AuthProvider } from '@/providers/auth';
 import QueryProvider from '@/providers/query-provider';
 
 import '@/styles/globals.css';
+import FcmProvider from '@/providers/fcmProvider';
 
 export async function generateMetadata(): Promise<Metadata> {
   // Define the base URL for production and development
@@ -43,13 +44,15 @@ export default async function IndexLayout({
     <html lang="ko" translate="no">
       <body className={cn('flex min-h-screen flex-col')}>
         <QueryProvider>
-          <AuthProvider>
-            <Suspense fallback={<Loading />}>
-              <div className="default-layout-content flex flex-1">
-                {children}
-              </div>
-            </Suspense>
-          </AuthProvider>
+          <FcmProvider>
+            <AuthProvider>
+              <Suspense fallback={<Loading />}>
+                <div className="default-layout-content flex flex-1">
+                  {children}
+                </div>
+              </Suspense>
+            </AuthProvider>
+          </FcmProvider>
         </QueryProvider>
         <Toaster />
       </body>
