@@ -12,6 +12,7 @@ export interface IOtherProfileResponse {
   followingCount: number;
   postCount: number;
   isFollowing: boolean;
+  isDeleted: boolean;
 }
 
 export const GetOtherProfile = async (

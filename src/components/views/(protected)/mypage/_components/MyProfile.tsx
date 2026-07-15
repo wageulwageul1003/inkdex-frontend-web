@@ -134,6 +134,7 @@ export const MyProfile = ({ uuid }: MyProfileProps) => {
 
       <div className="mt-4 w-full">
         {!isMyProfile &&
+          !otherProfile?.data.isDeleted &&
           (isFollowing ? (
             <FollowingCancel
               uuid={uuid!}
