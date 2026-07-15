@@ -18,7 +18,7 @@ export const useDeleteSearchKeywordAll = () => {
     mutationFn: deleteSearchKeywordAll,
 
     onSuccess: async () => {
-      await queryClient.refetchQueries({
+      await queryClient.invalidateQueries({
         queryKey: queryKeys.search.recentSearchKeywordList.queryKey,
       });
     },

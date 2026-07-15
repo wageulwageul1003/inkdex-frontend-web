@@ -30,22 +30,23 @@ export const Recents = () => {
           </div>
           <div className="flex flex-col gap-2 pb-[120px]">
             {recentItems?.data.map((item) => (
-              <div key={item.uuid} className="flex items-center py-2">
-                <p
-                  className="font-m-2 flex-1 text-gray-08"
-                  onClick={() =>
-                    router.push(
-                      `/search/result/hot?searchKeyword=${item.keyword}`,
-                    )
-                  }
-                >
-                  {item.keyword}
-                </p>
+              <div
+                key={item.uuid}
+                className="flex cursor-pointer items-center py-2"
+                onClick={() =>
+                  router.push(
+                    `/search/result/hot?searchKeyword=${item.keyword}`,
+                  )
+                }
+              >
+                <p className="font-m-2 flex-1 text-gray-08">{item.keyword}</p>
                 <Icons.closeSmall
                   className="size-6 fill-gray-05"
-                  onClick={() =>
-                    deleteSearchKeyword({ keywordUuid: item.uuid })
-                  }
+                  onClick={(e: React.MouseEvent) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    deleteSearchKeyword({ keywordUuid: item.uuid });
+                  }}
                 />
               </div>
             ))}
