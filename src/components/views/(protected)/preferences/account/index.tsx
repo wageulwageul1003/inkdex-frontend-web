@@ -18,7 +18,7 @@ export const AccountView = () => {
   const { data: myProfile } = useGetMyProfile();
   const [logoutAlertOpen, setLogoutAlertOpen] = React.useState(false);
 
-  const LoginMethod = [
+  const LOGIN_METHODS = [
     {
       title: '카카오',
       provider: 'KAKAO',
@@ -38,6 +38,51 @@ export const AccountView = () => {
       bgColor: 'bg-white',
     },
   ];
+
+  const handleMethodClick = (method: (typeof LOGIN_METHODS)[number]) => {
+    const state = {
+      uuid: Cookies.get(USER_UUID),
+      mode: 'CONNECT',
+    };
+    if (method.title == '카카오') {
+      const params = new URLSearchParams({
+        client_id: process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY!,
+        redirect_uri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI!,
+        response_type: 'code',
+        state: JSON.stringify(state),
+      });
+
+      location.href = `https://kauth.kakao.com/oauth/authorize?${params}`;
+    }
+    if (method.title === 'Google') {
+      const params = new URLSearchParams({
+        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+        redirect_uri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI!,
+        response_type: 'code',
+        scope: 'openid email profile',
+        access_type: 'offline',
+        prompt: 'consent',
+      });
+
+      location.href = `https://accounts.google.com/o/oauth2/v2/auth?${params}`;
+    }
+
+    if (method.title === 'Apple') {
+      const params = new URLSearchParams({
+        client_id: process.env.NEXT_PUBLIC_APPLE_CLIENT_ID!,
+        redirect_uri: process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI!,
+        response_type: 'code',
+        response_mode: 'form_post',
+        scope: 'name email',
+      });
+
+      location.href = `https://appleid.apple.com/auth/authorize?${params}`;
+    }
+
+    if (method.title === '이메일') {
+      router.push('/email-login');
+    }
+  };
 
   const handleLogout = () => {
     try {
@@ -78,13 +123,14 @@ export const AccountView = () => {
             SNS 계정을 연동하여 간편하게 로그인할 수 있습니다.
           </span>
           <div className="flex items-center gap-4">
-            {LoginMethod.map((item) => {
+            {LOGIN_METHODS.map((item) => {
               const connected =
                 myProfile?.data.provider?.includes(item.provider) ?? false;
               return (
                 <div
                   key={item.title}
                   className="flex flex-col items-center gap-2"
+                  onClick={() => handleMethodClick(item)}
                 >
                   <div
                     className={cn(

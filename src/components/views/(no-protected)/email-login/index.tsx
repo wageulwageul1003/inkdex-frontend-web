@@ -18,6 +18,7 @@ import {
   ACCESS_TOKEN,
   IS_TEMP_PASSWORD,
   TEMP_PASSWORD,
+  USER_EMAIL,
   USER_UUID,
 } from '@/constants/tokens';
 import { usePostEmailLogin } from '@/hooks/auth/usePostEmailLogin';
@@ -61,6 +62,7 @@ const EmailLogin = () => {
         toast.success('로그인 되었습니다.');
         Cookies.set(ACCESS_TOKEN, response.data.accessToken);
         Cookies.set(USER_UUID, response.data.uuid);
+        Cookies.set(USER_EMAIL, response.data.email);
       } else {
         setAlertMessage(
           '로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.',

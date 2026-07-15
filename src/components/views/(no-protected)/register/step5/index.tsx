@@ -17,7 +17,7 @@ import { usePostRegister } from '@/hooks/auth/usePostRegister';
 import { usePostEmailLogin } from '@/hooks/auth/usePostEmailLogin';
 import { toast } from '@/components/ui/sonner';
 import Cookies from 'js-cookie';
-import { ACCESS_TOKEN, USER_UUID } from '@/constants/tokens';
+import { ACCESS_TOKEN, USER_EMAIL, USER_UUID } from '@/constants/tokens';
 import { ErrorData } from '@/utils/fetch';
 
 const Step5 = () => {
@@ -91,6 +91,7 @@ const Step5 = () => {
 
         Cookies.set(ACCESS_TOKEN, response.data.accessToken);
         Cookies.set(USER_UUID, response.data.uuid);
+        Cookies.set(USER_EMAIL, response.data.email);
       }
 
       toast.success('가입이 완료되었습니다.');
