@@ -1,21 +1,35 @@
+export const NOTIFICATION_TYPE = {
+  FOLLOWER: 'FOLLOWER',
+  POST_LIKE: 'POST_LIKE',
+  POST_COMMENT: 'POST_COMMENT',
+  REMIND: 'REMIND',
+  MARKETING: 'MARKETING',
+} as const;
+
+export type NotificationType =
+  (typeof NOTIFICATION_TYPE)[keyof typeof NOTIFICATION_TYPE];
+
 export interface NotificationPayloadMap {
-  FOLLOWER: {
+  [NOTIFICATION_TYPE.FOLLOWER]: {
     nickname: string;
   };
 
-  POST_LIKE: {
-    nickname: string;
-    postUuid: string;
-  };
-
-  POST_COMMENT: {
+  [NOTIFICATION_TYPE.POST_LIKE]: {
     nickname: string;
     postUuid: string;
   };
 
-  REMIND: undefined;
+  [NOTIFICATION_TYPE.POST_COMMENT]: {
+    nickname: string;
+    postUuid: string;
+  };
 
-  MARKETING: {
+  [NOTIFICATION_TYPE.REMIND]: undefined;
+
+  [NOTIFICATION_TYPE.MARKETING]: {
     message: string;
   };
 }
+
+export type NotificationPayload<T extends NotificationType> =
+  NotificationPayloadMap[T];

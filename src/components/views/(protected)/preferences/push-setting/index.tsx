@@ -11,13 +11,14 @@ import { useGetNotificationSetting } from '@/hooks/notification/useGetNotificati
 import { usePatchNotificationSetting } from '@/hooks/notification/usePatchNotificationSetting';
 import { cn } from '@/lib/utils';
 import { useMemo } from 'react';
+import { NOTIFICATION_TYPE } from '@/types/notification.types';
 
 const PUSH_SETTINGS = [
   {
     label: '리마인드 알림',
     items: [
       {
-        key: 'REMIND',
+        key: NOTIFICATION_TYPE.REMIND,
         label: '리마인드 알림',
       },
     ],
@@ -26,24 +27,8 @@ const PUSH_SETTINGS = [
     label: '내 기록 알림',
     items: [
       {
-        key: 'POST_LIKE',
+        key: NOTIFICATION_TYPE.POST_LIKE,
         label: '내 게시물 좋아요 알림',
-      },
-      {
-        key: 'POST_COMMENT',
-        label: '내 게시물 댓글 작성 알림',
-      },
-      {
-        key: 'COMMENT_LIKE',
-        label: '내 댓글 좋아요 알림',
-      },
-      {
-        key: 'REPLY',
-        label: '내 댓글 대댓글 알림',
-      },
-      {
-        key: 'BOOKMARK',
-        label: '내 게시물 북마크 알림',
       },
     ],
   },
@@ -51,7 +36,7 @@ const PUSH_SETTINGS = [
     label: '팔로우 알림',
     items: [
       {
-        key: 'FOLLOWER',
+        key: NOTIFICATION_TYPE.FOLLOWER,
         label: '새 팔로워 알림',
       },
     ],
@@ -60,14 +45,14 @@ const PUSH_SETTINGS = [
     label: '마케팅 알림',
     items: [
       {
-        key: 'MARKETING',
+        key: NOTIFICATION_TYPE.MARKETING,
         label: '마케팅 정보 알림',
       },
     ],
   },
 ] as const;
 
-export const PushSettingComponent = () => {
+export const PushSettingView = () => {
   const router = useRouter();
 
   const { data: notificationSetting } = useGetNotificationSetting();
