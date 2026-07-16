@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { agent } from '@/utils/fetch';
-import { TRegisterFcmTokenSchema } from '@/components/views/(protected)/notification/schema';
+import { TRegisterFcmTokenSchema } from '@/components/views/(protected)/push/schema';
 
 export const postRegisterFcmToken = async (
   payload: TRegisterFcmTokenSchema,

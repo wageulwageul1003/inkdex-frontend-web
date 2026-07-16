@@ -1,45 +1,37 @@
 'use client';
 
-import React, { useRef } from 'react';
+import { Bell } from 'lucide-react';
+import React from 'react';
 
-import { Loading } from '@/components/shared/Loading';
-import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
-import { useGetNotificationList } from '@/hooks/notification/useGetNotificationList';
+import { useFcm } from '@/providers/push/useFcm';
+import { usePostRegisterFcmToken } from '@/hooks/notification/usePostRegisterFcmToken';
 
-export const Notification = () => {
-  const listRefs = useRef<(HTMLDivElement | null)[]>([]);
+export const Push = () => {
+  const { mutateAsync: postRegisterFcmToken } = usePostRegisterFcmToken();
+  const { registerToken } = useFcm();
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useGetNotificationList({
-      size: '3',
+  const registerFcmToken = async () => {
+    const token = await registerToken();
+
+    if (!token) {
+      return;
+    }
+
+    await postRegisterFcmToken({
+      token,
+      platform: 'WEB',
+      deviceId: crypto.randomUUID(),
     });
-
-  const observerRef = useInfiniteScroll(
-    { fetchNextPage, hasNextPage, isFetchingNextPage },
-    { threshold: 0.1 },
-  );
+  };
 
   return (
-    <div className="w-full">
-      <div className="mt-4 flex flex-col gap-4">
-        <div className="grid grid-cols-3 gap-1">
-          {data?.content.map((item, index) => (
-            <div
-              key={item.id}
-              ref={(el) => {
-                listRefs.current[index] = el;
-              }}
-              className="cursor-pointer"
-            >
-              <div>{item.bookmarked}</div>
-            </div>
-          ))}
-        </div>
-
-        <div ref={observerRef} className="flex h-1 justify-center">
-          {isFetchingNextPage && <Loading />}
-        </div>
+    <div className="flex w-full flex-col gap-6 p-6">
+      <div className="flex items-center gap-3">
+        <Bell className="h-8 w-8" />
+        <h1 className="text-2xl font-bold">푸시 알림 설정</h1>
       </div>
+
+      <p onClick={() => registerFcmToken()}>활성화</p>
     </div>
   );
 };

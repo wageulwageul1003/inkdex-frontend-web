@@ -5,30 +5,18 @@ import { agent } from '@/utils/fetch';
 import { queryKeys } from '@/constants/query-key';
 
 export interface INotificationListResponse {
-  id: string;
-  userId: string;
-  userNickname: string;
-  profileImageUrl: string;
-  userBio: string;
-  following: boolean;
-  categorySlug: string;
+  uuid: string;
+  type: string;
+  title: string;
   content: string;
-  imageUrl: string;
-  thumbnailUrl: string;
-  imageMetadata: {
-    width: number;
-    height: number;
-    aspectRatio: number;
-    fileSize: number;
+  isRead: boolean;
+  sender: {
+    uuid: string;
+    nickname: string;
+    profileImageUrl: string | null;
   };
-  tags: string[];
-  likeCount: number;
-  liked: boolean;
-  bookmarked: boolean;
-  commentCount: number;
-  viewCount: number;
+  targetUuid: string;
   createdAt: string;
-  updatedAt: string;
 }
 
 // PARAMS TYPE
@@ -37,7 +25,7 @@ type TGetNotificationListParams = {
   size?: string;
 };
 
-export const GetNotificationList = async (
+export const getNotificationList = async (
   params: TGetNotificationListParams,
 ): Promise<IResponsePaged<INotificationListResponse>> => {
   const queryParams = new URLSearchParams();
@@ -45,7 +33,7 @@ export const GetNotificationList = async (
   if (params.page) queryParams.set('page', String(params.page));
   if (params.size) queryParams.set('size', String(params.size));
 
-  const url = `/api/v1/notifications?${queryParams.toString()}`;
+  const url = `/api/account/notifications?${queryParams.toString()}`;
 
   const data = await agent(url, {
     method: 'GET',
@@ -63,7 +51,7 @@ export const useGetNotificationList = (params: TGetNotificationListParams) => {
     queryKey: queryKeys.notification.list(params).queryKey,
 
     queryFn: ({ pageParam }) => {
-      return GetNotificationList({
+      return getNotificationList({
         ...params,
         page: String(pageParam),
       });
