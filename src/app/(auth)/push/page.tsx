@@ -1,5 +1,5 @@
-import { Push } from '@/components/views/(protected)/push';
+import { PushView } from '@/components/views/(protected)/push';
 
-export default function NotificationPage() {
-  return <Push />;
+export default function Page() {
+  return <PushView />;
 }

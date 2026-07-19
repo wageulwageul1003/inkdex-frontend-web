@@ -6,7 +6,7 @@ import React from 'react';
 import { useFcm } from '@/providers/push/useFcm';
 import { usePostRegisterFcmToken } from '@/hooks/notification/usePostRegisterFcmToken';
 
-export const Push = () => {
+export const PushView = () => {
   const { mutateAsync: postRegisterFcmToken } = usePostRegisterFcmToken();
   const { registerToken } = useFcm();
 
