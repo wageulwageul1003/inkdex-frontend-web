@@ -40,6 +40,8 @@ export const GetNoticeList = async (
   // Add basic parameters
   if (params.page) queryParams.append('page', String(params.page));
   if (params.size) queryParams.append('size', params.size);
+  if (params.noticeCategoryUuid && params.noticeCategoryUuid !== 'all')
+    queryParams.append('noticeCategoryUuid', params.noticeCategoryUuid);
 
   // Construct the URL
   const url = `/api/notices?${queryParams.toString()}`;

@@ -83,17 +83,21 @@ export const NoticeView = () => {
           />
         </div>
 
-        <div className="flex flex-col gap-1">
+        <div className="mt-3">
+          {noticeListData?.data.paging.totalElements === 0 && (
+            <div className="mt-14 flex flex-col items-center gap-[6px]">
+              <Icons.moodEmpty className="size-8 fill-gray-03" />
+              <span className="font-s-2 text-gray-05">
+                등록된 공지사항이 없어요.
+              </span>
+            </div>
+          )}
           {/* TODO: ui 수정 */}
-          {noticeListData?.data.content.map((item) => (
-            <NoticeItem
-              key={item.uuid}
-              uuid={item.uuid}
-              category={item.category.name}
-              title={item.title}
-              content={item.content}
-            />
-          ))}
+          <div className="space-y-1">
+            {noticeListData?.data.content.map((item) => (
+              <NoticeItem key={item.uuid} item={item} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
