@@ -9,6 +9,8 @@ import Chips from '@/components/shared/chips';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { useGetNoticeCategory } from '@/hooks/notice/useGetNoticeCategory';
+import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
+import { Loading } from '@/components/shared/Loading';
 import { useGetNoticeList } from '@/hooks/notice/useGetNoticeList';
 
 export const NoticeView = () => {
@@ -38,9 +40,20 @@ export const NoticeView = () => {
   const [selectedCategory, setSelectedCategory] =
     useState<string>(initialCategory);
 
-  const { data: noticeListData } = useGetNoticeList({
+  const {
+    data: noticeListData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetNoticeList({
     noticeCategoryUuid: selectedCategory,
+    size: '10',
   });
+
+  const observerRef = useInfiniteScroll(
+    { fetchNextPage, hasNextPage, isFetchingNextPage },
+    { threshold: 0.1 },
+  );
 
   const handleCategory = (item: string | string[]) => {
     if (typeof item === 'string') {
@@ -84,7 +97,7 @@ export const NoticeView = () => {
         </div>
 
         <div className="mt-3">
-          {noticeListData?.data.paging.totalElements === 0 && (
+          {noticeListData?.paging.totalElements === 0 && (
             <div className="mt-14 flex flex-col items-center gap-[6px]">
               <Icons.moodEmpty className="size-8 fill-gray-03" />
               <span className="font-s-2 text-gray-05">
@@ -92,11 +105,14 @@ export const NoticeView = () => {
               </span>
             </div>
           )}
-          {/* TODO: ui 수정 */}
           <div className="space-y-1">
-            {noticeListData?.data.content.map((item) => (
+            {noticeListData?.content.map((item) => (
               <NoticeItem key={item.uuid} item={item} />
             ))}
+
+            <div ref={observerRef} className="flex h-1 justify-center">
+              {isFetchingNextPage && <Loading />}
+            </div>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { z } from 'zod';
 
-import { IResponsePaged } from '@/types/global';
+import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
 import { queryKeys } from '@/constants/query-key';
 
@@ -29,7 +29,7 @@ export const FaqListScheme = z.object({
   faqCategoryUuid: z.string().optional(),
 });
 
-export const GetFaqList = async (
+export const getFaqList = async (
   params: TFaqListParams,
 ): Promise<IResponsePaged<IFaqListResponse>> => {
   const queryParams = new URLSearchParams();
@@ -52,10 +52,32 @@ export const GetFaqList = async (
   return data;
 };
 
-export const useGetFaqList = (
-  params: TFaqListParams,
-): UseQueryResult<IResponsePaged<IFaqListResponse>> =>
-  useQuery({
+export const useGetFaqList = (params: TFaqListParams) => {
+  return useInfiniteQuery<
+    IResponsePaged<IFaqListResponse>,
+    Error,
+    TInfiniteListResult<IFaqListResponse>
+  >({
     queryKey: queryKeys.faq.list(params).queryKey,
-    queryFn: () => GetFaqList(params),
+
+    queryFn: ({ pageParam }) => {
+      return getFaqList({
+        ...params,
+        page: String(pageParam),
+      });
+    },
+
+    initialPageParam: 0,
+
+    getNextPageParam: (lastPage) => {
+      const { page, number } = lastPage.data.paging;
+
+      return page + 1 < number ? page + 1 : undefined;
+    },
+
+    select: (data) => ({
+      content: data.pages.flatMap((p) => p.data.content),
+      paging: data.pages[data.pages.length - 1].data.paging,
+    }),
   });
+};

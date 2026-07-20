@@ -11,6 +11,8 @@ import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { useGetFaqCategory } from '@/hooks/faq/useGetFaqCategory';
 import { useGetFaqList } from '@/hooks/faq/useGetFaqList';
+import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
+import { Loading } from '@/components/shared/Loading';
 
 export const FaqComponent = () => {
   const searchParams = useSearchParams();
@@ -41,9 +43,20 @@ export const FaqComponent = () => {
   const [selectedCategory, setSelectedCategory] =
     useState<string>(initialCategory);
 
-  const { data: faqListData } = useGetFaqList({
+  const {
+    data: faqListData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useGetFaqList({
     faqCategoryUuid: selectedCategory,
+    size: '10',
   });
+
+  const observerRef = useInfiniteScroll(
+    { fetchNextPage, hasNextPage, isFetchingNextPage },
+    { threshold: 0.1 },
+  );
 
   const handleCategory = (item: string | string[]) => {
     if (typeof item === 'string') {
@@ -116,7 +129,7 @@ export const FaqComponent = () => {
         </div>
 
         <div className="flex flex-col gap-1">
-          {faqListData?.data.content.map((item) => (
+          {faqListData?.content.map((item) => (
             <FaqItem
               key={item.uuid}
               uuid={item.uuid}
@@ -127,6 +140,10 @@ export const FaqComponent = () => {
               onToggle={() => handleToggle(item.uuid)}
             />
           ))}
+
+          <div ref={observerRef} className="flex h-1 justify-center">
+            {isFetchingNextPage && <Loading />}
+          </div>
         </div>
       </div>
     </div>
