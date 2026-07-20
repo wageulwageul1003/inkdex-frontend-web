@@ -39,6 +39,8 @@ export const GetFaqList = async (
     queryParams.append('faqCategoryUuid', params.faqCategoryUuid);
   if (params.page) queryParams.append('page', String(params.page));
   if (params.size) queryParams.append('size', params.size);
+  if (params.faqCategoryUuid && params.faqCategoryUuid !== 'all')
+    queryParams.append('faqCategoryUuid', params.faqCategoryUuid);
 
   // Construct the URL
   const url = `/api/faqs?${queryParams.toString()}`;
