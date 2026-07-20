@@ -2,14 +2,19 @@
 
 import { INoticeListResponse } from '@/hooks/notice/useGetNoticeList';
 import dayjs from 'dayjs';
+import { useRouter } from 'next/navigation';
 
 interface NoticeItemProps {
   item: INoticeListResponse;
 }
 
 export const NoticeItem = ({ item }: NoticeItemProps) => {
+  const router = useRouter();
   return (
-    <div className={'flex w-full flex-col px-1 py-3'}>
+    <div
+      className={'flex w-full flex-col px-1 py-3'}
+      onClick={() => router.push(`/preferences/notice/${item.uuid}`)}
+    >
       <div className="flex items-center justify-between">
         <span className="font-xs-2 text-sand-08">{item.category.name}</span>
 

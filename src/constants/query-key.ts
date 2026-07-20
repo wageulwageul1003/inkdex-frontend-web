@@ -76,6 +76,7 @@ export const queryKeys = createQueryKeyStore({
       noticeCategoryUuid?: string;
       searchKeyword?: string;
     }) => ['notice', 'list', params] as const,
+    detail: (uuid: string) => ['notice', uuid] as const,
   },
   term: {
     list: null,
