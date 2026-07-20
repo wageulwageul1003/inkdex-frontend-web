@@ -19,10 +19,12 @@ import { toast } from '@/components/ui/sonner';
 import Cookies from 'js-cookie';
 import { ACCESS_TOKEN, USER_EMAIL, USER_UUID } from '@/constants/tokens';
 import { ErrorData } from '@/utils/fetch';
+import { usePostFileUpload } from '@/hooks/common/usePostFileUpload';
 
 const Step5 = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { mutateAsync: postFileUpload } = usePostFileUpload();
 
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const imageFileRef = useRef<File | null>(null);
@@ -48,37 +50,58 @@ const Step5 = () => {
 
   const { formState } = form;
 
+  const handleSelectedFile = async (file: File) => {
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+
+    const localPreview = URL.createObjectURL(file);
+
+    setPreviewUrl(localPreview);
+    imageFileRef.current = file;
+
+    const response = await postFileUpload(file);
+
+    form.setValue('profileImageUrl', response.data.url);
+  };
+
   const handleImageSelect = async () => {
     if (!isApp()) {
       const input = document.createElement('input');
+
       input.type = 'file';
       input.accept = 'image/*';
-      input.onchange = (e) => {
+
+      input.onchange = async (e) => {
         const file = (e.target as HTMLInputElement).files?.[0];
-        if (file) {
-          if (previewUrl) URL.revokeObjectURL(previewUrl);
-          setPreviewUrl(URL.createObjectURL(file));
-          imageFileRef.current = file;
-        }
+
+        if (!file) return;
+
+        await handleSelectedFile(file);
       };
+
       input.click();
-    } else {
-      const result = await nativeBridge.openGallery();
-      if (result) {
-        const imageData = result.base64 || result.uri;
-        setPreviewUrl(imageData);
-        const response = await fetch(imageData);
-        const blob = await response.blob();
-        imageFileRef.current = new File([blob], 'image.jpg', {
-          type: blob.type || 'image/jpeg',
-        });
-      }
+
+      return;
     }
-    form.setValue('profileImageUrl', previewUrl);
+
+    const result = await nativeBridge.openGallery();
+
+    if (!result) return;
+
+    const imageData = result.base64 || result.uri;
+
+    const response = await fetch(imageData);
+    const blob = await response.blob();
+
+    const file = new File([blob], 'image.jpg', {
+      type: blob.type || 'image/jpeg',
+    });
+
+    await handleSelectedFile(file);
   };
 
   const onSubmit = async (data: TRegisterSchema) => {
-    // TODO: 프로필 이미지 저장이 안됨 확인
     try {
       await register({ ...data });
 
