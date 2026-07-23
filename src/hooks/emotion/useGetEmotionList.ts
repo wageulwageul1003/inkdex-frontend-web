@@ -12,7 +12,7 @@ export interface ICategoryListResponse {
 export const GetCategoryList = async (): Promise<
   IResponse<ICategoryListResponse>
 > => {
-  const data = await agent(`/api/emotion`, {
+  const data = await agent(`/api/emotion/all`, {
     method: 'GET',
   });
 
