@@ -13,7 +13,7 @@ export interface IFaqCategoryResponse {
 export const GetFaqCategory = async (): Promise<
   IResponse<IFaqCategoryResponse>
 > => {
-  const data = await agent(`/api/faqs/categories`, {
+  const data = await agent(`/api/faqs/categories/all`, {
     method: 'GET',
   });
 

@@ -13,7 +13,7 @@ export interface INoticeCategoryResponse {
 export const GetNoticeCategory = async (): Promise<
   IResponse<INoticeCategoryResponse>
 > => {
-  const data = await agent(`/api/notices/categories`, {
+  const data = await agent(`/api/notices/categories/all`, {
     method: 'GET',
   });
 
