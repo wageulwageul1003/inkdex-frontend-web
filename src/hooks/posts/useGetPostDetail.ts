@@ -22,6 +22,8 @@ export interface ISpecificCollectionResponse {
     },
   ];
   tags: string[];
+  likeCount: number;
+  isLiked: boolean;
 }
 
 export const GetPostDetail = async (

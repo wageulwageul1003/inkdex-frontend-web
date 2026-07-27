@@ -1,9 +1,8 @@
-import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 
 import { Icons } from '../icons';
 
-import { useAuth } from '@/providers/auth';
+import { usePostLike } from '@/hooks/posts/like/usePostLike';
 
 interface FavoriteToggleProps
   extends Omit<
@@ -11,22 +10,17 @@ interface FavoriteToggleProps
     'icon' | 'onToggle'
   > {
   defaultFavorite?: boolean;
-  iconClassName?: string;
-  className?: string;
   disabled?: boolean;
-  onToggle?: (isFavorited: boolean) => void;
+  uuid: string;
 }
 
 const FavoriteToggle = ({
   defaultFavorite = false,
   disabled,
-  onToggle,
+  uuid,
   ...props
 }: FavoriteToggleProps) => {
-  // const { mutateAsync: postWish } = usePostWish();
-  const { isLoggedIn } = useAuth();
-  const router = useRouter();
-  // const alert = useAlert();
+  const { mutateAsync: postLike } = usePostLike();
   const [isFavorited, setIsFavorited] = useState(defaultFavorite);
 
   // Update state when defaultFavorite prop changes (e.g., when data loads)
@@ -34,32 +28,14 @@ const FavoriteToggle = ({
     setIsFavorited(defaultFavorite);
   }, [defaultFavorite]);
 
-  const handleToggle = (e: React.MouseEvent) => {
+  const handleToggle = async (e: React.MouseEvent) => {
     e.stopPropagation();
     if (disabled) return;
 
-    if (!isLoggedIn) {
-      alert({
-        icon: 'info',
-        title: '로그인 후 이용하실 수 있습니다.',
-        cancelText: '닫기',
-        cancelButton: {
-          className: 'w-full',
-        },
-        confirmText: '로그인',
-        onConfirm: () => {
-          router.push('/login');
-        },
-      });
-      return;
-    }
+    await postLike({ postUuid: uuid });
 
     const newState = !isFavorited;
     setIsFavorited(newState);
-
-    if (onToggle) {
-      onToggle(newState);
-    }
   };
 
   return (

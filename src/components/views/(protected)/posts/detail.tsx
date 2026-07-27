@@ -36,6 +36,8 @@ export const PostsDetail: FC<TProps> = ({ postUuid }: TProps) => {
     });
   };
 
+  if (!data) return null;
+
   return (
     <div className="no-scrollbar flex flex-1 flex-col bg-white px-4">
       <Header
@@ -89,7 +91,10 @@ export const PostsDetail: FC<TProps> = ({ postUuid }: TProps) => {
 
       <div className="mt-2.5 flex items-center justify-between px-1">
         <p className="font-m-1 text-gray-09">{data?.data.source}</p>
-        <FavoriteToggle />
+        <FavoriteToggle
+          defaultFavorite={data?.data.isLiked}
+          uuid={data?.data.uuid}
+        />
       </div>
 
       <div className="flex flex-col px-1">

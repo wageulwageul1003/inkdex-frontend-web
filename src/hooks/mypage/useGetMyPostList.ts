@@ -38,7 +38,7 @@ export const GetPostsList = async (
   if (params.year) queryParams.set('year', params.year);
   if (params.month) queryParams.set('month', params.month);
 
-  const url = `/api/mypage/posts?${queryParams.toString()}`;
+  const url = `/api/posts/me?${queryParams.toString()}`;
 
   const data = await agent(url, {
     method: 'GET',
