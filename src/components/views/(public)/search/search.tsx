@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 
-import { Hot } from './_components/result/Hot';
+import { Recommend } from './_components/result/Recommend';
 import { Latest } from './_components/result/Latest';
 import { User } from './_components/result/User';
 import { searchSchema } from './schema';
@@ -62,14 +62,14 @@ export const SearchResultView = ({ defaultValue }: ISearchResultProps) => {
         className="w-full"
       >
         <TabsList className="">
-          <TabsTrigger value="hot">인기</TabsTrigger>
+          <TabsTrigger value="recommend">추천</TabsTrigger>
           <TabsTrigger value="latest">최신</TabsTrigger>
           <TabsTrigger value="user">사용자</TabsTrigger>
         </TabsList>
 
-        {/* 인기 */}
-        <TabsContent value="hot">
-          <Hot />
+        {/* 추천 */}
+        <TabsContent value="recommend">
+          <Recommend />
         </TabsContent>
 
         {/* 최신 */}

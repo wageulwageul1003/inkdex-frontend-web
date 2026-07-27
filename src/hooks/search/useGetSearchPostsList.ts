@@ -24,7 +24,7 @@ export const GetSearchPostsList = async (
   if (params.size) queryParams.set('size', String(params.size));
   if (params.feedType) queryParams.set('feedType', params.feedType);
 
-  const url = `/api/search/posts?${queryParams.toString()}`;
+  const url = `/api/posts?${queryParams.toString()}`;
 
   const data = await agent(url, {
     method: 'GET',

@@ -7,14 +7,14 @@ import { Loading } from '@/components/shared/Loading';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useGetSearchPostsList } from '@/hooks/search/useGetSearchPostsList';
 
-export const Hot = () => {
+export const Recommend = () => {
   const searchParams = useSearchParams();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGetSearchPostsList({
       searchKeyword: searchParams.get('searchKeyword') || undefined,
       size: '3',
-      feedType: 'hot',
+      feedType: 'recommend',
     });
 
   const observerRef = useInfiniteScroll(
