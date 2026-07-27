@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { Notification } from '@/components/shared/Notification';
 import { Header } from '@/components/shared/layout/header';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
-import { Card } from './_components/Card';
+import { HomeCard } from './_components/HomeCard';
 import { Loading } from '@/components/shared/Loading';
 import { MyProfile } from '@/components/shared/my-profile';
 import { useGetMyProfile } from '@/hooks/auth/useGetMyProfile';
@@ -73,7 +73,7 @@ const HomeView = () => {
       />
 
       <div className="mt-4 flex flex-col gap-4">
-        {data?.content.map((item) => <Card key={item.uuid} item={item} />)}
+        {data?.content.map((item) => <HomeCard key={item.uuid} item={item} />)}
         <div ref={observerRef} className="flex h-1 justify-center">
           {isFetchingNextPage && <Loading />}
         </div>

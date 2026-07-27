@@ -98,7 +98,7 @@ export const PostsDetail: FC<TProps> = ({ postUuid }: TProps) => {
           {data?.data.tags.map((item) => (
             <span
               onClick={() =>
-                router.push(`/search/result/hot?searchKeyword=${item}`)
+                router.push(`/search/result/recommend?searchKeyword=${item}`)
               }
             >
               {item}

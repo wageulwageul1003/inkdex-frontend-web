@@ -35,7 +35,7 @@ export const Recents = () => {
                 className="flex cursor-pointer items-center py-2"
                 onClick={() =>
                   router.push(
-                    `/search/result/hot?searchKeyword=${item.keyword}`,
+                    `/search/result/recommend?searchKeyword=${item.keyword}`,
                   )
                 }
               >
