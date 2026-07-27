@@ -6,6 +6,7 @@ import { NoResult } from './no-result';
 import { Loading } from '@/components/shared/Loading';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useGetSearchPostsList } from '@/hooks/search/useGetSearchPostsList';
+import { Card } from '@/components/shared/Card';
 
 export const Recommend = () => {
   const searchParams = useSearchParams();
@@ -28,7 +29,7 @@ export const Recommend = () => {
         <NoResult />
       ) : (
         <div className="mt-4 flex flex-col gap-4">
-          {data?.content.map((item) => <p>{item.account.bio}</p>)}
+          {data?.content.map((item) => <Card item={item} />)}
           <div ref={observerRef} className="flex h-1 justify-center">
             {isFetchingNextPage && <Loading />}
           </div>

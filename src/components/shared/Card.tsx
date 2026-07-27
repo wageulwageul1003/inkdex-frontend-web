@@ -4,14 +4,14 @@ import Image from 'next/image';
 import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
 
-import { IMyPostResponse } from '@/hooks/mypage/useGetMyPostList';
 import { cn } from '@/lib/utils';
-import { Icons } from '@/components/shared/icons';
 import { useGetEmotionList } from '@/hooks/emotion/useGetEmotionList';
 import { useRouter } from 'next/navigation';
+import { IPostListResponse } from '@/types/post.types';
+import { UserProfile } from './user-profile';
 
 interface ICardProps {
-  item: IMyPostResponse;
+  item: IPostListResponse;
 }
 
 export const Card = ({ item }: ICardProps) => {
@@ -43,10 +43,20 @@ export const Card = ({ item }: ICardProps) => {
   return (
     <div
       className="relative w-full"
-      onClick={() => router.push(`/posts/${item.uuid}`)}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        router.push(`/posts/${item.uuid}`);
+      }}
     >
-      <Icons.folderCard className="absolute inset-0 w-full fill-white" />
-
+      <UserProfile
+        accountUuid={item.account.uuid}
+        nickname={item.account.nickname}
+        profileImageUrl={item.account.profileImageUrl}
+        bio={item.account.bio}
+        following={item.account.isFollowing}
+        postUuid={item.uuid}
+      />
       <div className="relative z-10 flex h-full flex-col p-5">
         {/* 출처 */}
         <p className="font-s-1 text-gray-08">{item.source}</p>

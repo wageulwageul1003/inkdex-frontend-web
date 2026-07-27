@@ -6,14 +6,12 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { Button } from '../ui/button';
-import { toast } from '../ui/sonner';
 
-import { CustomAlertDialog } from './custom-alert-dialog';
 import { FollowingButton } from './following-button';
 import { Icons } from './icons';
 
 import { USER_UUID } from '@/constants/tokens';
-import { usePostReport } from '@/hooks/report/usePostReport';
+import ReportReasonModal from './ReportReasonModal';
 
 interface UserProfileProps {
   accountUuid?: string;
@@ -36,25 +34,18 @@ export const UserProfile = ({
 }: UserProfileProps) => {
   const router = useRouter();
   const isMyProfile = accountUuid === Cookies.get(USER_UUID);
-  const [reportAlertOpen, setReportAlertOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
-  const { mutateAsync: postReport } = usePostReport();
-
-  const handleReport = () => {
-    setMoreOpen(false);
-    setReportAlertOpen(true);
-  };
+  const [reportReasonModalOpen, setReportReasonModalOpen] = useState(false);
 
   return (
-    <div
-      className="flex w-full items-center gap-2"
-      onClick={() => router.push(`/my/${accountUuid}`)}
-    >
+    <div className="flex w-full items-center gap-2">
       <div className="flex-1">
         <div className="flex gap-2">
           <div
             className="relative h-9 w-9 overflow-hidden rounded-full border border-gray-03"
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
               if (isMyProfile) router.push(`/my`);
               else router.push(`/my/${accountUuid}`);
             }}
@@ -87,15 +78,24 @@ export const UserProfile = ({
             <Button
               variant="buttonIconTextOnly"
               size="buttonIconMedium"
-              onClick={() => setMoreOpen((prev) => !prev)}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setMoreOpen((prev) => !prev);
+              }}
             >
               <Icons.moreHoriz className="size-6 fill-gray-08" />
             </Button>
 
             {moreOpen && (
               <div
-                className="absolute right-0 top-full z-10 mt-1 flex h-11 w-[147px] items-center justify-center rounded-lg border border-gray-03 bg-white text-center"
-                onClick={handleReport}
+                className="absolute right-0 top-full z-30 mt-1 flex h-11 w-[147px] items-center justify-center rounded-lg border border-gray-03 bg-white text-center"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setMoreOpen(false);
+                  setReportReasonModalOpen(true);
+                }}
               >
                 <p className="font-m-2 text-gray-08">게시물 신고하기</p>
               </div>
@@ -104,27 +104,9 @@ export const UserProfile = ({
         )}
       </div>
 
-      <CustomAlertDialog
-        isOpen={reportAlertOpen}
-        onOpenChange={setReportAlertOpen}
-        title="게시물을 신고할까요?"
-        description={
-          <p>
-            신고한 게시물은 운영 정책에 따라 검토됩니다. <br />
-            신고 후에는 취소할 수 없어요.
-          </p>
-        }
-        cancelText="닫기"
-        confirmText="신고하기"
-        onConfirm={() => {
-          postReport({
-            targetUuid: postUuid || '',
-            type: 'POST',
-          }).then(() => {
-            setReportAlertOpen(false);
-            toast.success('신고가 접수되었어요!');
-          });
-        }}
+      <ReportReasonModal
+        isOpen={reportReasonModalOpen}
+        postUuid={postUuid ?? ''}
       />
     </div>
   );

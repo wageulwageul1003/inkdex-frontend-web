@@ -2,8 +2,8 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
-import { IPostListResponse } from '../home/useGetPostsList';
 import { queryKeys } from '@/constants/query-key';
+import { IPostListResponse } from '@/types/post.types';
 
 // PARAMS TYPE
 type TGetSearchPostsListParams = {

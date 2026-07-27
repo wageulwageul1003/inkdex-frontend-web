@@ -8,6 +8,7 @@ export const queryKeys = createQueryKeyStore({
     list: (params: { size?: string; page?: string }) =>
       ['mypage', 'follower-list', params] as const,
     detail: (uuid: string) => ['post', uuid] as const,
+    reportReason: null,
   },
   search: {
     recentSearchKeywordList: null,
