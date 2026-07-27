@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { TCollectionReorderSchema } from '@/components/views/(public)/my-inkdex/_components/collection/schema';
-import { ErrorData, agent } from '@/utils/fetch';
+import { agent } from '@/utils/fetch';
 import { queryKeys } from '@/constants/query-key';
 
 export const patchCollectionReorder = async (
@@ -27,9 +27,6 @@ export const usePatchCollectionReorder = () => {
       });
 
       return response;
-    },
-    onError: (error: ErrorData) => {
-      console.error('업데이트 실패:', error);
     },
   });
 };

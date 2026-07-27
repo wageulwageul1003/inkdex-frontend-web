@@ -1,40 +1,67 @@
 'use client';
 
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Loading } from '@/components/shared/Loading';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
-import { useGetCollectionList } from '@/hooks/collection/useGetCollectionList';
-// import { usePatchCollectionReorder } from '@/hooks/collection/usePatchCollectionReorder';
-import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
+import { useGetCollectionAllList } from '@/hooks/collection/useGetCollectionAllList';
+import { usePatchCollectionReorder } from '@/hooks/collection/usePatchCollectionReorder';
+
+import {
+  DndContext,
+  DragEndEvent,
+  PointerSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  arrayMove,
+} from '@dnd-kit/sortable';
+import { CollectionSortableItem } from './CollectionSortableItem';
 
 export const CollectionReorderView = () => {
   const router = useRouter();
+  const { data } = useGetCollectionAllList();
+  const sensors = useSensors(useSensor(PointerSensor));
 
-  // const { mutateAsync: patchCollectionReorder } = usePatchCollectionReorder();
+  const [collections, setCollections] = useState<
+    NonNullable<typeof data>['data']
+  >([]);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useGetCollectionList({
-      size: '10',
-    });
+  useEffect(() => {
+    if (data?.data) {
+      setCollections(data.data);
+    }
+  }, [data]);
 
-  const observerRef = useInfiniteScroll(
-    { fetchNextPage, hasNextPage, isFetchingNextPage },
-    { threshold: 0.1 },
-  );
+  const { mutateAsync: patchCollectionReorder } = usePatchCollectionReorder();
 
   const onSubmit = async () => {
     try {
-      // const response = await patchCollectionReorder({
-      //   collectionUuids: data?.content.map((item) => item.uuid) || [],
-      // });
+      await patchCollectionReorder({
+        collectionUuids: collections.map((item) => item.uuid),
+      });
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (!over || active.id === over.id) return;
+
+    setCollections((items) => {
+      const oldIndex = items.findIndex((i) => i.uuid === active.id);
+      const newIndex = items.findIndex((i) => i.uuid === over.id);
+
+      return arrayMove(items, oldIndex, newIndex);
+    });
   };
 
   return (
@@ -49,28 +76,20 @@ export const CollectionReorderView = () => {
         title={<span className="font-m-1 text-black">목록 편집</span>}
       />
 
-      <div className="">
-        {data?.content.map((item) => (
-          <div key={item.uuid} className="flex">
-            <Icons.gripVertical className="size-5" />
-            <div className="relative aspect-square h-10 w-10 overflow-hidden rounded-sm border border-gray-02">
-              <Image
-                src={item.imageUrl}
-                alt={item.name}
-                fill
-                className="object-cover"
-              />
-            </div>
-
-            <span className="font-m-2 mt-2 line-clamp-1 text-gray-09">
-              {item.name}
-            </span>
-          </div>
-        ))}
-        <div ref={observerRef} className="flex h-1 justify-center">
-          {isFetchingNextPage && <Loading />}
-        </div>
-      </div>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={collections.map((item) => item.uuid)}
+          strategy={verticalListSortingStrategy}
+        >
+          {collections.map((item) => (
+            <CollectionSortableItem key={item.uuid} item={item} />
+          ))}
+        </SortableContext>
+      </DndContext>
 
       <Button variant="contained" size="lg" onClick={onSubmit}>
         저장
