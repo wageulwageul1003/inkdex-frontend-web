@@ -175,9 +175,9 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
               </div>
 
               {visibility === item.value ? (
-                <Icons.radioButtonChecked className="fill-primary-01 size-6" />
+                <Icons.radioButtonChecked className="size-6 fill-gray-08" />
               ) : (
-                <Icons.radioButtonUnchecked className="size-6 fill-gray-04" />
+                <Icons.radioButtonUnchecked className="size-6 fill-gray-05" />
               )}
             </button>
           ))}

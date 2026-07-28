@@ -48,10 +48,16 @@ export default function ReportReasonModal({
     <Dialog open={open} onOpenChange={setOpen} disableOverlayClick={true}>
       <DialogContent showCloseButton={false} closeOnOverlayClick={false}>
         <DialogHeader>
-          <DialogTitle className="text-center">앱 접근 권한 안내</DialogTitle>
+          <DialogTitle className="text-left">게시물 신고</DialogTitle>
         </DialogHeader>
 
-        <div className="mt-5 flex flex-col space-y-7 pb-8">
+        <DialogHeader>
+          <DialogTitle className="mt-1 text-left text-gray-08">
+            신고 사유를 선택해주세요
+          </DialogTitle>
+        </DialogHeader>
+
+        <div className="mt-1 flex flex-col space-y-3 pb-7">
           {/* TODO: ui 수정 */}
           {reportReasons?.data.map((item) => (
             <div>
@@ -63,24 +69,32 @@ export default function ReportReasonModal({
                   e.preventDefault();
                   setSelectedReportReasonUuid(item.uuid);
                 }}
-                className="flex h-14 w-full items-center justify-between rounded-lg bg-gray-01 px-3 py-4"
+                className="flex items-center justify-between gap-2"
               >
-                <div className="flex items-center gap-3">
-                  <span className="font-m-2 text-gray-08">{item.name}</span>
-                </div>
-
                 {selectedReportReasonUuid === item.uuid ? (
-                  <Icons.radioButtonChecked className="fill-primary-01 size-6" />
+                  <Icons.radioButtonChecked className="size-6 fill-gray-08" />
                 ) : (
-                  <Icons.radioButtonUnchecked className="size-6 fill-gray-04" />
+                  <Icons.radioButtonUnchecked className="size-6 fill-gray-05" />
                 )}
+                <span className="font-s-2 text-gray-08">{item.name}</span>
               </button>
             </div>
           ))}
         </div>
 
-        <DialogFooter className="py-3">
-          {/* TODO: ui 수정 */}
+        <DialogFooter className="flex w-full flex-row gap-1 py-3">
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              setOpen(false);
+            }}
+            size="lg"
+            variant="outline"
+            className="w-full flex-1"
+          >
+            닫기
+          </Button>
           <Button
             onClick={(e) => {
               e.stopPropagation();
@@ -89,6 +103,7 @@ export default function ReportReasonModal({
             }}
             size="lg"
             variant="contained"
+            className="w-full flex-1"
           >
             신고하기
           </Button>

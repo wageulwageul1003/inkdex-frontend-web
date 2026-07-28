@@ -12,7 +12,7 @@ export interface IWithdrawReasonListResponse {
 export const GetWithdrawReasonList = async (): Promise<
   IResponse<IWithdrawReasonListResponse>
 > => {
-  const data = await agent(`/api/account/withdraw/reason`, {
+  const data = await agent(`/api/account/withdraw/reason/all`, {
     method: 'GET',
   });
 
