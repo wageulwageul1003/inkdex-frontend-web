@@ -12,9 +12,10 @@ import { UserProfile } from './user-profile';
 
 interface ICardProps {
   item: IPostListResponse;
+  isShowBio?: boolean;
 }
 
-export const Card = ({ item }: ICardProps) => {
+export const Card = ({ item, isShowBio = true }: ICardProps) => {
   const router = useRouter();
   const { data: emotions } = useGetEmotionList();
 
@@ -56,6 +57,7 @@ export const Card = ({ item }: ICardProps) => {
         bio={item.account.bio}
         following={item.account.isFollowing}
         postUuid={item.uuid}
+        isShowBio={isShowBio}
       />
       <div className="relative z-10 flex h-full flex-col p-5">
         {/* 출처 */}

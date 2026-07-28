@@ -18,7 +18,7 @@ export interface IOtherProfileResponse {
 export const GetOtherProfile = async (
   uuid: string,
 ): Promise<IResponseDetail<IOtherProfileResponse>> => {
-  const data = await agent(`/api/other/profile/${uuid}`, {
+  const data = await agent(`/api/account/profile/${uuid}`, {
     method: 'GET',
   });
 

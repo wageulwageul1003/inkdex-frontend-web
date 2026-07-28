@@ -5,13 +5,13 @@ import { NoResult } from './no-result';
 
 import { Loading } from '@/components/shared/Loading';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
-import { useGetSearchPostsList } from '@/hooks/search/useGetSearchPostsList';
+import { useGetPostsList } from '@/hooks/search/useGetPostsList';
 
 export const Latest = () => {
   const searchParams = useSearchParams();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useGetSearchPostsList({
+    useGetPostsList({
       searchKeyword: searchParams.get('searchKeyword') || undefined,
       size: '3',
       feedType: 'latest',

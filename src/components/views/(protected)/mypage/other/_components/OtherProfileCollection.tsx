@@ -21,7 +21,7 @@ export const OtherProfileCollection = ({
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGetCollectionList({
       size: '10',
-      accountUuid: accountUuid,
+      targetAccountUuid: accountUuid,
     });
 
   const observerRef = useInfiniteScroll(

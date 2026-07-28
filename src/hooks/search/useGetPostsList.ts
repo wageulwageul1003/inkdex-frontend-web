@@ -6,15 +6,16 @@ import { queryKeys } from '@/constants/query-key';
 import { IPostListResponse } from '@/types/post.types';
 
 // PARAMS TYPE
-type TGetSearchPostsListParams = {
+type TGetPostsListParams = {
   page?: string;
   size?: string;
   searchKeyword?: string;
-  feedType: string;
+  feedType?: string;
+  targetAccountUuid?: string;
 };
 
-export const GetSearchPostsList = async (
-  params: TGetSearchPostsListParams,
+export const getPostsList = async (
+  params: TGetPostsListParams,
 ): Promise<IResponsePaged<IPostListResponse>> => {
   const queryParams = new URLSearchParams();
 
@@ -23,6 +24,8 @@ export const GetSearchPostsList = async (
   if (params.page) queryParams.set('page', String(params.page));
   if (params.size) queryParams.set('size', String(params.size));
   if (params.feedType) queryParams.set('feedType', params.feedType);
+  if (params.targetAccountUuid)
+    queryParams.set('targetAccountUuid', params.targetAccountUuid);
 
   const url = `/api/posts?${queryParams.toString()}`;
 
@@ -33,16 +36,16 @@ export const GetSearchPostsList = async (
   return data;
 };
 
-export const useGetSearchPostsList = (params: TGetSearchPostsListParams) => {
+export const useGetPostsList = (params: TGetPostsListParams) => {
   return useInfiniteQuery<
     IResponsePaged<IPostListResponse>,
     Error,
     TInfiniteListResult<IPostListResponse>
   >({
-    queryKey: queryKeys.search.postList(params).queryKey,
+    queryKey: queryKeys.post.list(params).queryKey,
 
     queryFn: ({ pageParam }) => {
-      return GetSearchPostsList({
+      return getPostsList({
         ...params,
         page: String(pageParam),
       });

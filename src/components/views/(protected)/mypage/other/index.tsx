@@ -8,6 +8,7 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { OtherProfileCollection } from './_components/OtherProfileCollection';
+import { OtherProfilePosts } from './_components/OtherProfilePosts';
 
 interface MyPageProps {
   uuid?: string;
@@ -42,20 +43,14 @@ export const MyOtherPageView = ({ uuid, defaultValue }: MyPageProps) => {
         className="mt-12 w-full"
       >
         <TabsList className="">
-          <TabsTrigger value="feed">피드</TabsTrigger>
-          <TabsTrigger value="calendar">캘린더</TabsTrigger>
+          <TabsTrigger value="posts">게시물</TabsTrigger>
           <TabsTrigger value="collection">컬렉션</TabsTrigger>
         </TabsList>
 
         {/* 피드 */}
-        {/* <TabsContent value="feed">
-          <Feed />
-        </TabsContent> */}
-
-        {/* 캘린더 */}
-        {/* <TabsContent value="calendar">
-          <Calendar />
-        </TabsContent> */}
+        <TabsContent value="posts">
+          <OtherProfilePosts accountUuid={uuid!} />
+        </TabsContent>
 
         {/* 컬렉션 */}
         <TabsContent value="collection">

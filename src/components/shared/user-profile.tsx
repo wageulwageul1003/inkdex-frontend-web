@@ -20,6 +20,7 @@ interface UserProfileProps {
   bio?: string | null;
   following?: boolean;
   isShowMore?: boolean;
+  isShowBio?: boolean;
   postUuid?: string;
 }
 
@@ -30,6 +31,7 @@ export const UserProfile = ({
   bio,
   following,
   isShowMore = true,
+  isShowBio = true,
   postUuid,
 }: UserProfileProps) => {
   const router = useRouter();
@@ -60,7 +62,9 @@ export const UserProfile = ({
 
           <div className="flex flex-col justify-center">
             <p className="font-s-1 text-gray-09">{nickname}</p>
-            {bio && <p className="font-xs-2 text-gray-06">{bio}</p>}
+            {bio && isShowBio && (
+              <p className="font-xs-2 text-gray-06">{bio}</p>
+            )}
           </div>
         </div>
       </div>
