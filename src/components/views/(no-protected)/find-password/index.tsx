@@ -13,6 +13,7 @@ import { Form } from '@/components/ui/form';
 import { usePostResetPassword } from '@/hooks/auth/usePostResetPassword';
 import { ErrorData } from '@/utils/fetch';
 import { findPasswordSchema, TFindPasswordSchema } from './schema';
+import { ERROR_CODES } from '@/constants/ERROR_CODES';
 
 const FindPasswordComponent = () => {
   const router = useRouter();
@@ -38,7 +39,10 @@ const FindPasswordComponent = () => {
       }
     } catch (error) {
       const errorData = error as ErrorData;
-      if (errorData?.code === 4002) {
+      if (
+        errorData?.code === ERROR_CODES.CANT_SEND_CODE.code ||
+        errorData?.code === ERROR_CODES.WRONG_EMAIL_PASSWORD.code
+      ) {
         setAlertOpen(true);
       }
     }

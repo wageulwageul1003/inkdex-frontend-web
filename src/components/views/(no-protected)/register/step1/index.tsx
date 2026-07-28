@@ -15,6 +15,7 @@ import { toast } from '@/components/ui/sonner';
 import { usePostConfirmEmail } from '@/hooks/auth/usePostConfirmEmail';
 import { usePostVerifyEmail } from '@/hooks/auth/usePostVerifyEmail';
 import { ErrorData } from '@/utils/fetch';
+import { ERROR_CODES } from '@/constants/ERROR_CODES';
 
 const Step1 = () => {
   const router = useRouter();
@@ -88,7 +89,7 @@ const Step1 = () => {
       }
     } catch (error) {
       const errorData = error as ErrorData;
-      if (errorData?.code === 4001) {
+      if (errorData?.code === ERROR_CODES.EMAIL_DUPLICATE.code) {
         setError('email', {
           type: 'manual',
           message: '이미 사용 중인 이메일 주소입니다.',
@@ -122,12 +123,12 @@ const Step1 = () => {
       );
     } catch (error) {
       const errorData = error as ErrorData;
-      if (errorData?.code === 4004) {
+      if (errorData?.code === ERROR_CODES.CODE_EXPIRED.code) {
         setError('code', {
           type: 'manual',
           message: '인증번호가 만료됐어요. 재전송해주세요.',
         });
-      } else if (errorData?.code === 4003) {
+      } else if (errorData?.code === ERROR_CODES.WRONG_EMAIL_CODE.code) {
         setError('code', {
           type: 'manual',
           message: '인증번호가 일치하지 않습니다.',

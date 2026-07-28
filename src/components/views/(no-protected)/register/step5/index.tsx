@@ -20,6 +20,7 @@ import Cookies from 'js-cookie';
 import { ACCESS_TOKEN, USER_EMAIL, USER_UUID } from '@/constants/tokens';
 import { ErrorData } from '@/utils/fetch';
 import { usePostFileUpload } from '@/hooks/common/usePostFileUpload';
+import { ERROR_CODES } from '@/constants/ERROR_CODES';
 
 const Step5 = () => {
   const router = useRouter();
@@ -121,7 +122,7 @@ const Step5 = () => {
       router.replace('/home');
     } catch (error) {
       const errorData = error as ErrorData;
-      if (errorData.code === 4001) {
+      if (errorData.code === ERROR_CODES.EMAIL_DUPLICATE.code) {
         toast.error('이미 회원가입을 한 이메일입니다.');
       }
     }
