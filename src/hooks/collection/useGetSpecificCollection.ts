@@ -9,6 +9,13 @@ export interface ISpecificCollectionResponse {
   name: string;
   imageUrl: string | null;
   priority: number;
+  visibility: string;
+  account: {
+    uuid: string;
+    nickname: string;
+    profileImageUrl: string | null;
+    bio: string;
+  };
   createdAt: string;
   postsCount: number;
 }

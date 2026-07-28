@@ -15,6 +15,9 @@ import { useDeleteCollection } from '@/hooks/collection/useDeleteCollection';
 import { useGetSpecificCollection } from '@/hooks/collection/useGetSpecificCollection';
 import { useGetSpecificCollectionPostList } from '@/hooks/collection/GetSpecificCollectionPostList';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
+import { Card } from '@/components/shared/Card';
+import Cookies from 'js-cookie';
+import { USER_UUID } from '@/constants/tokens';
 
 interface TProps {
   uuid: string;
@@ -22,6 +25,7 @@ interface TProps {
 
 export const CollectionDetailView = ({ uuid }: TProps) => {
   const router = useRouter();
+
   const [moreOpen, setMoreOpen] = useState(false);
   const [deleteAlertOpen, setDeleteAlertOpen] = useState(false);
 
@@ -34,6 +38,9 @@ export const CollectionDetailView = ({ uuid }: TProps) => {
   const { data: collectionInfo } = useGetSpecificCollection({
     collectionUuid: uuid,
   });
+
+  const isMyCollection =
+    collectionInfo?.data.account.uuid === Cookies.get(USER_UUID);
 
   const { mutateAsync: deleteCollection } = useDeleteCollection();
 
@@ -60,35 +67,37 @@ export const CollectionDetailView = ({ uuid }: TProps) => {
             />
           }
           right={
-            <div className="relative">
-              <Button
-                onClick={() => setMoreOpen((prev) => !prev)}
-                variant="buttonIconTextOnly"
-                size="buttonIconMedium"
-              >
-                <Icons.moreHoriz className="size-6 fill-gray-08" />
-              </Button>
+            isMyCollection && (
+              <div className="relative">
+                <Button
+                  onClick={() => setMoreOpen((prev) => !prev)}
+                  variant="buttonIconTextOnly"
+                  size="buttonIconMedium"
+                >
+                  <Icons.moreHoriz className="size-6 fill-gray-08" />
+                </Button>
 
-              {moreOpen && (
-                <div className="absolute right-0 top-full z-10 mt-1 flex w-[104px] flex-col items-center rounded-lg border border-gray-03 bg-white text-center">
-                  <p
-                    className="font-m-2 flex h-11 items-center px-2 text-gray-08"
-                    onClick={() => router.push(`/collection/edit/${uuid}`)}
-                  >
-                    정보 편집
-                  </p>
-                  <p
-                    className="font-m-2 flex h-11 items-center px-2 text-red-05"
-                    onClick={() => {
-                      setDeleteAlertOpen(true);
-                      setMoreOpen(false);
-                    }}
-                  >
-                    삭제
-                  </p>
-                </div>
-              )}
-            </div>
+                {moreOpen && (
+                  <div className="absolute right-0 top-full z-10 mt-1 flex w-[104px] flex-col items-center rounded-lg border border-gray-03 bg-white text-center">
+                    <p
+                      className="font-m-2 flex h-11 items-center px-2 text-gray-08"
+                      onClick={() => router.push(`/collection/edit/${uuid}`)}
+                    >
+                      정보 편집
+                    </p>
+                    <p
+                      className="font-m-2 flex h-11 items-center px-2 text-red-05"
+                      onClick={() => {
+                        setDeleteAlertOpen(true);
+                        setMoreOpen(false);
+                      }}
+                    >
+                      삭제
+                    </p>
+                  </div>
+                )}
+              </div>
+            )
           }
         />
       </div>
@@ -126,9 +135,8 @@ export const CollectionDetailView = ({ uuid }: TProps) => {
       </div>
 
       {/* collection의 post list */}
-      {/* TODO: ui 수정 */}
       <div className="flex flex-col">
-        {data?.content.map((item) => <p>{item.account.bio}</p>)}
+        {data?.content.map((item) => <Card item={item} isShowBio={false} />)}
         <div ref={observerRef} className="flex h-1 justify-center">
           {isFetchingNextPage && <Loading />}
         </div>
@@ -136,14 +144,23 @@ export const CollectionDetailView = ({ uuid }: TProps) => {
 
       {/* collection의 post is 0 */}
       {/* TODO: ui 수정 */}
-      <div>
-        {data?.content.length === 0 && (
-          <div className="flex h-60 items-center justify-center">
-            <p className="font-m-2 text-gray-06">아직 게시물이 없어요</p>
-            <Button onClick={() => router.push('/posts/write')}>추가</Button>
-          </div>
-        )}
-      </div>
+      {isMyCollection ? (
+        <div>
+          {data?.content.length === 0 && (
+            <div className="flex h-60 items-center justify-center">
+              <p className="font-m-2 text-gray-06">아직 게시물이 없어요</p>
+              <Button onClick={() => router.push('/posts/write')}>추가</Button>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="mt-14 flex flex-col items-center gap-[6px]">
+          <Icons.moodEmpty className="size-8 fill-gray-03" />
+          <span className="font-s-2 text-gray-05">
+            등록된 게시물이 없습니다.
+          </span>
+        </div>
+      )}
 
       <CustomAlertDialog
         isOpen={deleteAlertOpen}

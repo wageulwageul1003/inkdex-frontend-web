@@ -1,10 +1,9 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { IPostListResponse } from '../home/useGetPostsList';
-
 import { IResponsePaged, TInfiniteListResult } from '@/types/global';
 import { agent } from '@/utils/fetch';
 import { queryKeys } from '@/constants/query-key';
+import { IPostListResponse } from '@/types/post.types';
 
 // PARAMS TYPE
 type TGetSpecificCollectionPostListParams = {
@@ -13,7 +12,7 @@ type TGetSpecificCollectionPostListParams = {
   size?: string;
 };
 
-export const GetSpecificCollectionPostList = async (
+export const getSpecificCollectionPostList = async (
   params: TGetSpecificCollectionPostListParams,
 ): Promise<IResponsePaged<IPostListResponse>> => {
   const queryParams = new URLSearchParams();
@@ -41,7 +40,7 @@ export const useGetSpecificCollectionPostList = (
     queryKey: queryKeys.collection.postList(params).queryKey,
 
     queryFn: ({ pageParam }) => {
-      return GetSpecificCollectionPostList({
+      return getSpecificCollectionPostList({
         ...params,
         page: String(pageParam),
       });
