@@ -13,7 +13,5 @@ export const DeletePost = async (postUuid: string) => {
 export const useDeletePost = () => {
   return useMutation({
     mutationFn: DeletePost,
-
-    onSuccess: async () => {},
   });
 };

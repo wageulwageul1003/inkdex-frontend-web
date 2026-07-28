@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { TEditProfileSchema } from '@/components/views/(protected)/mypage/edit-profile/schema';
-import { ErrorData, agent } from '@/utils/fetch';
+import { agent } from '@/utils/fetch';
 import { queryKeys } from '@/constants/query-key';
 
 export const patchProfile = async (payload: TEditProfileSchema) => {
@@ -25,9 +25,6 @@ export const usePatchProfile = () => {
       });
 
       return response;
-    },
-    onError: (error: ErrorData) => {
-      console.error('업데이트 실패:', error);
     },
   });
 };

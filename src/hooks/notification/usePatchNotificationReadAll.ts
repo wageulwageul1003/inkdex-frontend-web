@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { ErrorData, agent } from '@/utils/fetch';
+import { agent } from '@/utils/fetch';
 import { queryKeys } from '@/constants/query-key';
 
 export const patchNotificationRead = async () => {
@@ -23,9 +23,6 @@ export const usePatchNotificationReadAll = () => {
       });
 
       return response;
-    },
-    onError: (error: ErrorData) => {
-      console.error('업데이트 실패:', error);
     },
   });
 };

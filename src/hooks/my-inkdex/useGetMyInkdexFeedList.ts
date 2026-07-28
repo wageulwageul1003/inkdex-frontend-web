@@ -1,10 +1,9 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
-import { IPostListResponse } from '../home/useGetPostsList';
-
 import { IResponse, IResponsePaged } from '@/types/global';
 import { agent } from '@/utils/fetch';
 import { queryKeys } from '@/constants/query-key';
+import { IPostListResponse } from '@/types/post.types';
 
 export interface IMyInkdexFeedListResponse {
   year: string;
