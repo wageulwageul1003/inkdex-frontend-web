@@ -15,6 +15,8 @@ import { useGetReportReasonList } from '@/hooks/report/useGetReportReasonList';
 import { usePostReport } from '@/hooks/report/usePostReport';
 import { toast } from '../ui/sonner';
 import { Icons } from './icons';
+import { ERROR_CODES } from '@/constants/ERROR_CODES';
+import { ErrorData } from '@/utils/fetch';
 
 interface IReportReasonModal {
   isOpen: boolean;
@@ -38,10 +40,19 @@ export default function ReportReasonModal({
     await postReport({
       postUuid: postUuid || '',
       reportReasonUuid: selectedReportReasonUuid,
-    }).then(() => {
-      setOpen(false);
-      toast.success('신고가 접수되었어요!');
-    });
+    })
+      .then(() => {
+        setOpen(false);
+        toast.success('신고가 접수되었어요!');
+      })
+      .catch((error) => {
+        const errorData = error as ErrorData;
+        if (errorData?.code === ERROR_CODES.REPORT_ALREADY.code) {
+          toast.error('이미 신고한 게시물이에요.');
+        } else {
+          toast.error('신고 접수에 실패했어요. 잠시 후 다시 시도해주세요.');
+        }
+      });
   };
 
   return (
@@ -103,6 +114,7 @@ export default function ReportReasonModal({
             size="lg"
             variant="contained"
             className="w-full flex-1"
+            disabled={!selectedReportReasonUuid}
           >
             신고하기
           </Button>
