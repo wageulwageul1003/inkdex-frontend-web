@@ -45,7 +45,7 @@ export const HomeCard = ({ item }: IHomeCardProps) => {
     >
       <Icons.folderCard className="absolute inset-0 w-full fill-white" />
 
-      <div className="relative z-10 flex h-full flex-col p-5">
+      <div className="relative mt-3 flex h-full flex-col">
         {/* 출처 */}
         <p className="font-s-1 text-gray-08">{item.source}</p>
 

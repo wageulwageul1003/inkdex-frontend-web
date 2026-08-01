@@ -58,7 +58,6 @@ export default function ReportReasonModal({
         </DialogHeader>
 
         <div className="mt-1 flex flex-col space-y-3 pb-7">
-          {/* TODO: ui 수정 */}
           {reportReasons?.data.map((item) => (
             <div>
               <button
