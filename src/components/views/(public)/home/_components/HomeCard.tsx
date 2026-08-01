@@ -7,7 +7,6 @@ import { useEffect, useRef, useState } from 'react';
 import { IMyPostResponse } from '@/hooks/mypage/useGetMyPostList';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/shared/icons';
-import { useGetEmotionList } from '@/hooks/emotion/useGetEmotionList';
 import { useRouter } from 'next/navigation';
 
 interface IHomeCardProps {
@@ -16,7 +15,6 @@ interface IHomeCardProps {
 
 export const HomeCard = ({ item }: IHomeCardProps) => {
   const router = useRouter();
-  const { data: emotions } = useGetEmotionList();
 
   const contentRef = useRef<HTMLParagraphElement>(null);
 
@@ -51,9 +49,6 @@ export const HomeCard = ({ item }: IHomeCardProps) => {
         {/* 출처 */}
         <p className="font-s-1 text-gray-08">{item.source}</p>
 
-        <p>{emotions?.data[0].name} ?? TODO 이거 해야함</p>
-
-        {/* 이미지 */}
         <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-gray-03">
           <Image
             src={item.imageUrl || '/default-image.png'}
@@ -61,6 +56,12 @@ export const HomeCard = ({ item }: IHomeCardProps) => {
             fill
             className="object-cover"
           />
+
+          {item.emotion && (
+            <div className="font-xs-2 absolute left-2 top-2 z-10 flex items-center justify-center rounded-lg bg-black/20 px-2 py-1 text-white">
+              {item.emotion.name}
+            </div>
+          )}
         </div>
 
         {/* 내용 */}

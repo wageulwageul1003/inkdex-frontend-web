@@ -19,6 +19,10 @@ export interface IMyPostResponse {
     profileImageUrl: string | null;
   };
   isLiked: boolean;
+  emotion: {
+    uuid: string;
+    name: string;
+  };
 }
 
 type TGetMyPostParams = {
