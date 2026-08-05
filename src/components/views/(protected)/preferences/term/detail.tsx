@@ -11,7 +11,7 @@ interface TProps {
   uuid: string;
 }
 
-const InfoDetailComponent: FC<TProps> = (props) => {
+const TermDetailView: FC<TProps> = (props) => {
   const { uuid } = props;
   const router = useRouter();
   const { data } = useGetTermsDetail(uuid);
@@ -32,4 +32,4 @@ const InfoDetailComponent: FC<TProps> = (props) => {
   );
 };
 
-export default InfoDetailComponent;
+export default TermDetailView;

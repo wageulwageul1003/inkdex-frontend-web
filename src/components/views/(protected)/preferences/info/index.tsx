@@ -12,7 +12,7 @@ import {
 } from '@/hooks/terms/useGetTermsList';
 import { nativeBridge } from '@/lib/native-bridge';
 
-export const InfoComponent = () => {
+export const InfoView = () => {
   const router = useRouter();
   const { data } = useGetTermsList();
   const [appVersion, setAppVersion] = useState<string>('1.0.0');
@@ -23,7 +23,7 @@ export const InfoComponent = () => {
         const { version } = await nativeBridge.getAppVersion();
         setAppVersion(version);
       } catch {
-        // 웹 환경이거나 에러 시 기본값 유지
+        setAppVersion('1.0.0');
       }
     };
     fetchAppVersion();
@@ -54,7 +54,7 @@ export const InfoComponent = () => {
               <Button
                 variant="buttonIconTextOnly"
                 size="buttonIconMedium"
-                onClick={() => router.push(`/preferences/info/${item.uuid}`)}
+                onClick={() => router.push(`/preferences/term/${item.uuid}`)}
               >
                 <Icons.keyboardArrowRight className="size-6 fill-gray-08" />
               </Button>

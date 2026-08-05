@@ -1,5 +1,5 @@
-import { InfoComponent } from '@/components/views/(protected)/preferences/info';
+import { InfoView } from '@/components/views/(protected)/preferences/info';
 
 export default function Info() {
-  return <InfoComponent />;
+  return <InfoView />;
 }

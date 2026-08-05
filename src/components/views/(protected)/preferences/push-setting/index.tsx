@@ -24,17 +24,12 @@ const PUSH_SETTINGS = [
     ],
   },
   {
-    label: '내 기록 알림',
+    label: '내 활동 알림',
     items: [
       {
         key: NOTIFICATION_TYPE.POST_LIKE,
         label: '내 게시물 좋아요 알림',
       },
-    ],
-  },
-  {
-    label: '팔로우 알림',
-    items: [
       {
         key: NOTIFICATION_TYPE.FOLLOWER,
         label: '새 팔로워 알림',
