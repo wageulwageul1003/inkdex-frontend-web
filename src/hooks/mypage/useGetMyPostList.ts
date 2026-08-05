@@ -28,6 +28,7 @@ export interface IMyPostResponse {
 type TGetMyPostParams = {
   year: string;
   month: string | null;
+  emotion: string | null;
   page?: string;
   size?: string;
 };
@@ -41,6 +42,8 @@ export const GetPostsList = async (
   if (params.size) queryParams.set('size', String(params.size));
   if (params.year) queryParams.set('year', params.year);
   if (params.month) queryParams.set('month', params.month);
+  if (params.emotion && params.emotion !== 'all')
+    queryParams.set('emotion', params.emotion);
 
   const url = `/api/posts/me?${queryParams.toString()}`;
 

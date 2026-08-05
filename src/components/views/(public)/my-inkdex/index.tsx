@@ -5,10 +5,10 @@ import React from 'react';
 
 import { Calendar } from './_components/calendar/Calendar';
 import { Collection } from './_components/collection';
-import { Feed } from './_components/feed';
 
 import { Notification } from '@/components/shared/Notification';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Feed } from './_components/feed';
 
 interface IMyInkdexProps {
   defaultValue: string;
@@ -33,12 +33,12 @@ export const MyInkdexView = ({ defaultValue }: IMyInkdexProps) => {
           className="w-full"
         >
           <TabsList className="">
-            <TabsTrigger value="feed">피드</TabsTrigger>
+            <TabsTrigger value="feed">리스트</TabsTrigger>
             <TabsTrigger value="calendar">캘린더</TabsTrigger>
             <TabsTrigger value="collection">컬렉션</TabsTrigger>
           </TabsList>
 
-          {/* 피드 */}
+          {/* 리스트 */}
           <TabsContent value="feed">
             <Feed />
           </TabsContent>

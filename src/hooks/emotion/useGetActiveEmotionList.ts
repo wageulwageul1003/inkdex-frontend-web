@@ -3,26 +3,22 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { IResponse } from '@/types/global';
 import { agent } from '@/utils/fetch';
 import { queryKeys } from '@/constants/query-key';
+import { IEmotionListResponse } from './useGetEmotionList';
 
-export interface IEmotionListResponse {
-  uuid: string;
-  name: string;
-}
-
-export const getEmotionList = async (): Promise<
+export const getActiveEmotionList = async (): Promise<
   IResponse<IEmotionListResponse>
 > => {
-  const data = await agent(`/api/emotion/all`, {
+  const data = await agent(`/api/emotion/active`, {
     method: 'GET',
   });
 
   return data;
 };
 
-export const useGetEmotionList = (): UseQueryResult<
+export const useGetActiveEmotionList = (): UseQueryResult<
   IResponse<IEmotionListResponse>
 > =>
   useQuery({
-    queryKey: queryKeys.emotion.list.queryKey,
-    queryFn: () => getEmotionList(),
+    queryKey: queryKeys.emotion.active.queryKey,
+    queryFn: () => getActiveEmotionList(),
   });

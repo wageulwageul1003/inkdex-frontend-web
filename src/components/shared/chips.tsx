@@ -15,6 +15,7 @@ interface ChipsProps {
   className?: string;
 }
 
+// TODO: chip type들 전부 확인
 const Chips = React.forwardRef<HTMLDivElement, ChipsProps>(
   (
     {
