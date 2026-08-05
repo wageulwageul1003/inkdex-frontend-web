@@ -1,16 +1,14 @@
-import { format, isSameDay, isSameMonth } from 'date-fns';
-import dayjs from 'dayjs';
+import { format, isSameDay } from 'date-fns';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import React from 'react';
+import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
 import { DialogTitle } from '@/components/ui/dialog';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
-import { useGetMyInkdexCalendar } from '@/hooks/my-inkdex/useGetMyInkdexCalendar';
-import { useGetMyInkdexFeedList } from '@/hooks/my-inkdex/useGetMyInkdexFeedList';
-import { useGetPostsCount } from '@/hooks/my-inkdex/useGetPostsCount';
 import { cn } from '@/lib/utils';
 import useCalendar from '@/providers/useCalendar';
+import { useGetMyPostArchiveList } from '@/hooks/mypage/useGetMyPostArchiveList';
 
 export const Calendar = () => {
   const calendar = useCalendar();
@@ -19,28 +17,10 @@ export const Calendar = () => {
 
   const monthLabel = format(calendar.currentDate, 'yyyy년 M월');
 
-  const { data: count } = useGetPostsCount({
-    startAt: dayjs(calendar.currentDate).startOf('month').format('YYYY-MM-DD'),
-    endAt: dayjs(calendar.currentDate).endOf('month').format('YYYY-MM-DD'),
-  });
-
-  const { data } = useGetMyInkdexCalendar({
+  const { data } = useGetMyPostArchiveList({
     year: String(calendar.currentDate.getFullYear()),
     month: String(calendar.currentDate.getMonth() + 1),
   });
-
-  const { data: detailDatas } = useGetMyInkdexFeedList({
-    startAt: dayjs(calendar.currentDate).startOf('month').format('YYYY-MM-DD'),
-    endAt: dayjs(calendar.currentDate).endOf('month').format('YYYY-MM-DD'),
-  });
-
-  const thumbnailMap = React.useMemo(() => {
-    if (!data?.thumbnails) return new Map<string, string>();
-
-    return new Map(
-      data.thumbnails.map((item) => [item.date, item.thumbnailUrl]),
-    );
-  }, [data]);
 
   return (
     <div className="w-full">
@@ -51,25 +31,25 @@ export const Calendar = () => {
             variant="buttonIconTextOnly"
             size="buttonIconMedium"
             onClick={calendar.goToPrevMonth}
-            aria-label="이전 달"
           >
             <ChevronLeftIcon className="size-6 text-gray-09" />
           </Button>
+
           <span className="font-m-1 text-gray-09">{monthLabel}</span>
+
           <Button
             type="button"
             variant="buttonIconTextOnly"
             size="buttonIconMedium"
             onClick={calendar.goToNextMonth}
-            aria-label="다음 달"
           >
             <ChevronRightIcon className="size-6 text-gray-09" />
           </Button>
         </div>
 
-        <div className="flex items-center gap-1">
-          <span className="font-xs-2 text-gray-06">{data?.counts ?? 0}개</span>
-        </div>
+        <span className="font-xs-2 text-gray-06">
+          {data?.data.filter((item) => item.count > 0).length ?? 0}일
+        </span>
       </div>
 
       <div className="grid grid-cols-7 gap-1 pb-2">
@@ -84,28 +64,21 @@ export const Calendar = () => {
       </div>
 
       <div className="grid grid-cols-7 gap-2">
-        {calendar.weekCalendarList.flat().map((day, idx) => {
-          if (day === 0) {
-            return <div key={idx} className="aspect-square w-full" />;
-          }
-
+        {data?.data.map((item) => {
           const date = new Date(
             calendar.currentDate.getFullYear(),
             calendar.currentDate.getMonth(),
-            day,
+            item.day,
           );
 
           const dateKey = format(date, 'yyyy-MM-dd');
-          const thumbnailUrl = thumbnailMap.get(dateKey);
 
-          const isToday = isSameMonth(date, today) && isSameDay(date, today);
+          const isToday = isSameDay(date, today);
           const isSelected =
-            selectedDay !== null &&
-            isSameMonth(date, selectedDay) &&
-            isSameDay(date, selectedDay);
+            selectedDay !== null && isSameDay(date, selectedDay);
 
           return (
-            <Drawer key={idx}>
+            <Drawer key={item.day}>
               <DrawerTrigger asChild>
                 <button
                   type="button"
@@ -115,15 +88,17 @@ export const Calendar = () => {
                   <div
                     className={cn(
                       'relative aspect-square w-full overflow-hidden rounded-lg bg-gray-02',
-                      isToday && 'ring-1 ring-gray-04',
                     )}
                   >
-                    {thumbnailUrl && (
-                      <img
-                        src={thumbnailUrl}
-                        alt={`${dateKey} thumbnail`}
-                        className="h-full w-full object-cover"
+                    {item.count >= 1 ? (
+                      <Image
+                        src={item.thumbnail.imageUrl ?? '/default-image.png'}
+                        alt={dateKey}
+                        fill
+                        className="object-cover"
                       />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center bg-gray-02 text-gray-05"></div>
                     )}
                   </div>
 
@@ -131,32 +106,18 @@ export const Calendar = () => {
                     className={cn(
                       'font-s-2 mt-1 flex h-7 w-7 items-center justify-center text-gray-09',
                       isSelected && 'rounded-full bg-gray-03',
+                      isToday && 'bg-gray-300',
                     )}
                   >
-                    {day}
+                    {item.day}
                   </div>
                 </button>
               </DrawerTrigger>
 
               <DrawerContent>
-                <DialogTitle>
-                  {selectedDay ? format(selectedDay, 'yyyy-MM-dd') : ''}
-                </DialogTitle>
-                {/* TODO */}
-                {detailDatas?.data[0].month}
-                {count?.data[0].categoryUuid === '' ? (
-                  <p>데이터 없음</p>
-                ) : (
-                  <div className="mt-4 flex flex-col gap-4">
-                    {/* TODO: api 수정 후 구현 */}
-                    {/* {detailDatas?.content.map((item) => (
-                      <Card key={item.id} item={item} />
-                    ))}
-                    <div ref={observerRef} className="flex h-1 justify-center">
-                      {isFetchingNextPage && <Loading />}
-                    </div> */}
-                  </div>
-                )}
+                <DialogTitle>{format(date, 'yyyy-MM-dd')}</DialogTitle>
+
+                {/* TODO: 해당 날짜 게시글 목록 */}
               </DrawerContent>
             </Drawer>
           );
