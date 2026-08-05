@@ -9,6 +9,8 @@ import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
 import { cn } from '@/lib/utils';
 import useCalendar from '@/providers/useCalendar';
 import { useGetMyPostArchiveList } from '@/hooks/mypage/useGetMyPostArchiveList';
+import { useGetMyPostsArchivePostsList } from '@/hooks/mypage/useGetMyPostsArchivePostsList';
+import { Card } from '@/components/shared/Card';
 
 export const Calendar = () => {
   const calendar = useCalendar();
@@ -21,6 +23,14 @@ export const Calendar = () => {
     year: String(calendar.currentDate.getFullYear()),
     month: String(calendar.currentDate.getMonth() + 1),
   });
+
+  const { data: detailData } = useGetMyPostsArchivePostsList({
+    year: calendar.currentDate.getFullYear(),
+    month: calendar.currentDate.getMonth() + 1,
+    day: calendar.currentDate.getDay(),
+  });
+
+  console.log(detailData);
 
   return (
     <div className="w-full">
@@ -117,7 +127,9 @@ export const Calendar = () => {
               <DrawerContent>
                 <DialogTitle>{format(date, 'yyyy-MM-dd')}</DialogTitle>
 
-                {/* TODO: 해당 날짜 게시글 목록 */}
+                {detailData?.data.content.map((c) => (
+                  <Card key={c.uuid} item={c} />
+                ))}
               </DrawerContent>
             </Drawer>
           );

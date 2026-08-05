@@ -14,7 +14,7 @@ export interface IMyPostArchiveResponse {
 
 type TGetMyPostArchiveParams = {
   year: string;
-  month: string | null;
+  month: string;
 };
 
 export const getPostArchiveList = async (
@@ -36,6 +36,6 @@ export const getPostArchiveList = async (
 
 export const useGetMyPostArchiveList = (params: TGetMyPostArchiveParams) =>
   useQuery({
-    queryKey: queryKeys.notice.categoryList.queryKey,
+    queryKey: queryKeys.mypage.archiveList(params).queryKey,
     queryFn: () => getPostArchiveList(params),
   });

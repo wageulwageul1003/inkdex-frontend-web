@@ -33,6 +33,13 @@ export const queryKeys = createQueryKeyStore({
       startAt?: string | null;
       endAt?: string | null;
     }) => ['mypage', 'post-list', params] as const,
+    archiveList: (params: { year?: string; month?: string }) =>
+      ['mypage', 'archive-list', params] as const,
+    archivePostsList: (params: {
+      year?: number;
+      month?: number;
+      day?: number;
+    }) => ['mypage', 'archive-post-list', params] as const,
     profile: null,
     followerList: (params: { size?: string; page?: string }) =>
       ['mypage', 'follower-list', params] as const,
