@@ -2,14 +2,44 @@
 
 import { useRouter } from 'next/navigation';
 
-import MyHeader from './_components/MyHeader';
-import { MyProfile } from './_components/MyProfile';
-import { Summary } from './_components/Summary';
-
 import { Notification } from '@/components/shared/Notification';
-import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
+import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
+import { MyProfile } from './_components/MyProfile';
+
+const menus = [
+  {
+    title: '계정',
+    path: '/preferences/account',
+    icon: <Icons.user className="size-5 fill-gray-06" />,
+  },
+  {
+    title: '알림설정',
+    path: '/preferences/push-setting',
+    icon: <Icons.bell className="size-5 fill-gray-06" />,
+  },
+  {
+    title: '공지사항',
+    path: '/preferences/notice',
+    icon: <Icons.speakerphone className="size-5 fill-gray-06" />,
+  },
+  {
+    title: '문의하기',
+    path: '/preferences/faq',
+    icon: <Icons.question className="size-5 fill-gray-06" />,
+  },
+  {
+    title: '의견보내기',
+    path: '/preferences/feedback',
+    icon: <Icons.mail className="size-5 fill-gray-06" />,
+  },
+  {
+    title: '정보',
+    path: '/preferences/info',
+    icon: <Icons.infoFill className="size-5 fill-gray-06" />,
+  },
+];
 
 export const MyPageView = () => {
   const router = useRouter();
@@ -21,27 +51,33 @@ export const MyPageView = () => {
         right={
           <span className="flex items-center gap-2">
             <Notification />
-            <Button
-              variant="buttonIconTextOnly"
-              size="buttonIconMedium"
-              onClick={() => router.push('/preferences')}
-            >
-              <Icons.settings
-                className="size-6 fill-gray-08"
-                onClick={() => router.push('/preferences')}
-              />
-            </Button>
           </span>
         }
       />
 
-      <div className="mt-3 flex flex-1 flex-col">
-        <MyProfile />
-        <Summary />
+      <MyProfile />
 
-        <div className="flex flex-col gap-4">
-          <MyHeader title="북마크" onClick={() => router.push('/bookmark')} />
-        </div>
+      <div className="mt-4 flex flex-1 flex-col">
+        {menus.map((menu, index) => (
+          <div
+            key={menu.title}
+            className={`flex items-center justify-between border-b border-gray-01 py-2 ${
+              index === menus.length - 1 ? 'border-b-0' : ''
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              {menu.icon}
+              <p className="font-m-1 text-gray-09">{menu.title}</p>
+            </div>
+            <Button
+              variant="buttonIconTextOnly"
+              size="buttonIconMedium"
+              onClick={() => router.push(menu.path)}
+            >
+              <Icons.keyboardArrowRight className="size-6 fill-gray-08" />
+            </Button>
+          </div>
+        ))}
       </div>
     </div>
   );
