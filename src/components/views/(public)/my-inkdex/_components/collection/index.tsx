@@ -9,6 +9,7 @@ import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { useGetCollectionList } from '@/hooks/collection/useGetCollectionList';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
+import { VISIBILITY_ENUM } from '@/constants/enum';
 
 export const Collection = () => {
   const router = useRouter();
@@ -62,6 +63,18 @@ export const Collection = () => {
                 fill
                 className="object-cover"
               />
+
+              {item.visibility === VISIBILITY_ENUM.FOLLOWERS && (
+                <span className="absolute right-1.5 top-1.5 rounded-full bg-black/20 p-1">
+                  <Icons.worldMap className="size-4 fill-white" />
+                </span>
+              )}
+
+              {item.visibility === VISIBILITY_ENUM.PRIVATE && (
+                <span className="absolute right-1.5 top-1.5 rounded-full bg-black/20 p-1">
+                  <Icons.lock className="size-4 fill-white" />
+                </span>
+              )}
             </div>
 
             <span className="font-m-2 mt-2 line-clamp-1 text-gray-09">
