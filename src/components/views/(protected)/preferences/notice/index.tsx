@@ -70,7 +70,9 @@ export const NoticeView = () => {
       params.set('noticeCategoryUuid', item);
     }
 
-    router.push(`?${params.toString()}`);
+    router.replace(`?${params.toString()}`, {
+      scroll: false,
+    });
   };
 
   return (

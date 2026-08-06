@@ -143,7 +143,6 @@ export const CollectionDetailView = ({ uuid }: TProps) => {
       </div>
 
       {/* collection의 post is 0 */}
-      {/* TODO: ui 수정 */}
       {isMyCollection ? (
         <div>
           {data?.content.length === 0 && (

@@ -157,7 +157,7 @@ export const PostsWrite: FC<TProps> = () => {
               required
             />
 
-            {/* TODO: 엔터가 안먹는다.. ㅜ */}
+            {/* TODO: \n엔터가 안먹는다.. ㅜ */}
             <FormFields
               fieldType={FormFieldType.TEXTAREA}
               control={form.control}

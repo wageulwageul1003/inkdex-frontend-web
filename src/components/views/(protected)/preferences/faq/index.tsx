@@ -71,7 +71,9 @@ export const FaqComponent = () => {
       params.set('faqCategoryUuid', item);
     }
 
-    router.push(`?${params.toString()}`);
+    router.replace(`?${params.toString()}`, {
+      scroll: false,
+    });
   };
 
   return (
