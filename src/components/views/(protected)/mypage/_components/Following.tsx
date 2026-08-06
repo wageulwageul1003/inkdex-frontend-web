@@ -20,7 +20,7 @@ export const Following = () => {
   );
 
   return (
-    <div className="flex w-full flex-col gap-4">
+    <div className="flex w-full flex-col">
       {data?.paging.totalElements === 0 && (
         <div className="mt-14 flex flex-col items-center gap-[6px]">
           <Icons.moodEmpty className="size-8 fill-gray-03" />
@@ -29,28 +29,26 @@ export const Following = () => {
           </span>
         </div>
       )}
-      {data?.content.map((item) =>
-        (() => {
-          return (
-            <div
-              className="flex w-full items-center gap-2"
-              key={item.account.uuid}
-            >
-              <UserProfile
-                accountUuid={item.account.uuid}
-                nickname={item.account.nickname}
-                profileImageUrl={item.account.profileImageUrl}
-                bio={''}
-                following={true}
-                isShowMore={false}
-              />
-            </div>
-          );
-        })(),
-      )}
-      <div ref={observerRef} className="flex h-1 justify-center">
-        {isFetchingNextPage && <Loading />}
-      </div>
+      <span className="mt-4 space-y-1">
+        {data?.content.map((item) => (
+          <div
+            className="flex w-full items-center gap-2 py-2"
+            key={item.account.uuid}
+          >
+            <UserProfile
+              accountUuid={item.account.uuid}
+              nickname={item.account.nickname}
+              profileImageUrl={item.account.profileImageUrl}
+              bio={item.account.bio}
+              following={true}
+              isShowMore={false}
+            />
+          </div>
+        ))}
+        <div ref={observerRef} className="flex h-1 justify-center">
+          {isFetchingNextPage && <Loading />}
+        </div>
+      </span>
     </div>
   );
 };

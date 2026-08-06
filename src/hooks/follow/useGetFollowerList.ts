@@ -9,6 +9,7 @@ export interface IFollowerListResponse {
   account: {
     uuid: string;
     nickname: string;
+    bio: null | string;
     profileImageUrl: null | string;
   };
 }

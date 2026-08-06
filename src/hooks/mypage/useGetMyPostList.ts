@@ -28,7 +28,7 @@ export interface IMyPostResponse {
 type TGetMyPostParams = {
   year: string;
   month: string | null;
-  emotion: string | null;
+  emotion?: string | null;
   page?: string;
   size?: string;
 };
