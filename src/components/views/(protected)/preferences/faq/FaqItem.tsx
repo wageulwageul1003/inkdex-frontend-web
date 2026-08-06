@@ -1,39 +1,30 @@
 'use client';
 
 import { Icons } from '@/components/shared/icons';
+import { IFaqListResponse } from '@/hooks/faq/useGetFaqList';
 import { cn } from '@/lib/utils';
+import { useState } from 'react';
 
 interface FaqItemProps {
-  uuid: string;
-  title: string;
-  category: string;
-  content: string;
-  isExpanded: boolean;
-  onToggle: () => void;
+  item: IFaqListResponse;
 }
 
-export const FaqItem = ({
-  title,
-  category,
-  content,
-  isExpanded,
-  onToggle,
-}: FaqItemProps) => {
+export const FaqItem = ({ item }: FaqItemProps) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   return (
-    // TODO: ui 수정
-    <div className={cn('w-full', isExpanded && 'px-1 pb-4 pt-3')}>
+    <div className="w-full">
       <div
         className={cn(
-          `group flex w-full items-center justify-between`,
-          `cursor-pointer`,
-          !isExpanded && 'px-1 py-5',
+          'group flex w-full cursor-pointer items-center justify-between gap-3 px-1 py-3',
         )}
-        onClick={onToggle}
+        onClick={() => setIsExpanded((prev) => !prev)}
       >
-        <div className={cn(`flex-items flex flex-col`)}>
-          <span className="font-body2 text-gray-04">{category}</span>
-          <p className="font-m-1 text-gray-08">{title}</p>
+        <div className="flex flex-col">
+          <span className="font-s-2 text-sand-08">{item.category.name}</span>
+          <p className="font-m-1 text-gray-08">{item.question}</p>
         </div>
+
         {isExpanded ? (
           <Icons.keyboardArrowUp className="fill-gray-5 size-6 shrink-0" />
         ) : (
@@ -43,7 +34,10 @@ export const FaqItem = ({
 
       {isExpanded && (
         <div className="mt-2 bg-gray-01 px-5 py-4">
-          <p className="font-m-2 text-gray-07">{content}</p>
+          <p
+            className="font-m-2 text-gray-07"
+            dangerouslySetInnerHTML={{ __html: item.answer }}
+          />
         </div>
       )}
     </div>

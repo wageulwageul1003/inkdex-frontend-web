@@ -18,8 +18,6 @@ export const FaqComponent = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const [openItemId, setOpenItemId] = useState<string | null>(null);
-
   // FAQ 카테고리
   const { data: category } = useGetFaqCategory();
 
@@ -76,14 +74,6 @@ export const FaqComponent = () => {
     router.push(`?${params.toString()}`);
   };
 
-  const handleToggle = (id: string) => {
-    if (openItemId === id) {
-      setOpenItemId(null);
-    } else {
-      setOpenItemId(id);
-    }
-  };
-
   return (
     <div className="flex w-full flex-col px-4">
       <Header
@@ -130,15 +120,7 @@ export const FaqComponent = () => {
 
         <div className="flex flex-col gap-1">
           {faqListData?.content.map((item) => (
-            <FaqItem
-              key={item.uuid}
-              uuid={item.uuid}
-              category={item.category.name}
-              title={item.question}
-              content={item.answer}
-              isExpanded={openItemId === item.uuid}
-              onToggle={() => handleToggle(item.uuid)}
-            />
+            <FaqItem key={item.uuid} item={item} />
           ))}
 
           <div ref={observerRef} className="flex h-1 justify-center">
