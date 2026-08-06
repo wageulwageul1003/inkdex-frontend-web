@@ -52,9 +52,9 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
   useEffect(() => {
     if (collectionInfo) {
       form.reset({
-        imageUrl: collectionInfo.data.imageUrl || '',
-        name: collectionInfo.data.name,
+        ...collectionInfo.data,
       });
+      setSelectedVisibility(collectionInfo.data.visibility);
     }
   }, [collectionInfo]);
 
@@ -113,6 +113,7 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
         await postCollection({
           ...data,
           imageUrl: previewUrl,
+          visibility: selectedVisibility,
         }).then(() => {
           router.back();
         });
@@ -121,6 +122,13 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
       }
     }
   };
+
+  const values = form.watch();
+
+  useEffect(() => {
+    console.log(values);
+    console.log(form.formState.errors);
+  }, [values, form.formState.errors]);
 
   return (
     <div className="flex flex-1 flex-col bg-white px-4">
@@ -179,7 +187,7 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
         </form>
       </Form>
 
-      <div className="mt-[60px] pb-[52px]">
+      <div className="mt-auto py-2 pb-3">
         <Button
           onClick={form.handleSubmit(onSubmit)}
           size="lg"
@@ -187,7 +195,7 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
           className="w-full"
           disabled={!form.formState.isValid}
         >
-          완료
+          {collectionInfo ? '수정' : '만들기'}
         </Button>
       </div>
     </div>

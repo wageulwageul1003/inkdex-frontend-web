@@ -3,13 +3,14 @@ import { useQuery } from '@tanstack/react-query';
 import { IResponseDetail } from '@/types/global';
 import { agent } from '@/utils/fetch';
 import { queryKeys } from '@/constants/query-key';
+import { VISIBILITY_ENUM } from '@/constants/enum';
 
 export interface ISpecificCollectionResponse {
   uuid: string;
   name: string;
   imageUrl: string | null;
   priority: number;
-  visibility: string;
+  visibility: VISIBILITY_ENUM;
   account: {
     uuid: string;
     nickname: string;
