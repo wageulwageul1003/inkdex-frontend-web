@@ -11,13 +11,14 @@ import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
+import { Form, FormLabel } from '@/components/ui/form';
 import { useGetSpecificCollection } from '@/hooks/collection/useGetSpecificCollection';
 import { usePatchCollection } from '@/hooks/collection/usePatchCollection';
 import { usePostCollection } from '@/hooks/collection/usePostCollection';
 import { isApp } from '@/lib/device';
 import { nativeBridge } from '@/lib/native-bridge';
 import { VISIBILITY, VisibilityType } from '@/constants/enum';
+import { VisibilityBottomSheet } from '../posts/_components/VisibilityBottomSheet';
 
 interface TProps {
   uuid?: string;
@@ -27,7 +28,7 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
   const router = useRouter();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const imageFileRef = useRef<File | null>(null);
-  const [visibility, setVisibility] = useState<VisibilityType>(
+  const [selectedVisibility, setSelectedVisibility] = useState<VisibilityType>(
     VISIBILITY[0].value,
   );
 
@@ -44,7 +45,7 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
     defaultValues: {
       imageUrl: '',
       name: '',
-      visibility: visibility,
+      visibility: selectedVisibility,
     },
   });
 
@@ -86,6 +87,13 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
     }
   };
 
+  const handleVisibility = (value: VisibilityType) => {
+    setSelectedVisibility(value);
+    form.setValue('visibility', value, {
+      shouldValidate: true,
+    });
+  };
+
   const onSubmit = async (data: TCollectionWriteSchema) => {
     if (uuid) {
       try {
@@ -93,7 +101,7 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
           ...data,
           uuid: uuid,
           imageUrl: previewUrl,
-          visibility: visibility,
+          visibility: selectedVisibility,
         }).then(() => {
           router.back();
         });
@@ -161,26 +169,13 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
             />
           </div>
 
-          {/* TODO: ui 피그마 보고 재구성 */}
-          {VISIBILITY.map((item) => (
-            <button
-              key={item.value}
-              type="button"
-              onClick={() => setVisibility(item.value)}
-              className="flex h-14 w-full items-center justify-between rounded-lg bg-gray-01 px-3 py-4"
-            >
-              <div className="flex items-center gap-3">
-                {item.icon}
-                <span className="font-m-2 text-gray-08">{item.label}</span>
-              </div>
-
-              {visibility === item.value ? (
-                <Icons.radioButtonChecked className="size-6 fill-gray-08" />
-              ) : (
-                <Icons.radioButtonUnchecked className="size-6 fill-gray-05" />
-              )}
-            </button>
-          ))}
+          <div className="mt-6 flex w-full flex-col gap-2">
+            <FormLabel>공개 범위</FormLabel>
+            <VisibilityBottomSheet
+              selectedVisibility={selectedVisibility}
+              setSelectedVisibility={handleVisibility}
+            />
+          </div>
         </form>
       </Form>
 
