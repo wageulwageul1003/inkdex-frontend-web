@@ -1,4 +1,5 @@
 import { Icons } from '@/components/shared/icons';
+import { VISIBILITY_ENUM } from '@/constants/enum';
 import { ICollectionResponse } from '@/hooks/collection/useGetCollectionAllList';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -39,6 +40,18 @@ export function CollectionSortableItem({ item }: Props) {
       </div>
 
       <span className="font-m-2 text-gray-09">{item.name}</span>
+
+      {item.visibility === VISIBILITY_ENUM.FOLLOWERS && (
+        <span className="rounded-full bg-gray-01 p-1">
+          <Icons.worldMap className="size-4 fill-gray-06" />
+        </span>
+      )}
+
+      {item.visibility === VISIBILITY_ENUM.PRIVATE && (
+        <span className="rounded-full bg-gray-01 p-1">
+          <Icons.lock className="size-4 fill-gray-06" />
+        </span>
+      )}
     </div>
   );
 }

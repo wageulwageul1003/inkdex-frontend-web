@@ -45,6 +45,8 @@ export const CollectionReorderView = () => {
     try {
       await patchCollectionReorder({
         collectionUuids: collections.map((item) => item.uuid),
+      }).then(() => {
+        router.back();
       });
     } catch (error) {
       console.error(error);
@@ -91,7 +93,12 @@ export const CollectionReorderView = () => {
         </SortableContext>
       </DndContext>
 
-      <Button variant="contained" size="lg" onClick={onSubmit}>
+      <Button
+        variant="contained"
+        size="lg"
+        onClick={onSubmit}
+        className="w-full"
+      >
         저장
       </Button>
     </div>
