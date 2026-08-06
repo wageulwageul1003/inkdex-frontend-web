@@ -18,6 +18,7 @@ import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { Card } from '@/components/shared/Card';
 import Cookies from 'js-cookie';
 import { USER_UUID } from '@/constants/tokens';
+import { VISIBILITY } from '@/constants/enum';
 
 interface TProps {
   uuid: string;
@@ -111,6 +112,25 @@ export const CollectionDetailView = ({ uuid }: TProps) => {
             fill
             className="object-cover"
           />
+
+          {isMyCollection && (
+            <span className="absolute right-2 top-2 rounded-lg bg-gray-01 py-2 pl-2 pr-2.5">
+              <span className="flex items-center gap-0.5">
+                {
+                  VISIBILITY.find(
+                    (item) => item.value === collectionInfo?.data.visibility,
+                  )?.icon
+                }
+                <span className="font-xs-2 text-gray-09">
+                  {
+                    VISIBILITY.find(
+                      (item) => item.value === collectionInfo?.data.visibility,
+                    )?.label
+                  }
+                </span>
+              </span>
+            </span>
+          )}
         </div>
 
         {/* Info */}
@@ -146,9 +166,18 @@ export const CollectionDetailView = ({ uuid }: TProps) => {
       {isMyCollection ? (
         <div>
           {data?.content.length === 0 && (
-            <div className="flex h-60 items-center justify-center">
-              <p className="font-m-2 text-gray-06">아직 게시물이 없어요</p>
-              <Button onClick={() => router.push('/posts/write')}>추가</Button>
+            <div className="flex flex-col items-center justify-center">
+              <p className="font-s-2 text-gray-06">아직 게시물이 없어요</p>
+              <p className="font-s-2 text-gray-06">이 컬렉션을 채워보세요.</p>
+              <Button
+                onClick={() => router.push('/posts/write')}
+                variant="outline"
+                size="lg"
+                className="mt-4 flex items-center justify-center gap-2"
+              >
+                <Icons.plus className="size-6 fill-gray-06" />
+                <span className="font-m-2 text-gray-08">추가</span>
+              </Button>
             </div>
           )}
         </div>
