@@ -16,8 +16,6 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       setValue(e.target.value);
     };
 
-    console.log(value);
-
     return (
       <div className="relative">
         {value === '' && placeholder && (
