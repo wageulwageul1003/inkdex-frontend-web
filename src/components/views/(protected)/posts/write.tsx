@@ -163,7 +163,9 @@ export const PostsWrite: FC<TProps> = () => {
               control={form.control}
               name="reflection"
               label="이 글이 나에게 닿은 이유"
-              placeholder="이 글이 나에게 닿은 이유를 남겨보세요.\n한 줄만 남겨도 좋아요."
+              placeholder={
+                '이 글이 나에게 닿은 이유를 남겨보세요.\n한 줄만 남겨도 좋아요.'
+              }
               maxCharacters={1000}
               required
             />
