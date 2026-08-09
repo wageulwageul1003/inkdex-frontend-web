@@ -47,7 +47,7 @@ export const MyProfile = ({ uuid }: MyProfileProps) => {
   };
 
   return (
-    <div className="rounded-lg p-4">
+    <div className="rounded-lg bg-gray-01 p-4">
       <div className="flex items-center gap-3">
         <div className="relative h-[56px] w-[56px] overflow-hidden rounded-full border border-gray-03">
           <Image
