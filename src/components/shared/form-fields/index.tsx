@@ -317,6 +317,7 @@ export const InputField = <T extends FieldValues>({
           items={props.options ?? []}
           value={field.value}
           onValueChange={field.onChange}
+          size="md"
         />
       );
 

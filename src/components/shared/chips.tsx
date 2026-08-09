@@ -11,11 +11,10 @@ interface ChipsProps {
   onValueChange?: (value: string | string[]) => void;
   variant?: 'single' | 'multiple';
   disabledItems?: string[];
-  type?: 'round' | 'text';
   className?: string;
+  size: 'sm' | 'md';
 }
 
-// TODO: chip type들 전부 확인
 const Chips = React.forwardRef<HTMLDivElement, ChipsProps>(
   (
     {
@@ -24,7 +23,7 @@ const Chips = React.forwardRef<HTMLDivElement, ChipsProps>(
       onValueChange,
       variant = 'single',
       disabledItems = [],
-      type = 'round',
+      size = 'md',
       className,
     },
     ref,
@@ -63,22 +62,19 @@ const Chips = React.forwardRef<HTMLDivElement, ChipsProps>(
           let buttonStyles = '';
           let textStyles = '';
 
-          if (type === 'round') {
+          if (size === 'md') {
             if (disabled) {
-              buttonStyles =
-                'border border-gray-200 bg-gray-03 cursor-not-allowed';
-              textStyles = 'text-gray-400';
+              buttonStyles = 'cursor-not-allowed';
             } else if (selected) {
               buttonStyles = 'bg-gray-09';
               textStyles = 'text-white';
             } else {
               buttonStyles = 'bg-gray-01';
-              textStyles = 'text-gray-09';
+              textStyles = 'text-gray-08';
             }
           } else {
             if (disabled) {
               buttonStyles = 'cursor-not-allowed';
-              textStyles = 'text-gray-400';
             } else if (selected) {
               buttonStyles = 'bg-sand-01';
               textStyles = 'text-sand-08';
@@ -96,14 +92,14 @@ const Chips = React.forwardRef<HTMLDivElement, ChipsProps>(
               onClick={() => handleClick(String(item.value))}
               className={cn(
                 'flex min-w-[65px] flex-shrink-0 items-center justify-center whitespace-nowrap rounded-full transition-all',
-                type === 'round' ? 'px-3 py-2' : 'px-2 py-1.5',
                 buttonStyles,
+                size === 'md' ? 'px-3 py-2' : 'px-2 py-1.5',
               )}
             >
               <span
                 className={cn(
                   textStyles,
-                  type === 'round' ? 'font-s-2' : 'font-xs-2',
+                  size === 'md' ? 'font-s-2' : 'font-xs-2',
                 )}
               >
                 {item.label}

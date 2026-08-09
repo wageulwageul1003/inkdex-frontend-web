@@ -64,7 +64,7 @@ export const Feed = () => {
             value: emotion.uuid,
           })) ?? []),
         ]}
-        variant="single"
+        size="sm"
         onValueChange={(value) => setSelectedEmotion(value as string)}
       />
 

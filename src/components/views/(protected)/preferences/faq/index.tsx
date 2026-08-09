@@ -116,7 +116,7 @@ export const FaqComponent = () => {
             variant="single"
             value={selectedCategory}
             onValueChange={handleCategory}
-            type="text"
+            size="sm"
           />
         </div>
 
