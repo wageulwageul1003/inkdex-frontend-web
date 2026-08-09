@@ -3,10 +3,10 @@
 import React from 'react';
 
 import { Loading } from '@/components/shared/Loading';
-import { Icons } from '@/components/shared/icons';
 import { UserProfile } from '@/components/shared/user-profile';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useGetFollowerList } from '@/hooks/follow/useGetFollowerList';
+import { NoData } from '@/components/shared/NoData';
 
 export const Follower = () => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
@@ -23,12 +23,7 @@ export const Follower = () => {
     <div>
       <div className="flex w-full flex-col">
         {data?.paging.totalElements === 0 && (
-          <div className="mt-14 flex flex-col items-center gap-[6px]">
-            <Icons.moodEmpty className="size-8 fill-gray-03" />
-            <span className="font-s-2 text-gray-05">
-              아직 나를 팔로우한 사람이 없어요.
-            </span>
-          </div>
+          <NoData message="아직 나를 팔로우한 사람이 없어요." />
         )}
         <span className="mt-4 space-y-1">
           {data?.content.map((item) => (

@@ -19,6 +19,7 @@ import { Card } from '@/components/shared/Card';
 import Cookies from 'js-cookie';
 import { USER_UUID } from '@/constants/tokens';
 import { VISIBILITY } from '@/constants/enum';
+import { NoData } from '@/components/shared/NoData';
 
 interface TProps {
   uuid: string;
@@ -182,12 +183,7 @@ export const CollectionDetailView = ({ uuid }: TProps) => {
           )}
         </div>
       ) : (
-        <div className="mt-14 flex flex-col items-center gap-[6px]">
-          <Icons.moodEmpty className="size-8 fill-gray-03" />
-          <span className="font-s-2 text-gray-05">
-            등록된 게시물이 없습니다.
-          </span>
-        </div>
+        <NoData message="등록된 게시물이 없습니다." />
       )}
 
       <CustomAlertDialog
