@@ -134,12 +134,16 @@ export const AccountView = () => {
                 >
                   <div
                     className={cn(
-                      connected ? item.bgColor : 'bg-gray-3',
+                      connected ? item.bgColor : 'bg-gray-03',
                       'flex h-11 w-11 items-center justify-center rounded-lg',
                     )}
                   >
                     <Image
-                      src={item.iconSrc}
+                      src={
+                        connected
+                          ? item.iconSrc
+                          : item.iconSrc.replace('.png', '_white.png')
+                      }
                       alt={item.title}
                       width={18}
                       height={18}
