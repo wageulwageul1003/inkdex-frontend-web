@@ -58,7 +58,7 @@ export const CollectionBottomSheet = (props: ICollectionBottomSheet) => {
                 >
                   <div className="h-6 w-6 shrink-0 rounded-md border border-gray-03">
                     <Image
-                      src={item.imageUrl}
+                      src={item.imageUrl || '/default-collection.png'}
                       alt={item.name}
                       width={24}
                       height={24}
@@ -128,7 +128,7 @@ export const CollectionBottomSheet = (props: ICollectionBottomSheet) => {
                   >
                     <div className="h-[40px] w-[40px] shrink-0 rounded-md border border-gray-03">
                       <Image
-                        src={item.imageUrl}
+                        src={item.imageUrl || '/default-image.png'}
                         alt=""
                         width={40}
                         height={40}

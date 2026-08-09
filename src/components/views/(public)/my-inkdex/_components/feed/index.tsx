@@ -74,7 +74,11 @@ export const Feed = () => {
             className="aspect-square min-h-40 rounded-lg border border-gray-03"
             onClick={() => router.push(`/posts/${item.uuid}`)}
           >
-            <Image key={item.uuid} src={item.imageUrl} alt={item.source} />
+            <Image
+              key={item.uuid}
+              src={item.imageUrl ?? '/default-image.png'}
+              alt={item.source}
+            />
           </div>
         ))}
         <div ref={observerRef} className="flex h-1 justify-center">

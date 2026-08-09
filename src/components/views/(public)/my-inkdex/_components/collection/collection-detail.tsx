@@ -108,7 +108,7 @@ export const CollectionDetailView = ({ uuid }: TProps) => {
         {/* Thumbnail */}
         <div className="relative aspect-square w-full bg-gray-02">
           <Image
-            src={collectionInfo?.data.imageUrl || '/default-image.png'}
+            src={collectionInfo?.data.imageUrl || '/default-collection.png'}
             alt={collectionInfo?.data.name ?? 'collection thumbnail'}
             fill
             className="object-cover"

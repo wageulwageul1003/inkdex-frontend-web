@@ -39,7 +39,7 @@ export const OtherProfileCollection = ({
           >
             <div className="relative aspect-square w-full overflow-hidden rounded-sm border border-gray-02">
               <Image
-                src={item.imageUrl}
+                src={item.imageUrl || '/default-collection.png'}
                 alt={item.name}
                 fill
                 className="object-cover"

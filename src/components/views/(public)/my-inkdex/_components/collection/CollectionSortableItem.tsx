@@ -32,7 +32,7 @@ export function CollectionSortableItem({ item }: Props) {
 
       <div className="relative h-10 w-10 overflow-hidden rounded-sm border border-gray-02">
         <Image
-          src={item.imageUrl}
+          src={item.imageUrl ?? '/default-collection.png'}
           alt={item.name}
           fill
           className="object-cover"
