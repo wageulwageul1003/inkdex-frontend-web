@@ -21,6 +21,8 @@ import { ACCESS_TOKEN, USER_EMAIL, USER_UUID } from '@/constants/tokens';
 import { ErrorData } from '@/utils/fetch';
 import { usePostFileUpload } from '@/hooks/common/usePostFileUpload';
 import { ERROR_CODES } from '@/constants/ERROR_CODES';
+import { usePostRegisterFcmToken } from '@/hooks/notification/usePostRegisterFcmToken';
+import { useFcm } from '@/providers/push/useFcm';
 
 const Step5 = () => {
   const router = useRouter();
@@ -32,6 +34,8 @@ const Step5 = () => {
 
   const { mutateAsync: register } = usePostRegister();
   const { mutateAsync: emailLogin } = usePostEmailLogin();
+  const { mutateAsync: postRegisterFcmToken } = usePostRegisterFcmToken();
+  const { platform, deviceId, registerToken } = useFcm();
 
   const form = useForm<TRegisterSchema>({
     resolver: zodResolver(registerSchema),
@@ -102,6 +106,21 @@ const Step5 = () => {
     await handleSelectedFile(file);
   };
 
+  const registerFcmToken = async () => {
+    const token = await registerToken();
+    if (!token || !deviceId) {
+      return;
+    }
+
+    if (platform === 'WEB') {
+      await postRegisterFcmToken({
+        token: token,
+        platform: platform,
+        deviceId: deviceId,
+      });
+    }
+  };
+
   const onSubmit = async (data: TRegisterSchema) => {
     try {
       await register({ ...data });
@@ -120,6 +139,8 @@ const Step5 = () => {
 
       toast.success('가입이 완료되었습니다.');
       router.replace('/home');
+
+      registerFcmToken();
     } catch (error) {
       const errorData = error as ErrorData;
       if (errorData.code === ERROR_CODES.EMAIL_DUPLICATE.code) {
