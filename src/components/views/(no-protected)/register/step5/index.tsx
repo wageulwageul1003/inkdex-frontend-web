@@ -154,7 +154,7 @@ const Step5 = () => {
       <div className="mt-[58px]"></div>
       <div className="flex items-center justify-center">
         <div
-          className="relative flex h-[146px] w-[146px] cursor-pointer items-center justify-center rounded-full bg-gray-03"
+          className="relative flex h-[146px] w-[146px] cursor-pointer items-center justify-center rounded-full border-gray-03 bg-gray-03"
           onClick={handleImageSelect}
         >
           {previewUrl ? (
