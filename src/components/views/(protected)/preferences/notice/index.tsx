@@ -95,7 +95,7 @@ export const NoticeView = () => {
             variant="single"
             value={selectedCategory}
             onValueChange={handleCategory}
-            size="md"
+            size="sm"
           />
         </div>
 
