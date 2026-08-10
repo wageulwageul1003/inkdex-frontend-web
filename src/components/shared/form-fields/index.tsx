@@ -326,7 +326,7 @@ export const InputField = <T extends FieldValues>({
       return (
         <Checkbox
           label={props.checkboxLabel}
-          className={props.className}
+          className={props.fieldClassName}
           disabled={props.disabled}
           checked={field.value}
           onChange={(e) => {

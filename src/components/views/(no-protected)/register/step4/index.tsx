@@ -14,17 +14,20 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { useGetTermsDetail } from '@/hooks/terms/useGetTermsDetail';
 import { useGetTermsList } from '@/hooks/terms/useGetTermsList';
+import { cn } from '@/lib/utils';
+import { Loading } from '@/components/shared/Loading';
 
 const Step4 = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const { data: termsList } = useGetTermsList();
+  const { data: termsList, isLoading } = useGetTermsList();
 
   const [isOpen, setIsOpen] = useState(false);
   const [uuid, setUuid] = useState('');
 
-  const { data: termsContent } = useGetTermsDetail(uuid);
+  const { data: termsContent, isLoading: isLoadingTermsContent } =
+    useGetTermsDetail(uuid);
 
   const form = useForm<TRegisterStep4Schema>({
     resolver: zodResolver(registerStep4Schema),
@@ -114,61 +117,95 @@ const Step4 = () => {
     }
   };
 
+  if (isLoading || isLoadingTermsContent) return <Loading />;
+
   return (
     <div className="flex flex-1 flex-col bg-gray-01 px-4">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <FormFields
-            fieldType={FormFieldType.CHECKBOX}
-            control={control}
-            name="agreeAll"
-            checkboxLabel={<span>약관 전체 동의</span>}
-            onChange={(e) => handleAgreeAll(e.target.checked)}
-          />
+      <div className="flex py-3">
+        <span onClick={() => router.back()}>
+          <Icons.ArrowBackIos className="size-6 fill-gray-06" />
+        </span>
+      </div>
 
-          {/* TODO: 화면 UI 수정 */}
-          {termsList?.data.map((item) => (
-            <div key={item.uuid} className="flex items-center justify-between">
-              <FormFields
-                fieldType={FormFieldType.CHECKBOX}
-                control={control}
-                name="agreeAll"
-                checkboxLabel={
-                  <span>
-                    {item.isRequired ? '[필수]' : '[선택]'}
-                    {item.title}
-                  </span>
-                }
-                onChange={(e) => handleTermChange(item.uuid, e.target.checked)}
-              />
+      <div className="mt-10 flex flex-col gap-3">
+        <p className="font-l-1 text-black">서비스 이용약관에 동의해주세요.</p>
+      </div>
 
-              {item.isRequired && (
-                <Button
-                  type="button"
-                  onClick={() => handleOpenAgreeModal(item.uuid)}
-                >
-                  <Icons.keyboardArrowRight />
-                </Button>
-              )}
-            </div>
-          ))}
-        </form>
-      </Form>
+      <div className="mt-12 flex flex-1 flex-col pb-[52px]">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <FormFields
+              fieldType={FormFieldType.CHECKBOX}
+              control={control}
+              name="agreeAll"
+              checkboxLabel={
+                <span className="font-m-1 text-gray-08">약관 전체 동의</span>
+              }
+              onChange={(e) => handleAgreeAll(e.target.checked)}
+              fieldClassName="px-4 py-3"
+            />
 
-      <Button
-        disabled={!areRequiredTermsChecked()}
-        onClick={form.handleSubmit(onSubmit)}
-      >
-        다음
-      </Button>
+            <span className="mt-2" />
 
-      <CustomModal
-        isOpen={isOpen}
-        onOpenChange={() => setIsOpen(false)}
-        title={termsContent?.data.title ?? ''}
-        description={termsContent?.data.content ?? ''}
-        isCancelButton={false}
-      />
+            {termsList?.data.map((item) => (
+              <div
+                key={item.uuid}
+                className="flex items-center justify-between space-y-2"
+              >
+                <FormFields
+                  fieldType={FormFieldType.CHECKBOX}
+                  control={control}
+                  name="agreeAll"
+                  checkboxLabel={
+                    <span
+                      className={cn(
+                        'font-s-1',
+                        item.isRequired ? 'text-sand-07' : 'text-gray-05',
+                      )}
+                    >
+                      {item.isRequired ? '[필수]' : '[선택]'}
+                      <span className="ml-1 text-gray-08">{item.title}</span>
+                    </span>
+                  }
+                  onChange={(e) =>
+                    handleTermChange(item.uuid, e.target.checked)
+                  }
+                  fieldClassName="px-4"
+                />
+
+                {item.isRequired && (
+                  <Button
+                    type="button"
+                    variant="buttonIconTextOnly"
+                    size="buttonIconMedium"
+                    onClick={() => handleOpenAgreeModal(item.uuid)}
+                  >
+                    <Icons.keyboardArrowRight className="size-6 fill-gray-08" />
+                  </Button>
+                )}
+              </div>
+            ))}
+          </form>
+        </Form>
+
+        <Button
+          disabled={!areRequiredTermsChecked()}
+          onClick={form.handleSubmit(onSubmit)}
+          size="lg"
+          variant="contained"
+          className="mt-auto w-full"
+        >
+          다음
+        </Button>
+
+        <CustomModal
+          isOpen={isOpen}
+          onOpenChange={() => setIsOpen(false)}
+          title={termsContent?.data.title ?? ''}
+          description={termsContent?.data.content ?? ''}
+          isCancelButton={false}
+        />
+      </div>
     </div>
   );
 };
