@@ -9,6 +9,7 @@ import {
   getToken,
   isSupported,
 } from 'firebase/messaging';
+import { Platform, usePlatform } from './usePlatform';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
@@ -21,9 +22,13 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
+const DEVICE_ID_KEY = 'deviceId';
+
 interface FcmState {
   isSupported: boolean;
   permission: NotificationPermission;
+  platform: Platform;
+  deviceId: string | null;
   token: string | null;
   isLoading: boolean;
   error: string | null;
@@ -36,61 +41,113 @@ interface UseFcmReturn extends FcmState {
 }
 
 export function useFcm(): UseFcmReturn {
+  const { platform, isLoading: isPlatformLoading } = usePlatform();
+
   const [state, setState] = useState<FcmState>({
     isSupported: false,
     permission: 'default',
+    platform: 'WEB',
+    deviceId: null,
     token: null,
     isLoading: true,
     error: null,
   });
 
+  /**
+   * FCM 초기화
+   */
   useEffect(() => {
+    if (isPlatformLoading) {
+      return;
+    }
+
     async function initialize() {
-      const supported = await isSupported();
+      try {
+        const supported = await isSupported();
 
-      setState((prev) => ({
-        ...prev,
-        isSupported: supported,
-        permission: supported ? Notification.permission : 'denied',
-        isLoading: false,
-      }));
+        /**
+         * Device ID 생성 또는 조회
+         */
+        let deviceId = localStorage.getItem(DEVICE_ID_KEY);
 
-      if (!supported) {
-        return;
-      }
+        if (!deviceId) {
+          deviceId = crypto.randomUUID();
+          localStorage.setItem(DEVICE_ID_KEY, deviceId);
+        }
 
-      if ('serviceWorker' in navigator) {
-        try {
-          await navigator.serviceWorker.register('/firebase-messaging-sw.js');
-        } catch (error) {
-          console.error(error);
+        setState((prev) => ({
+          ...prev,
+          isSupported: supported,
+          permission: supported ? Notification.permission : 'denied',
+          platform,
+          deviceId,
+          isLoading: false,
+          error: null,
+        }));
 
+        if (!supported) {
+          return;
+        }
+
+        /**
+         * Firebase Messaging Service Worker 등록
+         */
+        if (!('serviceWorker' in navigator)) {
           setState((prev) => ({
             ...prev,
-            error: 'Service Worker 등록에 실패했습니다.',
+            error: 'Service Worker를 지원하지 않는 브라우저입니다.',
           }));
+
+          return;
         }
+
+        await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+      } catch (error) {
+        console.error(error);
+
+        setState((prev) => ({
+          ...prev,
+          isLoading: false,
+          error: 'FCM 초기화에 실패했습니다.',
+        }));
       }
     }
 
     initialize();
-  }, []);
+  }, [platform, isPlatformLoading]);
 
+  /**
+   * Notification 권한 요청
+   */
   const requestPermission = useCallback(async () => {
     if (!state.isSupported) {
       return false;
     }
 
-    const permission = await Notification.requestPermission();
+    try {
+      const permission = await Notification.requestPermission();
 
-    setState((prev) => ({
-      ...prev,
-      permission,
-    }));
+      setState((prev) => ({
+        ...prev,
+        permission,
+      }));
 
-    return permission === 'granted';
+      return permission === 'granted';
+    } catch (error) {
+      console.error(error);
+
+      setState((prev) => ({
+        ...prev,
+        error: 'Notification 권한 요청에 실패했습니다.',
+      }));
+
+      return false;
+    }
   }, [state.isSupported]);
 
+  /**
+   * FCM Token 발급
+   */
   const registerToken = useCallback(async () => {
     if (!state.isSupported) {
       return null;
@@ -98,6 +155,9 @@ export function useFcm(): UseFcmReturn {
 
     let permission = state.permission;
 
+    /**
+     * Notification 권한이 없는 경우 권한 요청
+     */
     if (permission !== 'granted') {
       const granted = await requestPermission();
 
@@ -109,16 +169,27 @@ export function useFcm(): UseFcmReturn {
     }
 
     try {
+      /**
+       * Firebase Messaging Service Worker가 준비될 때까지 대기
+       */
       const registration = await navigator.serviceWorker.ready;
 
       const messaging = getMessaging(app);
 
+      /**
+       * FCM Token 발급
+       */
       const token = await getToken(messaging, {
         vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY!,
         serviceWorkerRegistration: registration,
       });
 
       if (!token) {
+        setState((prev) => ({
+          ...prev,
+          error: 'FCM Token을 발급받지 못했습니다.',
+        }));
+
         return null;
       }
 
@@ -141,6 +212,9 @@ export function useFcm(): UseFcmReturn {
     }
   }, [requestPermission, state.isSupported, state.permission]);
 
+  /**
+   * FCM Token 삭제
+   */
   const removeToken = useCallback(async () => {
     try {
       const messaging = getMessaging(app);
@@ -150,6 +224,7 @@ export function useFcm(): UseFcmReturn {
       setState((prev) => ({
         ...prev,
         token: null,
+        error: null,
       }));
     } catch (error) {
       console.error(error);

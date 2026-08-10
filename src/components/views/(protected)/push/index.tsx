@@ -8,19 +8,18 @@ import { usePostRegisterFcmToken } from '@/hooks/notification/usePostRegisterFcm
 
 export const PushView = () => {
   const { mutateAsync: postRegisterFcmToken } = usePostRegisterFcmToken();
-  const { registerToken } = useFcm();
+  const { platform, deviceId, registerToken } = useFcm();
 
   const registerFcmToken = async () => {
     const token = await registerToken();
-
-    if (!token) {
+    if (!token || !deviceId) {
       return;
     }
 
     await postRegisterFcmToken({
-      token,
-      platform: 'WEB',
-      deviceId: crypto.randomUUID(),
+      token: token,
+      platform: platform,
+      deviceId: deviceId,
     });
   };
 
