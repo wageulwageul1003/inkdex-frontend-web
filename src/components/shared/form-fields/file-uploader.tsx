@@ -9,11 +9,13 @@ import {
 import { Icons } from '../icons';
 
 import { Button } from '@/components/ui/button';
+import { usePostFileUpload } from '@/hooks/common/usePostFileUpload';
 import { cn } from '@/lib/utils';
 
 export interface FileInfo {
   name: string;
   url: string;
+  previewUrl: string;
   size: number;
   file: File;
 }
@@ -45,8 +47,10 @@ const FileUploader = <T extends FieldValues>(props: Props<T>) => {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const { mutateAsync: postFileUpload } = usePostFileUpload();
+
   const [files, setFiles] = useState<FileInfo[]>([]);
-  const [fileError, setFileError] = useState<string>('');
+  const [fileError, setFileError] = useState('');
 
   const getAcceptedTypesLabel = (): string => {
     const types = acceptedFileTypes.length > 0 ? acceptedFileTypes : accept;
@@ -86,7 +90,9 @@ const FileUploader = <T extends FieldValues>(props: Props<T>) => {
     return true;
   };
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const fileList = event.target.files;
 
     if (!fileList || fileList.length === 0) {
@@ -109,34 +115,54 @@ const FileUploader = <T extends FieldValues>(props: Props<T>) => {
       return;
     }
 
-    const newFile: FileInfo = {
-      name: file.name,
-      url: URL.createObjectURL(file),
-      size: file.size,
-      file,
-    };
+    try {
+      setFileError('');
 
-    const updatedFiles = [...files, newFile];
+      // 1. 로컬 preview 생성
+      const previewUrl = URL.createObjectURL(file);
 
-    setFiles(updatedFiles);
+      // 2. 서버 업로드
+      const response = await postFileUpload(file);
 
-    field.onChange(updatedFiles.map((item) => item.file));
+      // 3. 업로드된 서버 URL
+      const uploadedUrl = response.data.url;
 
-    event.target.value = '';
+      const newFile: FileInfo = {
+        name: file.name,
+        url: uploadedUrl,
+        previewUrl,
+        size: file.size,
+        file,
+      };
+
+      const updatedFiles = [...files, newFile];
+
+      setFiles(updatedFiles);
+
+      field.onChange(updatedFiles.map((item) => item.url));
+    } catch (error) {
+      console.error('파일 업로드 실패:', error);
+
+      setFileError('파일 업로드에 실패했습니다.');
+    } finally {
+      event.target.value = '';
+    }
   };
 
   const removeFile = (index: number) => {
-    const updatedFiles = [...files];
+    const targetFile = files[index];
 
-    URL.revokeObjectURL(updatedFiles[index].url);
+    if (targetFile?.previewUrl) {
+      URL.revokeObjectURL(targetFile.previewUrl);
+    }
 
-    updatedFiles.splice(index, 1);
+    const updatedFiles = files.filter((_, fileIndex) => fileIndex !== index);
 
     setFiles(updatedFiles);
 
     field.onChange(
       updatedFiles.length > 0
-        ? updatedFiles.map((item) => item.file)
+        ? updatedFiles.map((item) => item.url)
         : undefined,
     );
   };
@@ -176,8 +202,8 @@ const FileUploader = <T extends FieldValues>(props: Props<T>) => {
   };
 
   return (
-    <div className="flex w-full flex-col">
-      <div className="flex items-start gap-1 bg-gray-01 px-3 py-2">
+    <div>
+      <div className="flex items-center gap-1">
         <Icons.infoFill className="size-4 shrink-0 fill-sand-07" />
 
         <p className="font-xs-2 text-gray-05">

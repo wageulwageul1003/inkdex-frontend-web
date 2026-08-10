@@ -9,17 +9,25 @@ export interface TextareaProps
 }
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, error, placeholder, ...props }, ref) => {
+  ({ className, error, placeholder, onChange, ...props }, ref) => {
     const [value, setValue] = React.useState('');
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setValue(e.target.value);
+      onChange?.(e);
     };
+
+    console.log(error);
 
     return (
       <div className="relative">
         {value === '' && placeholder && (
-          <div className="pointer-events-none absolute left-4 top-3 whitespace-pre-line text-gray-05">
+          <div
+            className={cn(
+              'pointer-events-none absolute left-4 top-3 whitespace-pre-line text-gray-05',
+              error && 'border-red-05',
+            )}
+          >
             {placeholder}
           </div>
         )}

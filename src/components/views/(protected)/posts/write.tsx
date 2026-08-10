@@ -21,6 +21,7 @@ import { nativeBridge } from '@/lib/native-bridge';
 import { useGetEmotionList } from '@/hooks/emotion/useGetEmotionList';
 import { VisibilityBottomSheet } from './_components/VisibilityBottomSheet';
 import { VISIBILITY, VisibilityType } from '@/constants/enum';
+import { usePostFileUpload } from '@/hooks/common/usePostFileUpload';
 
 interface TProps {
   uuid?: string;
@@ -35,6 +36,7 @@ export const PostsWrite: FC<TProps> = () => {
     VISIBILITY[0].value,
   );
   const { mutateAsync: postPosts } = usePostPosts();
+  const { mutateAsync: postFileUpload } = usePostFileUpload();
   const { data: emotions } = useGetEmotionList();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const imageFileRef = useRef<File | null>(null);
@@ -60,39 +62,58 @@ export const PostsWrite: FC<TProps> = () => {
     });
   };
 
+  const handleSelectedFile = async (file: File) => {
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+
+    const localPreview = URL.createObjectURL(file);
+
+    setPreviewUrl(localPreview);
+    imageFileRef.current = file;
+
+    const response = await postFileUpload(file);
+
+    form.setValue('imageUrl', response.data.url);
+  };
+
   const handleImageSelect = async () => {
     if (!isApp()) {
       const input = document.createElement('input');
+
       input.type = 'file';
       input.accept = 'image/*';
-      input.onchange = (e) => {
+
+      input.onchange = async (e) => {
         const file = (e.target as HTMLInputElement).files?.[0];
-        if (file) {
-          if (previewUrl) URL.revokeObjectURL(previewUrl);
-          setPreviewUrl(URL.createObjectURL(file));
-          imageFileRef.current = file;
-          form.setValue('imageUrl', 'file-selected');
-        }
+
+        if (!file) return;
+
+        await handleSelectedFile(file);
       };
+
       input.click();
-    } else {
-      const result = await nativeBridge.openGallery();
-      if (result) {
-        const imageData = result.base64 || result.uri;
-        setPreviewUrl(imageData);
-        // base64를 File로 변환
-        const response = await fetch(imageData);
-        const blob = await response.blob();
-        imageFileRef.current = new File([blob], 'image.jpg', {
-          type: blob.type || 'image/jpeg',
-        });
-        form.setValue('imageUrl', 'file-selected');
-      }
+
+      return;
     }
+
+    const result = await nativeBridge.openGallery();
+
+    if (!result) return;
+
+    const imageData = result.base64 || result.uri;
+
+    const response = await fetch(imageData);
+    const blob = await response.blob();
+
+    const file = new File([blob], 'image.jpg', {
+      type: blob.type || 'image/jpeg',
+    });
+
+    await handleSelectedFile(file);
   };
 
   const onSubmit = async (data: TWriteSchema) => {
-    console.log(data);
     try {
       await postPosts({
         ...data,
@@ -103,8 +124,7 @@ export const PostsWrite: FC<TProps> = () => {
       });
       toast.success('게시물이 성공적으로 등록되었습니다.');
       router.push('/home'); // 게시물 목록 페이지로 이동
-    } catch (error) {
-      console.error('게시물 등록 오류:', error);
+    } catch {
       toast.error('게시물 등록에 실패했습니다. 다시 시도해주세요.');
     }
   };
@@ -157,7 +177,6 @@ export const PostsWrite: FC<TProps> = () => {
               required
             />
 
-            {/* TODO: \n엔터가 안먹는다.. ㅜ */}
             <FormFields
               fieldType={FormFieldType.TEXTAREA}
               control={form.control}

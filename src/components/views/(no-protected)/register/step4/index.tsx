@@ -126,6 +126,7 @@ const Step4 = () => {
             onChange={(e) => handleAgreeAll(e.target.checked)}
           />
 
+          {/* TODO: 화면 UI 수정 */}
           {termsList?.data.map((item) => (
             <div key={item.uuid} className="flex items-center justify-between">
               <FormFields

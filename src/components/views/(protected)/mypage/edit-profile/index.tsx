@@ -16,12 +16,14 @@ import { useGetMyProfile } from '@/hooks/auth/useGetMyProfile';
 import { usePatchProfile } from '@/hooks/auth/usePatchProfile';
 import { isApp } from '@/lib/device';
 import { nativeBridge } from '@/lib/native-bridge';
+import { usePostFileUpload } from '@/hooks/common/usePostFileUpload';
 
 export const EditProfileView = () => {
   const router = useRouter();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const imageFileRef = useRef<File | null>(null);
   const { data: myProfile } = useGetMyProfile();
+  const { mutateAsync: postFileUpload } = usePostFileUpload();
 
   const { mutateAsync: patchProfile } = usePatchProfile();
 
@@ -35,42 +37,61 @@ export const EditProfileView = () => {
     },
   });
 
+  const handleSelectedFile = async (file: File) => {
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+
+    const localPreview = URL.createObjectURL(file);
+
+    setPreviewUrl(localPreview);
+    imageFileRef.current = file;
+
+    const response = await postFileUpload(file);
+
+    form.setValue('profileImageUrl', response.data.url);
+  };
+
   const handleImageSelect = async () => {
     if (!isApp()) {
       const input = document.createElement('input');
+
       input.type = 'file';
       input.accept = 'image/*';
-      input.onchange = (e) => {
+
+      input.onchange = async (e) => {
         const file = (e.target as HTMLInputElement).files?.[0];
-        if (file) {
-          if (previewUrl) URL.revokeObjectURL(previewUrl);
-          setPreviewUrl(URL.createObjectURL(file));
-          imageFileRef.current = file;
-          form.setValue('profileImageUrl', 'file-selected');
-        }
+
+        if (!file) return;
+
+        await handleSelectedFile(file);
       };
+
       input.click();
-    } else {
-      const result = await nativeBridge.openGallery();
-      if (result) {
-        const imageData = result.base64 || result.uri;
-        setPreviewUrl(imageData);
-        // base64를 File로 변환
-        const response = await fetch(imageData);
-        const blob = await response.blob();
-        imageFileRef.current = new File([blob], 'image.jpg', {
-          type: blob.type || 'image/jpeg',
-        });
-        form.setValue('profileImageUrl', 'file-selected');
-      }
+
+      return;
     }
+
+    const result = await nativeBridge.openGallery();
+
+    if (!result) return;
+
+    const imageData = result.base64 || result.uri;
+
+    const response = await fetch(imageData);
+    const blob = await response.blob();
+
+    const file = new File([blob], 'image.jpg', {
+      type: blob.type || 'image/jpeg',
+    });
+
+    await handleSelectedFile(file);
   };
 
   const onSubmit = async (data: TEditProfileSchema) => {
     try {
       await patchProfile({
         ...data,
-        profileImageUrl: previewUrl,
       }).then(() => {
         router.back();
       });

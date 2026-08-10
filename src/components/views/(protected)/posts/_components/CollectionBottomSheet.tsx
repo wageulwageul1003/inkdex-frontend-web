@@ -128,10 +128,11 @@ export const CollectionBottomSheet = (props: ICollectionBottomSheet) => {
                   >
                     <div className="h-[40px] w-[40px] shrink-0 rounded-md border border-gray-03">
                       <Image
-                        src={item.imageUrl || '/default-image.png'}
+                        src={item.imageUrl || '/default-collection.png'}
                         alt=""
                         width={40}
                         height={40}
+                        className="rounded-md"
                       />
                     </div>
                     <span className="font-s-2 line-clamp-1 flex-1 text-gray-09">

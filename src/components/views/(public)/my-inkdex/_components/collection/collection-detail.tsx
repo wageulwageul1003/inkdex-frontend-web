@@ -156,7 +156,7 @@ export const CollectionDetailView = ({ uuid }: TProps) => {
       </div>
 
       {/* collection의 post list */}
-      <div className="flex flex-col">
+      <div className="flex flex-col px-4">
         {data?.content.map((item) => <Card item={item} isShowBio={false} />)}
         <div ref={observerRef} className="flex h-1 justify-center">
           {isFetchingNextPage && <Loading />}

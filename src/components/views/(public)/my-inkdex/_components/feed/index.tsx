@@ -39,6 +39,7 @@ export const Feed = () => {
       <div className="flex items-center gap-2 overflow-x-scroll px-4 py-2"></div>
 
       <div className="flex items-center justify-between">
+        {/* TODO: 초기에 미노출됨 */}
         <DatePickerBottomSheet
           selectedYear={selectedYear}
           setSelectedYear={setSelectedYear}
@@ -71,13 +72,17 @@ export const Feed = () => {
       <div className="mt-3 grid grid-cols-2 gap-2">
         {data?.content.map((item) => (
           <div
-            className="aspect-square min-h-40 rounded-lg border border-gray-03"
+            key={item.uuid}
+            className="relative aspect-square min-h-40 rounded-lg border border-gray-03"
             onClick={() => router.push(`/posts/${item.uuid}`)}
           >
             <Image
               key={item.uuid}
               src={item.imageUrl ?? '/default-image.png'}
               alt={item.source}
+              width={100}
+              height={100}
+              className="aspect-square h-full w-full rounded-lg"
             />
           </div>
         ))}

@@ -19,6 +19,7 @@ import { isApp } from '@/lib/device';
 import { nativeBridge } from '@/lib/native-bridge';
 import { VISIBILITY, VisibilityType } from '@/constants/enum';
 import { VisibilityBottomSheet } from '../posts/_components/VisibilityBottomSheet';
+import { usePostFileUpload } from '@/hooks/common/usePostFileUpload';
 
 interface TProps {
   uuid?: string;
@@ -34,6 +35,7 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
 
   const { mutateAsync: postCollection } = usePostCollection();
   const { mutateAsync: patchCollection } = usePatchCollection();
+  const { mutateAsync: postFileUpload } = usePostFileUpload();
 
   const { data: collectionInfo } = useGetSpecificCollection({
     collectionUuid: uuid || '',
@@ -58,33 +60,55 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
     }
   }, [collectionInfo]);
 
+  const handleSelectedFile = async (file: File) => {
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+
+    const localPreview = URL.createObjectURL(file);
+
+    setPreviewUrl(localPreview);
+    imageFileRef.current = file;
+
+    const response = await postFileUpload(file);
+
+    form.setValue('imageUrl', response.data.url);
+  };
+
   const handleImageSelect = async () => {
     if (!isApp()) {
       const input = document.createElement('input');
+
       input.type = 'file';
       input.accept = 'image/*';
-      input.onchange = (e) => {
+
+      input.onchange = async (e) => {
         const file = (e.target as HTMLInputElement).files?.[0];
-        if (file) {
-          if (previewUrl) URL.revokeObjectURL(previewUrl);
-          setPreviewUrl(URL.createObjectURL(file));
-          imageFileRef.current = file;
-        }
+
+        if (!file) return;
+
+        await handleSelectedFile(file);
       };
+
       input.click();
-    } else {
-      const result = await nativeBridge.openGallery();
-      if (result) {
-        const imageData = result.base64 || result.uri;
-        setPreviewUrl(imageData);
-        // base64를 File로 변환
-        const response = await fetch(imageData);
-        const blob = await response.blob();
-        imageFileRef.current = new File([blob], 'image.jpg', {
-          type: blob.type || 'image/jpeg',
-        });
-      }
+
+      return;
     }
+
+    const result = await nativeBridge.openGallery();
+
+    if (!result) return;
+
+    const imageData = result.base64 || result.uri;
+
+    const response = await fetch(imageData);
+    const blob = await response.blob();
+
+    const file = new File([blob], 'image.jpg', {
+      type: blob.type || 'image/jpeg',
+    });
+
+    await handleSelectedFile(file);
   };
 
   const handleVisibility = (value: VisibilityType) => {
@@ -100,7 +124,6 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
         await patchCollection({
           ...data,
           uuid: uuid,
-          imageUrl: previewUrl,
           visibility: selectedVisibility,
         }).then(() => {
           router.back();
@@ -112,7 +135,6 @@ export const CollectionWriteView = ({ uuid }: TProps) => {
       try {
         await postCollection({
           ...data,
-          imageUrl: previewUrl,
           visibility: selectedVisibility,
         }).then(() => {
           router.back();
