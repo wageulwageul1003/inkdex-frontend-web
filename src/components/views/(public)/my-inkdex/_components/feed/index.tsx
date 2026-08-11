@@ -10,6 +10,7 @@ import { DatePickerBottomSheet } from '../../../home/_components/DatePickerBotto
 import { Icons } from '@/components/shared/icons';
 import Chips from '@/components/shared/chips';
 import { useRouter } from 'next/navigation';
+import { NoData } from '@/components/shared/NoData';
 
 export const Feed = () => {
   const router = useRouter();
@@ -71,6 +72,10 @@ export const Feed = () => {
           onValueChange={(value) => setSelectedEmotion(value as string)}
         />
       </div>
+
+      {data?.paging.totalElements === 0 && (
+        <NoData message="당신의 첫 기록을 남겨보세요." />
+      )}
 
       <div className="mt-3 grid grid-cols-2 gap-2">
         {data?.content.map((item) => (

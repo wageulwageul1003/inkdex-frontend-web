@@ -67,7 +67,7 @@ export const DatePickerBottomSheet = ({
     <Drawer>
       <DrawerTrigger asChild>
         {isInitShowDate ? (
-          <Button className="flex h-10 items-center justify-center border-none">
+          <Button className="flex h-10 items-center justify-center border-none px-0">
             <span className="font-m-1 text-gray-10">
               {selectedYear}년 {selectedMonth && selectedMonth + `월`}
             </span>
