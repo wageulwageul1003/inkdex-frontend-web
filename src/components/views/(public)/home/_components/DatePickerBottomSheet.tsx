@@ -15,6 +15,7 @@ interface TProps {
   setSelectedYear: (year: string) => void;
   selectedMonth: string | null;
   setSelectedMonth: (month: string) => void;
+  isInitShowDate: boolean;
 }
 
 const YEARS = Array.from({ length: 20 }, (_, i) =>
@@ -30,6 +31,7 @@ export const DatePickerBottomSheet = ({
   setSelectedYear,
   selectedMonth,
   setSelectedMonth,
+  isInitShowDate = false,
 }: TProps) => {
   const [tempYear, setTempYear] = useState(selectedYear);
   const [tempMonth, setTempMonth] = useState(selectedMonth ?? '1');
@@ -64,9 +66,20 @@ export const DatePickerBottomSheet = ({
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button className="flex h-7 w-7 items-center justify-center rounded-full border-none bg-white p-0">
-          <Icons.keyboardArrowDown className="size-5 shrink-0 fill-sand-08" />
-        </Button>
+        {isInitShowDate ? (
+          <Button className="flex h-10 items-center justify-center border-none">
+            <span className="font-m-1 text-gray-10">
+              {selectedYear}년 {selectedMonth && selectedMonth + `월`}
+            </span>
+            <Button variant="buttonIconTextOnly" size="buttonIconMedium">
+              <Icons.keyboardArrowDown className="size-5 shrink-0 fill-gray-08" />
+            </Button>
+          </Button>
+        ) : (
+          <Button className="flex h-9 w-9 items-center justify-center rounded-full border-none bg-white p-0">
+            <Icons.keyboardArrowDown className="size-6 shrink-0 fill-sand-08" />
+          </Button>
+        )}
       </DrawerTrigger>
 
       <DrawerContent className="flex max-h-[400px] flex-col">

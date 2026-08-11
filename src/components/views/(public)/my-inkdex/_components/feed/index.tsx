@@ -45,6 +45,7 @@ export const Feed = () => {
           setSelectedYear={setSelectedYear}
           selectedMonth={selectedMonth}
           setSelectedMonth={setSelectedMonth}
+          isInitShowDate={true}
         />
         <div className="flex items-center gap-1">
           <Icons.inbox className="size-4 fill-gray-05" />
@@ -54,20 +55,22 @@ export const Feed = () => {
         </div>
       </div>
 
-      <Chips
-        items={[
-          {
-            label: '전체',
-            value: 'all',
-          },
-          ...(activeEmotions?.data.map((emotion) => ({
-            label: emotion.name,
-            value: emotion.uuid,
-          })) ?? []),
-        ]}
-        size="sm"
-        onValueChange={(value) => setSelectedEmotion(value as string)}
-      />
+      <div className="py-2">
+        <Chips
+          items={[
+            {
+              label: '전체',
+              value: 'all',
+            },
+            ...(activeEmotions?.data.map((emotion) => ({
+              label: emotion.name,
+              value: emotion.uuid,
+            })) ?? []),
+          ]}
+          size="sm"
+          onValueChange={(value) => setSelectedEmotion(value as string)}
+        />
+      </div>
 
       <div className="mt-3 grid grid-cols-2 gap-2">
         {data?.content.map((item) => (
