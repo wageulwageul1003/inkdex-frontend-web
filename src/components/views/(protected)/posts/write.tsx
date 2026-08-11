@@ -2,11 +2,12 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { FC, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FC, useEffect, useRef, useState } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { CollectionBottomSheet } from './_components/CollectionBottomSheet';
+import { VisibilityBottomSheet } from './_components/VisibilityBottomSheet';
 import { TWriteSchema, writeSchema } from './schema';
 
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
@@ -14,67 +15,170 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
 import { Form, FormLabel } from '@/components/ui/form';
-import { ICollectionListResponse } from '@/hooks/collection/useGetCollectionList';
+import { VISIBILITY, VisibilityType } from '@/constants/enum';
+import { useGetEmotionList } from '@/hooks/emotion/useGetEmotionList';
+import { usePostFileUpload } from '@/hooks/common/usePostFileUpload';
 import { usePostPosts } from '@/hooks/posts/usePostPosts';
+import { ICollectionListResponse } from '@/hooks/collection/useGetCollectionList';
 import { isApp } from '@/lib/device';
 import { nativeBridge } from '@/lib/native-bridge';
-import { useGetEmotionList } from '@/hooks/emotion/useGetEmotionList';
-import { VisibilityBottomSheet } from './_components/VisibilityBottomSheet';
-import { VISIBILITY, VisibilityType } from '@/constants/enum';
-import { usePostFileUpload } from '@/hooks/common/usePostFileUpload';
 
 interface TProps {
   uuid?: string;
 }
 
+const DRAFT_KEY = 'posts-write-draft';
+
+interface PostDraft {
+  imageUrl: string;
+  source: string;
+  reflection: string;
+  emotionUuid: string;
+  tags: string[];
+  collectionUuid: string[];
+  visibility: VisibilityType;
+  selectedCollections: ICollectionListResponse[];
+}
+
+/**
+ * sessionStorage에서 작성 중인 게시물 가져오기
+ */
+const getPostDraft = (): PostDraft | null => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  const savedDraft = sessionStorage.getItem(DRAFT_KEY);
+
+  if (!savedDraft) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(savedDraft);
+  } catch (error) {
+    console.error('게시물 임시 저장 데이터 파싱 실패:', error);
+
+    sessionStorage.removeItem(DRAFT_KEY);
+
+    return null;
+  }
+};
+
 export const PostsWrite: FC<TProps> = () => {
   const router = useRouter();
+
+  /**
+   * sessionStorage에 저장된 draft
+   */
+  const draft = getPostDraft();
+
+  /**
+   * 컬렉션
+   *
+   * 기존 draft가 있으면 복구
+   */
   const [selectedCollections, setSelectedCollections] = useState<
     ICollectionListResponse[]
-  >([]);
+  >(draft?.selectedCollections ?? []);
+
+  /**
+   * 공개 범위
+   */
   const [selectedVisibility, setSelectedVisibility] = useState<VisibilityType>(
-    VISIBILITY[0].value,
+    draft?.visibility ?? VISIBILITY[0].value,
   );
-  const { mutateAsync: postPosts } = usePostPosts();
-  const { mutateAsync: postFileUpload } = usePostFileUpload();
-  const { data: emotions } = useGetEmotionList();
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  /**
+   * 이미지 preview
+   */
+  const [previewUrl, setPreviewUrl] = useState<string | null>(
+    draft?.imageUrl ?? null,
+  );
+
   const imageFileRef = useRef<File | null>(null);
 
-  const form = useForm({
+  const { mutateAsync: postPosts } = usePostPosts();
+
+  const { mutateAsync: postFileUpload } = usePostFileUpload();
+
+  const { data: emotions } = useGetEmotionList();
+
+  /**
+   * Form
+   *
+   * sessionStorage에 draft가 있으면
+   * 해당 값을 defaultValues로 사용
+   */
+  const form = useForm<TWriteSchema>({
     resolver: zodResolver(writeSchema),
     mode: 'onChange',
+
     defaultValues: {
-      imageUrl: '',
-      source: '',
-      reflection: '',
-      emotionUuid: '',
-      tags: [] as string[],
-      collectionUuid: [],
-      visibility: selectedVisibility,
+      imageUrl: draft?.imageUrl ?? '',
+      source: draft?.source ?? '',
+      reflection: draft?.reflection ?? '',
+      emotionUuid: draft?.emotionUuid ?? '',
+      tags: draft?.tags ?? [],
+      collectionUuid: draft?.collectionUuid ?? [],
+      visibility: draft?.visibility ?? VISIBILITY[0].value,
     },
   });
 
+  const formValues = useWatch({
+    control: form.control,
+  });
+
+  useEffect(() => {
+    const currentDraft: PostDraft = {
+      imageUrl: formValues.imageUrl ?? '',
+      source: formValues.source ?? '',
+      reflection: formValues.reflection ?? '',
+      emotionUuid: formValues.emotionUuid ?? '',
+      tags: formValues.tags ?? [],
+
+      collectionUuid: selectedCollections.map((collection) => collection.uuid),
+
+      visibility: selectedVisibility,
+
+      selectedCollections,
+    };
+
+    sessionStorage.setItem(DRAFT_KEY, JSON.stringify(currentDraft));
+  }, [formValues, selectedCollections, selectedVisibility]);
+
   const handleVisibility = (value: VisibilityType) => {
     setSelectedVisibility(value);
+
     form.setValue('visibility', value, {
       shouldValidate: true,
+      shouldDirty: true,
     });
   };
 
   const handleSelectedFile = async (file: File) => {
-    if (previewUrl) {
+    if (previewUrl?.startsWith('blob:')) {
       URL.revokeObjectURL(previewUrl);
     }
 
     const localPreview = URL.createObjectURL(file);
 
     setPreviewUrl(localPreview);
+
     imageFileRef.current = file;
 
-    const response = await postFileUpload(file);
+    try {
+      const response = await postFileUpload(file);
 
-    form.setValue('imageUrl', response.data.url);
+      form.setValue('imageUrl', response.data.url, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+    } catch (error) {
+      console.error('이미지 업로드 실패:', error);
+
+      toast.error('이미지 업로드에 실패했습니다. 다시 시도해주세요.');
+    }
   };
 
   const handleImageSelect = async () => {
@@ -104,6 +208,7 @@ export const PostsWrite: FC<TProps> = () => {
     const imageData = result.base64 || result.uri;
 
     const response = await fetch(imageData);
+
     const blob = await response.blob();
 
     const file = new File([blob], 'image.jpg', {
@@ -117,14 +222,26 @@ export const PostsWrite: FC<TProps> = () => {
     try {
       await postPosts({
         ...data,
+
         collectionUuid: selectedCollections.map(
           (collection) => collection.uuid,
         ),
+
         visibility: selectedVisibility,
       });
+
+      sessionStorage.removeItem(DRAFT_KEY);
+
+      if (previewUrl?.startsWith('blob:')) {
+        URL.revokeObjectURL(previewUrl);
+      }
+
       toast.success('게시물이 성공적으로 등록되었습니다.');
-      router.push('/home'); // 게시물 목록 페이지로 이동
-    } catch {
+
+      router.push('/home');
+    } catch (error) {
+      console.error('게시물 등록 실패:', error);
+
       toast.error('게시물 등록에 실패했습니다. 다시 시도해주세요.');
     }
   };
@@ -139,6 +256,7 @@ export const PostsWrite: FC<TProps> = () => {
           />
         }
       />
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit, (errors) => {
@@ -151,16 +269,17 @@ export const PostsWrite: FC<TProps> = () => {
               src={previewUrl}
               alt=""
               className="h-[240px] w-[240px] rounded-lg object-cover"
-              onClick={() => handleImageSelect()}
+              onClick={handleImageSelect}
             />
           ) : (
             <div
               className="flex h-[240px] w-[240px] flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-gray-04 bg-white"
-              onClick={() => handleImageSelect()}
+              onClick={handleImageSelect}
             >
               <span className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-02">
                 <Icons.camera className="size-6 fill-sand-06" />
               </span>
+
               <span className="font-s-2 text-center text-gray-05">
                 필사 사진을 올려주세요
               </span>
@@ -193,15 +312,13 @@ export const PostsWrite: FC<TProps> = () => {
               fieldType={FormFieldType.CHIP}
               control={form.control}
               name="emotionUuid"
-              label="이 글은 어떤 마음에 가까웠나요??"
+              label="이 글은 어떤 마음에 가까웠나요?"
               required
               options={
-                emotions?.data.map((item) => {
-                  return {
-                    label: item.name,
-                    value: item.uuid,
-                  };
-                }) ?? []
+                emotions?.data.map((item) => ({
+                  label: item.name,
+                  value: item.uuid,
+                })) ?? []
               }
             />
 
