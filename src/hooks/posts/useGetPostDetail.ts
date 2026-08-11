@@ -13,7 +13,10 @@ export interface ISpecificCollectionResponse {
   visibility: VisibilityType;
   createdAt: string;
   updatedAt: string;
-  emotionUuid: string;
+  emotion: {
+    uuid: string;
+    name: string;
+  };
   collections: [
     {
       uuid: string;

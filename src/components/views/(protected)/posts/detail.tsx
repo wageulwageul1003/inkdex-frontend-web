@@ -82,11 +82,17 @@ export const PostsDetail: FC<TProps> = ({ postUuid }: TProps) => {
 
       <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-gray-03">
         <Image
-          src={data?.data.imageUrl || '/default-image.png'}
-          alt={data?.data?.source || ''}
+          src={data.data.imageUrl || '/default-image.png'}
+          alt={data.data.source}
           fill
           className="object-cover"
         />
+
+        {data.data.emotion && (
+          <div className="font-xs-2 absolute left-2 top-2 z-10 flex items-center justify-center rounded-lg bg-black/20 px-2 py-1 text-white">
+            {data.data.emotion.name}
+          </div>
+        )}
       </div>
 
       <div className="mt-2.5 flex items-center justify-between px-1">
