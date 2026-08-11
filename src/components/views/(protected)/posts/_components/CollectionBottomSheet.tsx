@@ -1,6 +1,8 @@
+'use client';
+
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Loading } from '@/components/shared/Loading';
 import { Icons } from '@/components/shared/icons';
@@ -28,59 +30,99 @@ interface ICollectionBottomSheet {
 
 export const CollectionBottomSheet = (props: ICollectionBottomSheet) => {
   const { selectedCollections, setSelectedCollections } = props;
+
   const router = useRouter();
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useGetCollectionList({
       size: '10',
     });
 
+  const [tempSelectedCollections, setTempSelectedCollections] =
+    useState<ICollectionListResponse[]>(selectedCollections);
+
   const observerRef = useInfiniteScroll(
-    { fetchNextPage, hasNextPage, isFetchingNextPage },
-    { threshold: 0.1 },
+    {
+      fetchNextPage,
+      hasNextPage,
+      isFetchingNextPage,
+    },
+    {
+      threshold: 0.1,
+    },
   );
+
+  const handleOpen = () => {
+    setTempSelectedCollections(selectedCollections);
+  };
+
+  const handleToggle = (collection: ICollectionListResponse) => {
+    const isSelected = tempSelectedCollections.some(
+      (item) => item.uuid === collection.uuid,
+    );
+
+    if (isSelected) {
+      setTempSelectedCollections((prev) =>
+        prev.filter((item) => item.uuid !== collection.uuid),
+      );
+
+      return;
+    }
+
+    setTempSelectedCollections((prev) => [...prev, collection]);
+  };
+
+  const handleSave = () => {
+    setSelectedCollections(tempSelectedCollections);
+  };
 
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        {selectedCollections.length > 0 ? (
-          <div className="rounded-lg border border-gray-03 bg-white px-4 py-3">
-            <div className="flex items-center gap-1">
-              <span className="font-xs-2 text-gray-08">컬렉션</span>
-              <span className="font-xs-2 text-gray-05">
-                ({selectedCollections.length})
-              </span>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {selectedCollections.map((item) => (
-                <div
-                  key={item.uuid}
-                  className="flex items-center gap-2 py-2 pl-2 pr-3"
-                >
-                  <div className="h-6 w-6 shrink-0 rounded-md border border-gray-03">
-                    <Image
-                      src={item.imageUrl || '/default-collection.png'}
-                      alt={item.name}
-                      width={24}
-                      height={24}
-                    />
+        <div onClick={handleOpen}>
+          {selectedCollections.length > 0 ? (
+            <div className="rounded-lg border border-gray-03 bg-white px-4 py-3">
+              <div className="flex items-center gap-1">
+                <span className="font-xs-2 text-gray-08">컬렉션</span>
+
+                <span className="font-xs-2 text-gray-05">
+                  ({selectedCollections.length})
+                </span>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {selectedCollections.map((item) => (
+                  <div
+                    key={item.uuid}
+                    className="flex items-center gap-2 py-2 pl-2 pr-3"
+                  >
+                    <div className="h-6 w-6 shrink-0 rounded-md border border-gray-03">
+                      <Image
+                        src={item.imageUrl || '/default-collection.png'}
+                        alt={item.name}
+                        width={24}
+                        height={24}
+                      />
+                    </div>
+
+                    <span className="font-xs-2 line-clamp-1 flex-1 text-gray-09">
+                      {item.name}
+                    </span>
                   </div>
-                  <span className="font-xs-2 line-clamp-1 flex-1 text-gray-09">
-                    {item.name}
-                  </span>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        ) : (
-          <Button
-            variant="outline"
-            size="lg"
-            className="flex w-full items-center justify-center gap-1"
-          >
-            <Icons.plus className="size-6 fill-gray-06" />
-            <span className="font-m-2">컬렉션에 담기</span>
-          </Button>
-        )}
+          ) : (
+            <Button
+              variant="outline"
+              size="lg"
+              className="flex w-full items-center justify-center gap-1"
+            >
+              <Icons.plus className="size-6 fill-gray-06" />
+              <span className="font-m-2">컬렉션에 담기</span>
+            </Button>
+          )}
+        </div>
       </DrawerTrigger>
       <DrawerContent className="flex max-h-[624px] flex-col">
         <DrawerHeader>
@@ -98,57 +140,48 @@ export const CollectionBottomSheet = (props: ICollectionBottomSheet) => {
             </div>
             <Icons.keyboardArrowRight className="size-6 fill-gray-06" />
           </div>
+
           <div className="mt-4 flex flex-col gap-4">
-            {data?.content.map((item) =>
-              (() => {
-                const isSelected = selectedCollections.some(
-                  (collection) => collection.uuid === item.uuid,
-                );
+            {data?.content.map((item) => {
+              const isSelected = tempSelectedCollections.some(
+                (collection) => collection.uuid === item.uuid,
+              );
 
-                const toggle = () => {
-                  setSelectedCollections(
-                    isSelected
-                      ? selectedCollections.filter(
-                          (collection) => collection.uuid !== item.uuid,
-                        )
-                      : [...selectedCollections, item],
-                  );
-                };
-
-                return (
-                  <div
-                    key={item.uuid}
-                    className="flex items-center gap-3 rounded-lg bg-gray-01 py-2 pl-3 pr-4"
-                    onClick={toggle}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') toggle();
-                    }}
-                  >
-                    <div className="h-[40px] w-[40px] shrink-0 rounded-md border border-gray-03">
-                      <Image
-                        src={item.imageUrl || '/default-collection.png'}
-                        alt=""
-                        width={40}
-                        height={40}
-                        className="rounded-md"
-                      />
-                    </div>
-                    <span className="font-s-2 line-clamp-1 flex-1 text-gray-09">
-                      {item.name}
-                    </span>
-                    {isSelected ? (
-                      <Icons.checkBox className={cn('size-6 fill-gray-08')} />
-                    ) : (
-                      <Icons.checkBoxOutlineBlank
-                        className={cn('size-6 stroke-gray-05')}
-                      />
-                    )}
+              return (
+                <div
+                  key={item.uuid}
+                  className="flex items-center gap-3 rounded-lg bg-gray-01 py-2 pl-3 pr-4"
+                  onClick={() => handleToggle(item)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      handleToggle(item);
+                    }
+                  }}
+                >
+                  <div className="h-[40px] w-[40px] shrink-0 rounded-md border border-gray-03">
+                    <Image
+                      src={item.imageUrl || '/default-collection.png'}
+                      alt=""
+                      width={40}
+                      height={40}
+                      className="rounded-md"
+                    />
                   </div>
-                );
-              })(),
-            )}
+                  <span className="font-s-2 line-clamp-1 flex-1 text-gray-09">
+                    {item.name}
+                  </span>
+                  {isSelected ? (
+                    <Icons.checkBox className={cn('size-6 fill-gray-08')} />
+                  ) : (
+                    <Icons.checkBoxOutlineBlank
+                      className={cn('size-6 stroke-gray-05')}
+                    />
+                  )}
+                </div>
+              );
+            })}
             <div ref={observerRef} className="flex h-1 justify-center">
               {isFetchingNextPage && <Loading />}
             </div>
@@ -157,7 +190,7 @@ export const CollectionBottomSheet = (props: ICollectionBottomSheet) => {
 
         <DrawerFooter className="sticky bottom-3 z-10 bg-white px-4">
           <DrawerClose asChild>
-            <Button variant="outline" size="lg">
+            <Button variant="outline" size="lg" onClick={handleSave}>
               저장
             </Button>
           </DrawerClose>
