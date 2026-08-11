@@ -15,7 +15,7 @@ interface TProps {
   setSelectedYear: (year: string) => void;
   selectedMonth: string | null;
   setSelectedMonth: (month: string) => void;
-  isInitShowDate: boolean;
+  isInitShowDate?: boolean;
 }
 
 const YEARS = Array.from({ length: 20 }, (_, i) =>
