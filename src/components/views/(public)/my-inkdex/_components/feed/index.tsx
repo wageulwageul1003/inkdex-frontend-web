@@ -40,7 +40,6 @@ export const Feed = () => {
       <div className="flex items-center gap-2 overflow-x-scroll px-4 py-2"></div>
 
       <div className="flex items-center justify-between">
-        {/* TODO: 초기에 미노출됨 */}
         <DatePickerBottomSheet
           selectedYear={selectedYear}
           setSelectedYear={setSelectedYear}

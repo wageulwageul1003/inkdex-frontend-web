@@ -27,16 +27,18 @@ export const User = () => {
       {data?.paging.totalElements === 0 ? (
         <NoResult />
       ) : (
-        <div className="mt-4 flex flex-col gap-4">
+        <div className="mt-4 flex flex-col gap-2">
           {data?.content.map((item) => (
-            <UserProfile
-              accountUuid={item.uuid}
-              nickname={item.nickname}
-              profileImageUrl={item.profileImageUrl}
-              bio={item.bio}
-              following={item.isFollowing}
-              isShowMore={false}
-            />
+            <div key={item.uuid} className="py-2">
+              <UserProfile
+                accountUuid={item.uuid}
+                nickname={item.nickname}
+                profileImageUrl={item.profileImageUrl}
+                bio={item.bio}
+                following={item.isFollowing}
+                isShowMore={false}
+              />
+            </div>
           ))}
           <div ref={observerRef} className="flex h-1 justify-center">
             {isFetchingNextPage && <Loading />}

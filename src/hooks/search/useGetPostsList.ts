@@ -12,6 +12,8 @@ type TGetPostsListParams = {
   searchKeyword?: string;
   feedType?: string;
   targetAccountUuid?: string;
+  year?: string | null;
+  month?: string | null;
 };
 
 export const getPostsList = async (
@@ -26,6 +28,8 @@ export const getPostsList = async (
   if (params.feedType) queryParams.set('feedType', params.feedType);
   if (params.targetAccountUuid)
     queryParams.set('targetAccountUuid', params.targetAccountUuid);
+  if (params.year) queryParams.set('year', params.year);
+  if (params.month) queryParams.set('month', params.month);
 
   const url = `/api/posts?${queryParams.toString()}`;
 

@@ -6,5 +6,5 @@ export default async function MyPage({
   params: Promise<{ uuid: string }>;
 }) {
   const { uuid } = await params;
-  return redirect(`/my/${uuid}/collection`);
+  return redirect(`/my/${uuid}/posts`);
 }

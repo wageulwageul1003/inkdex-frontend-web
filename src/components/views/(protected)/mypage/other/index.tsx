@@ -33,6 +33,7 @@ export const MyOtherPageView = ({ uuid, defaultValue }: MyPageProps) => {
             />
           </span>
         }
+        // TODO: 차단하기 버튼
         right={<Icons.arrowLeftAlt />}
       />
       <MyProfile uuid={uuid} />
