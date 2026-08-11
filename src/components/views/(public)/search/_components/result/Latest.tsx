@@ -6,6 +6,7 @@ import { NoResult } from './no-result';
 import { Loading } from '@/components/shared/Loading';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useGetPostsList } from '@/hooks/search/useGetPostsList';
+import { Card } from '@/components/shared/Card';
 
 export const Latest = () => {
   const searchParams = useSearchParams();
@@ -28,7 +29,7 @@ export const Latest = () => {
         <NoResult />
       ) : (
         <div className="mt-4 flex flex-col gap-4">
-          {data?.content.map((item) => <p>{item.account.bio}</p>)}
+          {data?.content.map((item) => <Card item={item} />)}
           <div ref={observerRef} className="flex h-1 justify-center">
             {isFetchingNextPage && <Loading />}
           </div>
