@@ -59,7 +59,7 @@ export const SearchResultView = ({ defaultValue }: ISearchResultProps) => {
       <Tabs
         value={defaultValue}
         onValueChange={handleTabChange}
-        className="w-full"
+        className="w-full pb-20"
       >
         <TabsList className="">
           <TabsTrigger value="recommend">추천</TabsTrigger>
