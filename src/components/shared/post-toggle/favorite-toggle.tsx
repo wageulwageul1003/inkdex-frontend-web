@@ -23,7 +23,6 @@ const FavoriteToggle = ({
   const { mutateAsync: postLike } = usePostLike();
   const [isFavorited, setIsFavorited] = useState(defaultFavorite);
 
-  // Update state when defaultFavorite prop changes (e.g., when data loads)
   useEffect(() => {
     setIsFavorited(defaultFavorite);
   }, [defaultFavorite]);

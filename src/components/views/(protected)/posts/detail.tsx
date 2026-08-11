@@ -91,10 +91,15 @@ export const PostsDetail: FC<TProps> = ({ postUuid }: TProps) => {
 
       <div className="mt-2.5 flex items-center justify-between px-1">
         <p className="font-m-1 text-gray-09">{data?.data.source}</p>
-        <FavoriteToggle
-          defaultFavorite={data?.data.isLiked}
-          uuid={data?.data.uuid}
-        />
+        <div className="flex items-center gap-1 py-1">
+          <FavoriteToggle
+            defaultFavorite={data?.data.isLiked}
+            uuid={data?.data.uuid}
+          />
+          <span className="font-xs-2 text-gray-08">
+            {data.data.likeCount.toLocaleString()}
+          </span>
+        </div>
       </div>
 
       <div className="flex flex-col px-1">

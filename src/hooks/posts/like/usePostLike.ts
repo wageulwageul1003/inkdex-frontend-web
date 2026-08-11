@@ -14,12 +14,19 @@ export const postLike = async (params: { postUuid: string }) => {
 
 export const usePostLike = () => {
   const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: postLike,
 
-    onSuccess: async () => {
+    onSuccess: async (_, variables) => {
+      const { postUuid } = variables;
+
       await queryClient.refetchQueries({
         queryKey: queryKeys.mypage.postList._def,
+      });
+
+      await queryClient.refetchQueries({
+        queryKey: queryKeys.post.detail(postUuid).queryKey,
       });
     },
   });
