@@ -73,6 +73,8 @@ export const Card = ({ item, isShowBio = true }: ICardProps) => {
           )}
         </div>
 
+        <p className="font-m-1 mt-3 text-black">{item.source}</p>
+
         {/* 내용 */}
         <div className="relative">
           <p
