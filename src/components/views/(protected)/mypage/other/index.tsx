@@ -9,6 +9,8 @@ import { Header } from '@/components/shared/layout/header';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { OtherProfileCollection } from './_components/OtherProfileCollection';
 import { OtherProfilePosts } from './_components/OtherProfilePosts';
+import { Button } from '@/components/ui/button';
+import { useState } from 'react';
 
 interface MyPageProps {
   uuid?: string;
@@ -17,6 +19,7 @@ interface MyPageProps {
 
 export const MyOtherPageView = ({ uuid, defaultValue }: MyPageProps) => {
   const router = useRouter();
+  const [moreOpen, setMoreOpen] = useState(false);
 
   const handleTabChange = (value: string) => {
     router.push(`/my/${uuid}/${value}`);
@@ -33,8 +36,26 @@ export const MyOtherPageView = ({ uuid, defaultValue }: MyPageProps) => {
             />
           </span>
         }
-        // TODO: 차단하기 버튼
-        right={<Icons.arrowLeftAlt />}
+        right={
+          // TODO: 차단 로직
+          <div className="relative">
+            <Button
+              onClick={() => setMoreOpen((prev) => !prev)}
+              variant="buttonIconTextOnly"
+              size="buttonIconMedium"
+            >
+              <Icons.moreHoriz className="size-6 fill-gray-08" />
+            </Button>
+
+            {moreOpen && (
+              <div className="absolute right-0 top-full z-10 mt-1 flex w-[104px] flex-col items-center rounded-lg border border-gray-03 bg-white text-center">
+                <p className="font-m-2 flex h-11 items-center px-2 text-gray-08">
+                  차단하기
+                </p>
+              </div>
+            )}
+          </div>
+        }
       />
       <MyProfile uuid={uuid} />
 
