@@ -47,11 +47,11 @@ export const SearchResultView = ({ defaultValue }: ISearchResultProps) => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="pb-3 pt-2">
           <FormFields
-            fieldType={FormFieldType.INPUT}
+            fieldType={FormFieldType.SEARCH_INPUT}
             control={form.control}
             name="searchKeyword"
             placeholder="검색어를 입력해주세요."
-            className="mt-2 w-full"
+            className="w-full"
           />
         </form>
       </Form>
