@@ -157,6 +157,7 @@ interface CustomProps<T extends FieldValues> {
 
   // event handlers
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onFocus?: React.FocusEventHandler<HTMLInputElement>;
 }
 
 export const InputField = <T extends FieldValues>({
@@ -199,6 +200,7 @@ export const InputField = <T extends FieldValues>({
             className={props.fieldClassName}
             maxLength={props.maxCharacters}
             id={formItemId}
+            onFocus={props.onFocus}
             {...field}
           />
         </fieldset>

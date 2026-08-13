@@ -52,6 +52,7 @@ export const SearchResultView = ({ defaultValue }: ISearchResultProps) => {
             name="searchKeyword"
             placeholder="검색어를 입력해주세요."
             className="w-full"
+            onFocus={() => router.push('/search')}
           />
         </form>
       </Form>
