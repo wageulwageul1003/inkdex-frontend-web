@@ -1,4 +1,4 @@
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 
 import { NoResult } from './no-result';
@@ -7,8 +7,12 @@ import { Loading } from '@/components/shared/Loading';
 import { UserProfile } from '@/components/shared/user-profile';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useGetUserList } from '@/hooks/search/useGetUserList';
+import Cookies from 'js-cookie';
+import { USER_UUID } from '@/constants/tokens';
 
 export const User = () => {
+  const router = useRouter();
+  const userUUID = Cookies.get(USER_UUID);
   const searchParams = useSearchParams();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
@@ -29,7 +33,14 @@ export const User = () => {
       ) : (
         <div className="mt-4 flex flex-col gap-2">
           {data?.content.map((item) => (
-            <div key={item.uuid} className="py-2">
+            <div
+              key={item.uuid}
+              className="cursor-pointer py-2 active:bg-gray-01"
+              onClick={() => {
+                if (item.uuid === userUUID) router.push(`/my`);
+                else router.push(`/my/${item.uuid}`);
+              }}
+            >
               <UserProfile
                 accountUuid={item.uuid}
                 nickname={item.nickname}
