@@ -11,6 +11,7 @@ import { OtherProfileCollection } from './_components/OtherProfileCollection';
 import { OtherProfilePosts } from './_components/OtherProfilePosts';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
+import { usePostBlock } from '@/hooks/auth/block/usePostBlock';
 
 interface MyPageProps {
   uuid?: string;
@@ -20,9 +21,14 @@ interface MyPageProps {
 export const MyOtherPageView = ({ uuid, defaultValue }: MyPageProps) => {
   const router = useRouter();
   const [moreOpen, setMoreOpen] = useState(false);
+  const { mutateAsync: postBlock } = usePostBlock();
 
   const handleTabChange = (value: string) => {
     router.push(`/my/${uuid}/${value}`);
+  };
+
+  const handleBlock = async () => {
+    await postBlock({ blockedAccountUuid: uuid ?? '' });
   };
 
   return (
@@ -37,7 +43,6 @@ export const MyOtherPageView = ({ uuid, defaultValue }: MyPageProps) => {
           </span>
         }
         right={
-          // TODO: 차단 로직
           <div className="relative">
             <Button
               onClick={() => setMoreOpen((prev) => !prev)}
@@ -48,7 +53,10 @@ export const MyOtherPageView = ({ uuid, defaultValue }: MyPageProps) => {
             </Button>
 
             {moreOpen && (
-              <div className="absolute right-0 top-full z-10 mt-1 flex w-[104px] flex-col items-center rounded-lg border border-gray-03 bg-white text-center">
+              <div
+                className="absolute right-0 top-full z-10 mt-1 flex w-[104px] flex-col items-center rounded-lg border border-gray-03 bg-white text-center"
+                onClick={() => handleBlock()}
+              >
                 <p className="font-m-2 flex h-11 items-center px-2 text-gray-08">
                   차단하기
                 </p>
