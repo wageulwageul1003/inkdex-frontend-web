@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 
-const FindPasswordSuccessComponent = () => {
+const FindPasswordSuccessView = () => {
   const router = useRouter();
 
   return (
@@ -34,4 +34,4 @@ const FindPasswordSuccessComponent = () => {
   );
 };
 
-export default FindPasswordSuccessComponent;
+export default FindPasswordSuccessView;

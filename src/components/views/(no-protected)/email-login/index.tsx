@@ -23,7 +23,7 @@ import {
 } from '@/constants/tokens';
 import { usePostEmailLogin } from '@/hooks/auth/usePostEmailLogin';
 
-const EmailLogin = () => {
+const EmailLoginView = () => {
   const router = useRouter();
   const { mutateAsync: postEmailLogin } = usePostEmailLogin();
   const searchParams = useSearchParams();
@@ -161,4 +161,4 @@ const EmailLogin = () => {
   );
 };
 
-export default EmailLogin;
+export default EmailLoginView;

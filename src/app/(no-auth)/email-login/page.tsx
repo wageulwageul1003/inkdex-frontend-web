@@ -1,5 +1,5 @@
-import EmailLogin from '@/components/views/(no-protected)/email-login';
+import EmailLoginView from '@/components/views/(no-protected)/email-login';
 
-export default function EmailLoginPage() {
-  return <EmailLogin />;
+export default function Page() {
+  return <EmailLoginView />;
 }

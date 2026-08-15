@@ -1,5 +1,5 @@
-import FindPasswordSuccessComponent from '@/components/views/(no-protected)/find-password/success';
+import FindPasswordSuccessView from '@/components/views/(no-protected)/find-password/success';
 
-export default function FindPasswordSuccessPage() {
-  return <FindPasswordSuccessComponent />;
+export default function Page() {
+  return <FindPasswordSuccessView />;
 }

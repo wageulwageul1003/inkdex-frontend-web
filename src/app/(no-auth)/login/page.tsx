@@ -1,5 +1,5 @@
-import Login from '@/components/views/(no-protected)/login';
+import LoginView from '@/components/views/(no-protected)/login';
 
-export default function LoginPage() {
-  return <Login />;
+export default function Page() {
+  return <LoginView />;
 }

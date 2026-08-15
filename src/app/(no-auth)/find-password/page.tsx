@@ -1,5 +1,5 @@
-import FindPasswordComponent from '@/components/views/(no-protected)/find-password';
+import FindPasswordView from '@/components/views/(no-protected)/find-password';
 
-export default function FindPasswordPage() {
-  return <FindPasswordComponent />;
+export default function Page() {
+  return <FindPasswordView />;
 }

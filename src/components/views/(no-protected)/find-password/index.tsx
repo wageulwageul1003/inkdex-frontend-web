@@ -15,7 +15,7 @@ import { ErrorData } from '@/utils/fetch';
 import { findPasswordSchema, TFindPasswordSchema } from './schema';
 import { ERROR_CODES } from '@/constants/ERROR_CODES';
 
-const FindPasswordComponent = () => {
+const FindPasswordView = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { mutateAsync: postResetPassword } = usePostResetPassword();
@@ -130,4 +130,4 @@ const FindPasswordComponent = () => {
   );
 };
 
-export default FindPasswordComponent;
+export default FindPasswordView;

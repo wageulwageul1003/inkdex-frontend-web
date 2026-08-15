@@ -37,7 +37,7 @@ const LOGIN_METHODS = [
   },
 ] as const;
 
-export default function Login() {
+const LoginView = () => {
   const router = useRouter();
 
   const handleMethodClick = (method: (typeof LOGIN_METHODS)[number]) => {
@@ -141,4 +141,6 @@ export default function Login() {
       </div>
     </div>
   );
-}
+};
+
+export default LoginView;
