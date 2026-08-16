@@ -40,9 +40,6 @@ interface PostDraft {
   selectedCollections: ICollectionListResponse[];
 }
 
-/**
- * sessionStorage에서 작성 중인 게시물 가져오기
- */
 const getPostDraft = (): PostDraft | null => {
   if (typeof window === 'undefined') {
     return null;
@@ -58,7 +55,6 @@ const getPostDraft = (): PostDraft | null => {
     return JSON.parse(savedDraft);
   } catch (error) {
     console.error('게시물 임시 저장 데이터 파싱 실패:', error);
-
     sessionStorage.removeItem(DRAFT_KEY);
 
     return null;
@@ -68,30 +64,16 @@ const getPostDraft = (): PostDraft | null => {
 export const PostsWrite: FC<TProps> = () => {
   const router = useRouter();
 
-  /**
-   * sessionStorage에 저장된 draft
-   */
   const draft = getPostDraft();
 
-  /**
-   * 컬렉션
-   *
-   * 기존 draft가 있으면 복구
-   */
   const [selectedCollections, setSelectedCollections] = useState<
     ICollectionListResponse[]
   >(draft?.selectedCollections ?? []);
 
-  /**
-   * 공개 범위
-   */
   const [selectedVisibility, setSelectedVisibility] = useState<VisibilityType>(
     draft?.visibility ?? VISIBILITY[0].value,
   );
 
-  /**
-   * 이미지 preview
-   */
   const [previewUrl, setPreviewUrl] = useState<string | null>(
     draft?.imageUrl ?? null,
   );
@@ -104,12 +86,6 @@ export const PostsWrite: FC<TProps> = () => {
 
   const { data: emotions } = useGetEmotionList();
 
-  /**
-   * Form
-   *
-   * sessionStorage에 draft가 있으면
-   * 해당 값을 defaultValues로 사용
-   */
   const form = useForm<TWriteSchema>({
     resolver: zodResolver(writeSchema),
     mode: 'onChange',

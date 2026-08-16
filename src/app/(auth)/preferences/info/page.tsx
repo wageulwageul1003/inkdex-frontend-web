@@ -1,5 +1,5 @@
 import { InfoView } from '@/components/views/(protected)/preferences/info';
 
-export default function Info() {
+export default function Page() {
   return <InfoView />;
 }

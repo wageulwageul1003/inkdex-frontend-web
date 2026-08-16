@@ -1,5 +1,5 @@
 import { FeedbackComponent } from '@/components/views/(protected)/preferences/feedback';
 
-export default function Feedback() {
+export default function Page() {
   return <FeedbackComponent />;
 }

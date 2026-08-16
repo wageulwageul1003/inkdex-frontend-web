@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
 
-export default function MyInkdexPage() {
+export default function Page() {
   return redirect('/my-inkdex/feed');
 }

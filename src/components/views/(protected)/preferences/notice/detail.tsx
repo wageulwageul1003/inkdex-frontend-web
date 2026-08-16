@@ -11,7 +11,7 @@ interface TProps {
   noticeUuid: string;
 }
 
-export const NoticeDetail: FC<TProps> = ({ noticeUuid }: TProps) => {
+const NoticeDetailView: FC<TProps> = ({ noticeUuid }: TProps) => {
   const router = useRouter();
   const { data } = useGetNoticeDetail(noticeUuid);
   return (
@@ -42,3 +42,5 @@ export const NoticeDetail: FC<TProps> = ({ noticeUuid }: TProps) => {
     </div>
   );
 };
+
+export default NoticeDetailView;

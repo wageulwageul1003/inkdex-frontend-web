@@ -1,5 +1,5 @@
 import { SearchResultView } from '@/components/views/(public)/search/search';
 
-export default function SearchResultPage() {
+export default function Page() {
   return <SearchResultView defaultValue="recommend" />;
 }
