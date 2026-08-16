@@ -12,7 +12,7 @@ import { TWriteSchema, writeSchema } from './schema';
 
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
-import { Header } from '@/components/shared/layout/header';
+import { Header } from '@/components/shared/layout/Header';
 import { Button } from '@/components/ui/button';
 import { Form, FormLabel } from '@/components/ui/form';
 import { VISIBILITY, VisibilityType } from '@/constants/enum';

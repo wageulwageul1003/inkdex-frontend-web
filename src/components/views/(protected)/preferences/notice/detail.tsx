@@ -1,7 +1,7 @@
 'use client';
 
 import { Icons } from '@/components/shared/icons';
-import { Header } from '@/components/shared/layout/header';
+import { Header } from '@/components/shared/layout/Header';
 import { useGetNoticeDetail } from '@/hooks/notice/useGetNoticeDetail';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';

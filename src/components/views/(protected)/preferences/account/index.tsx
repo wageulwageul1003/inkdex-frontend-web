@@ -7,7 +7,7 @@ import React from 'react';
 
 import { CustomAlertDialog } from '@/components/shared/CustomAlertDialog';
 import { Icons } from '@/components/shared/icons';
-import { Header } from '@/components/shared/layout/header';
+import { Header } from '@/components/shared/layout/Header';
 import { Button } from '@/components/ui/button';
 import { ACCESS_TOKEN, USER_UUID } from '@/constants/tokens';
 import { cn } from '@/lib/utils';

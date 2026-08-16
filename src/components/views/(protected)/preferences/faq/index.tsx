@@ -7,7 +7,7 @@ import { FaqItem } from './FaqItem';
 
 import Chips from '@/components/shared/Chips';
 import { Icons } from '@/components/shared/icons';
-import { Header } from '@/components/shared/layout/header';
+import { Header } from '@/components/shared/layout/Header';
 import { Button } from '@/components/ui/button';
 import { useGetFaqCategory } from '@/hooks/faq/useGetFaqCategory';
 import { useGetFaqList } from '@/hooks/faq/useGetFaqList';

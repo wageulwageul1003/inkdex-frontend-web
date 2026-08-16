@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { MyProfile } from '../_components/MyProfile';
 
 import { Icons } from '@/components/shared/icons';
-import { Header } from '@/components/shared/layout/header';
+import { Header } from '@/components/shared/layout/Header';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { OtherProfileCollection } from './_components/OtherProfileCollection';
 import { OtherProfilePosts } from './_components/OtherProfilePosts';

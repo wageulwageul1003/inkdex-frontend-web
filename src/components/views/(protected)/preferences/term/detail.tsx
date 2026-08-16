@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { FC } from 'react';
 
 import { Icons } from '@/components/shared/icons';
-import { Header } from '@/components/shared/layout/header';
+import { Header } from '@/components/shared/layout/Header';
 import { useGetTermsDetail } from '@/hooks/terms/useGetTermsDetail';
 
 interface TProps {

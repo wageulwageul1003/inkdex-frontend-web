@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 import { Icons } from '@/components/shared/icons';
-import { Header } from '@/components/shared/layout/header';
+import { Header } from '@/components/shared/layout/Header';
 import { Button } from '@/components/ui/button';
 import { useGetCollectionAllList } from '@/hooks/collection/useGetCollectionAllList';
 import { usePatchCollectionReorder } from '@/hooks/collection/usePatchCollectionReorder';

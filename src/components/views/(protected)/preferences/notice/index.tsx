@@ -7,7 +7,7 @@ import { NoticeItem } from './NoticeItem';
 
 import Chips from '@/components/shared/Chips';
 import { Icons } from '@/components/shared/icons';
-import { Header } from '@/components/shared/layout/header';
+import { Header } from '@/components/shared/layout/Header';
 import { useGetNoticeCategory } from '@/hooks/notice/useGetNoticeCategory';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { Loading } from '@/components/shared/Loading';

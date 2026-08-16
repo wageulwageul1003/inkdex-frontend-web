@@ -7,7 +7,7 @@ import { Follower } from './_components/Follower';
 import { Following } from './_components/Following';
 
 import { Icons } from '@/components/shared/icons';
-import { Header } from '@/components/shared/layout/header';
+import { Header } from '@/components/shared/layout/Header';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useGetMyProfile } from '@/hooks/auth/useGetMyProfile';
 

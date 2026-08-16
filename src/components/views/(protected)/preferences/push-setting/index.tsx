@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { RemindTime } from './_components/RemindTime';
 
 import { Icons } from '@/components/shared/icons';
-import { Header } from '@/components/shared/layout/header';
+import { Header } from '@/components/shared/layout/Header';
 import { Switch } from '@/components/ui/switch';
 import { useGetNotificationSetting } from '@/hooks/notification/useGetNotificationSetting';
 import { usePatchNotificationSetting } from '@/hooks/notification/usePatchNotificationSetting';

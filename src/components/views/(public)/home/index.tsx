@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { Notification } from '@/components/shared/Notification';
-import { Header } from '@/components/shared/layout/header';
+import { Header } from '@/components/shared/layout/Header';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { HomeCard } from './_components/HomeCard';
 import { Loading } from '@/components/shared/Loading';

@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { FC, useState } from 'react';
 import { Icons } from '@/components/shared/icons';
-import { Header } from '@/components/shared/layout/header';
+import { Header } from '@/components/shared/layout/Header';
 import { useGetPostDetail } from '@/hooks/posts/useGetPostDetail';
 import Image from 'next/image';
 import FavoriteToggle from '@/components/shared/post-toggle/favorite-toggle';

@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 
 import { Notification } from '@/components/shared/Notification';
-import { Header } from '@/components/shared/layout/header';
+import { Header } from '@/components/shared/layout/Header';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
 import { MyProfile } from './_components/MyProfile';
