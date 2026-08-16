@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { Loading } from '@/components/shared/Loading';
-import { UserProfile } from '@/components/shared/user-profile';
+import { UserProfile } from '@/components/shared/UserProfile';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useGetFollowingList } from '@/hooks/follow/useGetFollowingList';
 import { NoData } from '@/components/shared/NoData';

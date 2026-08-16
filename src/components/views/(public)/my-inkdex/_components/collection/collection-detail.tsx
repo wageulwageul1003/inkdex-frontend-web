@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 import { Loading } from '@/components/shared/Loading';
-import { CustomAlertDialog } from '@/components/shared/custom-alert-dialog';
+import { CustomAlertDialog } from '@/components/shared/CustomAlertDialog';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';

@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 
 import { DeleteAccountSchema } from '../schema';
 
-import { CustomAlertDialog } from '@/components/shared/custom-alert-dialog';
+import { CustomAlertDialog } from '@/components/shared/CustomAlertDialog';
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';

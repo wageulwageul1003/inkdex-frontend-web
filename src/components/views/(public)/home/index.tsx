@@ -12,7 +12,7 @@ import { IS_TEMP_PASSWORD, TEMP_PASSWORD } from '@/constants/tokens';
 import dayjs from 'dayjs';
 import MainDate from './_components/MainDate';
 import { useGetMyPostList } from '@/hooks/mypage/useGetMyPostList';
-import { CustomAlertDialog } from '@/components/shared/custom-alert-dialog';
+import { CustomAlertDialog } from '@/components/shared/CustomAlertDialog';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 

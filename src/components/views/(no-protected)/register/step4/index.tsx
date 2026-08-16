@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 
 import { registerStep4Schema, TRegisterStep4Schema } from '../schema';
 
-import { CustomModal } from '@/components/shared/custom-modal';
+import { CustomModal } from '@/components/shared/CustomModal';
 import FormFields, { FormFieldType } from '@/components/shared/form-fields';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';

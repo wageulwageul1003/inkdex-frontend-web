@@ -27,7 +27,7 @@ import SelectComponent from '@/components/ui/select-container';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
-import Chips from '../chips';
+import Chips from '../Chips';
 
 export enum FormFieldType {
   // INPUT VARIANTS

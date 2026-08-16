@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { IPostListResponse } from '@/types/post.types';
-import { UserProfile } from './user-profile';
+import { UserProfile } from './UserProfile';
 
 interface ICardProps {
   item: IPostListResponse;

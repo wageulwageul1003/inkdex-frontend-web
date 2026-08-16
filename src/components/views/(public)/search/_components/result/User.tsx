@@ -4,7 +4,7 @@ import React from 'react';
 import { NoResult } from './no-result';
 
 import { Loading } from '@/components/shared/Loading';
-import { UserProfile } from '@/components/shared/user-profile';
+import { UserProfile } from '@/components/shared/UserProfile';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useGetUserList } from '@/hooks/search/useGetUserList';
 import Cookies from 'js-cookie';

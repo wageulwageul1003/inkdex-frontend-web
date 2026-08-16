@@ -8,7 +8,7 @@ import { Loading } from '@/components/shared/Loading';
 import { useGetActiveEmotionList } from '@/hooks/emotion/useGetActiveEmotionList';
 import { DatePickerBottomSheet } from '../../../home/_components/DatePickerBottomSheet';
 import { Icons } from '@/components/shared/icons';
-import Chips from '@/components/shared/chips';
+import Chips from '@/components/shared/Chips';
 import { useRouter } from 'next/navigation';
 import { NoData } from '@/components/shared/NoData';
 

@@ -10,7 +10,7 @@ import FavoriteToggle from '@/components/shared/post-toggle/favorite-toggle';
 import dayjs from 'dayjs';
 import { VISIBILITY } from '@/constants/enum';
 import { Button } from '@/components/ui/button';
-import { CustomAlertDialog } from '@/components/shared/custom-alert-dialog';
+import { CustomAlertDialog } from '@/components/shared/CustomAlertDialog';
 import { useDeletePost } from '@/hooks/posts/useDeletePost';
 import { toast } from '@/components/ui/sonner';
 

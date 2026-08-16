@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
-export default function KakaoOAuthPage() {
+export default function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
 

@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 import { Button } from '../ui/button';
 
-import { FollowingButton } from './following-button';
+import { FollowingButton } from './FollowingButton';
 import { Icons } from './icons';
 
 import { USER_UUID } from '@/constants/tokens';

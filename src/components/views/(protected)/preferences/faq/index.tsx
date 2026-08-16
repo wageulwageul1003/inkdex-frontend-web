@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react';
 
 import { FaqItem } from './FaqItem';
 
-import Chips from '@/components/shared/chips';
+import Chips from '@/components/shared/Chips';
 import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/header';
 import { Button } from '@/components/ui/button';
