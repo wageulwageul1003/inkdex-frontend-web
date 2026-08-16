@@ -8,7 +8,7 @@ import { useGetNotificationList } from '@/hooks/notification/useGetNotificationL
 import { usePatchNotificationRead } from '@/hooks/notification/usePatchNotificationRead';
 import { usePatchNotificationReadAll } from '@/hooks/notification/usePatchNotificationReadAll';
 
-export const Notification = () => {
+const NotificationView = () => {
   const { mutateAsync: patchNotificationRead } = usePatchNotificationRead();
   const { mutateAsync: patchNotificationReadAll } =
     usePatchNotificationReadAll();
@@ -48,3 +48,5 @@ export const Notification = () => {
     </div>
   );
 };
+
+export default NotificationView;

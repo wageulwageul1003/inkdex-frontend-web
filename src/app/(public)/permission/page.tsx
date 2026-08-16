@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Permission from '@/components/views/(public)/permission';
+import PermissionView from '@/components/views/(public)/permission';
 
-const PermissionPage = (): JSX.Element => {
-  return <Permission />;
+const Page = (): JSX.Element => {
+  return <PermissionView />;
 };
 
-export default PermissionPage;
+export default Page;

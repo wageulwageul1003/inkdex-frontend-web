@@ -43,7 +43,7 @@ const permissionDescription = [
   '휴대폰 “설정 메뉴 > 잉덱스 앱 > 잉덱스 접근 허용”에서 권한 설정을 변경할 수 있습니다. ',
 ];
 
-export default function Permission() {
+const PermissionView = () => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
@@ -118,4 +118,6 @@ export default function Permission() {
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default PermissionView;
