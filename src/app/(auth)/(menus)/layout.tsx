@@ -1,4 +1,4 @@
-import { BottomMenu } from '@/components/shared/layout/bottom-menu';
+import { BottomMenu } from '@/components/shared/layout/BottomMenu';
 
 export default function MenusLayout({
   children,
