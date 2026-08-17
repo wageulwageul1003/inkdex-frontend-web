@@ -28,7 +28,9 @@ export const MyOtherPageView = ({ uuid, defaultValue }: MyPageProps) => {
   };
 
   const handleBlock = async () => {
-    await postBlock({ blockedAccountUuid: uuid ?? '' });
+    await postBlock({ blockedAccountUuid: uuid ?? '' }).then(() =>
+      router.back(),
+    );
   };
 
   return (
