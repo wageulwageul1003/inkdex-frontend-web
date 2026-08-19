@@ -111,9 +111,7 @@ export const PushSettingView = () => {
             {section.label === '리마인드 알림' && (
               <div className="flex flex-col gap-1">
                 <div className="mt-4 flex items-center justify-between">
-                  <span className="font-s-2 text-black">
-                    리마인드 알림 시간 설정
-                  </span>
+                  <span className="font-s-2 text-black">알림 시간 설정</span>
                   <RemindTime
                     selectedRemindTime={
                       notificationMap.get('REMIND')?.value ?? '09:00'
