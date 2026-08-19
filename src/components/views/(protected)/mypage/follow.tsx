@@ -10,6 +10,7 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/Header';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useGetMyProfile } from '@/hooks/auth/useGetMyProfile';
+import { Button } from '@/components/ui/button';
 
 interface IFollow {
   type: string;
@@ -34,6 +35,15 @@ export const FollowView = (props: IFollow) => {
           </span>
         }
         title={myProfile?.data.nickname}
+        right={
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => router.push(`/block`)}
+          >
+            차단 관리
+          </Button>
+        }
       />
 
       <div className="mt-5">
