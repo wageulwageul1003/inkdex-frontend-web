@@ -7,8 +7,8 @@ import { Icons } from '@/components/shared/icons';
 import { Header } from '@/components/shared/layout/Header';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useGetBlockList } from '@/hooks/auth/block/useGetBlockList';
-import { UserProfile } from '@/components/shared/UserProfile';
 import { Loading } from '@/components/shared/Loading';
+import { BlockUser } from './_components/BlockUser';
 
 export const BlockView = () => {
   const router = useRouter();
@@ -36,12 +36,10 @@ export const BlockView = () => {
       <div className="mt-5">
         {data?.content.map((item) => (
           <div className="flex w-full items-center gap-2 py-2" key={item.uuid}>
-            <UserProfile
+            <BlockUser
               accountUuid={item.uuid}
               nickname={item.nickname}
               profileImageUrl={item.profileImageUrl}
-              following={true}
-              isShowMore={false}
             />
           </div>
         ))}
