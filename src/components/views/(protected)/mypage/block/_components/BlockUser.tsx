@@ -44,7 +44,7 @@ export const BlockUser = ({
 
   return (
     <div className="flex w-full items-center gap-2">
-      <div className="flex flex-1 gap-2">
+      <div className="flex flex-1 items-center gap-2">
         <div className="relative h-9 w-9 overflow-hidden rounded-full border border-gray-03">
           <Image
             src={profileImageUrl || '/default-profile.png'}

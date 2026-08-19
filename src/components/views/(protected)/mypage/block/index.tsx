@@ -9,6 +9,7 @@ import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useGetBlockList } from '@/hooks/auth/block/useGetBlockList';
 import { Loading } from '@/components/shared/Loading';
 import { BlockUser } from './_components/BlockUser';
+import { NoData } from '@/components/shared/NoData';
 
 export const BlockView = () => {
   const router = useRouter();
@@ -32,6 +33,10 @@ export const BlockView = () => {
         }
         title={<span className="font-m-1 text-black">차단한 계정 관리</span>}
       />
+
+      {data?.paging.totalElements === 0 && (
+        <NoData message="차단한 계정이 없어요." />
+      )}
 
       <div className="mt-5">
         {data?.content.map((item) => (
