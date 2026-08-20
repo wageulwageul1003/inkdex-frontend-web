@@ -3,30 +3,22 @@
 import React from 'react';
 
 import { useGetNotificationList } from '@/hooks/notification/useGetNotificationList';
-import { usePatchNotificationRead } from '@/hooks/notification/usePatchNotificationRead';
-import { usePatchNotificationReadAll } from '@/hooks/notification/usePatchNotificationReadAll';
 import { Header } from '@/components/shared/layout/Header';
 import { useRouter } from 'next/navigation';
 import { Icons } from '@/components/shared/icons';
 import { Button } from '@/components/ui/button';
+import { Loading } from '@/components/shared/Loading';
+import { NOTIFICATION_TYPE } from '@/types/notification.types';
+import FollowerNotification from './_components/FollowerNotification';
 
 const NotificationView = () => {
   const router = useRouter();
-  const { mutateAsync: patchNotificationRead } = usePatchNotificationRead();
-  const { mutateAsync: patchNotificationReadAll } =
-    usePatchNotificationReadAll();
-  const { data } = useGetNotificationList();
+  const { data, isLoading } = useGetNotificationList();
 
-  const handleRead = async (uuid: string) => {
-    await patchNotificationRead(uuid);
-  };
-
-  const handleReadAll = async () => {
-    await patchNotificationReadAll();
-  };
+  if (isLoading) return <Loading />;
 
   return (
-    <div>
+    <div className="w-full px-4">
       <Header
         left={
           <span onClick={() => router.back()}>
@@ -45,11 +37,28 @@ const NotificationView = () => {
         }
       />
 
-      <p onClick={() => handleReadAll()}>전체 읽음 처리</p>
-
       <div className="flex flex-col">
         {data?.data.map((item) => (
-          <span className="font-s-2 px-4 py-2 text-gray-05">{item.date}</span>
+          <div key={item.date}>
+            <span className="font-s-2 py-2 text-gray-05">{item.date}</span>
+
+            {item.notifications.map((notification) => {
+              switch (notification.type) {
+                case NOTIFICATION_TYPE.FOLLOWER:
+                  return (
+                    <FollowerNotification
+                      key={notification.uuid}
+                      uuid={notification.sender.uuid}
+                      nickname={notification.sender.nickname}
+                      profileImageUrl={notification.sender.profileImageUrl}
+                    />
+                  );
+
+                default:
+                  return null;
+              }
+            })}
+          </div>
         ))}
       </div>
     </div>
