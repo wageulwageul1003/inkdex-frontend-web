@@ -46,6 +46,8 @@ export const ReportsDetail: FC<TProps> = ({ uuid }: TProps) => {
           ))}
         </div>
       </div>
+
+      <div className="mt-7 border-t border-gray-02"></div>
     </div>
   );
 };
