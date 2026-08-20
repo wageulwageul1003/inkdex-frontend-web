@@ -2,25 +2,20 @@
 
 import React from 'react';
 
-import { Loading } from '@/components/shared/Loading';
-import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
 import { useGetNotificationList } from '@/hooks/notification/useGetNotificationList';
 import { usePatchNotificationRead } from '@/hooks/notification/usePatchNotificationRead';
 import { usePatchNotificationReadAll } from '@/hooks/notification/usePatchNotificationReadAll';
+import { Header } from '@/components/shared/layout/Header';
+import { useRouter } from 'next/navigation';
+import { Icons } from '@/components/shared/icons';
+import { Button } from '@/components/ui/button';
 
 const NotificationView = () => {
+  const router = useRouter();
   const { mutateAsync: patchNotificationRead } = usePatchNotificationRead();
   const { mutateAsync: patchNotificationReadAll } =
     usePatchNotificationReadAll();
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useGetNotificationList({
-      size: '10',
-    });
-
-  const observerRef = useInfiniteScroll(
-    { fetchNextPage, hasNextPage, isFetchingNextPage },
-    { threshold: 0.1 },
-  );
+  const { data } = useGetNotificationList();
 
   const handleRead = async (uuid: string) => {
     await patchNotificationRead(uuid);
@@ -32,18 +27,30 @@ const NotificationView = () => {
 
   return (
     <div>
+      <Header
+        left={
+          <span onClick={() => router.back()}>
+            <Icons.ArrowBackIos className="size-6 fill-gray-06" />
+          </span>
+        }
+        title={<span className="font-m-1 text-black">알림</span>}
+        right={
+          <Button
+            size="buttonIconMedium"
+            variant="buttonIconTextOnly"
+            onClick={() => router.push(`/block`)}
+          >
+            <Icons.settings className="size-6 fill-gray-08" />
+          </Button>
+        }
+      />
+
       <p onClick={() => handleReadAll()}>전체 읽음 처리</p>
-      <div className="flex w-full flex-col gap-3">
-        {data?.content.map((item) => (
-          <div key={item.uuid} className="flex">
-            <p onClick={() => handleRead(item.uuid)}>읽음 처리 버튼</p>
-            <p className="text-gray-05">{item.isRead ? '읽음' : '안 읽음'}</p>
-            <p>{item.createdAt}</p>
-          </div>
+
+      <div className="flex flex-col">
+        {data?.data.map((item) => (
+          <span className="font-s-2 px-4 py-2 text-gray-05">{item.date}</span>
         ))}
-        <div ref={observerRef} className="flex h-1 justify-center">
-          {isFetchingNextPage && <Loading />}
-        </div>
       </div>
     </div>
   );

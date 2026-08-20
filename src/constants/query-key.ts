@@ -52,8 +52,7 @@ export const queryKeys = createQueryKeyStore({
   notificationSetting: {},
   notification: {
     readStatus: null,
-    list: (params: { size?: string; page?: string }) =>
-      ['notification', 'list', params] as const,
+    list: null,
   },
   collection: {
     list: (params?: { size?: string; page?: string; accountUuid?: string }) =>
