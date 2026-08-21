@@ -15,10 +15,7 @@ const FollowerNotification = ({
 }: IFollowerNotification) => {
   const router = useRouter();
   return (
-    <div
-      className="flex gap-3 bg-gray-02 py-3"
-      onClick={() => router.push(`/my/${uuid}`)}
-    >
+    <div className="flex gap-3 py-3" onClick={() => router.push(`/my/${uuid}`)}>
       <div className="p-1">
         <Icons.user className="size-5 fill-sand-05" />
       </div>

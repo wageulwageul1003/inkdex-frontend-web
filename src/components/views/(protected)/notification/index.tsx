@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Loading } from '@/components/shared/Loading';
 import { NOTIFICATION_TYPE } from '@/types/notification.types';
 import FollowerNotification from './_components/FollowerNotification';
+import PostLikeNotification from './_components/PostLikeNotification';
 
 const NotificationView = () => {
   const router = useRouter();
@@ -18,8 +19,9 @@ const NotificationView = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="w-full px-4">
+    <div className="w-full bg-gray-02 px-4">
       <Header
+        className="bg-gray-02"
         left={
           <span onClick={() => router.back()}>
             <Icons.ArrowBackIos className="size-6 fill-gray-06" />
@@ -51,6 +53,17 @@ const NotificationView = () => {
                       uuid={notification.sender.uuid}
                       nickname={notification.sender.nickname}
                       profileImageUrl={notification.sender.profileImageUrl}
+                    />
+                  );
+
+                case NOTIFICATION_TYPE.POST_LIKE:
+                  return (
+                    <PostLikeNotification
+                      key={notification.uuid}
+                      uuid={notification.sender.uuid}
+                      nickname={notification.sender.nickname}
+                      profileImageUrl={notification.sender.profileImageUrl}
+                      targetUuid={notification.targetUuid}
                     />
                   );
 
