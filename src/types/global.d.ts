@@ -18,6 +18,7 @@ export interface IResponsePaged<T> {
   error: null | string;
 }
 
+// 리스트 형태의 응답
 export interface IResponse<T> {
   code: number;
   data: T[];
@@ -25,6 +26,7 @@ export interface IResponse<T> {
   error: null | string;
 }
 
+// 상세 형태의 응답
 export interface IResponseDetail<T> {
   code: number;
   data: T;
@@ -32,6 +34,7 @@ export interface IResponseDetail<T> {
   error: null | string;
 }
 
+// 페이징 또는 무한 스크롤용 응답
 export type TInfiniteListResult<T> = {
   content: T[];
   paging: IResponsePaged<T>['data']['paging'];
