@@ -113,24 +113,26 @@ export const MyProfile = ({ uuid }: MyProfileProps) => {
         )}
       </div>
 
-      <div className="mt-4 px-3 py-2">
-        {isMyProfile ? (
-          myProfile?.data.bio ? (
-            <span className="font-xs-2 text-gray-08">
-              {myProfile?.data.bio}
-            </span>
+      {(isMyProfile || otherProfile?.data.bio) && (
+        <div className="mt-4 px-3 py-2">
+          {isMyProfile ? (
+            myProfile?.data.bio ? (
+              <span className="font-xs-2 text-gray-08">
+                {myProfile.data.bio}
+              </span>
+            ) : (
+              <span className="font-xs-2 flex items-center gap-1 text-gray-05">
+                <Icons.moodEmpty className="size-4 fill-gray-03" />
+                당신의 소개를 적어보세요.
+              </span>
+            )
           ) : (
-            <span className="font-xs-2 flex items-center gap-1 text-gray-05">
-              <Icons.moodEmpty className="size-4 fill-gray-03" /> 당신의 소개를
-              적어보세요.
+            <span className="font-xs-2 text-gray-08">
+              {otherProfile?.data.bio}
             </span>
-          )
-        ) : (
-          <span className="font-xs-2 text-gray-08">
-            {otherProfile?.data.bio ?? '소개가 없습니다.'}
-          </span>
-        )}
-      </div>
+          )}
+        </div>
+      )}
 
       <div className="mt-4 w-full">
         {!isMyProfile &&
