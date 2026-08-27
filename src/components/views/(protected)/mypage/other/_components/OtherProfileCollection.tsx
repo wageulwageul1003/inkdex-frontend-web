@@ -8,6 +8,7 @@ import { Loading } from '@/components/shared/Loading';
 import { Icons } from '@/components/shared/icons';
 import { useGetCollectionList } from '@/hooks/collection/useGetCollectionList';
 import { useInfiniteScroll } from '@/hooks/common/useInfiniteScroll';
+import { NoData } from '@/components/shared/NoData';
 
 interface IOtherProfileCollection {
   accountUuid: string;
@@ -18,7 +19,7 @@ export const OtherProfileCollection = ({
 }: IOtherProfileCollection) => {
   const router = useRouter();
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useGetCollectionList({
       size: '10',
       targetAccountUuid: accountUuid,
@@ -28,6 +29,8 @@ export const OtherProfileCollection = ({
     { fetchNextPage, hasNextPage, isFetchingNextPage },
     { threshold: 0.1 },
   );
+
+  if (isLoading) return <Loading />;
 
   return (
     <div className="w-full">
@@ -62,6 +65,10 @@ export const OtherProfileCollection = ({
           {isFetchingNextPage && <Loading />}
         </div>
       </div>
+
+      {data?.paging.totalElements === 0 && (
+        <NoData message="공개된 컬렉션이 없습니다." />
+      )}
     </div>
   );
 };

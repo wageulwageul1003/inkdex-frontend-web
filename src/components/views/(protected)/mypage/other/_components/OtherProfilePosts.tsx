@@ -10,6 +10,7 @@ import { useGetPostsList } from '@/hooks/search/useGetPostsList';
 import dayjs from 'dayjs';
 import { DatePickerBottomSheet } from '@/components/views/(public)/home/_components/DatePickerBottomSheet';
 import { Icons } from '@/components/shared/icons';
+import { NoData } from '@/components/shared/NoData';
 
 interface IOtherProfileCollection {
   accountUuid: string;
@@ -21,7 +22,7 @@ export const OtherProfilePosts = ({ accountUuid }: IOtherProfileCollection) => {
   );
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useGetPostsList({
       size: '3',
       targetAccountUuid: accountUuid,
@@ -33,6 +34,8 @@ export const OtherProfilePosts = ({ accountUuid }: IOtherProfileCollection) => {
     { fetchNextPage, hasNextPage, isFetchingNextPage },
     { threshold: 0.1 },
   );
+
+  if (isLoading) return <Loading />;
 
   return (
     <div className="w-full pb-20">
@@ -60,6 +63,10 @@ export const OtherProfilePosts = ({ accountUuid }: IOtherProfileCollection) => {
           {isFetchingNextPage && <Loading />}
         </div>
       </div>
+
+      {data?.paging.totalElements === 0 && (
+        <NoData message="등록된 게시물이 없습니다." />
+      )}
     </div>
   );
 };
