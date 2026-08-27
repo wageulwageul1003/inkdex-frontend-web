@@ -12,7 +12,7 @@ export const NoticeItem = ({ item }: NoticeItemProps) => {
   const router = useRouter();
   return (
     <div
-      className={'flex w-full flex-col px-1 py-3'}
+      className={'flex w-full cursor-pointer flex-col px-1 py-3'}
       onClick={() => router.push(`/preferences/notice/${item.uuid}`)}
     >
       <div className="flex items-center justify-between">
