@@ -78,6 +78,10 @@ export const ERROR_CODES = {
   },
 
   // Post (4000)
+  MODERATION_POST: {
+    code: 4001,
+    message: 'Only REVIEW_PENDING posts can be moderated.',
+  },
 
   // Collection (5000)
 
@@ -95,6 +99,18 @@ export const ERROR_CODES = {
   REPORT_ALREADY: {
     code: 7001,
     message: '이미 신고한 게시글입니다.',
+  },
+  BLOCK_MYSELF: {
+    code: 7002,
+    message: '자기 자신을 차단할 수 없습니다.',
+  },
+  BLOCK_ALREADY: {
+    code: 7003,
+    message: '이미 차단한 사용자입니다.',
+  },
+  ACCOUNT_BLOCKED: {
+    code: 7004,
+    message: '상대방이 나를 차단하였습니다.',
   },
 
   // File (9000)

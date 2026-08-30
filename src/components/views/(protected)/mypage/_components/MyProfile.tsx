@@ -20,7 +20,7 @@ export const MyProfile = ({ uuid }: MyProfileProps) => {
   const isMyProfile = !uuid;
   const [isShowFollowingCancel, setIsShowFollowingCancel] = useState(false);
   const { data: myProfile } = useGetMyProfile(isMyProfile);
-  const { data: otherProfile } = useGetOtherProfile(uuid || '');
+  const { data: otherProfile, isError } = useGetOtherProfile(uuid || '');
   const { mutateAsync: postFollow } = usePostFollow();
 
   const [isFollowing, setIsFollowing] = useState(
@@ -90,13 +90,13 @@ export const MyProfile = ({ uuid }: MyProfileProps) => {
               <p className="font-s-2 flex items-center gap-1 text-gray-09">
                 팔로워
                 <span className="font-s-1">
-                  {otherProfile?.data.followerCount}
+                  {otherProfile?.data.followerCount ?? 0}
                 </span>
               </p>
               <p className="font-s-2 flex items-center gap-1 text-gray-09">
                 팔로잉
                 <span className="font-s-1">
-                  {otherProfile?.data.followingCount}
+                  {otherProfile?.data.followingCount ?? 0}
                 </span>
               </p>
             </div>
@@ -150,6 +150,7 @@ export const MyProfile = ({ uuid }: MyProfileProps) => {
               size="md"
               onClick={handleToggleFollow}
               className="w-full"
+              disabled={isError}
             >
               <span className="font-m-2 text-white">팔로우</span>
             </Button>

@@ -56,6 +56,7 @@ export const useGetPostsList = (params: TGetPostsListParams) => {
     },
 
     initialPageParam: 0,
+    retry: false,
 
     getNextPageParam: (lastPage) => {
       const { page, number } = lastPage.data.paging;

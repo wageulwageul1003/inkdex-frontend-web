@@ -57,6 +57,7 @@ export const useGetCollectionList = (params: TGetCollectionListParams) => {
     },
 
     initialPageParam: 0,
+    retry: false,
 
     getNextPageParam: (lastPage) => {
       const { page, number } = lastPage.data.paging;

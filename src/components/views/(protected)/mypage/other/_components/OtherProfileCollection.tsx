@@ -19,11 +19,17 @@ export const OtherProfileCollection = ({
 }: IOtherProfileCollection) => {
   const router = useRouter();
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useGetCollectionList({
-      size: '10',
-      targetAccountUuid: accountUuid,
-    });
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+  } = useGetCollectionList({
+    size: '10',
+    targetAccountUuid: accountUuid,
+  });
 
   const observerRef = useInfiniteScroll(
     { fetchNextPage, hasNextPage, isFetchingNextPage },
@@ -66,9 +72,8 @@ export const OtherProfileCollection = ({
         </div>
       </div>
 
-      {data?.paging.totalElements === 0 && (
-        <NoData message="공개된 컬렉션이 없습니다." />
-      )}
+      {data?.paging.totalElements === 0 ||
+        (isError && <NoData message="공개된 컬렉션이 없습니다." />)}
     </div>
   );
 };

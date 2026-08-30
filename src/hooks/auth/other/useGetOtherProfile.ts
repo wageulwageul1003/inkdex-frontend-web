@@ -30,4 +30,5 @@ export const useGetOtherProfile = (uuid: string) =>
     queryKey: queryKeys.other.profile(uuid).queryKey,
     queryFn: () => GetOtherProfile(uuid),
     enabled: !!uuid,
+    retry: false,
   });

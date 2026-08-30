@@ -22,13 +22,19 @@ export const OtherProfilePosts = ({ accountUuid }: IOtherProfileCollection) => {
   );
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useGetPostsList({
-      size: '3',
-      targetAccountUuid: accountUuid,
-      year: selectedYear,
-      month: selectedMonth,
-    });
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+  } = useGetPostsList({
+    size: '3',
+    targetAccountUuid: accountUuid,
+    year: selectedYear,
+    month: selectedMonth,
+  });
 
   const observerRef = useInfiniteScroll(
     { fetchNextPage, hasNextPage, isFetchingNextPage },
@@ -39,21 +45,23 @@ export const OtherProfilePosts = ({ accountUuid }: IOtherProfileCollection) => {
 
   return (
     <div className="w-full pb-20">
-      <div className="flex items-center justify-between py-3">
-        <DatePickerBottomSheet
-          selectedYear={selectedYear}
-          setSelectedYear={setSelectedYear}
-          selectedMonth={selectedMonth}
-          setSelectedMonth={setSelectedMonth}
-          isInitShowDate={true}
-        />
-        <div className="flex items-center gap-1">
-          <Icons.inbox className="size-4 fill-gray-05" />
-          <p className="font-xs-2 text-gray-05">
-            {data?.paging.totalElements.toLocaleString()}개
-          </p>
+      {!isError && (
+        <div className="flex items-center justify-between py-3">
+          <DatePickerBottomSheet
+            selectedYear={selectedYear}
+            setSelectedYear={setSelectedYear}
+            selectedMonth={selectedMonth}
+            setSelectedMonth={setSelectedMonth}
+            isInitShowDate={true}
+          />
+          <div className="flex items-center gap-1">
+            <Icons.inbox className="size-4 fill-gray-05" />
+            <p className="font-xs-2 text-gray-05">
+              {data?.paging.totalElements.toLocaleString()}개
+            </p>
+          </div>
         </div>
-      </div>
+      )}
 
       <div>
         <div className="space-y-10">
@@ -64,9 +72,8 @@ export const OtherProfilePosts = ({ accountUuid }: IOtherProfileCollection) => {
         </div>
       </div>
 
-      {data?.paging.totalElements === 0 && (
-        <NoData message="등록된 게시물이 없습니다." />
-      )}
+      {data?.paging.totalElements === 0 ||
+        (isError && <NoData message="등록된 게시물이 없습니다." />)}
     </div>
   );
 };
