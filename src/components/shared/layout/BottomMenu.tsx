@@ -29,7 +29,7 @@ export const BottomMenu = () => {
           <Link
             key={item.href}
             href={item.href}
-            className="flex min-w-[64px] flex-col items-center"
+            className="flex flex-col items-center"
           >
             <div className="flex items-center justify-center">
               <IconComponent
@@ -40,7 +40,7 @@ export const BottomMenu = () => {
         );
       })}
 
-      <div className="relative -top-4 flex min-w-[64px] justify-center">
+      <div className="relative -top-4 flex justify-center">
         <Button
           size="buttonIconLarge"
           variant="contained"
@@ -61,7 +61,7 @@ export const BottomMenu = () => {
           <Link
             key={item.href}
             href={item.href}
-            className="flex min-w-[64px] flex-col items-center"
+            className="flex flex-col items-center"
           >
             <div className="flex items-center justify-center">
               <IconComponent
