@@ -20,7 +20,7 @@ export const BottomMenu = () => {
   const isActive = (href: string) => pathname === href;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 flex items-end justify-between gap-0.5 bg-white px-4 pb-4 pt-2">
+    <div className="shadow-2 fixed bottom-0 left-0 right-0 flex items-end justify-between gap-0.5 bg-white px-4 pb-4 pt-2">
       {menuItems.slice(0, 2).map((item) => {
         const IconComponent = item.icon;
         const active = isActive(item.href);
