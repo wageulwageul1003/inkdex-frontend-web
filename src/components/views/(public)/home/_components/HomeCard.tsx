@@ -7,7 +7,6 @@ import { useEffect, useRef, useState } from 'react';
 
 import { Icons } from '@/components/shared/icons';
 import { IMyPostResponse } from '@/hooks/mypage/useGetMyPostList';
-import { cn } from '@/lib/utils';
 
 interface IHomeCardProps {
   item: IMyPostResponse;
@@ -18,13 +17,7 @@ export const HomeCard = ({ item }: IHomeCardProps) => {
 
   const contentRef = useRef<HTMLParagraphElement>(null);
 
-  const [expanded, setExpanded] = useState(false);
   const [showMore, setShowMore] = useState(false);
-
-  useEffect(() => {
-    setExpanded(false);
-    setShowMore(false);
-  }, [item.reflection, item.uuid]);
 
   useEffect(() => {
     const element = contentRef.current;
@@ -32,9 +25,7 @@ export const HomeCard = ({ item }: IHomeCardProps) => {
     if (!element) return;
 
     const checkOverflow = () => {
-      if (!expanded) {
-        setShowMore(element.scrollHeight > element.clientHeight);
-      }
+      setShowMore(element.scrollHeight > element.clientHeight);
     };
 
     checkOverflow();
@@ -43,11 +34,11 @@ export const HomeCard = ({ item }: IHomeCardProps) => {
     observer.observe(element);
 
     return () => observer.disconnect();
-  }, [expanded, item.reflection]);
+  }, [item.reflection]);
 
   return (
     <div
-      className="relative flex min-h-[448px] w-full cursor-pointer flex-col overflow-hidden rounded-md"
+      className="relative flex h-[448px] w-full cursor-pointer flex-col overflow-hidden rounded-md"
       onClick={() => router.push(`/posts/${item.uuid}`)}
       onKeyDown={(event) => {
         if (event.currentTarget === event.target && event.key === 'Enter') {
@@ -90,25 +81,18 @@ export const HomeCard = ({ item }: IHomeCardProps) => {
       <div className="relative mx-3 mt-3">
         <p
           ref={contentRef}
-          className={cn(
-            'font-s-2 whitespace-pre-line text-gray-08',
-            !expanded && 'line-clamp-2',
-          )}
+          className="font-s-2 line-clamp-2 whitespace-pre-line text-gray-08"
         >
           {item.reflection}
         </p>
 
         {showMore && (
-          <button
-            type="button"
-            onClick={(event) => {
-              event.stopPropagation();
-              setExpanded((prev) => !prev);
-            }}
+          <span
+            aria-hidden="true"
             className="font-xs-2 absolute bottom-0 right-0 bg-white pl-3 text-gray-05"
           >
-            {expanded ? '접기' : '더보기'}
-          </button>
+            더보기
+          </span>
         )}
       </div>
 
